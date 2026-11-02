@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Study Squad</title>
+<meta name="theme-color" content="#F6EBDD">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Study Squad">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Nunito:wght@600;800&display=swap">
+<style>
+:root{--ink:#2E2622;--cream:#F6EBDD;--card:#FBF3E8;--muted:#7A6A5E;--lav:#C9B6F2;--lav-soft:#E6DBFB;--pink:#F2A3AE;--yellow:#F6D772;--green:#6CCB7E}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--cream);color:var(--ink);font-family:Nunito,system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+body{min-height:100dvh}
+.app{max-width:430px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
+.pixel{font-family:'Pixelify Sans',ui-monospace,monospace;font-weight:700;letter-spacing:1px}
+img.px{image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid #6A4FB3;outline-offset:2px}
+.screen{display:none;flex:1;flex-direction:column}
+.screen.on{display:flex}
+.chip{font-size:12px;font-weight:800;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:6px 10px;white-space:nowrap}
+.chip.lav{background:var(--lav)}
+.card{background:var(--card);border:2.5px solid var(--ink);border-radius:18px}
+/* start */
+#start{padding:calc(env(safe-area-inset-top) + 36px) 18px calc(env(safe-area-inset-bottom) + 24px);gap:18px}
+.title{padding:22px 16px 18px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.title h1{margin:0;font-size:40px;line-height:1;text-align:center}
+.title .the{display:flex;align-items:center;gap:10px;font-size:24px}
+.title p{margin:6px 0 0;font-size:14px;font-weight:600;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tile{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 3px 0 #D9C9B2;position:relative}
+.tile[aria-pressed="true"]{background:var(--lav-soft);border-width:3px;box-shadow:0 4px 0 var(--ink)}
+.tile img{width:64px;height:auto}
+.tile b{font-size:13px}
+.tile .dot{position:absolute;top:7px;right:7px;width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--ink)}
+.status{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 14px;font-size:14px;font-weight:700}
+.status .dot{width:10px;height:10px;border-radius:50%;background:var(--green);border:2px solid var(--ink)}
+.go{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:12px}
+.big{width:250px;height:62px;background:var(--lav);border:3px solid var(--ink);border-radius:14px;box-shadow:0 5px 0 var(--ink);font-size:26px}
+.big:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.big:disabled{opacity:.45;cursor:not-allowed}
+/* hall */
+header.bar{padding:calc(env(safe-area-inset-top) + 18px) 18px 12px;display:flex;align-items:center;gap:8px}
+header.bar h1{margin:0;font-size:22px}
+.me{width:40px;height:40px;border:2px solid var(--ink);border-radius:12px;background:#fff;padding:2px;display:flex;align-items:center;justify-content:center}
+.me img{width:30px}
+.scene{position:relative;width:100%;aspect-ratio:240/300;border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);overflow:hidden}
+.scene img{position:absolute}
+.tag{position:absolute;transform:translateX(-50%);width:max-content;display:flex;align-items:center;gap:4px;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:3px 6px;font-size:12px;line-height:1;white-space:nowrap}
+.tag.mine{background:var(--lav)}
+.tag.paused{background:#E9E1D6;color:var(--muted);border-color:var(--muted)}
+.tag .live{width:7px;height:7px;border-radius:50%;background:var(--green);border:1.5px solid var(--ink)}
+.tag .ps{display:inline-flex;gap:2px}.tag .ps i{width:3px;height:9px;background:var(--muted)}
+.legend{padding:12px 18px 0;display:flex;justify-content:space-between;gap:6px;font-size:12px;font-weight:700}
+.legend span{display:flex;align-items:center;gap:6px}
+.dock{margin-top:auto;padding:14px 18px calc(env(safe-area-inset-bottom) + 22px)}
+.timer{background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:8px 8px 8px 16px;display:flex;align-items:center;gap:8px;box-shadow:0 4px 0 var(--ink)}
+.timer .t{font-size:24px}
+.timer .lbl{font-size:12px;font-weight:800;color:var(--muted)}
+.round{margin-left:auto;width:48px;height:48px;background:var(--yellow);border:2.5px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;gap:4px}
+.round i{width:5px;height:16px;background:var(--ink);border-radius:1px}
+.stop{height:48px;padding:0 16px;background:var(--pink);border:2.5px solid var(--ink);border-radius:999px;font-size:18px;display:flex;align-items:center;gap:8px}
+.stop i{width:11px;height:11px;background:var(--ink);border-radius:2px}
+.sit{margin-left:auto;height:48px;padding:0 18px;background:var(--lav);border:2.5px solid var(--ink);border-radius:999px;font-size:18px}
+/* week */
+#week{padding:0 18px calc(env(safe-area-inset-bottom) + 28px);gap:16px}
+#week header.bar{padding-left:0;padding-right:0}
+.back{width:40px;height:40px;border:2px solid var(--ink);border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
+.sec{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.sec h2,.pairs h2{margin:0;font-size:16px;font-weight:800}
+.row-h{display:flex;justify-content:space-between;align-items:baseline}
+.row-h small{font-size:12px;font-weight:700;color:var(--muted)}
+.map{position:relative;width:100%;aspect-ratio:240/176;border:2px solid var(--ink);border-radius:12px;overflow:hidden}
+.map img{position:absolute}
+.map .lab{position:absolute;transform:translateX(-50%);font-family:'Pixelify Sans',monospace;font-weight:700;font-size:11px;white-space:nowrap}
+.prow{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1.5px solid #E6D8C4}
+.prow .who{width:74px;min-width:0;display:flex;flex-direction:column;gap:2px}.prow .who b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow .who b{font-size:13px}.prow img{width:32px}.prow .who span{font-size:12px;font-weight:700;color:var(--muted)}
+.cells{display:flex;gap:3px;flex:0 0 auto}
+.cell{width:19px;height:19px;border-radius:6px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center}
+.cell.f{border:2px dashed #CDBBA2}
+.cell.today{outline:2px solid #6A4FB3;outline-offset:1px}
+.streak{margin-left:auto;display:flex;align-items:center;gap:3px;font-size:14px}
+.pairs{display:flex;flex-direction:column;gap:10px}
+.pcard{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.pcard .top{display:flex;align-items:center;gap:8px}
+.duo{display:flex}.duo img{width:34px}.duo img+img{margin-left:-8px}
+.barw{height:12px;border:2px solid var(--ink);border-radius:999px;background:#F3EADC;overflow:hidden}
+.barw div{height:100%}
+.pill{font-size:11px;font-weight:800;color:#6A4FB3;background:var(--lav-soft);border-radius:999px;padding:3px 8px}
+.toast{position:fixed;left:50%;bottom:120px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:700;max-width:90vw;z-index:9;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+.demo{background:var(--yellow);border-bottom:2px solid var(--ink);font-size:12px;font-weight:800;text-align:center;padding:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<div id="demo" class="demo" hidden>DEMO MODE · not connected yet · data stays on this phone</div>
+
+<section id="start" class="screen">
+  <div class="card title">
+    <div class="the pixel"><span class="spark"></span>THE<span class="spark"></span></div>
+    <h1 class="pixel">STUDY SQUAD</h1>
+    <p>6 players · 1 table · 0 excuses</p>
+  </div>
+  <div class="row-h"><h2 style="margin:0;font-size:17px;font-weight:800">Who's studying?</h2></div>
+  <div id="tiles" class="tiles"></div>
+  <div class="status"><span class="dot"></span><span id="seatedTxt">…</span><span id="dayTxt" style="margin-left:auto;font-size:13px;font-weight:600;color:var(--muted)"></span></div>
+  <div class="go">
+    <svg width="18" height="26" viewBox="0 0 6 9" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="0" width="3" height="1" fill="#2E2622"/><rect x="0" y="4" width="4" height="1" fill="#2E2622"/><rect x="3" y="8" width="3" height="1" fill="#2E2622"/></svg>
+    <button id="startBtn" class="big pixel" type="button" disabled>START ▶</button>
+    <svg width="18" height="26" viewBox="0 0 6 9" shape-rendering="crispEdges" aria-hidden="true"><rect x="0" y="0" width="3" height="1" fill="#2E2622"/><rect x="2" y="4" width="4" height="1" fill="#2E2622"/><rect x="0" y="8" width="3" height="1" fill="#2E2622"/></svg>
+  </div>
+</section>
+
+<section id="hall" class="screen">
+  <header class="bar">
+    <button id="meBtn" class="me" type="button" aria-label="Switch player"></button>
+    <h1 class="pixel">STUDY HALL</h1>
+    <span id="seatChip" class="chip" style="margin-left:auto"></span>
+    <button id="weekBtn" class="chip lav" type="button">Week ▸</button>
+  </header>
+  <div id="scene" class="scene"></div>
+  <div class="legend">
+    <span><img class="px" id="lgS" alt="" width="22">30-min streak</span>
+    <span><img class="px" id="lgG" alt="" width="22">2h 30m goal</span>
+    <span><img class="px" id="lgC" alt="" width="18">Leading pair</span>
+  </div>
+  <div class="dock"><div id="timer" class="timer"></div></div>
+</section>
+
+<section id="week" class="screen">
+  <header class="bar">
+    <button id="backBtn" class="back" type="button" aria-label="Back to the study hall"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <h1 class="pixel">THIS WEEK</h1>
+    <span id="weekRange" class="chip" style="margin-left:auto"></span>
+  </header>
+  <div class="card sec">
+    <div class="row-h"><h2>The trail</h2><small>goal 2h 30m a day</small></div>
+    <div id="map" class="map"></div>
+  </div>
+  <div class="card sec" style="padding-bottom:6px;gap:0">
+    <div style="display:flex;align-items:center;gap:8px;padding-bottom:8px"><h2 style="width:122px;flex:0 0 auto">Players</h2><div id="dayHead" class="cells"></div></div>
+    <div id="rows"></div>
+  </div>
+  <div class="pairs">
+    <div class="row-h"><h2>Pairs</h2><small id="crownNote"></small></div>
+    <div id="pcards" class="pairs"></div>
+  </div>
+</section>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="assets.js"></script>
+<script type="module">
+// ======== CONFIG: paste the Firebase web config here ========
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
+  authDomain: "study-squad1.firebaseapp.com",
+  databaseURL: "https://study-squad1-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "study-squad1",
+  storageBucket: "study-squad1.firebasestorage.app",
+  messagingSenderId: "872484295066",
+  appId: "1:872484295066:web:eaab6ba807d25c66dbea23"
+};
+// ============================================================
+
+const A = window.ASSETS;
+const PEOPLE = [
+  { id: "milad", name: "Milad", pair: 0 }, { id: "shaghayegh", name: "Shaghayegh", pair: 0 },
+  { id: "farzad", name: "Farzad", pair: 1 }, { id: "niloufar", name: "Niloufar", pair: 1 },
+  { id: "arian", name: "Arian", pair: 2 }, { id: "zinat", name: "Zinat", pair: 2 },
+];
+const BY = Object.fromEntries(PEOPLE.map(p => [p.id, p]));
+const PAIRS = [["milad", "shaghayegh"], ["farzad", "niloufar"], ["arian", "zinat"]];
+const PAIR_COL = ["#3E6A8A", "#5D7A5A", "#A0503C"];
+const MIN = 60e3, HOUR = 3600e3, DAY = 86400e3;
+const STREAK_MIN = 30, GOAL_MIN = 150, WEEK_GOAL_MIN = GOAL_MIN * 7, MAX_SITTING = 5 * HOUR;
+// Tehran is UTC+3:30 (no DST); the study day flips at 04:00 Tehran time.
+const SHIFT = (3.5 - 4) * HOUR;
+const dayKey = ms => new Date(ms + SHIFT).toISOString().slice(0, 10);
+const dayStart = key => Date.parse(key + "T00:00:00Z") - SHIFT;
+const addDays = (key, n) => { const d = new Date(key + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const weekStart = key => addDays(key, -((new Date(key + "T00:00:00Z").getUTCDay() + 1) % 7)); // Saturday
+const fmtHM = ms => { const m = Math.floor(ms / MIN); return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")}`; };
+const fmtHMS = ms => { const s = Math.floor(ms / 1000); return `${String(Math.floor(s / 3600)).padStart(2, "0")}:${String(Math.floor(s / 60) % 60).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`; };
+const fmtLong = ms => { const m = Math.floor(ms / MIN); return `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, "0")}m`; };
+const $ = id => document.getElementById(id);
+const img = (src, cls = "px", alt = "") => `<img class="${cls}" src="${src}" alt="${alt}">`;
+
+// ---------------- data store (Firebase or local demo) ----------------
+let state = { sessions: {}, days: {} };
+let offset = 0;
+const now = () => Date.now() + offset;
+let store;
+
+async function makeFirebaseStore() {
+  const base = "https://www.gstatic.com/firebasejs/10.12.2/";
+  const { initializeApp } = await import(base + "firebase-app.js");
+  const db_ = await import(base + "firebase-database.js");
+  const app = initializeApp(FIREBASE_CONFIG);
+  const db = db_.getDatabase(app);
+  db_.onValue(db_.ref(db, ".info/serverTimeOffset"), s => { offset = s.val() || 0; });
+  const slow = setTimeout(() => toast("Still connecting… is your VPN on?"), 8000);
+  db_.onValue(db_.ref(db, "squad"), s => { clearTimeout(slow); const v = s.val() || {}; state = { sessions: v.sessions || {}, days: v.days || {} }; render(); });
+  return {
+    setSession: (id, val) => db_.set(db_.ref(db, `squad/sessions/${id}`), val),
+    addMs: (key, id, ms) => db_.runTransaction(db_.ref(db, `squad/days/${key}/${id}`), v => (v || 0) + ms),
+  };
+}
+function makeDemoStore() {
+  $("demo").hidden = false;
+  const KEY = "squad-demo-v1";
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  if (!saved) {
+    const t = now(), today = dayKey(t), days = {};
+    const sample = { milad: [95, 60], shaghayegh: [40, 0], farzad: [30, 55], niloufar: [110, 95], arian: [0, 45], zinat: [80, 70] };
+    for (const [id, arr] of Object.entries(sample)) arr.forEach((m, i) => { const k = addDays(today, i - 2); (days[k] ||= {})[id] = m * MIN; });
+    days[today] = { milad: 30 * MIN, shaghayegh: 35 * MIN, farzad: 20 * MIN, niloufar: 42 * MIN };
+    saved = { days, sessions: {
+      milad: { state: "studying", startedAt: t - 42 * MIN, accum: 0 },
+      farzad: { state: "studying", startedAt: t - 27 * MIN, accum: 0 },
+      niloufar: { state: "paused", accum: 18 * MIN, pausedAt: t - 5 * MIN },
+    } };
+  }
+  state = saved;
+  const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} render(); };
+  setTimeout(render, 0);
+  return {
+    setSession: async (id, val) => { state.sessions[id] = val; persist(); },
+    addMs: async (key, id, ms) => { (state.days[key] ||= {}); state.days[key][id] = (state.days[key][id] || 0) + ms; persist(); },
+  };
+}
+
+// ---------------- time math ----------------
+function runningPart(sess, key, t) {
+  if (!sess || sess.state !== "studying") return 0;
+  const a = Math.max(sess.startedAt, dayStart(key));
+  const b = Math.min(t, dayStart(key) + DAY, sess.startedAt + MAX_SITTING);
+  return Math.max(0, b - a);
+}
+function dayMs(id, key, t = now()) { return ((state.days[key] || {})[id] || 0) + runningPart(state.sessions[id], key, t); }
+function sittingMs(id, t = now()) {
+  const s = state.sessions[id];
+  if (!s || s.state === "off") return 0;
+  return (s.accum || 0) + (s.state === "studying" ? Math.max(0, Math.min(t, s.startedAt + MAX_SITTING) - s.startedAt) : 0);
+}
+function streakOf(id, t = now()) {
+  let key = dayKey(t), n = 0;
+  if (dayMs(id, key, t) >= STREAK_MIN * MIN) n++;
+  key = addDays(key, -1);
+  while (dayMs(id, key, t) >= STREAK_MIN * MIN) { n++; key = addDays(key, -1); }
+  return n;
+}
+const pairMs = (k, key, t) => PAIRS[k].reduce((s, id) => s + dayMs(id, key, t), 0);
+function leaders(key, t) {
+  const tot = PAIRS.map((_, k) => pairMs(k, key, t));
+  const max = Math.max(...tot);
+  return max > 0 ? tot.map((v, k) => v === max ? k : -1).filter(k => k >= 0) : [];
+}
+
+// ---------------- actions ----------------
+let me = localStorage.getItem("squad-me") || "";
+async function commit(id, from, to) {
+  to = Math.min(to, from + MAX_SITTING);
+  let a = from;
+  while (a < to) {
+    const key = dayKey(a), end = Math.min(to, dayStart(key) + DAY);
+    if (end > a) await store.addMs(key, id, end - a);
+    a = end;
+  }
+}
+async function sitDown() {
+  const s = state.sessions[me];
+  if (s && s.state === "studying") return;
+  await store.setSession(me, { state: "studying", startedAt: now(), accum: s && s.state === "paused" ? (s.accum || 0) : 0 });
+}
+async function pause() {
+  const s = state.sessions[me]; if (!s || s.state !== "studying") return;
+  const t = now();
+  await commit(me, s.startedAt, t);
+  await store.setSession(me, { state: "paused", accum: (s.accum || 0) + Math.min(t - s.startedAt, MAX_SITTING), pausedAt: t });
+}
+async function resume() {
+  const s = state.sessions[me];
+  await store.setSession(me, { state: "studying", startedAt: now(), accum: s ? (s.accum || 0) : 0 });
+}
+async function stopIt() {
+  const s = state.sessions[me]; if (!s) return;
+  const total = sittingMs(me);
+  if (s.state === "studying") await commit(me, s.startedAt, now());
+  await store.setSession(me, { state: "off" });
+  toast(`Nice! ${fmtLong(total)} this sitting.`);
+}
+async function guardForgotten() {
+  const s = state.sessions[me];
+  if (s && s.state === "studying" && now() - s.startedAt > MAX_SITTING) {
+    await commit(me, s.startedAt, s.startedAt + MAX_SITTING);
+    await store.setSession(me, { state: "off" });
+    toast("Your timer was left running, so it stopped at 5 hours.");
+  }
+}
+let toastT;
+function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("on"), 3200); }
+
+// ---------------- routing ----------------
+function go(name) {
+  for (const s of ["start", "hall", "week"]) $(s).classList.toggle("on", s === name);
+  location.hash = name === "start" ? "" : name;
+  window.scrollTo(0, 0);
+  render();
+}
+const current = () => ["hall", "week"].includes(location.hash.slice(1)) && me ? location.hash.slice(1) : "start";
+
+// ---------------- render ----------------
+const seatedIds = () => PEOPLE.filter(p => ["studying", "paused"].includes((state.sessions[p.id] || {}).state)).map(p => p.id);
+
+function renderStart() {
+  const seated = seatedIds();
+  $("tiles").innerHTML = PEOPLE.map(p => `<button type="button" class="tile" data-id="${p.id}" aria-pressed="${p.id === me}">${seated.includes(p.id) ? '<span class="dot" title="at the table"></span>' : ""}${img(A.chars[p.id], "px", "")}<b>${p.name}</b></button>`).join("");
+  $("seatedTxt").textContent = seated.length ? `${seated.length} at the table right now` : "The table is empty — be first!";
+  $("startBtn").disabled = !me;
+}
+function renderHall() {
+  const t = now(), key = dayKey(t), seated = seatedIds();
+  const X = v => (v / A.W * 100) + "%", Y = v => (v / A.H * 100) + "%";
+  let h = `<img class="px" src="${A.bg}" alt="Library study hall" style="left:0;top:0;width:100%;height:100%">`;
+  A.SEATS.forEach((sx, i) => {
+    const id = PEOPLE[i].id;
+    if (seated.includes(id)) h += `<img class="px" src="${A.chars[id]}" alt="${PEOPLE[i].name} at the table" style="left:${X(sx - 18)};top:${Y(A.TABLE_TOP - 37)};width:${X(36)};height:${Y(46)}">`;
+  });
+  h += `<img class="px" src="${A.table}" alt="" style="left:0;top:0;width:100%;height:100%">`;
+  A.SEATS.forEach((sx, i) => {
+    const id = PEOPLE[i].id;
+    if (seated.includes(id)) h += `<img class="px" src="${A.book}" alt="" style="left:${X(sx - 9)};top:${Y(A.TABLE_TOP - 3)};width:${X(19)};height:${Y(7)}">`;
+  });
+  const lead = leaders(key, t);
+  A.PAIRS.forEach((c, k) => {
+    const [a, b] = PAIRS[k];
+    const s = id => dayMs(id, key, t) >= STREAK_MIN * MIN ? 1 : 0, g = id => dayMs(id, key, t) >= GOAL_MIN * MIN ? 1 : 0;
+    h += `<img class="px" src="${A.lamps["streak" + s(a) + s(b)]}" alt="" style="left:${X(c - 23)};top:${Y(230)};width:${X(17)};height:${Y(12)}">`;
+    h += `<img class="px" src="${A.lamps["goal" + g(a) + g(b)]}" alt="" style="left:${X(c - 8)};top:${Y(230)};width:${X(17)};height:${Y(12)}">`;
+    h += `<img class="px" src="${A.lamps["crown" + (lead.includes(k) ? 1 : 0)]}" alt="" style="left:${X(c + 9)};top:${Y(230)};width:${X(15)};height:${Y(13)}">`;
+  });
+  A.SEATS.forEach((sx, i) => {
+    const id = PEOPLE[i].id;
+    if (!seated.includes(id)) return;
+    const paused = state.sessions[id].state === "paused";
+    const icon = paused ? '<span class="ps"><i></i><i></i></span>' : '<span class="live"></span>';
+    h += `<span class="tag pixel ${paused ? "paused" : ""} ${id === me ? "mine" : ""}" style="left:${X(sx)};top:${Y(167)}" title="${PEOPLE[i].name} today">${icon}${fmtHM(dayMs(id, key, t))}</span>`;
+  });
+  $("scene").innerHTML = h;
+  $("seatChip").textContent = `${seated.length}/6 seated`;
+  $("meBtn").innerHTML = img(A.chars[me], "px", BY[me].name);
+  const s = state.sessions[me] || { state: "off" };
+  if (s.state === "studying") {
+    $("timer").innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="t pixel">${fmtHMS(sittingMs(me, t))}</span><button class="round" type="button" data-act="pause" aria-label="Pause"><i></i><i></i></button><button class="stop pixel" type="button" data-act="stop">STOP <i></i></button>`;
+  } else if (s.state === "paused") {
+    $("timer").innerHTML = `<span class="t pixel" style="color:var(--muted)">${fmtHMS(sittingMs(me, t))}</span><span class="lbl">paused</span><button class="round" type="button" data-act="resume" aria-label="Resume"><svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true"><path d="M2 1l13 8-13 8z" fill="#2E2622"/></svg></button><button class="stop pixel" type="button" data-act="stop">STOP <i></i></button>`;
+  } else {
+    $("timer").innerHTML = `<div style="display:flex;flex-direction:column"><span class="lbl">Today</span><span class="t pixel">${fmtLong(dayMs(me, key, t))}</span></div><button class="sit pixel" type="button" data-act="sit">SIT DOWN ▶</button>`;
+  }
+}
+function renderWeek() {
+  const t = now(), today = dayKey(t), ws = weekStart(today);
+  const days = [...Array(7)].map((_, i) => addDays(ws, i));
+  const fmtD = k => new Date(k + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+  $("weekRange").textContent = `${fmtD(days[0])} – ${fmtD(days[6])}`;
+  const wk = id => days.reduce((s, k) => s + (k <= today ? dayMs(id, k, t) : 0), 0);
+  // trail
+  const X = v => (v / A.MW * 100) + "%", Y = v => (v / A.MH * 100) + "%";
+  let m = `<img class="px" src="${A.map}" alt="Weekly trail" style="left:0;top:0;width:100%;height:100%">`;
+  A.miles.forEach(([x, y], i) => { m += `<span class="lab" style="left:${X(x)};top:${Y(y + 6)}">${["3.5h", "7h", "10.5h", "14h"][i]}</span>`; });
+  const [fx, fy] = A.trail[A.trail.length - 1];
+  m += `<span class="lab" style="left:${X(fx - 6)};top:${Y(fy + 7)}">17.5h GOAL</span>`;
+  m += `<span class="lab" style="left:${X(A.trail[0][0])};top:${Y(A.trail[0][1] + 8)}">GO</span>`;
+  const spots = {};
+  [...PEOPLE].sort((a, b) => wk(b.id) - wk(a.id)).forEach(p => {
+    const f = Math.min(1, wk(p.id) / (WEEK_GOAL_MIN * MIN));
+    const [x, y] = A.trail[Math.round(f * (A.trail.length - 1))];
+    const k = Math.round(x / 10) + "," + Math.round(y / 10), n = spots[k] = (spots[k] || 0) + 1;
+    m += `<img class="px" src="${A.chars[p.id]}" alt="${p.name}" title="${p.name} · ${fmtLong(wk(p.id))}" style="width:${X(23)};height:${Y(29)};left:${X(x - 11.5 + (n - 1) * 9)};top:${Y(y - 24 - (n - 1) * 3)}">`;
+  });
+  $("map").innerHTML = m;
+  // players
+  $("dayHead").innerHTML = days.map(k => `<span style="width:19px;text-align:center;font-size:10px;font-weight:800;color:${k === today ? "#6A4FB3" : "#7A6A5E"}">${new Date(k + "T00:00:00Z").toLocaleDateString("en-GB", { weekday: "short", timeZone: "UTC" }).slice(0, 2)}</span>`).join("");
+  const tick = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>';
+  const flame = '<svg width="14" height="16" viewBox="0 0 7 8" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="0" width="1" height="1" fill="#E4574F"/><rect x="2" y="1" width="3" height="2" fill="#E4574F"/><rect x="1" y="3" width="5" height="4" fill="#E4574F"/><rect x="2" y="4" width="3" height="3" fill="#FFB23F"/><rect x="3" y="5" width="1" height="2" fill="#FFE3A3"/><rect x="2" y="7" width="3" height="1" fill="#E4574F"/></svg>';
+  $("rows").innerHTML = [...PEOPLE].sort((a, b) => wk(b.id) - wk(a.id)).map(p => {
+    const cells = days.map(k => {
+      if (k > today) return '<span class="cell f"></span>';
+      const mm = dayMs(p.id, k, t) / MIN;
+      const col = mm === 0 ? "#EFE3D2" : mm < 30 ? "#F6D9A4" : mm < 60 ? "#F2B65C" : mm < 120 ? "#E58F3C" : "#C2622A";
+      return `<span class="cell ${k === today ? "today" : ""}" style="background:${col}" title="${Math.round(mm)} min">${mm >= GOAL_MIN ? tick : ""}</span>`;
+    }).join("");
+    return `<div class="prow"><div style="width:32px;flex:0 0 auto">${img(A.chars[p.id], "px", "")}</div><div class="who"><b>${p.name}</b><span>${fmtLong(wk(p.id))}</span></div><div class="cells">${cells}</div><div class="streak pixel">${flame}${streakOf(p.id, t)}</div></div>`;
+  }).join("");
+  // pairs
+  const crown = '<svg width="18" height="14" viewBox="0 0 9 7" shape-rendering="crispEdges" aria-hidden="true"><rect x="0" y="1" width="1" height="5" fill="#2E2622"/><rect x="8" y="1" width="1" height="5" fill="#2E2622"/><rect x="1" y="2" width="7" height="4" fill="#F2C94C"/><rect x="4" y="0" width="1" height="2" fill="#F2C94C"/><rect x="1" y="1" width="1" height="1" fill="#F2C94C"/><rect x="7" y="1" width="1" height="1" fill="#F2C94C"/><rect x="0" y="6" width="9" height="1" fill="#2E2622"/></svg>';
+  $("crownNote").innerHTML = `<span style="display:flex;align-items:center;gap:4px">${crown} = day's cup, decided at 4 AM</span>`;
+  const crowns = [0, 0, 0];
+  days.filter(k => k < today).forEach(k => leaders(k, t).forEach(i => crowns[i]++));
+  const lead = leaders(today, t);
+  const tot = PAIRS.map(([a, b]) => wk(a) + wk(b));
+  const max = Math.max(1, ...tot);
+  $("pcards").innerHTML = [0, 1, 2].sort((a, b) => tot[b] - tot[a]).map(k => {
+    const [a, b] = PAIRS[k];
+    return `<div class="pcard"><div class="top"><div class="duo">${img(A.chars[a], "px", "")}${img(A.chars[b], "px", "")}</div><b style="font-size:14px">${BY[a].name} &amp; ${BY[b].name}</b><span class="pixel" style="margin-left:auto;font-size:16px">${fmtLong(tot[k])}</span></div>
+      <div class="barw"><div style="width:${tot[k] / max * 100}%;background:${PAIR_COL[k]}"></div></div>
+      <div style="display:flex;align-items:center;gap:6px">${crowns[k] ? crown.repeat(crowns[k]) : '<span style="font-size:12px;font-weight:700;color:#A8998A">no cups yet</span>'}${lead.includes(k) ? '<span class="pill">leading now · lamp on</span>' : ""}</div></div>`;
+  }).join("");
+}
+function render() {
+  const scr = document.querySelector(".screen.on");
+  if (!scr) return;
+  if (scr.id === "start") renderStart();
+  if (scr.id === "hall" && me) renderHall();
+  if (scr.id === "week" && me) renderWeek();
+}
+
+// ---------------- events ----------------
+document.querySelectorAll(".spark").forEach(s => s.innerHTML = '<svg width="14" height="14" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="0" width="1" height="7" fill="#E7B83C"/><rect x="0" y="3" width="7" height="1" fill="#E7B83C"/><rect x="2" y="2" width="3" height="3" fill="#F6D772"/></svg>');
+$("lgS").src = A.lamps.streak10; $("lgG").src = A.lamps.goal10; $("lgC").src = A.lamps.crown1;
+$("tiles").addEventListener("click", e => { const b = e.target.closest(".tile"); if (!b) return; me = b.dataset.id; localStorage.setItem("squad-me", me); renderStart(); });
+$("startBtn").addEventListener("click", async () => { if (!me) return; go("hall"); await guardForgotten(); await sitDown(); });
+$("meBtn").addEventListener("click", () => go("start"));
+$("weekBtn").addEventListener("click", () => go("week"));
+$("backBtn").addEventListener("click", () => go("hall"));
+$("timer").addEventListener("click", e => {
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if (act === "pause") pause(); if (act === "resume") resume(); if (act === "stop") stopIt(); if (act === "sit") sitDown();
+});
+window.addEventListener("hashchange", () => { const c = current(); if (!$(c).classList.contains("on")) go(c); });
+setInterval(render, 1000);
+
+// ---------------- boot ----------------
+(async () => {
+  const useFirebase = FIREBASE_CONFIG && FIREBASE_CONFIG.apiKey;
+  try { store = useFirebase ? await makeFirebaseStore() : makeDemoStore(); }
+  catch (err) { console.error(err); toast("Could not reach the server — is your VPN on?"); store = makeDemoStore(); }
+  const k = dayKey(now());
+  $("dayTxt").textContent = new Date(k + "T00:00:00Z").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+  go(current());
+})();
+</script>
+</body>
+</html>
