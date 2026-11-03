@@ -50,6 +50,8 @@ h2{margin:0;font-size:16px;font-weight:800}
 .tile img{width:64px;height:auto}
 .tile b{font-size:13px}
 .tile .lock{position:absolute;top:6px;right:6px}
+.tile.mine{background:var(--lav-soft);border-width:3px;box-shadow:0 4px 0 var(--ink)}
+.tile .you{position:absolute;top:5px;right:5px;font:700 9px/1 'Pixelify Sans',monospace;background:var(--ink);color:#fff;border-radius:6px;padding:3px 5px}
 .step{display:none;flex-direction:column;gap:14px}
 .step.on{display:flex}
 .who{display:flex;align-items:center;gap:12px}
@@ -137,7 +139,55 @@ header.bar h1{margin:0;font-size:22px}
 .later .when{margin-left:auto;font-family:'Pixelify Sans',monospace;font-weight:700;font-size:13px;background:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 7px}
 .empty-seat{font-size:13px;font-weight:700;color:var(--muted);padding:6px 0}
 .remind{background:var(--lav-soft);border:2px solid var(--ink);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700}
-.toast{position:fixed;left:50%;bottom:130px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:700;max-width:90vw;z-index:9;opacity:0;transition:opacity .2s;pointer-events:none}
+.board{position:absolute;display:flex;align-items:center;justify-content:center;padding:0 6px;background:#0E0F0C radial-gradient(#1c211b 1px,transparent 1.2px) 0 0/4px 4px;border:3px solid #3A2A20;outline:2px solid var(--ink);border-radius:3px;cursor:pointer;overflow:hidden}
+.board span{font-family:'Pixelify Sans',monospace;font-weight:700;font-size:10px;line-height:1.15;letter-spacing:.5px;text-transform:uppercase;text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.board.ev span{color:#7CFF6B;text-shadow:0 0 4px rgba(124,255,107,.7)}
+.board.sh span{color:#FFB23F;text-shadow:0 0 4px rgba(255,178,63,.7)}
+.board.clock span{font-size:17px;letter-spacing:3px}
+.pilebtn{position:absolute;transform:translate(-50%,-50%);min-width:44px;min-height:44px;background:transparent;border:0;border-radius:10px;padding:0}
+.pilebtn:focus-visible{outline:3px solid #6A4FB3}
+.over7{position:absolute;transform:translate(-50%,-50%);background:#E4574F;color:#fff;border:2px solid var(--ink);border-radius:6px;font:700 10px/1 'Pixelify Sans',monospace;padding:2px 4px}
+.notebar{display:flex;gap:10px;padding:12px 18px 0}
+.notebar button{flex:1;height:44px;border:2px solid var(--ink);border-radius:12px;background:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:6px}
+.notebar .badge{background:#E4574F;color:#fff;border-radius:999px;font-size:11px;padding:1px 7px}
+.ovl{position:fixed;inset:0;z-index:20;display:none}
+.ovl.on{display:block}
+.ovl .dim{position:absolute;inset:0;background:rgba(46,38,34,.5)}
+.sheet{position:absolute;left:50%;transform:translateX(-50%);width:min(398px,calc(100% - 32px));bottom:calc(env(safe-area-inset-bottom) + 22px);background:#FFFDF4;border:2.5px solid var(--ink);border-radius:6px;box-shadow:0 6px 0 var(--ink);padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px;max-height:calc(100dvh - 60px);overflow-y:auto;overflow-x:hidden}
+.tape{position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(-2deg);width:90px;height:22px;background:rgba(201,182,242,.9);border:2px solid var(--ink)}
+.to{display:flex;align-items:center;gap:8px}
+.avs{display:flex;gap:6px;flex-wrap:wrap}
+.av{width:50px;height:56px;border:2px solid var(--ink);border-radius:10px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2px;gap:1px}
+.av img{width:30px}
+.av span{font-size:9px;font-weight:800;max-width:46px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.av[aria-pressed="true"]{background:var(--lav);border-width:3px}
+.av:disabled{opacity:.4;cursor:not-allowed}
+.ruled{margin:0 -18px;padding:0 18px;background-image:linear-gradient(90deg,transparent 38px,#F2A3AE 38px,#F2A3AE 40px,transparent 40px),repeating-linear-gradient(180deg,transparent 0 29px,#CFD8E2 29px 30px)}
+.ruled textarea{width:100%;height:150px;border:0;background:transparent;resize:none;font:600 18px/30px Nunito,system-ui,sans-serif;color:var(--ink);padding:0 0 0 30px;outline:none}
+.meta{display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:var(--muted)}
+.acts{display:flex;gap:10px}
+.acts .btn{height:52px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;font-size:16px;font-weight:800;padding:0 14px}
+.acts .main{flex:1;background:var(--lav);box-shadow:0 4px 0 var(--ink);font-family:'Pixelify Sans',monospace;font-size:18px}
+.acts .main:disabled{opacity:.5}
+.crumpled{transform:translateX(-50%) rotate(-1.2deg);background-color:#FFFBEE;background-image:linear-gradient(115deg,transparent 0 22%,rgba(0,0,0,.045) 22.3%,transparent 23% 100%),linear-gradient(62deg,transparent 0 48%,rgba(0,0,0,.05) 48.3%,transparent 49% 100%),linear-gradient(160deg,transparent 0 70%,rgba(0,0,0,.04) 70.3%,transparent 71% 100%),repeating-linear-gradient(180deg,transparent 0 29px,#D8DEE5 29px 30px)}
+.from{display:flex;align-items:center;gap:10px}
+.from img{width:44px}
+.from small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+.msg{font:600 20px/30px Nunito,system-ui,sans-serif;padding:4px 2px 6px;min-height:110px;overflow-wrap:anywhere;white-space:pre-wrap}
+.pager{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:800}
+.pager button{border:0;background:none;font-weight:800;font-size:13px;padding:8px}
+.pager button:disabled{opacity:.3}
+.xbtn{position:absolute;top:10px;right:10px;width:40px;height:40px;border:2px solid var(--ink);border-radius:10px;background:#fff;font-weight:800}
+.bhist{display:flex;flex-direction:column;gap:6px;max-height:40dvh;overflow:auto;background:#0E0F0C;border:3px solid #3A2A20;border-radius:6px;padding:10px}
+.bhist div{font:700 12px/1.3 'Pixelify Sans',monospace;text-transform:uppercase;display:flex;gap:8px}
+.bhist .ev{color:#7CFF6B}.bhist .sh{color:#FFB23F}.bhist time{color:#7A7A70;flex:0 0 auto}
+.shout{display:flex;gap:8px}
+.shout input{flex:1;min-width:0;height:48px;border:2.5px solid var(--ink);border-radius:12px;padding:0 12px;font-size:16px;font-weight:700;text-transform:uppercase}
+.shout button{height:48px;border:2.5px solid var(--ink);border-radius:12px;background:#FFB23F;font-weight:800;padding:0 14px}
+.upd{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 10px);transform:translateX(-50%);z-index:40;width:min(398px,calc(100% - 24px));background:var(--ink);color:#fff;border-radius:14px;padding:10px 10px 10px 14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.upd[hidden]{display:none}
+.upd button{margin-left:auto;background:var(--lav);color:var(--ink);border:2px solid #fff;border-radius:10px;padding:8px 12px;font:700 13px 'Pixelify Sans',monospace}
+.toast{position:fixed;left:50%;bottom:130px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:700;max-width:90vw;z-index:30;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 .demo{background:var(--yellow);border-bottom:2px solid var(--ink);font-size:12px;font-weight:800;text-align:center;padding:6px}
 </style>
@@ -156,6 +206,7 @@ header.bar h1{margin:0;font-size:22px}
 
   <div id="stPick" class="step on">
     <h2 style="font-size:17px">Who are you?</h2>
+    <span id="pickHint" class="muted" style="font-size:13px;font-weight:700;margin-top:-8px">Tap yourself to come in.</span>
     <div id="tiles" class="tiles"></div>
   </div>
 
@@ -248,7 +299,8 @@ header.bar h1{margin:0;font-size:22px}
     <h1 class="pixel">STUDY HALL</h1>
     <span id="seatChip" class="chip" style="margin-left:auto"></span>
   </header>
-  <div id="scene" class="scene"></div>
+  <div id="scene" class="scene"><div id="sceneArt" style="position:absolute;inset:0"></div><div id="fx" style="position:absolute;inset:0;pointer-events:none"></div></div>
+  <div class="notebar"><button id="writeBtn" type="button">✎ Write a note</button><button id="notesBtn" type="button"></button></div>
   <div class="legend">
     <span><img class="px" id="lgS" alt="" width="22">30-min streak</span>
     <span><img class="px" id="lgG" alt="" width="22">Own goal</span>
@@ -282,9 +334,41 @@ header.bar h1{margin:0;font-size:22px}
     </div>
     <button id="profSave" class="big pixel" type="button" style="width:100%">SAVE</button>
   </div>
-  <button id="signOut" class="btn2" type="button" style="align-self:center">Sign out on this phone</button>
+  <button id="signOut" class="btn2" type="button" style="align-self:center">Forget me on this phone (ask PIN next time)</button>
 </section>
 </div>
+<div id="composer" class="ovl" role="dialog" aria-modal="true" aria-label="Write a note">
+  <div class="dim" data-close="composer"></div>
+  <div class="sheet"><div class="tape"></div>
+    <div class="to"><b class="pixel" style="font-size:15px">TO:</b><div id="toList" class="avs"></div></div>
+    <div class="ruled"><textarea id="noteText" maxlength="140" placeholder="Write in English…" aria-label="Your note"></textarea></div>
+    <div class="meta"><span id="noteHint">English only</span><span id="noteCount">0 / 140</span></div>
+    <div class="acts"><button id="noteCancel" class="btn" type="button">Cancel</button><button id="noteSend" class="btn main" type="button">CRUMPLE &amp; THROW ▶</button></div>
+  </div>
+</div>
+<div id="reader" class="ovl" role="dialog" aria-modal="true" aria-label="Your notes">
+  <div class="dim" data-close="reader"></div>
+  <div class="sheet crumpled">
+    <button class="xbtn" type="button" data-close="reader" aria-label="Close">✕</button>
+    <div id="rdFrom" class="from"></div>
+    <div id="rdMsg" class="msg"></div>
+    <div class="pager"><button id="rdPrev" type="button">‹ Prev</button><span id="rdPos"></span><button id="rdNext" type="button">Next ›</button></div>
+    <div class="acts"><button id="rdToss" class="btn" type="button">Toss it</button><button id="rdBack" class="btn main" type="button">THROW BACK ▶</button></div>
+  </div>
+</div>
+<div id="boardModal" class="ovl" role="dialog" aria-modal="true" aria-label="Room board">
+  <div class="dim" data-close="boardModal"></div>
+  <div class="sheet" style="background:#FBF3E8">
+    <button class="xbtn" type="button" data-close="boardModal" aria-label="Close">✕</button>
+    <b class="pixel" style="font-size:18px">ROOM BOARD · TODAY</b>
+    <span class="muted" style="font-size:12px;font-weight:700;margin-top:-6px">Shows the clock, your chat, and when the leading pair changes.</span>
+    <div id="bHist" class="bhist"></div>
+    <label for="shoutIn" style="font-size:14px;font-weight:800">Write on the board</label>
+    <div class="shout"><input id="shoutIn" maxlength="40" placeholder="NO PHONES TILL 9!" autocomplete="off"><button id="shoutGo" type="button">POST</button></div>
+    <div class="meta"><span id="shoutHint">English · 40 letters</span><span id="shoutCount">0 / 40</span></div>
+  </div>
+</div>
+<div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script src="assets.js"></script>
@@ -311,7 +395,7 @@ const BY = Object.fromEntries(PEOPLE.map(p => [p.id, p]));
 const PAIRS = [["milad", "shaghayegh"], ["farzad", "niloufar"], ["arian", "zinat"]];
 const PAIR_COL = ["#3E6A8A", "#5D7A5A", "#A0503C"];
 const MIN = 60e3, HOUR = 3600e3, DAY = 86400e3;
-const STREAK_MIN = 30, DEFAULT_GOAL = 150, MAX_SITTING = 5 * HOUR;
+const STREAK_MIN = 30, DEFAULT_GOAL = 150, MAX_SITTING = 5 * HOUR, STALE_PAUSE = 12 * HOUR;
 const SHIFT = (3.5 - 4) * HOUR;               // Tehran UTC+3:30, day flips at 04:00
 const dayKey = ms => new Date(ms + SHIFT).toISOString().slice(0, 10);
 const dayStart = key => Date.parse(key + "T00:00:00Z") - SHIFT;
@@ -331,7 +415,7 @@ async function hashPin(id, pin) {
 }
 
 // ---------------- data store ----------------
-let state = { sessions: {}, days: {}, profiles: {} };
+let state = { sessions: {}, days: {}, profiles: {}, notes: {}, board: {}, writing: {} };
 let offset = 0, loaded = false;
 const now = () => Date.now() + offset;
 let store;
@@ -346,19 +430,37 @@ async function makeFirebaseStore() {
   F.onValue(F.ref(db, "squad"), s => {
     clearTimeout(slow);
     const v = s.val() || {};
-    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {} };
+    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {}, notes: v.notes || {}, board: v.board || {}, writing: v.writing || {} };
     const first = !loaded; loaded = true;
+    onData(first);
     if (first) boot2(); else render();
   });
   return {
-    setSession: (id, val) => F.set(F.ref(db, `squad/sessions/${id}`), val),
+    setSession: (id, val) => F.set(F.ref(db, `squad/sessions/${id}`), val && val.startedAt ? { ...val, startedAt: F.serverTimestamp() } : val),
+    closeIfStale: async (id) => {
+      let snap = null;
+      const res = await F.runTransaction(F.ref(db, `squad/sessions/${id}`), cur => {
+        const tNow = Date.now() + offset;
+        if (!cur) return;
+        if (cur.state === "studying" && typeof cur.startedAt === "number" && tNow - cur.startedAt > MAX_SITTING) { snap = cur; return { state: "off", closedStaleAt: tNow }; }
+        if (cur.state === "paused" && (cur.pausedAt || 0) && tNow - cur.pausedAt > STALE_PAUSE) { snap = null; return { state: "off", closedStaleAt: tNow }; }
+        return;                                        // abort: nothing to do
+      }, { applyLocally: false });
+      return res.committed && snap ? snap : null;
+    },
     setProfile: (id, val) => F.update(F.ref(db, `squad/profiles/${id}`), val),
     addMs: (key, id, ms) => F.runTransaction(F.ref(db, `squad/days/${key}/${id}`), v => (v || 0) + ms),
+    pushNote: (to, val) => F.push(F.ref(db, `squad/notes/${to}`), val),
+    removeNote: (to, id) => F.remove(F.ref(db, `squad/notes/${to}/${id}`)),
+    setWriting: (id, val) => { const r = F.ref(db, `squad/writing/${id}`); if (val) F.onDisconnect(r).remove(); return F.set(r, val); },
+    pushBoard: val => F.push(F.ref(db, "squad/board"), val),
+    setBoard: (key, val) => F.set(F.ref(db, `squad/board/${key}`), val),
+    removeBoard: id => F.remove(F.ref(db, `squad/board/${id}`)),
   };
 }
 function makeDemoStore() {
   $("demo").hidden = false;
-  const KEY = "squad-demo-v3";
+  const KEY = "squad-demo-v5";
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!saved) {
@@ -368,19 +470,42 @@ function makeDemoStore() {
     days[today] = { milad: 30 * MIN, shaghayegh: 35 * MIN, farzad: 20 * MIN, niloufar: 42 * MIN };
     const profiles = {};
     for (const p of PEOPLE) if (p.id !== "zinat") profiles[p.id] = { pin: "demo", goalMin: [120, 90, 150, 180, 120][Object.keys(profiles).length], examDate: addDays(today, 60 + Object.keys(profiles).length * 40), studyTime: ["07:30", "21:00", "18:00", "22:30", "19:00"][Object.keys(profiles).length] };
-    saved = { days, profiles, sessions: {
+    const notes = {
+      zinat: { n1: { from: "milad", text: "Bet you can't beat my 2 hours tonight. Loser makes the Turkish coffee!", at: t - 50 * MIN },
+               n2: { from: "niloufar", text: "Speaking practice at 9? Topic: crime. Bring new words!", at: t - 30 * MIN },
+               n3: { from: "farzad", text: "Your timer is too quiet. Are you actually studying? 👀", at: t - 8 * MIN } },
+      shaghayegh: { n4: { from: "milad", text: "Come sit down, I saved your chair.", at: t - 20 * MIN }, n5: { from: "niloufar", text: "Coffee break at 10?", at: t - 10 * MIN } },
+    };
+    const board = {
+      b2: { kind: "shout", who: "niloufar", text: "Speaking club at 9 tonight!", at: t - 25 * MIN },
+    };
+    saved = { days, profiles, notes, board, writing: {}, sessions: {
       milad: { state: "studying", startedAt: t - 42 * MIN, accum: 0 },
       farzad: { state: "studying", startedAt: t - 27 * MIN, accum: 0 },
       niloufar: { state: "paused", accum: 18 * MIN, pausedAt: t - 5 * MIN },
     } };
   }
-  state = saved; loaded = true;
-  const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} render(); };
+  state = { notes: {}, board: {}, writing: {}, ...saved }; loaded = true;
+  const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} onData(false); render(); };
+  onData(true);
   setTimeout(boot2, 0);
+  const nid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
   return {
     setSession: async (id, val) => { state.sessions[id] = val; persist(); },
+    closeIfStale: async (id) => {
+      const cur = state.sessions[id], t = now();
+      if (cur && cur.state === "studying" && t - cur.startedAt > MAX_SITTING) { state.sessions[id] = { state: "off", closedStaleAt: t }; persist(); return cur; }
+      if (cur && cur.state === "paused" && cur.pausedAt && t - cur.pausedAt > STALE_PAUSE) { state.sessions[id] = { state: "off", closedStaleAt: t }; persist(); }
+      return null;
+    },
     setProfile: async (id, val) => { state.profiles[id] = { ...(state.profiles[id] || {}), ...val }; persist(); },
     addMs: async (key, id, ms) => { (state.days[key] ||= {}); state.days[key][id] = (state.days[key][id] || 0) + ms; persist(); },
+    pushNote: async (to, val) => { (state.notes[to] ||= {})[nid()] = val; persist(); },
+    removeNote: async (to, id) => { if (state.notes[to]) delete state.notes[to][id]; persist(); },
+    setWriting: async (id, val) => { if (val) state.writing[id] = val; else delete state.writing[id]; persist(); },
+    pushBoard: async val => { state.board[nid()] = val; persist(); },
+    setBoard: async (key, val) => { state.board[key] = val; persist(); },
+    removeBoard: async id => { delete state.board[id]; persist(); },
   };
 }
 
@@ -411,7 +536,13 @@ function leaders(key, t) {
   const max = Math.max(...tot);
   return max > 0 ? tot.map((v, k) => v === max ? k : -1).filter(k => k >= 0) : [];
 }
-const seatedIds = () => PEOPLE.filter(p => ["studying", "paused"].includes((state.sessions[p.id] || {}).state)).map(p => p.id);
+function isLive(s, t = now()) {
+  if (!s) return false;
+  if (s.state === "studying") return typeof s.startedAt === "number" && t - s.startedAt <= MAX_SITTING;
+  if (s.state === "paused") return !s.pausedAt || t - s.pausedAt <= STALE_PAUSE;
+  return false;
+}
+const seatedIds = () => PEOPLE.filter(p => isLive(state.sessions[p.id])).map(p => p.id);
 
 // ---------------- session actions ----------------
 let me = localStorage.getItem("squad-me") || "";
@@ -427,7 +558,8 @@ async function commit(id, from, to) {
 async function sitDown() {
   const s = state.sessions[me];
   if (s && s.state === "studying") return;
-  await store.setSession(me, { state: "studying", startedAt: now(), accum: s && s.state === "paused" ? (s.accum || 0) : 0 });
+  const fresh = !(s && s.state === "paused");
+  await store.setSession(me, { state: "studying", startedAt: now(), accum: fresh ? 0 : (s.accum || 0) });
 }
 async function pause() {
   const s = state.sessions[me]; if (!s || s.state !== "studying") return;
@@ -443,13 +575,23 @@ async function stopIt() {
   await store.setSession(me, { state: "off" });
   toast(`Nice! ${fmtLong(total)} this sitting.`);
 }
+// Anyone's phone may close a session that was left running (>5h) or paused (>12h).
+// A transaction makes sure the time is saved exactly once.
+async function closeStale(id) {
+  try {
+    const was = await store.closeIfStale(id);
+    if (was) { await commit(id, was.startedAt, was.startedAt + MAX_SITTING); return true; }
+  } catch (e) {}
+  return false;
+}
 async function guardForgotten() {
-  const s = state.sessions[me];
-  if (s && s.state === "studying" && now() - s.startedAt > MAX_SITTING) {
-    await commit(me, s.startedAt, s.startedAt + MAX_SITTING);
-    await store.setSession(me, { state: "off" });
-    toast("Your timer was left running, so it stopped at 5 hours.");
-  }
+  if (await closeStale(me)) toast("Your timer was left running, so it stopped at 5 hours.");
+}
+let lastSweep = 0;
+function sweepStale(t) {
+  if (!store || t - lastSweep < 30e3) return;
+  lastSweep = t;
+  for (const p of PEOPLE) { const s = state.sessions[p.id]; if (s && s.state !== "off" && !isLive(s, t)) closeStale(p.id); }
 }
 let toastT;
 function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("on"), 3400); }
@@ -458,6 +600,8 @@ function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.
 const SCREENS = ["start", "home", "race", "hall", "profile"];
 function go(name) {
   if (name !== "start" && !(me && state.profiles[me])) name = "start";
+  if ($("composer").classList.contains("on")) closeComposer();
+  ["reader", "boardModal"].forEach(id => $(id).classList.remove("on"));
   for (const s of SCREENS) $(s).classList.toggle("on", s === name);
   const h = name === "start" ? "" : name;
   if (location.hash.slice(1) !== h) history.replaceState(null, "", h ? "#" + h : location.pathname);
@@ -472,13 +616,21 @@ const onScreen = () => (document.querySelector(".screen.on") || {}).id;
 let picked = "", newGoal = DEFAULT_GOAL, profGoal = DEFAULT_GOAL;
 function showStep(id) { for (const s of ["stPick", "stPin", "stSetup"]) $(s).classList.toggle("on", s === id); if (id === "stPick") renderTiles(); }
 const lockSvg = '<svg class="lock" width="14" height="16" viewBox="0 0 7 8" shape-rendering="crispEdges" aria-label="has a profile"><rect x="1" y="0" width="5" height="1" fill="#2E2622"/><rect x="1" y="0" width="1" height="4" fill="#2E2622"/><rect x="5" y="0" width="1" height="4" fill="#2E2622"/><rect x="0" y="3" width="7" height="5" fill="#2E2622"/><rect x="1" y="4" width="5" height="3" fill="#F6D772"/><rect x="3" y="5" width="1" height="1" fill="#2E2622"/></svg>';
+const trusted = () => { try { return JSON.parse(localStorage.getItem("squad-trusted") || "[]"); } catch (e) { return []; } };
+const setTrusted = list => { try { localStorage.setItem("squad-trusted", JSON.stringify([...new Set(list)])); } catch (e) {} };
+const youSvg = '<span class="you" aria-label="you on this phone">YOU</span>';
 function renderTiles() {
-  $("tiles").innerHTML = PEOPLE.map(p => `<button type="button" class="tile" data-id="${p.id}">${state.profiles[p.id] ? lockSvg : ""}${img(A.chars[p.id])}<b>${p.name}</b></button>`).join("");
+  const tr = trusted();
+  $("tiles").innerHTML = PEOPLE.map(p => {
+    const mine = tr.includes(p.id) && state.profiles[p.id];
+    return `<button type="button" class="tile${mine ? " mine" : ""}" data-id="${p.id}">${mine ? youSvg : state.profiles[p.id] ? lockSvg : ""}${img(A.chars[p.id])}<b>${p.name}</b></button>`;
+  }).join("");
 }
 const whoHtml = (id, sub) => `${img(A.chars[id], BY[id].name)}<div style="display:flex;flex-direction:column"><b>${BY[id].name}</b><span class="muted" style="font-size:13px;font-weight:700">${sub}</span></div>`;
 function pickPerson(id) {
   if (!loaded) return toast("Connecting… one second.");
   picked = id;
+  if (state.profiles[id] && trusted().includes(id)) return signIn(id);
   if (state.profiles[id]) {
     $("pinWho").innerHTML = whoHtml(id, "Welcome back!");
     $("pinIn").value = ""; $("pinErr").textContent = "";
@@ -492,7 +644,7 @@ function pickPerson(id) {
     showStep("stSetup");
   }
 }
-function signIn(id) { me = id; localStorage.setItem("squad-me", me); go("home"); }
+function signIn(id) { me = id; localStorage.setItem("squad-me", me); setTrusted([...trusted(), id]); go("home"); }
 async function tryPin() {
   const pin = $("pinIn").value.trim();
   const prof = state.profiles[picked];
@@ -674,6 +826,181 @@ function renderRace() {
   $("raceGo").textContent = ["studying", "paused"].includes(s.state) ? "BACK TO TABLE ▶" : "START ▶";
 }
 
+// ---------------- notes + board ----------------
+const esc = v => String(v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const NON_ENGLISH = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const NOTE_MAX = 140, SHOUT_MAX = 40, SHOUTS_PER_DAY = 20, WRITING_FRESH = 3 * MIN;
+const PILE = [[13, 0], [19, 0], [25, 0], [16, -5], [22, -5], [31, 0], [19, -10]];
+const seen = new Set(), flying = new Set();
+let notesReady = false;
+const notesFor = id => Object.entries((state.notes || {})[id] || {}).map(([k, v]) => ({ id: k, ...v })).filter(n => n && n.from && BY[n.from]).sort((a, b) => a.at - b.at);
+const pileCount = id => notesFor(id).filter(n => !flying.has(n.id)).length;
+function onData(first) {
+  const all = [];
+  for (const [to, list] of Object.entries(state.notes || {})) for (const [id, n] of Object.entries(list || {})) all.push({ id, to, ...n });
+  if (first || !notesReady) { all.forEach(n => seen.add(n.id)); notesReady = true; pruneBoard(); return; }
+  for (const n of all) {
+    if (seen.has(n.id)) continue;
+    seen.add(n.id);
+    if (onScreen() === "hall" && BY[n.from] && BY[n.to]) throwBall(n);
+  }
+}
+let pruned = false;
+function pruneBoard() {
+  if (pruned || !store) return; pruned = true;
+  const cutoff = now() - 3 * DAY;
+  for (const [id, b] of Object.entries(state.board || {})) if (!b || b.at < cutoff) store.removeBoard(id).catch(() => {});
+}
+// geometry in the 240x300 scene grid
+const seatIdx = id => PEOPLE.findIndex(p => p.id === id);
+function pileSpot(id, k) {
+  const i = seatIdx(id), side = i < 3 ? 1 : -1;
+  const seated = seatedIds().includes(id);
+  const sx = seated ? A.SEATS[i] : A.SEATS[i] - 19 * side;
+  const [dx, dy] = PILE[Math.min(k, 6)];
+  return { x: sx + side * dx, y: A.TABLE_TOP + dy - 1, side, sx };
+}
+function throwBall(n) {
+  flying.add(n.id);
+  render();
+  const fx = $("fx"); if (!fx) { flying.delete(n.id); return; }
+  const X = v => (v / A.W * 100) + "%", Y = v => (v / A.H * 100) + "%";
+  const si = seatIdx(n.from), x0 = A.SEATS[si], y0 = A.TABLE_TOP - 56;
+  const end = pileSpot(n.to, Math.max(0, pileCount(n.to)));
+  const cr = document.createElement("img");
+  cr.className = "px"; cr.src = A.crumple; cr.alt = "";
+  Object.assign(cr.style, { position: "absolute", left: X(x0 - 5.5), top: Y(y0 - 3), width: X(11), height: Y(6) });
+  fx.appendChild(cr);
+  const ball = document.createElement("img");
+  ball.className = "px"; ball.src = A.ball; ball.alt = "";
+  Object.assign(ball.style, { position: "absolute", left: X(x0 - 3.5), top: Y(y0 - 3.5), width: X(7), height: Y(7), opacity: "0" });
+  fx.appendChild(ball);
+  const W = fx.clientWidth, H = fx.clientHeight;
+  const frames = [];
+  for (let k = 0; k <= 16; k++) {
+    const t = k / 16, x = (end.x - x0) * t, y = (end.y - y0) * t - 40 * 4 * t * (1 - t);
+    frames.push({ transform: `translate(${x / A.W * W}px, ${y / A.H * H}px) rotate(${t * 540}deg)`, opacity: 1 });
+  }
+  const finish = () => { cr.remove(); ball.remove(); flying.delete(n.id); render(); };
+  setTimeout(() => {
+    cr.remove();
+    if (!ball.animate) return finish();
+    const anim = ball.animate(frames, { duration: 850, easing: "linear", fill: "forwards" });
+    anim.onfinish = finish; anim.oncancel = finish;
+  }, 380);
+}
+// ---- composer ----
+let noteTo = "", replyId = "";
+function openComposer(preset, replyNoteId) {
+  noteTo = preset && preset !== me && state.profiles[preset] ? preset : "";
+  replyId = replyNoteId || "";
+  $("noteText").value = ""; updateNoteMeta();
+  renderToList();
+  $("composer").classList.add("on");
+  store.setWriting(me, { at: now() }).catch(() => {});
+  setTimeout(() => $("noteText").focus(), 60);
+}
+function closeComposer() {
+  $("composer").classList.remove("on");
+  store.setWriting(me, null).catch(() => {});
+}
+function renderToList() {
+  $("toList").innerHTML = PEOPLE.filter(p => p.id !== me).map(p => {
+    const ok = !!state.profiles[p.id];
+    return `<button type="button" class="av" data-to="${p.id}" aria-pressed="${p.id === noteTo}" ${ok ? "" : "disabled title='Not in the app yet'"}>${img(A.chars[p.id])}<span>${ok ? p.name : "not here"}</span></button>`;
+  }).join("");
+}
+function updateNoteMeta() {
+  const v = $("noteText").value, bad = NON_ENGLISH.test(v);
+  $("noteCount").textContent = `${v.length} / ${NOTE_MAX}`;
+  $("noteHint").textContent = bad ? "English letters only, please 🙂" : (noteTo ? `To ${BY[noteTo].name}` : "Pick who it's for");
+  $("noteHint").style.color = bad ? "#C0392B" : "";
+  $("noteSend").disabled = !noteTo || !v.trim() || bad;
+}
+let sending = false;
+async function sendNote() {
+  const text = $("noteText").value.trim();
+  if (sending || !noteTo || !text || text.length > NOTE_MAX || NON_ENGLISH.test(text)) return updateNoteMeta();
+  sending = true; $("noteSend").disabled = true;
+  const to = noteTo;
+  try {
+    $("composer").classList.remove("on");
+    await store.pushNote(to, { from: me, text, at: now() });
+    store.setWriting(me, null).catch(() => {});
+    if (replyId) { const rid = replyId; replyId = ""; await store.removeNote(me, rid).catch(() => {}); }
+  } catch (e) { toast("Couldn't send — check your VPN."); $("composer").classList.add("on"); }
+  sending = false; updateNoteMeta();
+}
+// ---- reader ----
+let rdIdx = 0;
+function openReader() {
+  if (!notesFor(me).length) return toast("No notes on your desk yet.");
+  rdIdx = 0; renderReader(); $("reader").classList.add("on");
+}
+function renderReader() {
+  const list = notesFor(me);
+  if (!list.length) { $("reader").classList.remove("on"); return; }
+  rdIdx = Math.max(0, Math.min(rdIdx, list.length - 1));
+  const n = list[rdIdx];
+  const when = new Date(n.at + 3.5 * HOUR).toISOString();
+  const day = dayKey(n.at) === dayKey(now()) ? "today" : fmtDate(dayKey(n.at), { day: "numeric", month: "short" });
+  $("rdFrom").innerHTML = `${img(A.chars[n.from], BY[n.from].name)}<div><b style="font-size:17px">From ${esc(BY[n.from].name)}</b><small>${day} · ${when.slice(11, 16)}</small></div>`;
+  $("rdMsg").textContent = n.text;
+  $("rdPos").textContent = `Note ${rdIdx + 1} of ${list.length}`;
+  $("rdPrev").disabled = rdIdx === 0; $("rdNext").disabled = rdIdx >= list.length - 1;
+  $("rdBack").dataset.to = n.from; $("rdToss").dataset.id = n.id;
+}
+// ---- board ----
+function boardItems(t) {
+  const today = dayKey(t);
+  const items = Object.entries(state.board || {}).map(([id, b]) => ({ id, ...b })).filter(b => b && b.text && (b.kind === "shout" || b.kind === "lead") && dayKey(b.at) === today).sort((a, b) => b.at - a.at);
+  return items;
+}
+const LEAD_SHOW = 3 * MIN;
+const pairName = k => PAIRS[k].map(id => BY[id].name).join(" & ");
+function boardNow(t) {
+  const items = boardItems(t);                       // newest first, today only
+  const latest = items[0];
+  if (latest && latest.kind === "lead" && t - latest.at < LEAD_SHOW) return { cls: "ev", text: latest.text };
+  const chat = items.find(b => b.kind === "shout");
+  if (chat) return { cls: "sh", text: `${(BY[chat.who] || {}).name || "?"}: ${chat.text}` };
+  const hm = new Date(t + 3.5 * HOUR).toISOString().slice(11, 16);
+  return { cls: "ev", clock: true, text: hm };
+}
+let lastLeadPushed = "";
+function checkLeadChange(t) {
+  if (!store || !me || !state.profiles[me]) return;
+  const today = dayKey(t), ld = leaders(today, t);
+  if (ld.length !== 1) return;                         // ties don't count as a change
+  const cur = String(ld[0]);
+  const prev = boardItems(t).find(b => b.kind === "lead");
+  if ((prev && prev.pairs === cur) || lastLeadPushed === today + cur) return;
+  lastLeadPushed = today + cur;
+  const text = prev ? `${pairName(ld[0])} take the lead!` : `${pairName(ld[0])} lead today!`;
+  store.setBoard(`L-${today}-${cur}`, { kind: "lead", pairs: cur, text, at: now() }).catch(() => { lastLeadPushed = ""; });
+}
+function renderBoardModal() {
+  const t = now(), items = boardItems(t);
+  $("bHist").innerHTML = items.length ? items.map(b => `<div class="${b.kind === "shout" ? "sh" : "ev"}"><time>${new Date(b.at + 3.5 * HOUR).toISOString().slice(11, 16)}</time><span>${b.kind === "shout" ? esc((BY[b.who] || {}).name || "?") + ": " : "★ "}${esc(b.text)}</span></div>`).join("")
+    : `<div class="ev"><span>Nothing yet today.</span></div>`;
+  updateShoutMeta();
+}
+const myShoutsToday = () => boardItems(now()).filter(b => b.kind === "shout" && b.who === me).length;
+function updateShoutMeta() {
+  const v = $("shoutIn").value, bad = NON_ENGLISH.test(v), left = SHOUTS_PER_DAY - myShoutsToday();
+  $("shoutCount").textContent = `${v.length} / ${SHOUT_MAX}`;
+  $("shoutHint").textContent = bad ? "English letters only, please 🙂" : left > 0 ? "English · stays up until someone writes" : "That's enough board time for today!";
+  $("shoutHint").style.color = bad ? "#C0392B" : "";
+  $("shoutGo").disabled = bad || !v.trim() || left <= 0;
+}
+async function postShout() {
+  const v = $("shoutIn").value.trim();
+  if (!v || v.length > SHOUT_MAX || NON_ENGLISH.test(v) || myShoutsToday() >= SHOUTS_PER_DAY) return updateShoutMeta();
+  $("shoutGo").disabled = true;
+  try { await store.pushBoard({ kind: "shout", who: me, text: v, at: now() }); $("shoutIn").value = ""; toast("Posted on the board!"); }
+  catch (e) { toast("Couldn't post — check your VPN."); }
+  renderBoardModal();
+}
 // ---------------- render: hall ----------------
 function renderHall() {
   const t = now(), key = dayKey(t), seated = seatedIds();
@@ -702,8 +1029,31 @@ function renderHall() {
     const icon = paused ? '<span class="ps"><i></i><i></i></span>' : '<span class="live"></span>';
     h += `<span class="tag pixel ${paused ? "paused" : ""} ${id === me ? "mine" : ""}" style="left:${X(sx)};top:${Y(167)}" title="${PEOPLE[i].name} today">${icon}${fmtHM(dayMs(id, key, t))}</span>`;
   });
-  $("scene").innerHTML = h;
+  // writing indicators
+  PEOPLE.forEach((pp, i) => {
+    const w = (state.writing || {})[pp.id];
+    if (w && t - w.at < WRITING_FRESH) h += `<img class="px" src="${A.notepad}" alt="${pp.name} is writing a note" style="left:${X(A.SEATS[i] - 9.5)};top:${Y(150)};width:${X(19)};height:${Y(12)}">`;
+  });
+  // note piles
+  PEOPLE.forEach(pp => {
+    const n = pileCount(pp.id);
+    if (!n) return;
+    for (let k = 0; k < Math.min(n, 7); k++) {
+      const s2 = pileSpot(pp.id, k);
+      h += `<img class="px" src="${A.ball}" alt="" style="left:${X(s2.x - 3.5)};top:${Y(s2.y - 3.5)};width:${X(7)};height:${Y(7)}">`;
+    }
+    const c0 = pileSpot(pp.id, 1);
+    if (n > 7) h += `<span class="over7" style="left:${X(c0.x)};top:${Y(c0.y - 18)}">+${n - 7}</span>`;
+    if (pp.id === me) h += `<button type="button" class="pilebtn" data-act="read" aria-label="Read your ${n} note${n === 1 ? "" : "s"}" style="left:${X(c0.x)};top:${Y(c0.y - 4)};width:${X(22)};height:${Y(18)}"></button>`;
+  });
+  // LED board
+  const ln = boardNow(t);
+  h += `<button type="button" class="board ${ln.cls}${ln.clock ? " clock" : ""}" data-act="board" aria-label="Room board: ${esc(ln.text)}. Tap to see today's board." style="left:${X(70)};top:${Y(3)};width:${X(100)};height:${Y(21)}"><span>${esc(ln.text)}</span></button>`;
+  $("sceneArt").innerHTML = h;
   $("seatChip").textContent = `${seated.length}/6 seated`;
+  const mine = pileCount(me);
+  $("notesBtn").innerHTML = `✉ My notes ${mine ? `<span class="badge">${mine}</span>` : ""}`;
+
   const s = state.sessions[me] || { state: "off" };
   if (s.state === "studying") {
     $("timer").innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="t pixel">${fmtHMS(sittingMs(me, t))}</span><button class="round" type="button" data-act="pause" aria-label="Pause"><i></i><i></i></button><button class="stop pixel" type="button" data-act="stop">STOP <i></i></button>`;
@@ -755,21 +1105,68 @@ $("hallBack").addEventListener("click", () => go("home"));
 $("profBack").addEventListener("click", () => go("home"));
 $("profSave").addEventListener("click", saveProfile);
 $("profRemind").addEventListener("click", async () => { if ($("profTime").value) await store.setProfile(me, { studyTime: $("profTime").value }); addReminder(); });
-$("signOut").addEventListener("click", () => { localStorage.removeItem("squad-me"); me = ""; go("start"); });
+$("signOut").addEventListener("click", () => { setTrusted(trusted().filter(x => x !== me)); localStorage.removeItem("squad-me"); me = ""; go("start"); });
+$("sceneArt").addEventListener("click", e => {
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if (act === "read") openReader();
+  if (act === "board") { renderBoardModal(); $("boardModal").classList.add("on"); }
+});
+$("writeBtn").addEventListener("click", () => openComposer("", ""));
+$("notesBtn").addEventListener("click", openReader);
+$("toList").addEventListener("click", e => { const b = e.target.closest("[data-to]"); if (!b || b.disabled) return; noteTo = b.dataset.to; renderToList(); updateNoteMeta(); });
+$("noteText").addEventListener("input", updateNoteMeta);
+$("noteCancel").addEventListener("click", closeComposer);
+$("noteSend").addEventListener("click", sendNote);
+$("rdPrev").addEventListener("click", () => { rdIdx--; renderReader(); });
+$("rdNext").addEventListener("click", () => { rdIdx++; renderReader(); });
+$("rdToss").addEventListener("click", async e => { const id = e.currentTarget.dataset.id; try { await store.removeNote(me, id); } catch (err) { return toast("Couldn't toss — check your VPN."); } renderReader(); render(); });
+$("rdBack").addEventListener("click", e => { const to = e.currentTarget.dataset.to, id = $("rdToss").dataset.id; $("reader").classList.remove("on"); openComposer(to, id); });
+$("shoutIn").addEventListener("input", updateShoutMeta);
+$("shoutIn").addEventListener("keydown", e => { if (e.key === "Enter") postShout(); });
+$("shoutGo").addEventListener("click", postShout);
+document.querySelectorAll(".ovl").forEach(o => o.addEventListener("click", e => {
+  const c = e.target.closest("[data-close]"); if (!c) return;
+  if (c.dataset.close === "composer") closeComposer(); else $(c.dataset.close).classList.remove("on");
+}));
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if ($("composer").classList.contains("on")) closeComposer();
+  ["reader", "boardModal"].forEach(id => $(id).classList.remove("on"));
+});
 $("timer").addEventListener("click", e => {
   const act = e.target.closest("[data-act]")?.dataset.act;
   if (act === "pause") pause(); if (act === "resume") resume(); if (act === "stop") stopIt(); if (act === "sit") sitDown();
 });
 window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (SCREENS.includes(h) && h !== onScreen()) go(h); });
-setInterval(() => { if (["home", "race", "hall"].includes(onScreen())) render(); }, 1000);
+setInterval(() => { if (["home", "race", "hall"].includes(onScreen())) render(); if (loaded && me) { const t = now(); sweepStale(t); checkLeadChange(t); } }, 1000);
+setInterval(() => { if (store && me && $("composer").classList.contains("on")) store.setWriting(me, { at: now() }).catch(() => {}); }, 60 * 1000);
+
+// ---------------- update check ----------------
+// Bump APP_VERSION and version.json together whenever new files are uploaded.
+const APP_VERSION = "2026.11.03-1";
+async function checkUpdate() {
+  if (!/^https?:/.test(location.protocol)) return;
+  try {
+    const r = await fetch("version.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) return;
+    const v = (await r.json()).version;
+    if (v && v !== APP_VERSION) $("updBar").hidden = false;
+  } catch (e) {}
+}
+$("updGo").addEventListener("click", () => { location.replace(location.pathname + "?v=" + Date.now()); });
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") checkUpdate(); });
+setInterval(checkUpdate, 5 * 60 * 1000);
+setTimeout(checkUpdate, 3000);
 
 // ---------------- boot ----------------
 let booted = false;
 function boot2() {
   if (booted) return; booted = true;
   if (me && !state.profiles[me]) { localStorage.removeItem("squad-me"); me = ""; }
-  const h = location.hash.slice(1);
-  go(me ? (SCREENS.includes(h) && h !== "start" ? h : "home") : "start");
+  // migrate: whoever was signed in on this phone before becomes trusted
+  if (me) setTrusted([...trusted(), me]);
+  setTrusted(trusted().filter(id => state.profiles[id]));
+  go("start");
 }
 (async () => {
   $("start").classList.add("on"); renderTiles();
