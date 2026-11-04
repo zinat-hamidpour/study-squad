@@ -190,6 +190,321 @@ header.bar h1{margin:0;font-size:22px}
 .toast{position:fixed;left:50%;bottom:130px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:700;max-width:90vw;z-index:30;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
 .demo{background:var(--yellow);border-bottom:2px solid var(--ink);font-size:12px;font-weight:800;text-align:center;padding:6px}
+/* ===== v4 · phase 1: bottom bar + home ===== */
+:root{--teal:#5FB8B0}
+body.has-nav .app{padding-bottom:92px}
+.nav-bar{position:fixed;left:0;right:0;bottom:0;z-index:15;display:none;justify-content:center;pointer-events:none}
+body.has-nav .nav-bar{display:flex}
+.nav-in{pointer-events:auto;width:100%;max-width:430px;height:calc(84px + env(safe-area-inset-bottom));padding:8px 6px env(safe-area-inset-bottom);background:var(--card);border-top:2.5px solid var(--ink);display:flex;align-items:flex-start}
+.nav-it{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:0;font:700 9px 'Pixelify Sans',monospace;letter-spacing:.5px;color:var(--muted)}
+.nav-it .nav-ico{width:44px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;border:2px solid transparent}
+.nav-it.on{color:var(--ink)}.nav-it.on .nav-ico{background:var(--lav);border-color:var(--ink)}
+.nav-it img{width:24px;image-rendering:pixelated}
+.nav-mid{flex:1.2;margin-top:-30px;gap:8px}
+.nav-mid .nav-ico{width:64px;height:64px;border-radius:50%;background:var(--yellow);border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink)}
+.nav-mid.on .nav-ico{background:var(--yellow);border-color:var(--ink)}
+body.has-nav .dockfix{bottom:calc(84px + env(safe-area-inset-bottom));background:none;padding-top:6px;padding-bottom:10px}
+#home{padding:0 18px 20px;gap:12px}
+.hm-me{width:44px;height:44px;border:2px solid var(--ink);border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;padding:0}
+.hm-me img{width:32px}
+.hm-card{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;text-align:left;width:100%;color:inherit;font:inherit}
+.hm-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hm-row h2{font-size:15px;font-weight:900}
+.hm-row small{font-size:12px;font-weight:800;color:var(--muted)}
+.hm-sq{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.hm-p{border:2px solid var(--ink);border-radius:12px;background:#fff;padding:5px 0;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative;font:inherit;color:inherit}
+.hm-p img{width:34px}
+.hm-p .hm-t{font:700 10px 'Pixelify Sans',monospace;border:1.5px solid var(--ink);border-radius:999px;padding:0 3px;background:#fff;display:flex;align-items:center;gap:2px;white-space:nowrap}
+.hm-p.on{background:var(--lav-soft);border-width:2.5px}
+.hm-p.on .hm-t{background:var(--lav)}
+.hm-p.on .hm-t i{width:6px;height:6px;border-radius:50%;background:var(--green);border:1px solid var(--ink)}
+.hm-p.off{background:#F3EADC;border-color:#BFAF9F}.hm-p.off img{filter:grayscale(1);opacity:.5}
+.hm-p.off .hm-t{border-color:#BFAF9F;color:var(--muted);background:#FBF6EE}
+.hm-p.late .hm-t{background:#FDE3E6;border-color:#E58A96;color:#B3372F}
+.hm-p.done .hm-t{background:var(--yellow);border-color:var(--ink);color:var(--ink)}
+.hm-p .hm-ok{position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);font:900 9px/12px Nunito;text-align:center}
+.hm-p.none img{opacity:.25}
+.hm-leg{display:flex;gap:12px;flex-wrap:wrap}.hm-leg span{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:var(--muted)}.hm-leg i{width:10px;height:10px;border-radius:3px;border:1.5px solid var(--ink)}
+.hm-wk{display:flex;align-items:flex-end;justify-content:space-between;height:74px;padding:0 6px}
+.hm-wd{display:flex;flex-direction:column;align-items:center;gap:4px;width:30px}
+.hm-wd .hm-c{width:22px;border:2px solid var(--ink);border-radius:5px 5px 2px 2px;background:#FBF6EE;position:relative;overflow:hidden}
+.hm-wd .hm-c i{position:absolute;left:0;right:0;bottom:0;background:var(--green)}
+.hm-wd .hm-c.today{outline:2.5px solid var(--yellow);outline-offset:2px}
+.hm-wd b{font:700 10px 'Pixelify Sans',monospace;color:var(--muted)}.hm-wd b.t{color:var(--ink)}
+.hm-wd .hm-tick{font:900 9px Nunito;height:10px}
+.hm-prog{height:12px;border:2px solid var(--ink);border-radius:999px;background:#FBF6EE;overflow:hidden}.hm-prog div{height:100%;background:var(--green)}
+.hm-goal{display:flex;align-items:center;gap:12px}
+.hm-flag{width:4px;height:34px;background:var(--ink);position:relative;margin:0 20px 0 4px;flex:0 0 auto}
+.hm-flag:after{content:"";position:absolute;left:4px;top:0;border-left:20px solid #E4574F;border-top:10px solid transparent;border-bottom:10px solid transparent}
+.hm-flag.mock:after{border-left-color:var(--teal)}
+.hm-nums{margin-left:auto;display:flex;gap:6px}.hm-nums div{border:2px solid var(--ink);border-radius:10px;padding:3px 8px;text-align:center;background:#fff}.hm-nums b{display:block;font:700 15px 'Pixelify Sans',monospace}.hm-nums small{font-size:9px;font-weight:800;color:var(--muted)}
+.hm-start{height:62px;width:300px;align-self:center;font-size:23px;margin-top:2px;white-space:nowrap}
+.sp-soon{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:40px 18px}
+.sp-soon b{font:700 22px 'Pixelify Sans',monospace}
+#speak{padding:0 18px}
+.err-bar{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top) + 8px);z-index:99;background:#B3372F;color:#fff;border:2px solid #2E2622;border-radius:10px;padding:8px 10px;font:700 12px/1.35 Nunito,sans-serif}
+/* ===== phase 2: skills + lamps ===== */
+.sk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sk-grid button{height:54px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;padding:0 12px}
+.sk-grid button i{width:16px;height:16px;border-radius:4px;border:2px solid var(--ink);flex:0 0 auto}
+.sk-grid button[aria-pressed="true"]{border-width:3.5px;box-shadow:0 4px 0 var(--ink);background:var(--lav-soft)}
+.sk-note{height:48px;border:2.5px solid var(--ink);border-radius:12px;padding:0 12px;font-size:15px;font-weight:700;width:100%;background:#fff}
+.sk-row{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;padding:0 4px 8px}
+.sk-row:empty{display:none}
+.sk-chip{display:flex;align-items:center;gap:5px;border:2px solid var(--ink);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800;background:#fff}
+.sk-chip i{width:11px;height:11px;border-radius:3px;border:1.5px solid var(--ink)}
+.sk-lamp{position:absolute;transform:translateX(-50%);border:2px solid var(--ink);border-radius:50%;background:#4B4036;pointer-events:none}
+.sk-lamp.on{background:#8CF08F;box-shadow:0 0 10px 4px rgba(108,203,126,.85)}
+.scene img{pointer-events:none}
+
+
+/* ---- ME, MY ROAD, week detail (mx-) ---- */
+#me,#road,#wkd{padding:0 18px 24px;gap:12px}
+#me header.bar,#road header.bar,#wkd header.bar{padding-left:0;padding-right:0;padding-bottom:0}
+.mx-me{width:44px;height:44px;border:2px solid var(--ink);border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto}.mx-me img{width:32px}
+.mx-gear{width:44px;height:44px;border:2px solid var(--ink);border-radius:12px;background:#fff;font-size:20px;flex:0 0 auto}
+.mx-body{display:flex;flex-direction:column;gap:12px}
+.mx-hero{background:#2A2438;border:2.5px solid var(--ink);border-radius:18px;padding:14px;color:#fff;display:flex;flex-direction:column;gap:12px}
+.mx-hero .t1{display:flex;align-items:baseline;justify-content:space-between;gap:8px}.mx-hero .t1 b{font:700 30px 'Pixelify Sans',monospace;color:#FFE07A;white-space:nowrap}
+.mx-hero .t1 small{color:#c9bed8;font-size:12px;font-weight:800;text-align:right}
+.mx-setx{align-self:flex-start;background:#FFE07A;color:var(--ink);border:2px solid #110d1a;border-radius:10px;padding:8px 12px;font:700 13px 'Pixelify Sans',monospace}
+.mx-jr{position:relative;height:78px;margin:0 14px}
+.mx-jr .ln{position:absolute;left:0;right:0;top:46px;height:4px;background:#4a4260;border-radius:9px;overflow:hidden}
+.mx-jr .ln i{display:block;height:100%;background:#6CCB7E}
+.mx-jr .pt{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px}
+.mx-jr .pt .bd{font:700 13px 'Pixelify Sans',monospace;color:#fff;border:1.5px solid #6a5a80;border-radius:6px;padding:0 5px;background:#3A3150;white-space:nowrap}
+.mx-jr .pt .bd.tg{color:#2E2622;background:#FFE07A;border-color:#FFE07A}
+.mx-jr .pt .fl{width:3px;height:22px;background:#DDF2EF;position:relative;transform:translateX(5px)}
+.mx-jr .pt .fl:after{content:"";position:absolute;left:3px;top:0;border-left:12px solid var(--teal);border-top:6px solid transparent;border-bottom:6px solid transparent}
+.mx-jr .pt.ex .fl:after{border-left-color:#E4574F}.mx-jr .pt.tbc{opacity:.5}.mx-jr .pt.st .fl,.mx-jr .pt.st .bd{visibility:hidden}
+.mx-jr .pt small{color:#c9bed8;font-size:10px;font-weight:800;margin-top:6px;white-space:nowrap}
+.mx-jr .you{position:absolute;top:41px;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:#6CCB7E;border:2.5px solid #fff}
+.mx-kpi{display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid #4a4260;padding-top:10px}
+.mx-kpi div{text-align:center}.mx-kpi div+div{border-left:1.5px solid #4a4260}.mx-kpi b{display:block;font:700 19px 'Pixelify Sans',monospace}.mx-kpi small{color:#c9bed8;font-size:10px;font-weight:800}
+.mx-kpi .ok{color:#8CF08F}.mx-kpi .bh{color:#F2A3AE}
+.mx-blk{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;text-align:left;width:100%}
+.mx-hd{display:flex;align-items:center;justify-content:space-between;gap:8px}.mx-hd h2{margin:0;font-size:15px;font-weight:900}
+.mx-tabs{display:flex;border:2px solid var(--ink);border-radius:10px;overflow:hidden;width:140px}
+.mx-tabs button{flex:1;border:0;padding:7px;font:700 12px 'Pixelify Sans',monospace;background:#fff}.mx-tabs button.on{background:var(--ink);color:#FFE07A}
+.mx-sbar{display:flex;height:16px;border:2px solid var(--ink);border-radius:6px;overflow:hidden;background:#FBF6EE}.mx-sbar i{height:100%;border-right:1.5px solid var(--ink)}.mx-sbar i:last-child{border-right:0}
+.mx-slist{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+.mx-slist span{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:800}.mx-slist i{width:10px;height:10px;border-radius:3px;border:1.5px solid var(--ink);flex:0 0 auto}
+.mx-slist b{white-space:nowrap;margin-left:auto;font:700 13px 'Pixelify Sans',monospace}
+em.u{font:800 9px Nunito,system-ui,sans-serif;color:var(--muted);font-style:normal;margin:0 1px}
+.mx-wrow{display:flex;gap:5px}.mx-wrow div{flex:1;text-align:center}
+.mx-wrow i{display:block;height:30px;border:2px solid var(--ink);border-radius:6px;background:#FBF6EE;position:relative;overflow:hidden}
+.mx-wrow i u{position:absolute;left:0;right:0;bottom:0;background:var(--green)}
+.mx-wrow b{font:700 9px 'Pixelify Sans',monospace;color:var(--muted)}.mx-wrow div.t b{color:var(--ink)}.mx-wrow div.t i{outline:2.5px solid var(--yellow);outline-offset:1px}
+.mx-line{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:800}.mx-line b{font:700 14px 'Pixelify Sans',monospace;text-align:right}
+.mx-plan{display:flex;align-items:center;gap:10px;background:var(--ink);color:#fff;border-radius:14px;padding:10px 12px;border:0;width:100%;text-align:left}
+.mx-plan b{font:700 14px 'Pixelify Sans',monospace;color:#FFE07A;letter-spacing:1px}.mx-plan small{color:#d8ccc0;font-size:12px;font-weight:800}
+.mx-plan .go{margin-left:auto;background:#FFE07A;color:var(--ink);border-radius:10px;padding:8px 10px;font:700 12px 'Pixelify Sans',monospace;white-space:nowrap}
+.mx-plan.glow{box-shadow:0 0 0 3px #FFE07A,0 0 16px 4px rgba(255,214,90,.55)}
+.mx-peek{position:relative;background:#2A2438;border:2.5px solid var(--ink);border-radius:18px;overflow:hidden;padding:12px 12px 0;width:100%;text-align:left}
+.mx-peek .ttl{display:flex;justify-content:space-between;align-items:baseline;color:#fff;margin-bottom:8px;gap:8px}.mx-peek .ttl b{font:700 14px 'Pixelify Sans',monospace;letter-spacing:1px}.mx-peek .ttl small{color:#c9bed8;font-size:11px;font-weight:800}
+.mx-peek .r{display:flex;align-items:center;gap:8px;padding:5px 0}.mx-peek .r .d{width:54px;color:#fff;font:700 11px 'Pixelify Sans',monospace}.mx-peek .r .d small{display:block;color:#c9bed8;font:800 9px Nunito,system-ui,sans-serif}
+.mx-peek .bar,.mx-rd .bar{flex:1;height:18px;border:2px solid #110d1a;border-radius:6px;display:flex;overflow:hidden;background:#3c3450;position:relative}
+.mx-peek .bar i,.mx-rd .bar i{height:100%;border-right:1.5px solid #110d1a;flex:0 0 auto}
+.mx-peek .bar.f,.mx-rd .bar.f{border-style:dashed;border-color:#4a4260;background:#302a40}
+.mx-peek .h{width:56px;white-space:nowrap;text-align:right;color:#fff;font:700 11px 'Pixelify Sans',monospace}
+.mx-peek .now{background:rgba(255,224,122,.12);margin:0 -12px;padding:5px 12px;border-top:1.5px solid #FFE07A;border-bottom:1.5px solid #FFE07A}
+.mx-peek .fade{position:absolute;left:0;right:0;bottom:56px;height:56px;background:linear-gradient(rgba(42,36,56,0),#2A2438 70%);pointer-events:none}
+.mx-peek .cta{position:relative;margin:2px -12px 0;padding:10px 12px 12px;display:flex}
+.mx-peek .cta span{flex:1;text-align:center;background:#FFE07A;color:var(--ink);border:2px solid #110d1a;border-radius:10px;padding:8px 12px;font:700 14px 'Pixelify Sans',monospace;letter-spacing:1px;white-space:nowrap}
+.mx-tcard{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;overflow:hidden}
+.mx-tcard .top{padding:12px 14px}
+.mx-stub{display:flex;border-top:2.5px dashed var(--ink);position:relative}
+.mx-stub:before,.mx-stub:after{content:"";position:absolute;top:-11px;width:18px;height:18px;border-radius:50%;background:var(--cream);border:2.5px solid var(--ink)}
+.mx-stub:before{left:-11px}.mx-stub:after{right:-11px}
+.mx-stub button{flex:1;padding:11px 14px;display:flex;align-items:center;gap:8px;font:700 13px 'Pixelify Sans',monospace;letter-spacing:1px;border:0;background:transparent;text-align:left}
+.mx-stub button+button{border-left:2.5px dashed var(--ink);justify-content:space-between;background:#FFF6D6}
+.mx-stub .pl{width:24px;height:24px;border:2px solid var(--ink);border-radius:7px;background:var(--lav);display:flex;align-items:center;justify-content:center;font:900 16px Nunito,system-ui,sans-serif}
+.mx-stub .cnt{display:flex;flex-direction:column}.mx-stub .cnt small{font:800 10px Nunito,system-ui,sans-serif;letter-spacing:0;color:var(--muted)}
+.mx-rows{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;padding:0 14px}
+.mx-rw2{display:flex;align-items:center;gap:12px;padding:13px 0;border:0;background:none;width:100%;text-align:left}
+.mx-rw2 .t{flex:1}.mx-rw2 .t b{font-size:15px}.mx-rw2 .t small{display:block;margin-top:1px;font-size:12px;font-weight:800;color:var(--muted)}
+.mx-rw2 .n{text-align:right}.mx-rw2 .n b{display:block;font:700 18px 'Pixelify Sans',monospace}.mx-rw2 .n small{font-size:10px;font-weight:800;color:var(--muted)}
+.mx-rw2 .ch{font:700 18px 'Pixelify Sans',monospace;color:var(--muted)}
+.mx-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.mx-stats div{background:#fff;border:2.5px solid var(--ink);border-radius:12px;padding:6px;text-align:center}
+.mx-stats b{display:block;font:700 19px 'Pixelify Sans',monospace}.mx-stats small{font-size:10px;font-weight:800;color:var(--muted)}
+.mx-leg{display:flex;flex-wrap:wrap;gap:8px}.mx-leg span{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800}.mx-leg i{width:12px;height:12px;border:2px solid var(--ink);border-radius:3px}
+.mx-dark{background:#2A2438;margin:0 -18px -24px;padding:12px 14px 40px;display:flex;flex-direction:column;gap:9px;border-top:2.5px solid var(--ink)}
+.mx-rd{display:flex;align-items:center;gap:10px;position:relative;border:0;background:none;width:100%;padding:0;text-align:left;color:#fff}
+.mx-rd .d{width:58px;flex:0 0 auto}.mx-rd .d b{display:block;font:700 13px 'Pixelify Sans',monospace}.mx-rd .d small{color:#c9bed8;font-size:11px;font-weight:800}
+.mx-rd .bar{height:24px;border-width:2.5px;border-radius:7px}
+.mx-rd .gl2{position:absolute;top:2px;bottom:2px;border-left:2px dashed #FFE07A}
+.mx-rd .h{width:58px;text-align:right;font:700 13px 'Pixelify Sans',monospace;flex:0 0 auto}.mx-rd .h small{display:block;color:#c9bed8;font:800 10px Nunito,system-ui,sans-serif}
+.mx-rd.now{background:rgba(255,224,122,.12);border-top:2px solid #FFE07A;border-bottom:2px solid #FFE07A;margin:0 -14px;padding:24px 14px 6px;width:calc(100% + 28px)}
+.mx-rd .spr{position:absolute;top:0;width:26px;pointer-events:none;transform:translateX(-50%)}
+.mx-rd.fut .d b{color:#8d84a0}.mx-rd.fut .h{color:#5c5470}
+.mx-mfl{display:flex;align-items:center;gap:10px;margin-left:68px;color:#fff;border:0;background:none;padding:2px 0;text-align:left}
+.mx-mfl .pole{width:3px;height:30px;background:#DDF2EF;position:relative;flex:0 0 auto}
+.mx-mfl .pole:after{content:"";position:absolute;left:3px;top:0;border-left:16px solid var(--teal);border-top:8px solid transparent;border-bottom:8px solid transparent}
+.mx-mfl b{font:700 12px 'Pixelify Sans',monospace;color:#9FE0D9;letter-spacing:1px;margin-left:12px}.mx-mfl small{display:block;color:#c9bed8;font-size:11px;font-weight:800;margin-left:12px}
+.mx-mfl.tbc{opacity:.55}
+.mx-mile{text-align:center;color:#FFE07A;font:700 11px 'Pixelify Sans',monospace;opacity:.6;letter-spacing:1px}
+.mx-exam{margin:6px auto 0;width:min(300px,100%);text-align:center;background:#3A2E52;border:2.5px solid #FFE07A;border-radius:14px;padding:10px;color:#FFE07A;box-shadow:0 0 22px 4px rgba(255,214,90,.35);font:700 16px 'Pixelify Sans',monospace}
+.mx-cols{display:flex;align-items:flex-end;justify-content:space-between;height:130px;gap:6px}
+.mx-cols div{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end}
+.mx-cols .stk{width:100%;max-width:34px;border:2px solid var(--ink);border-radius:6px 6px 3px 3px;display:flex;flex-direction:column-reverse;overflow:hidden;background:#FBF6EE}
+.mx-cols .stk i{display:block;width:100%;flex:0 0 auto}
+.mx-cols b{font:700 10px 'Pixelify Sans',monospace}.mx-cols span{font:700 10px 'Pixelify Sans',monospace;color:var(--muted)}
+.mx-sk{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800}
+.mx-sk .nm{width:74px}.mx-sk .tr{flex:1;height:14px;border:2px solid var(--ink);border-radius:5px;background:#FBF6EE;overflow:hidden}.mx-sk .tr i{display:block;height:100%}
+.mx-sk b{width:64px;text-align:right;font:700 13px 'Pixelify Sans',monospace;white-space:nowrap}
+.mx-tip{background:#FFF1CF;border:2px solid var(--ink);border-radius:12px;padding:9px 12px;font-size:13px;font-weight:800}
+.mx-log{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1.5px dashed #E4D6C4}.mx-log:first-of-type{border-top:0}
+.mx-log i{width:12px;height:12px;border-radius:3px;border:1.5px solid var(--ink);flex:0 0 auto}.mx-log .t{flex:1}.mx-log .t b{display:block;font-size:14px}
+.mx-log em{font:700 13px 'Pixelify Sans',monospace;font-style:normal}
+.mx-rs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mx-band{position:relative;border:2.5px solid var(--ink);border-radius:12px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center}
+.mx-band small{font-size:13px;font-weight:900}.mx-band b{font:700 22px 'Pixelify Sans',monospace}
+.mx-band select{position:absolute;inset:0;opacity:0;width:100%;height:100%;font-size:16px}
+.mx-ov{display:flex;align-items:center;justify-content:space-between;background:var(--ink);color:#fff;border-radius:12px;padding:8px 12px;font-weight:900}
+.mx-ov .gl-chg{color:var(--ink);font-size:20px}
+
+
+/* ---- practice tests (tx-) ---- */
+#tests{padding:0 18px 24px;gap:12px}
+#tests header.bar{padding-left:0;padding-right:0;padding-bottom:0}
+.tx-lg{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:11px;font-weight:800;color:#c9bed8}
+.tx-lg span{display:flex;align-items:center;gap:4px}
+.tx-lg i{width:10px;height:18px;border-radius:3px;border:1.5px solid #110d1a;background:#6CCB7E;position:relative;display:inline-block}
+.tx-lg i.p0{opacity:.28}.tx-lg i.p2:after{content:"✓";position:absolute;inset:0;font:900 9px/16px Nunito,system-ui,sans-serif;text-align:center;color:#2E2622}
+.tx-lg .ring{padding:2px;border-radius:5px;box-shadow:0 0 0 2px #6CCB7E;display:flex;gap:2px}
+.tx-lg.tx-light{color:var(--muted)}.tx-lg.tx-light i{border-color:var(--ink)}
+.tx-slot{border:2px dashed #FFE07A;border-radius:12px;padding:12px;color:#FFE07A;font:700 13px 'Pixelify Sans',monospace;letter-spacing:1px;display:flex;justify-content:space-between;background:none;width:100%;text-align:left}
+.tx-slot.f{border-color:#4a4260;color:#6c6384}
+.tx-tc{display:flex;align-items:center;gap:8px;background:#3A3150;border:2.5px solid #110d1a;border-radius:12px;padding:10px 8px;width:100%;text-align:left}
+.tx-tc.pl{border-color:#FFE07A;background:#43395C}
+.tx-tc .nm{width:64px;color:#fff;flex:0 0 auto}.tx-tc .nm b{display:block;font:700 15px 'Pixelify Sans',monospace}.tx-tc .nm small{color:#c9bed8;font-size:10px;font-weight:800}
+.tx-tc .dn{margin-left:auto;color:#8CF08F;font:900 16px Nunito,system-ui,sans-serif}
+.tx-sk{display:flex;flex-direction:column;align-items:center;gap:3px}.tx-sk small{color:#c9bed8;font:700 10px 'Pixelify Sans',monospace}
+.tx-box{display:flex;gap:2px;padding:3px;border:2px solid #110d1a;border-radius:7px;background:#2A2438}
+.tx-box i{width:9px;height:20px;border-radius:3px;border:1.5px solid #110d1a;position:relative}
+.tx-box i.p0{opacity:.28}.tx-box i.p2:after{content:"✓";position:absolute;inset:0;font:900 9px/17px Nunito,system-ui,sans-serif;text-align:center;color:#2E2622}
+.tx-box.off{opacity:.25}
+.tx-skrow{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:8px}
+.tx-skrow .lbl{width:84px;font-size:13px;font-weight:900;display:flex;align-items:center;gap:5px;flex:0 0 auto}.tx-skrow .lbl i{width:12px;height:12px;border-radius:3px;border:2px solid var(--ink)}
+.tx-skrow.tx-off{opacity:.55}
+.tx-seg{display:flex;gap:5px;flex:1}
+.tx-seg button{flex:1;height:38px;border:2px solid var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 11px 'Pixelify Sans',monospace;position:relative;padding:0}
+.tx-seg button.p0{opacity:.35}
+.tx-seg button.p2:after{content:"✓";position:absolute;top:-7px;right:-6px;width:15px;height:15px;border-radius:50%;background:#fff;border:2px solid var(--ink);font:900 9px/11px Nunito,system-ui,sans-serif;text-align:center}
+.tx-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.tx-tabs button{border:2px solid var(--ink);border-radius:10px;padding:7px 10px;font:700 12px 'Pixelify Sans',monospace;background:#fff;white-space:nowrap}
+.tx-tabs button.on{background:var(--ink);color:#FFE07A}
+.tx-score{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tx-score label{border:2px solid var(--ink);border-radius:10px;background:#fff;padding:4px 6px;position:relative;display:flex;flex-direction:column}
+.tx-score small{font-size:10px;font-weight:900;color:var(--muted)}
+.tx-score input{border:0;width:100%;font:700 16px 'Pixelify Sans',monospace;background:none;padding:0}
+.tx-score b{font:700 16px 'Pixelify Sans',monospace}
+.tx-score select{position:absolute;inset:0;opacity:0;width:100%;height:100%;font-size:16px}
+.tx-open{border-radius:14px;background:#43395C;border:2.5px solid #110d1a;overflow:hidden}
+.tx-open .tx-tc{border:0;border-radius:0;border-bottom:2px dashed #5c5470}.tx-open .tx-tc.pl{background:#4B4066}
+.tx-open:has(.tx-tc.pl){border-color:#FFE07A}
+.tx-in{padding:10px;display:flex;flex-direction:column;gap:8px}
+.tx-tip{color:#c9bed8;font-size:11px;font-weight:800}
+.tx-more{border:1.5px solid #FFE07A;border-radius:8px;background:none;color:#FFE07A;font:700 11px 'Pixelify Sans',monospace;padding:6px 8px;white-space:nowrap}
+.gl-pt{cursor:pointer}.gl-ped{width:34px;height:34px;border:2px solid var(--ink);border-radius:9px;background:#fff;font-size:15px;flex:0 0 auto;margin-left:4px}
+.tx-link{border:0;background:none;color:#B3372F;font-weight:900;font-size:13px;align-self:center;padding:4px}
+
+/* ---- goals (gl-) ---- */
+#goals{padding:0 18px 24px;gap:12px}
+#goals header.bar{padding-left:0;padding-right:0;padding-bottom:0}
+.gl-crumb{display:block;font-size:12px;font-weight:800;color:var(--muted)}
+.gl-tab{display:flex;border:2.5px solid var(--ink);border-radius:12px;overflow:hidden;flex:0 0 auto}
+.gl-tab button{flex:1;border:0;padding:11px 4px;font:700 13px 'Pixelify Sans',monospace;letter-spacing:1px;background:#fff}
+.gl-tab button.on{background:var(--ink);color:#FFE07A}
+.gl-pane{display:none;flex-direction:column;gap:12px}.gl-pane.on{display:flex}
+.gl-card{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.gl-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.gl-card h2{margin:0;font-size:15px;font-weight:900}
+.gl-sm{font-size:12px;font-weight:800;color:var(--muted)}
+.gl-b2{background:#fff;border:2px solid var(--ink);border-radius:10px;padding:7px 10px;font-weight:800;font-size:12px;white-space:nowrap}
+.gl-b2:disabled{opacity:.4}
+.gl-tl{position:relative;height:66px;margin:4px 8px 0}
+.gl-tl .ln{position:absolute;left:0;right:0;top:30px;height:7px;background:#E4D6C4;border:2px solid var(--ink);border-radius:99px;overflow:hidden}
+.gl-tl .ln i{display:block;height:100%;background:var(--green)}
+.gl-tl .pt{position:absolute;top:0;transform:translateX(-2px);display:flex;flex-direction:column;align-items:flex-start;pointer-events:none}
+.gl-tl .fl{width:3px;height:28px;background:var(--ink);position:relative}
+.gl-tl .fl:after{content:"";position:absolute;left:3px;top:0;border-left:13px solid var(--teal);border-top:6px solid transparent;border-bottom:6px solid transparent}
+.gl-tl .pt.ex .fl:after{border-left-color:#E4574F}.gl-tl .pt.tbc{opacity:.45}
+.gl-tl .pt small{font:700 9px 'Pixelify Sans',monospace;margin-top:12px;transform:translateX(-40%);white-space:nowrap}
+.gl-tl .pt.ex small{transform:translateX(-80%)}
+.gl-tl .me2{position:absolute;top:4px;transform:translateX(-50%);pointer-events:none}.gl-tl .me2 img{width:24px}
+.gl-item{display:flex;align-items:center;gap:12px}
+.gl-ic{width:46px;height:46px;border:2.5px solid var(--ink);border-radius:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;background:#fff}
+.gl-item .t{flex:1;min-width:0}.gl-item .t b{font-size:15px;display:block}
+.gl-chg{position:relative;font:700 14px 'Pixelify Sans',monospace;border:2px solid var(--ink);border-radius:10px;padding:7px 10px;background:#fff;white-space:nowrap;overflow:hidden}
+.gl-chg input,.gl-chg select{position:absolute;inset:0;opacity:0;width:100%;height:100%;font-size:16px;-webkit-appearance:none;appearance:none}
+.gl-band{display:flex;align-items:center;justify-content:space-between;border-top:2px dashed #E4D6C4;padding-top:9px}
+.gl-mock{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:8px 10px;width:100%;text-align:left}
+.gl-mock .d{width:46px;text-align:center;border:2px solid var(--ink);border-radius:8px;background:var(--teal);color:#fff;padding:2px;flex:0 0 auto}
+.gl-mock .d b{display:block;font:700 15px 'Pixelify Sans',monospace}.gl-mock .d small{font-size:9px;font-weight:800}
+.gl-mock .d.tbc{background:#9C8F86}.gl-mock .d.past{background:#BFB3A8}
+.gl-mock .t{flex:1;min-width:0}.gl-mock .t b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gl-empty{font-size:13px;font-weight:700;color:var(--muted);text-align:center;padding:6px 0}
+.gl-tix{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.gl-tix i{height:26px;border:2px solid var(--ink);border-radius:5px;background:#FBF6EE;position:relative}
+.gl-tix i.d{background:var(--green)}.gl-tix i.d:after{content:"✓";position:absolute;inset:0;font:900 11px/22px Nunito;text-align:center}
+.gl-tix i.n{border-style:dashed;border-color:#BFAF9F;background:transparent}
+.gl-st{display:flex;align-items:center;gap:10px}
+.gl-st button{width:44px;height:44px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;font-size:22px;font-weight:900;flex:0 0 auto}
+.gl-st button:disabled{opacity:.3}
+.gl-st output{flex:1;text-align:center;font:700 24px 'Pixelify Sans',monospace}
+.gl-quick{display:flex;gap:6px}.gl-quick button{flex:1;border:2px solid var(--ink);border-radius:10px;padding:7px 0;font:700 13px 'Pixelify Sans',monospace;background:#fff}
+.gl-quick button.on{background:var(--ink);color:#FFE07A}
+.gl-hint{display:flex;gap:8px}.gl-hint div{flex:1;border:2px solid var(--ink);border-radius:10px;padding:5px 8px;background:#fff}
+.gl-hint b{display:block;font:700 15px 'Pixelify Sans',monospace}.gl-hint small{font-size:10px;font-weight:800;color:var(--muted)}
+.gl-save{height:56px;border:3px solid var(--ink);border-radius:14px;background:var(--lav);box-shadow:0 5px 0 var(--ink);font:700 21px 'Pixelify Sans',monospace;letter-spacing:1px;width:100%;flex:0 0 auto}
+.gl-save:disabled{opacity:.45}
+.gl-wsel{display:flex;align-items:center;gap:8px}
+.gl-wsel button{width:36px;height:36px;border:2px solid var(--ink);border-radius:10px;background:#fff;font:900 18px Nunito}
+.gl-wsel button:disabled{opacity:.25}
+.gl-wsel b{font:700 15px 'Pixelify Sans',monospace;flex:1;text-align:center}
+.gl-lock{font-size:11px;font-weight:800;color:var(--muted);text-align:center;margin-top:-6px}
+.gl-stair{display:flex;justify-content:space-between;align-items:flex-end;padding:0 2px}
+.gl-sd{display:flex;flex-direction:column;align-items:center;gap:3px;width:40px;border:0;background:none;padding:0}
+.gl-sd .col{width:30px;border:2.5px solid var(--ink);border-radius:7px 7px 3px 3px;background:#BFE8C6}
+.gl-sd .col.own{background:#F9C9A8}.gl-sd.sel .col{outline:3px solid var(--ink);outline-offset:2px}
+.gl-sd.today b{background:var(--ink);color:#FFE07A;border-radius:4px;padding:0 3px}
+.gl-sd b{font:700 10px 'Pixelify Sans',monospace}.gl-sd span{font:700 11px 'Pixelify Sans',monospace}.gl-sd .tm{font-size:11px;height:14px}
+.gl-leg{display:flex;gap:12px;flex-wrap:wrap}.gl-leg span{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800;color:var(--muted)}
+.gl-leg i{width:10px;height:10px;border-radius:3px;border:1.5px solid var(--ink)}
+.gl-dayed{background:#FDEEE3;border:2.5px solid var(--ink);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.gl-sum{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:#fff;border-radius:12px;padding:9px 14px}
+.gl-sum span{font-weight:800}.gl-sum b{font:700 19px 'Pixelify Sans',monospace;color:#FFE07A}
+.gl-pt{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:8px 10px;width:100%;text-align:left}
+.gl-pt b{display:block;font:700 15px 'Pixelify Sans',monospace}
+.gl-skp{display:flex;gap:4px;margin-left:auto}
+.gl-skp span{width:30px;height:30px;border:2px solid #CFC1B0;border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 12px 'Pixelify Sans',monospace;background:#F3EADC;color:#B8A898}
+.gl-skp span.on{color:var(--ink);border-color:var(--ink)}
+.gl-sheet>*{flex-shrink:0}
+.gl-sheet{background:#FBF3E8 !important;border-radius:16px !important;display:flex;flex-direction:column;gap:10px;max-height:calc(100dvh - 40px);overflow:auto}
+.gl-sel2{display:flex;gap:8px}
+.gl-sel2 label{flex:1;position:relative;border:2.5px solid var(--ink);border-radius:12px;background:#fff;padding:6px 10px}
+.gl-sel2 small{display:block;font-size:12px;font-weight:800;color:var(--muted)}.gl-sel2 b{font:700 20px 'Pixelify Sans',monospace}
+.gl-sel2 select{position:absolute;inset:0;opacity:0;width:100%;height:100%;font-size:16px}
+.gl-skbig{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gl-skbig button{height:52px;border:2.5px solid #CFC1B0;border-radius:12px;display:flex;align-items:center;gap:8px;padding:0 12px;font-size:15px;font-weight:900;background:#F3EADC;color:#9C8F86}
+.gl-skbig button i{width:16px;height:16px;border-radius:4px;border:2px solid currentColor}
+.gl-skbig button.on{color:var(--ink);border-color:var(--ink);box-shadow:0 3px 0 var(--ink)}.gl-skbig button.on i{background:#fff}
+.gl-dsel{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}
+.gl-dsel button{border:2px solid var(--ink);border-radius:8px;padding:7px 0;font:700 10px 'Pixelify Sans',monospace;background:#fff}
+.gl-dsel button.on{background:var(--ink);color:#FFE07A}
+.gl-inp{height:50px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;padding:0 14px;font-size:16px;font-weight:800;width:100%}
+.gl-inp:disabled{opacity:.4}
+.gl-chips{display:flex;gap:6px;flex-wrap:wrap}
+.gl-chips button{border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font-size:13px;font-weight:900;background:#fff}
+.gl-chips button.on{background:var(--teal);color:#fff}
+.gl-check{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800}
+.gl-check input{width:20px;height:20px;accent-color:#2E2622}
+.gl-acts{display:flex;gap:10px}.gl-del{height:56px;border:2px solid var(--ink);border-radius:12px;background:#fff;color:#B3372F;font-weight:900;padding:0 16px}
+.gl-ro{font-size:12px;font-weight:800;color:#8A5A2B;background:#FFF1CF;border:2px solid var(--ink);border-radius:10px;padding:7px 10px;text-align:center}
+.pr-door{display:flex;align-items:center;gap:12px;background:var(--card);border:2.5px solid var(--ink);border-radius:16px;padding:12px 14px;width:100%;text-align:left;box-shadow:0 3px 0 var(--ink)}
+.pr-door b{font:700 16px 'Pixelify Sans',monospace;letter-spacing:1px;display:block}
+body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-bottom));z-index:5;padding:10px 18px 10px;background:linear-gradient(rgba(246,235,221,0),var(--cream) 22%)}
 </style>
 </head>
 <body>
@@ -251,28 +566,24 @@ header.bar h1{margin:0;font-size:22px}
   </div>
 </section>
 
-<!-- ============ HOME: countdown + weekly race ============ -->
+<!-- ============ HOME ============ -->
 <section id="home" class="screen">
-  <header class="bar">
-    <button id="homeMe" class="me" type="button" aria-label="My profile and goals"></button>
+  <header class="bar" style="padding-left:0;padding-right:0">
+    <button id="homeMe" class="hm-me" type="button" aria-label="Me"></button>
     <div style="display:flex;flex-direction:column"><span class="muted" style="font-size:12px;font-weight:800">Welcome back,</span><h1 id="homeName" class="pixel"></h1></div>
-    <button id="raceChip" class="chip" type="button" style="margin-left:auto;background:var(--lav)">🏁 Race ▸</button>
   </header>
-  <div id="remindCard"></div>
-  <div id="lobby" class="card lobby"></div>
-  <button id="raceBtn" class="card" type="button" style="padding:14px 16px;display:flex;align-items:center;gap:12px;text-align:left"></button>
-  <div id="countCard" class="card count"></div>
-  <div class="dockfix">
-    <button id="homeGo" class="big pixel" type="button">START ▶</button>
-    <small id="homeSeated"></small>
-  </div>
+  <button id="hmSquad" class="hm-card" type="button" aria-label="Open the study hall"></button>
+  <button id="hmWeek" class="hm-card" type="button" aria-label="My goals"></button>
+  <button id="hmGoal" class="hm-card" type="button" aria-label="My exam" style="padding:12px 14px"></button>
+  <button id="hmClimb" class="hm-card" type="button" aria-label="The Climb" style="flex-direction:row;align-items:center;padding:10px 14px"></button>
+  <button id="homeGo" class="big pixel hm-start" type="button">START ▶</button>
 </section>
 
 <!-- ============ RACE ============ -->
 <section id="race" class="screen">
   <header class="bar">
     <button id="raceBack" class="back" type="button" aria-label="Back to home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <h1 class="pixel">THE RACE</h1>
+    <div style="display:flex;flex-direction:column"><h1 class="pixel">THE CLIMB</h1><small class="muted" style="font-size:12px;font-weight:800">together</small></div>
   </header>
   <div class="card sec">
     <div class="row-h"><h2>This week's race</h2><small id="weekRange"></small></div>
@@ -301,41 +612,151 @@ header.bar h1{margin:0;font-size:22px}
   </header>
   <div id="scene" class="scene"><div id="sceneArt" style="position:absolute;inset:0"></div><div id="fx" style="position:absolute;inset:0;pointer-events:none"></div></div>
   <div class="notebar"><button id="writeBtn" type="button">✎ Write a note</button><button id="notesBtn" type="button"></button></div>
-  <div class="legend">
+  <div class="legend" style="justify-content:flex-start">
+    <span><i style="display:inline-block;width:16px;height:10px;border-radius:50%;border:2px solid var(--ink);background:#8CF08F;box-shadow:0 0 6px 2px rgba(108,203,126,.7)"></i>Lamp = today's own goal reached</span>
+  </div>
+  <div class="legend" style="display:none">
     <span><img class="px" id="lgS" alt="" width="22">30-min streak</span>
     <span><img class="px" id="lgG" alt="" width="22">Own goal</span>
     <span><img class="px" id="lgC" alt="" width="18">Leading pair</span>
   </div>
-  <div class="dock"><div id="timer" class="timer"></div></div>
+  <div class="dock"><div id="skRow" class="sk-row"></div><div id="timer" class="timer"></div></div>
+</section>
+
+<!-- ============ SPEAK (coming soon) ============ -->
+<section id="speak" class="screen">
+  <header class="bar" style="padding-left:0;padding-right:0"><h1 class="pixel">SPEAKING CORNER</h1></header>
+  <div class="sp-soon"><span id="spIco"></span><b>COMING SOON</b><span class="muted" style="font-size:14px;font-weight:700">Weekly topics, recordings and word tests<br>will live here.</span></div>
 </section>
 
 <!-- ============ PROFILE / GOALS ============ -->
+<section id="me" class="screen">
+  <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings">⚙</button></header>
+  <div id="meBody" class="mx-body"></div>
+</section>
+<section id="road" class="screen">
+  <header class="bar"><button id="ryBack" class="back" type="button" aria-label="Back to ME"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div style="flex:1"><span class="gl-crumb">ME ›</span><h1 class="pixel">MY ROAD</h1></div><span class="gl-sm" id="ryTo"></span></header>
+  <div id="ryBody" class="mx-body" style="flex:1"></div>
+</section>
+<section id="wkd" class="screen">
+  <header class="bar"><button id="wdBack" class="back" type="button" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div style="flex:1"><span class="gl-crumb" id="wdCrumb">ME › MY ROAD ›</span><h1 class="pixel" id="wdTitle">WEEK</h1></div><span class="gl-sm" id="wdTot"></span></header>
+  <div id="wdBody" class="mx-body"></div>
+</section>
+<section id="tests" class="screen">
+  <header class="bar"><button id="txBack" class="back" type="button" aria-label="Back to ME"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div style="flex:1"><span class="gl-crumb">ME ›</span><h1 class="pixel">PRACTICE TESTS</h1></div></header>
+  <div id="txBody" class="mx-body" style="flex:1"></div>
+</section>
+<section id="goals" class="screen">
+  <header class="bar"><button id="glBack" class="back" type="button" aria-label="Back to ME"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div style="flex:1"><span class="gl-crumb">ME › MY GOALS ›</span><h1 class="pixel" id="glTitle">MAIN GOAL</h1></div></header>
+  <div class="gl-tab" role="tablist"><button type="button" data-gtab="main">MAIN GOAL</button><button type="button" data-gtab="week">THIS WEEK</button></div>
+  <div id="glMain" class="gl-pane"></div>
+  <div id="glWeek" class="gl-pane"></div>
+</section>
 <section id="profile" class="screen">
   <header class="bar">
-    <button id="profBack" class="back" type="button" aria-label="Back to home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <h1 class="pixel">MY GOALS</h1>
+    <button id="profBack" class="back" type="button" aria-label="Back to ME"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div style="flex:1"><span class="gl-crumb">ME ›</span><h1 class="pixel">SETTINGS</h1></div>
   </header>
   <div class="card sec">
     <div class="who" id="profWho"></div>
     <div class="field">
-      <label for="profExam">IELTS date</label>
-      <input id="profExam" class="inp" type="date">
-      <label class="check"><input id="profNoDate" type="checkbox"> Not booked yet</label>
-    </div>
-    <div class="field">
-      <label for="profTime">Daily study time</label>
+      <label for="profTime">Usual study time</label>
       <input id="profTime" class="inp" type="time">
       <button id="profRemind" class="btn2" type="button" style="align-self:flex-start">🔔 Add a daily reminder to my calendar</button>
-    </div>
-    <div class="field">
-      <label>Daily goal</label>
-      <div class="stepper"><button type="button" data-step="-15" data-for="prof" aria-label="Less">−</button><output id="profGoal" class="pixel"></output><button type="button" data-step="15" data-for="prof" aria-label="More">+</button></div>
-      <span id="profWeek" class="hint"></span>
     </div>
     <button id="profSave" class="big pixel" type="button" style="width:100%">SAVE</button>
   </div>
   <button id="signOut" class="btn2" type="button" style="align-self:center">Forget me on this phone (ask PIN next time)</button>
 </section>
+</div>
+<nav class="nav-bar" aria-label="Main"><div class="nav-in">
+  <button type="button" class="nav-it" data-nav="home"><span class="nav-ico" data-ico="home"></span>HOME</button>
+  <button type="button" class="nav-it" data-nav="race"><span class="nav-ico" data-ico="climb"></span>CLIMB</button>
+  <button type="button" class="nav-it nav-mid" data-nav="hall"><span class="nav-ico" data-ico="table"></span>TABLE</button>
+  <button type="button" class="nav-it" data-nav="speak"><span class="nav-ico" data-ico="mic"></span>SPEAK</button>
+  <button type="button" class="nav-it" data-nav="me"><span class="nav-ico" id="navMe"></span>ME</button>
+</div></nav>
+<div id="skillSheet" class="ovl" role="dialog" aria-modal="true" aria-label="What are you studying?">
+  <div class="dim" data-close="skillSheet"></div>
+  <div class="sheet" style="background:#FBF3E8">
+    <button class="xbtn" type="button" data-close="skillSheet" aria-label="Close">✕</button>
+    <b id="skTitle" class="pixel" style="font-size:18px">WHAT ARE YOU STUDYING?</b>
+    <div id="skGrid" class="sk-grid"></div>
+  </div>
+</div>
+<div id="addTest" class="ovl" role="dialog" aria-modal="true" aria-label="Add a test">
+  <div class="dim" data-close="addTest"></div>
+  <div class="sheet gl-sheet">
+    <button class="xbtn" type="button" data-close="addTest" aria-label="Close">✕</button>
+    <b class="pixel" style="font-size:18px">ADD A TEST</b>
+    <div class="gl-sel2">
+      <label><small>Cambridge book</small><b id="atBookV">17 ▾</b><select id="atBook" aria-label="Cambridge book"></select></label>
+      <label><small>Test</small><b id="atTestV">1 ▾</b><select id="atTest" aria-label="Test"></select></label>
+    </div>
+    <div class="gl-row"><b style="font-size:14px">Date</b></div>
+    <input id="atDate" class="gl-inp" type="date">
+    <span id="atNote" class="gl-sm"></span>
+    <button id="atGo" class="gl-save" type="button">START LOGGING ▶</button>
+  </div>
+</div>
+<div id="logTest" class="ovl" role="dialog" aria-modal="true" aria-label="Log a test">
+  <div class="dim" data-close="logTest"></div>
+  <div class="sheet gl-sheet">
+    <button class="xbtn" type="button" data-close="logTest" aria-label="Close">✕</button>
+    <b id="ltTitle" class="pixel" style="font-size:18px;padding-right:44px">CAMBRIDGE 17 · TEST 1</b>
+    <span id="ltSub" class="gl-sm" style="margin-top:-6px"></span>
+    <div id="ltTabs" class="tx-tabs"></div>
+    <div class="tx-lg tx-light"><span><i class="p0"></i>tap once = done</span><span><i class="p2"></i>again = analysed</span><span>again = clear</span></div>
+    <div id="ltRows" style="display:flex;flex-direction:column;gap:8px;padding-top:4px"></div>
+    <span id="ltHint" class="gl-sm"></span>
+    <div class="gl-row"><b style="font-size:14px">Score</b><span class="gl-sm">optional</span></div>
+    <div id="ltScore" class="tx-score"></div>
+    <button id="ltSave" class="gl-save" type="button">SAVE</button>
+    <button id="ltDel" class="tx-link" type="button">Delete this try</button>
+  </div>
+</div>
+<div id="resSheet" class="ovl" role="dialog" aria-modal="true" aria-label="Mock result">
+  <div class="dim" data-close="resSheet"></div>
+  <div class="sheet gl-sheet">
+    <button class="xbtn" type="button" data-close="resSheet" aria-label="Close">✕</button>
+    <b class="pixel" style="font-size:18px">MOCK RESULT</b>
+    <span class="gl-sm" id="rsSub" style="margin-top:-6px"></span>
+    <div id="rsGrid" class="mx-rs"></div>
+    <div class="mx-ov"><span>Overall <span style="font-size:11px;color:#d8ccc0">auto · tap to change</span></span><label class="gl-chg"><b id="rsOvV">—</b><select id="rsOv" aria-label="Overall band"></select></label></div>
+    <div class="gl-acts"><button id="rsEdit" class="gl-del" type="button" style="color:var(--ink)">Edit mock</button><button id="rsSave" class="gl-save" type="button" style="flex:1">SAVE ▶</button></div>
+  </div>
+</div>
+<div id="mockSheet" class="ovl" role="dialog" aria-modal="true" aria-label="Mock exam">
+  <div class="dim" data-close="mockSheet"></div>
+  <div class="sheet gl-sheet">
+    <button class="xbtn" type="button" data-close="mockSheet" aria-label="Close">✕</button>
+    <b id="mkTitle" class="pixel" style="font-size:18px">ADD A MOCK EXAM</b>
+    <div class="gl-row"><b style="font-size:14px">Institute</b><span class="gl-sm">who runs the mock</span></div>
+    <input id="mkInst" class="gl-inp" maxlength="40" placeholder="e.g. Safir" autocomplete="off">
+    <div id="mkChips" class="gl-chips"></div>
+    <div class="gl-row"><b style="font-size:14px">Date</b></div>
+    <input id="mkDate" class="gl-inp" type="date">
+    <label class="gl-check"><input id="mkTbc" type="checkbox"> Booked, but I don't know the date yet</label>
+    <div class="gl-row"><b style="font-size:14px">Place / note</b><span class="gl-sm">optional</span></div>
+    <input id="mkPlace" class="gl-inp" maxlength="40" placeholder="e.g. Tehran · Vanak branch" autocomplete="off">
+    <div class="gl-acts"><button id="mkDel" class="gl-del" type="button">Delete</button><button id="mkSave" class="gl-save" type="button" style="flex:1">SAVE MOCK ▶</button></div>
+  </div>
+</div>
+<div id="planSheet" class="ovl" role="dialog" aria-modal="true" aria-label="Plan a test">
+  <div class="dim" data-close="planSheet"></div>
+  <div class="sheet gl-sheet">
+    <button class="xbtn" type="button" data-close="planSheet" aria-label="Close">✕</button>
+    <b id="ptTitle" class="pixel" style="font-size:18px">PLAN A TEST</b>
+    <div class="gl-sel2">
+      <label><small>Cambridge book</small><b id="ptBookV">17 ▾</b><select id="ptBook" aria-label="Cambridge book"></select></label>
+      <label><small>Test</small><b id="ptTestV">1 ▾</b><select id="ptTest" aria-label="Test"></select></label>
+    </div>
+    <div class="gl-row"><b style="font-size:14px">Which skills?</b><span class="gl-sm">tap to choose</span></div>
+    <div id="ptSkills" class="gl-skbig"></div>
+    <div class="gl-row"><b style="font-size:14px">Which day?</b><span class="gl-sm">optional</span></div>
+    <div id="ptDays" class="gl-dsel"></div>
+    <div class="gl-acts"><button id="ptDel" class="gl-del" type="button">Delete</button><button id="ptSave" class="gl-save" type="button" style="flex:1">ADD TO MY WEEK ▶</button></div>
+  </div>
 </div>
 <div id="composer" class="ovl" role="dialog" aria-modal="true" aria-label="Write a note">
   <div class="dim" data-close="composer"></div>
@@ -415,7 +836,7 @@ async function hashPin(id, pin) {
 }
 
 // ---------------- data store ----------------
-let state = { sessions: {}, days: {}, profiles: {}, notes: {}, board: {}, writing: {} };
+let state = { sessions: {}, days: {}, profiles: {}, notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {} };
 let offset = 0, loaded = false;
 const now = () => Date.now() + offset;
 let store;
@@ -430,7 +851,8 @@ async function makeFirebaseStore() {
   F.onValue(F.ref(db, "squad"), s => {
     clearTimeout(slow);
     const v = s.val() || {};
-    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {}, notes: v.notes || {}, board: v.board || {}, writing: v.writing || {} };
+    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {}, notes: v.notes || {}, board: v.board || {}, writing: v.writing || {}, skills: v.skills || {}, log: v.log || {}, main: v.main || {}, mocks: v.mocks || {}, plans: v.plans || {}, tests: v.tests || {} };
+    mergeLocal();
     const first = !loaded; loaded = true;
     onData(first);
     if (first) boot2(); else render();
@@ -450,6 +872,13 @@ async function makeFirebaseStore() {
     },
     setProfile: (id, val) => F.update(F.ref(db, `squad/profiles/${id}`), val),
     addMs: (key, id, ms) => F.runTransaction(F.ref(db, `squad/days/${key}/${id}`), v => (v || 0) + ms),
+    addSkill: (key, id, sk, ms) => F.runTransaction(F.ref(db, `squad/skills/${key}/${id}/${sk}`), v => Math.max(0, (v || 0) + ms)),
+    pushLog: (id, val) => F.push(F.ref(db, `squad/log/${id}`), val),
+    setMain: (id, val) => F.update(F.ref(db, `squad/main/${id}`), val),
+    setTest: (id, key, val) => F.set(F.ref(db, `squad/tests/${id}/${key}`), val),
+    setMock: (id, mid, val) => F.set(F.ref(db, `squad/mocks/${id}/${mid}`), val),
+    setPlan: (ws, id, val) => F.update(F.ref(db, `squad/plans/${ws}/${id}`), val),
+    setPlanTests: (ws, id, val) => F.set(F.ref(db, `squad/plans/${ws}/${id}/tests`), val && Object.keys(val).length ? val : null),
     pushNote: (to, val) => F.push(F.ref(db, `squad/notes/${to}`), val),
     removeNote: (to, id) => F.remove(F.ref(db, `squad/notes/${to}/${id}`)),
     setWriting: (id, val) => { const r = F.ref(db, `squad/writing/${id}`); if (val) F.onDisconnect(r).remove(); return F.set(r, val); },
@@ -460,13 +889,21 @@ async function makeFirebaseStore() {
 }
 function makeDemoStore() {
   $("demo").hidden = false;
-  const KEY = "squad-demo-v5";
+  const KEY = "squad-demo-v10";
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!saved) {
     const t = now(), today = dayKey(t), days = {};
     const sample = { milad: [95, 60], shaghayegh: [40, 0], farzad: [30, 55], niloufar: [110, 95], arian: [0, 45], zinat: [80, 70] };
     for (const [id, arr] of Object.entries(sample)) arr.forEach((m, i) => { const k = addDays(today, i - 2); (days[k] ||= {})[id] = m * MIN; });
+    // three weeks of history with skills, so ME and MY ROAD have something to show
+    const skillsSeed = {}, sks = ["listening", "reading", "writing", "speaking", "vocab", "grammar"];
+    PEOPLE.forEach((pp, pi) => { if (pp.id === "zinat") return; for (let i = 3; i <= 20; i++) {
+      const k = addDays(today, -i), m = [0, 45, 90, 120, 60, 150, 30][(i * 3 + pi) % 7]; if (!m) continue;
+      (days[k] ||= {})[pp.id] = m * MIN;
+      const a1 = sks[(i + pi) % 6], a2 = sks[(i + pi + 2) % 6];
+      ((skillsSeed[k] ||= {})[pp.id] = {})[a1] = Math.round(m * 0.6) * MIN; skillsSeed[k][pp.id][a2] = (m - Math.round(m * 0.6)) * MIN;
+    } });
     days[today] = { milad: 30 * MIN, shaghayegh: 35 * MIN, farzad: 20 * MIN, niloufar: 42 * MIN };
     const profiles = {};
     for (const p of PEOPLE) if (p.id !== "zinat") profiles[p.id] = { pin: "demo", goalMin: [120, 90, 150, 180, 120][Object.keys(profiles).length], examDate: addDays(today, 60 + Object.keys(profiles).length * 40), studyTime: ["07:30", "21:00", "18:00", "22:30", "19:00"][Object.keys(profiles).length] };
@@ -479,13 +916,20 @@ function makeDemoStore() {
     const board = {
       b2: { kind: "shout", who: "niloufar", text: "Speaking club at 9 tonight!", at: t - 25 * MIN },
     };
-    saved = { days, profiles, notes, board, writing: {}, sessions: {
-      milad: { state: "studying", startedAt: t - 42 * MIN, accum: 0 },
-      farzad: { state: "studying", startedAt: t - 27 * MIN, accum: 0 },
+    const mocks = { niloufar: { m1: { date: addDays(today, 24), institute: "Safir", place: "Vanak branch", at: t } }, milad: { m2: { date: null, institute: "Iran Language Institute", at: t } },
+      arian: { m3: { date: addDays(today, -6), institute: "Safir", place: "Vanak branch", at: t } } };
+    const plans = { [weekStart(today)]: { niloufar: { daily: 120, days: { fri: 180 }, savedAt: t } } };
+    const P4 = (a, b, c, d) => ({ L: a, R: b, W: c, S: d });
+    const tests = { arian: {
+      c16t4: { book: 16, test: 4, tries: { t1: { date: addDays(today, -15), parts: P4([1, 1, 1, 1], [1, 1, 1], [1, 0], [0, 0, 0]) }, t2: { date: addDays(today, -4), parts: P4([2, 2, 1, 1], [1, 1, 1], [1, 0], [0, 0, 0]) } } },
+      c17t1: { book: 17, test: 1, tries: { t1: { date: addDays(today, -10), parts: P4([2, 2, 2, 2], [2, 2, 1], [2, 1], [2, 1, 0]), score: { L: 31, R: 33 } } } } } };
+    saved = { tests, mocks, plans, main: {}, skills: skillsSeed, days, profiles, notes, board, writing: {}, sessions: {
+      milad: { state: "studying", startedAt: t - 42 * MIN, accum: 0, skill: "listening" },
+      farzad: { state: "studying", startedAt: t - 27 * MIN, accum: 0, skill: "reading" },
       niloufar: { state: "paused", accum: 18 * MIN, pausedAt: t - 5 * MIN },
     } };
   }
-  state = { notes: {}, board: {}, writing: {}, ...saved }; loaded = true;
+  state = { notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, ...saved }; loaded = true;
   const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} onData(false); render(); };
   onData(true);
   setTimeout(boot2, 0);
@@ -500,6 +944,13 @@ function makeDemoStore() {
     },
     setProfile: async (id, val) => { state.profiles[id] = { ...(state.profiles[id] || {}), ...val }; persist(); },
     addMs: async (key, id, ms) => { (state.days[key] ||= {}); state.days[key][id] = (state.days[key][id] || 0) + ms; persist(); },
+    addSkill: async (key, id, sk, ms) => { const d = ((state.skills[key] ||= {})[id] ||= {}); d[sk] = Math.max(0, (d[sk] || 0) + ms); persist(); },
+    pushLog: async (id, val) => { (state.log[id] ||= {})[nid()] = val; persist(); },
+    setMain: async (id, val) => { state.main[id] = { ...(state.main[id] || {}), ...val }; persist(); },
+    setTest: async (id, key, val) => { const t = (state.tests[id] ||= {}); if (val) t[key] = JSON.parse(JSON.stringify(val)); else delete t[key]; persist(); },
+    setMock: async (id, mid, val) => { const m = (state.mocks[id] ||= {}); if (val) m[mid] = val; else delete m[mid]; persist(); },
+    setPlan: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}), ...val }; if (!val.days) delete w[id].days; persist(); },
+    setPlanTests: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}) }; if (val && Object.keys(val).length) w[id].tests = val; else delete w[id].tests; persist(); },
     pushNote: async (to, val) => { (state.notes[to] ||= {})[nid()] = val; persist(); },
     removeNote: async (to, id) => { if (state.notes[to]) delete state.notes[to][id]; persist(); },
     setWriting: async (id, val) => { if (val) state.writing[id] = val; else delete state.writing[id]; persist(); },
@@ -510,7 +961,72 @@ function makeDemoStore() {
 }
 
 // ---------------- time math ----------------
-const goalOf = id => (state.profiles[id] && state.profiles[id].goalMin) || DEFAULT_GOAL;
+const DOW = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
+const DOW_NAME = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+const dowOf = key => daysBetween(weekStart(key), key);
+const planOf = (id, ws) => ((state.plans[ws] || {})[id]) || null;
+// a week without its own plan starts from the main goal's average, then last saved week, then the old profile goal
+function weekDaily(id, ws) {
+  const p = planOf(id, ws); if (p && p.daily) return p.daily;
+  const avg = (state.main[id] || {}).avgMin; if (avg) return avg;
+  for (let i = 1; i <= 12; i++) { const q = planOf(id, addDays(ws, -7 * i)); if (q && q.daily) return q.daily; }
+  return (state.profiles[id] && state.profiles[id].goalMin) || DEFAULT_GOAL;
+}
+function dayGoal(id, key) {
+  const ws = weekStart(key), p = planOf(id, ws), own = p && p.days && p.days[DOW[dowOf(key)]];
+  return Math.max(STREAK_MIN, own || weekDaily(id, ws));
+}
+const weekGoal = (id, ws) => DOW.reduce((a, _, i) => a + dayGoal(id, addDays(ws, i)), 0);
+const goalOf = (id, key = dayKey(now())) => dayGoal(id, key);
+const examOf = id => (state.profiles[id] || {}).examDate || null;
+const mocksOf = id => Object.entries(state.mocks[id] || {}).map(([mid, m]) => ({ mid, ...m }))
+  .sort((a, b) => (a.date ? 0 : 1) - (b.date ? 0 : 1) || String(a.date || a.at).localeCompare(String(b.date || b.at)));
+function firstDay(id) {
+  let f = null;
+  for (const [k, v] of Object.entries(state.days)) if (v && v[id] > 0 && (!f || k < f)) f = k;
+  const c = (state.profiles[id] || {}).createdAt; if (c) { const ck = dayKey(c); if (!f || ck < f) f = ck; }
+  return f || dayKey(now());
+}
+const totalMs = id => Object.values(state.days).reduce((a, v) => a + ((v && v[id]) || 0), 0);
+const PARTS = { L: 4, R: 3, W: 2, S: 3 };
+const PART_NAMES = { L: ["P1", "P2", "P3", "P4"], R: ["P1", "P2", "P3"], W: ["Task 1", "Task 2"], S: ["P1", "P2", "P3"] };
+const tryIds = t => Object.keys((t && t.tries) || {}).sort((a, b) => +a.slice(1) - +b.slice(1));
+const lastTry = t => { const ids = tryIds(t); return ids.length ? t.tries[ids[ids.length - 1]] : null; };
+const partsOf = (tr, k) => { const a = (tr && tr.parts && tr.parts[k]) || []; return Array.from({ length: PARTS[k] }, (_, i) => +a[i] || 0); };
+// skills chosen for a test: from its most recent weekly plan, else the skills that have any part done
+function plannedSkills(id, key) {
+  const wks = Object.keys(state.plans).sort().reverse();
+  for (const ws of wks) { const x = (((state.plans[ws] || {})[id] || {}).tests || {})[key]; if (x && x.skills && x.skills.length) return x.skills; }
+  return null;
+}
+function chosenSkills(id, key, t) {
+  const pl = plannedSkills(id, key); if (pl) return pl;
+  const tr = lastTry(t); return "LRWS".split("").filter(k => partsOf(tr, k).some(v => v >= 1));
+}
+// a test counts once any of its tries has every part of its chosen skills done (a fresh re-take does not undo it)
+function testIsDone(id, key, t) {
+  if (!t || !t.tries) return false;
+  const ch = chosenSkills(id, key, t); if (!ch.length) return false;
+  return tryIds(t).some(n => ch.every(k => partsOf(t.tries[n], k).every(v => v >= 1)));
+}
+const testsOf = id => Object.entries(state.tests[id] || {}).filter(([, t]) => t && t.tries);
+const testsDone = id => testsOf(id).filter(([k, t]) => testIsDone(id, k, t)).length;
+const retakes = id => testsOf(id).reduce((a, [, t]) => a + Math.max(0, tryIds(t).length - 1), 0);
+const ordinal = n => n + (n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th");
+// my plans + main goal are also kept on this phone (Firebase wins when both exist)
+function saveLocal() {
+  if (!me) return;
+  const cur = weekStart(dayKey(now())), plans = {};
+  for (let i = -7; i <= 1; i++) { const ws = addDays(cur, 7 * i), pl = planOf(me, ws); if (pl) plans[ws] = pl; }
+  lsSet("squad-plan-" + me, JSON.stringify({ main: state.main[me] || null, plans }));
+}
+function mergeLocal() {
+  if (!me) return;
+  let c = null; try { c = JSON.parse(lsGet("squad-plan-" + me)); } catch (e) {}
+  if (!c) return;
+  if (c.main && !state.main[me]) state.main[me] = c.main;
+  for (const [ws, pl] of Object.entries(c.plans || {})) if (!planOf(me, ws)) (state.plans[ws] ||= {})[me] = pl;
+}
 function runningPart(sess, key, t) {
   if (!sess || sess.state !== "studying") return 0;
   const a = Math.max(sess.startedAt, dayStart(key));
@@ -546,41 +1062,96 @@ const seatedIds = () => PEOPLE.filter(p => isLive(state.sessions[p.id])).map(p =
 
 // ---------------- session actions ----------------
 let me = localStorage.getItem("squad-me") || "";
-async function commit(id, from, to) {
+const SKILLS = [
+  { id: "listening", name: "Listening", col: "#7FB3E6" }, { id: "reading", name: "Reading", col: "#6CCB7E" },
+  { id: "writing", name: "Writing", col: "#F2A3AE" }, { id: "speaking", name: "Speaking", col: "#F6D772" },
+  { id: "vocab", name: "Vocab", col: "#C9B6F2" }, { id: "grammar", name: "Grammar", col: "#F0A65A" },
+];
+const SK = Object.fromEntries(SKILLS.map(x => [x.id, x]));
+const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+const lastSkill = () => { const v = lsGet("squad-skill"); return SK[v] ? v : "reading"; };
+async function commit(id, from, to, skill) {
   to = Math.min(to, from + MAX_SITTING);
   let a = from;
   while (a < to) {
     const key = dayKey(a), end = Math.min(to, dayStart(key) + DAY);
-    if (end > a) await store.addMs(key, id, end - a);
+    if (end > a) { await store.addMs(key, id, end - a); if (skill && SK[skill]) await store.addSkill(key, id, skill, end - a); }
     a = end;
   }
 }
-async function sitDown() {
+async function sitDown(skill) {
   const s = state.sessions[me];
-  if (s && s.state === "studying") return;
-  const fresh = !(s && s.state === "paused");
-  await store.setSession(me, { state: "studying", startedAt: now(), accum: fresh ? 0 : (s.accum || 0) });
+  if (s && s.state === "studying" && isLive(s)) return;
+  skill = SK[skill] ? skill : (s && s.skill) || lastSkill();
+  lsSet("squad-skill", skill);
+  const fresh = !(s && s.state === "paused" && isLive(s));
+  await store.setSession(me, { state: "studying", startedAt: now(), accum: fresh ? 0 : (s.accum || 0), skill, seg: fresh ? 0 : (s.seg || 0) });
 }
 async function pause() {
   const s = state.sessions[me]; if (!s || s.state !== "studying") return;
-  const t = now();
-  await commit(me, s.startedAt, t);
-  await store.setSession(me, { state: "paused", accum: (s.accum || 0) + Math.min(t - s.startedAt, MAX_SITTING), pausedAt: t });
+  const t = now(), part = Math.min(t - s.startedAt, MAX_SITTING);
+  await commit(me, s.startedAt, t, s.skill);
+  await store.setSession(me, { state: "paused", accum: (s.accum || 0) + part, pausedAt: t, skill: s.skill || lastSkill(), seg: (s.seg || 0) + part });
 }
-async function resume() { const s = state.sessions[me]; await store.setSession(me, { state: "studying", startedAt: now(), accum: s ? (s.accum || 0) : 0 }); }
+async function resume() { const s = state.sessions[me] || {}; await store.setSession(me, { state: "studying", startedAt: now(), accum: s.accum || 0, skill: s.skill || lastSkill(), seg: s.seg || 0 }); }
+// Change skill without standing up: the time so far is saved under the old skill, the timer keeps going.
+async function switchSkill(skill) {
+  const s = state.sessions[me]; if (!s || !SK[skill]) return;
+  lsSet("squad-skill", skill);
+  if (s.skill === skill) return;
+  const t = now(), part = s.state === "studying" ? Math.min(t - s.startedAt, MAX_SITTING) : 0;
+  logSeg(s, (s.seg || 0) + part, t);
+  if (s.state === "studying") {
+    await commit(me, s.startedAt, t, s.skill);
+    await store.setSession(me, { state: "studying", startedAt: t, accum: (s.accum || 0) + part, skill, seg: 0 });
+  } else await store.setSession(me, { ...s, skill, seg: 0 });
+  toast(`Now: ${SK[skill].name}`);
+}
+// one log line per skill part of a sitting (each part is counted under the skill it started with)
+function logSeg(s, ms, t) { if (ms >= MIN) store.pushLog(me, { at: t, day: dayKey(t), skill: s.skill || lastSkill(), ms }).catch(showErr); }
 async function stopIt() {
-  const s = state.sessions[me]; if (!s) return;
-  const total = sittingMs(me);
-  if (s.state === "studying") await commit(me, s.startedAt, now());
+  const s = state.sessions[me]; if (!s || s.state === "off") return;
+  const t = now(), total = sittingMs(me, t);
+  const seg = (s.seg || 0) + (s.state === "studying" ? Math.min(t - s.startedAt, MAX_SITTING) : 0);
+  if (s.state === "studying") await commit(me, s.startedAt, t, s.skill);
   await store.setSession(me, { state: "off" });
-  toast(`Nice! ${fmtLong(total)} this sitting.`);
+  logSeg(s, seg, t);
+  const today = dayKey(now()), left = goalOf(me) * MIN - dayMs(me, today);
+  toast(left <= 0 ? `${fmtLong(total)} saved · lamp on 💚` : `${fmtLong(total)} saved · ${fmtLong(left)} to today's goal`);
+  render();
+}
+// skill picker sheet: "start" = sit down with it, "switch" = change while seated
+let skillMode = "start";
+const skBtns = (sel, attr) => SKILLS.map(x => `<button type="button" ${attr}="${x.id}" aria-pressed="${sel === x.id}"><i style="background:${x.col}"></i>${x.name}</button>`).join("");
+function openSkill(mode) {
+  skillMode = mode;
+  const cur = (state.sessions[me] || {}).skill || lastSkill();
+  $("skTitle").textContent = mode === "start" ? "WHAT ARE YOU STUDYING?" : "SWITCH TO…";
+  $("skGrid").innerHTML = skBtns(cur, "data-sk");
+  $("skillSheet").classList.add("on");
+}
+async function pickSkill(sk) {
+  $("skillSheet").classList.remove("on");
+  try {
+    if (skillMode === "start") {
+      try { await Promise.race([guardForgotten(), new Promise(r => setTimeout(r, 1500))]); } catch (e) {}
+      await sitDown(sk);
+      if ((state.sessions[me] || {}).state !== "studying") { await store.setSession(me, { state: "studying", startedAt: now(), accum: 0, skill: sk, seg: 0 }); }
+      if (onScreen() !== "hall") go("hall");
+      const st = (state.sessions[me] || {}).state;
+      if (st !== "studying") showErr(new Error("Could not sit down (session: " + (st || "empty") + ")"));
+      else toast(`Sitting down · ${SK[sk].name}`);
+      render();
+    } else await switchSkill(sk);
+  } catch (e) { showErr(e); }
 }
 // Anyone's phone may close a session that was left running (>5h) or paused (>12h).
 // A transaction makes sure the time is saved exactly once.
 async function closeStale(id) {
   try {
     const was = await store.closeIfStale(id);
-    if (was) { await commit(id, was.startedAt, was.startedAt + MAX_SITTING); return true; }
+    if (was) { await commit(id, was.startedAt, was.startedAt + MAX_SITTING, was.skill); return true; }
   } catch (e) {}
   return false;
 }
@@ -597,17 +1168,23 @@ let toastT;
 function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("on"), 3400); }
 
 // ---------------- routing ----------------
-const SCREENS = ["start", "home", "race", "hall", "profile"];
+const SCREENS = ["start", "home", "race", "hall", "speak", "me", "road", "wkd", "tests", "profile", "goals"];
+const NAV_SCREENS = { home: "home", race: "race", hall: "hall", speak: "speak", me: "me", road: "me", wkd: "me", tests: "me", profile: "me", goals: "me" };
 function go(name) {
   if (name !== "start" && !(me && state.profiles[me])) name = "start";
   if ($("composer").classList.contains("on")) closeComposer();
-  ["reader", "boardModal"].forEach(id => $(id).classList.remove("on"));
+  ["reader", "boardModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"].forEach(id => $(id).classList.remove("on"));
   for (const s of SCREENS) $(s).classList.toggle("on", s === name);
+  document.body.classList.toggle("has-nav", !!NAV_SCREENS[name]);
+  document.querySelectorAll("[data-nav]").forEach(b => b.classList.toggle("on", b.dataset.nav === NAV_SCREENS[name]));
+  if (me && $("navMe")) $("navMe").innerHTML = img(A.chars[me], "");
   const h = name === "start" ? "" : name;
-  if (location.hash.slice(1) !== h) history.replaceState(null, "", h ? "#" + h : location.pathname);
+  // some previews (sandboxed frames) forbid changing the address; the app works without it
+  try { if (location.hash.slice(1) !== h) history.replaceState(null, "", h ? "#" + h : location.pathname); } catch (e) {}
   window.scrollTo(0, 0);
   if (name === "start") showStep("stPick");
   if (name === "profile") fillProfile();
+  if (name === "goals") renderGoals();
   render();
 }
 const onScreen = () => (document.querySelector(".screen.on") || {}).id;
@@ -673,17 +1250,552 @@ function fillProfile() {
   if (!me) return;
   const p = state.profiles[me] || {};
   $("profWho").innerHTML = whoHtml(me, "Your settings");
-  $("profExam").min = dayKey(now());
-  $("profExam").value = p.examDate || ""; $("profNoDate").checked = !p.examDate; $("profExam").disabled = !p.examDate;
-  profGoal = p.goalMin || DEFAULT_GOAL; showProfGoal();
   $("profTime").value = p.studyTime || "";
 }
-function showProfGoal() { $("profGoal").textContent = fmtGoal(profGoal); $("profWeek").textContent = `= ${fmtGoal(profGoal * 7)} a week · your green lamp and your trail use this`; }
 async function saveProfile() {
-  const noDate = $("profNoDate").checked, exam = $("profExam").value;
-  if (!noDate && !exam) return toast("Pick a date or tick “Not booked yet”.");
-  await store.setProfile(me, { goalMin: profGoal, examDate: noDate ? null : exam, studyTime: $("profTime").value || null });
-  toast("Saved!"); go("home");
+  try { await store.setProfile(me, { studyTime: $("profTime").value || null }); toast("Saved!"); } catch (e) { showErr(e); }
+}
+
+// ---------------- MY GOALS (main goal + this week) ----------------
+const GPAL = { K: "#2E2622", R: "#E4574F", C: "#FBF3E8", S: "#B8A898", T: "#5FB8B0", G: "#6CCB7E" };
+const gIcon = (rows, sz) => { let r = ""; rows.forEach((row, y) => [...row].forEach((c, x) => { if (GPAL[c]) r += `<rect x="${x}" y="${y}" width="1" height="1" fill="${GPAL[c]}"/>`; })); return `<svg width="${rows[0].length * sz}" height="${rows.length * sz}" viewBox="0 0 ${rows[0].length} ${rows.length}" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`; };
+const CALF = ["........KRRR", "........KRRR", "..K..K..KRR.", ".KKKKKKKKKK.", "KRRRRRRRKRRK", "KKKKKKKKKKKK", "KCSCSCSCKCSK", "KCCCCCCCKCCK", "KCSCSCSCKCSK", "KCCCCCCCKCCK", "KCSCSCSCSCSK", "KKKKKKKKKKKK"];
+const CALW = [".K....K...", "KKKKKKKKKK", "KRRRRRRRRK", "KKKKKKKKKK", "KCCCCCCCCK", "KCGCGCGCCK", "KCCCCCCCCK", "KCGCGCCCCK", "KCCCCCCCCK", "KKKKKKKKKK"];
+const fmtMin = m => m % 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m / 60}h`;
+const fmtShort = m => m % 60 ? (m >= 60 ? `${Math.floor(m / 60)}h${m % 60}` : `${m}m`) : `${m / 60}h`;
+const TSK = { L: ["Listening", "#7FB3E6"], R: ["Reading", "#6CCB7E"], W: ["Writing", "#F2A3AE"], S: ["Speaking", "#F6D772"] };
+// skill squares; with a test key they also show progress: faint = not done, full = done, ✓ = analysed
+const skp = (on, key) => { const tr = key ? lastTry(((state.tests[me] || {})[key])) : null;
+  return `<span class="gl-skp">${"LRWS".split("").map(k => { const a = partsOf(tr, k), st = !key ? 1 : a.every(v => v === 2) ? 2 : a.every(v => v >= 1) ? 1 : 0;
+    return `<span class="${on.includes(k) ? "on" : ""}" style="${on.includes(k) ? `background:${TSK[k][1]};opacity:${st ? 1 : .45}` : ""}">${st === 2 && on.includes(k) ? "✓" : k}</span>`; }).join("")}</span>`; };
+let gTab = "main", gMain = null, gWs = null, gWeek = null, gSel = null;
+
+function openGoals(tab) {
+  gTab = tab === "week" ? "week" : "main";
+  const m = state.main[me] || {}, p = state.profiles[me] || {};
+  gMain = { examDate: examOf(me), targetBand: m.targetBand || null, testsTarget: m.testsTarget || 20, avgMin: m.avgMin || p.goalMin || DEFAULT_GOAL };
+  loadWeek(weekStart(dayKey(now())));
+  go("goals");
+}
+function loadWeek(ws) {
+  gWs = ws; gSel = null;
+  const p = planOf(me, ws) || {};
+  gWeek = { daily: weekDaily(me, ws), days: { ...(p.days || {}) } };
+}
+function renderGoals() {
+  if (!gMain) { openGoals(gTab); return; }
+  $("glTitle").textContent = gTab === "main" ? "MAIN GOAL" : "THIS WEEK";
+  document.querySelectorAll("[data-gtab]").forEach(b => { b.classList.toggle("on", b.dataset.gtab === gTab); b.setAttribute("aria-selected", b.dataset.gtab === gTab); });
+  $("glMain").classList.toggle("on", gTab === "main"); $("glWeek").classList.toggle("on", gTab === "week");
+  if (gTab === "main") renderGoalMain(); else renderGoalWeek();
+}
+function roadLine(exam, today, sz) {
+  if (!exam) return `<div class="gl-empty">Set your IELTS date to see your road.</div>`;
+  const start = firstDay(me), span = Math.max(1, daysBetween(start, exam));
+  const pos = k => Math.max(0, Math.min(100, daysBetween(start, k) / span * 100));
+  const meP = pos(today);
+  let h = `<div class="gl-tl"><div class="ln"><i style="width:${meP}%"></i></div>`;
+  mocksOf(me).filter(m => m.date && m.date <= exam).forEach(m => { h += `<div class="pt" style="left:${pos(m.date)}%"><span class="fl"></span><small>${fmtDate(m.date, { day: "numeric", month: "short" }).toUpperCase()}</small></div>`; });
+  h += `<div class="pt ex" style="left:100%"><span class="fl"></span><small>${fmtDate(exam, { day: "numeric", month: "short" }).toUpperCase()}</small></div>`;
+  h += `<div class="me2" style="left:${meP}%">${img(A.chars[me], "You")}</div></div>`;
+  const tbc = mocksOf(me).filter(m => !m.date).length;
+  if (tbc) h += `<span class="gl-sm">+ ${tbc} booked mock${tbc > 1 ? "s" : ""}, date not known yet</span>`;
+  return h;
+}
+function renderGoalMain() {
+  const d = gMain, today = dayKey(now()), exam = d.examDate, left = exam ? daysBetween(today, exam) : null;
+  const weeksLeft = left != null && left > 0 ? left / 7 : 0;
+  const bands = ["", ...Array.from({ length: 9 }, (_, i) => (5 + i * 0.5).toFixed(1))];
+  const mocks = mocksOf(me);
+  const done = testsDone(me), target = Math.max(done, d.testsTarget);
+  const togo = Math.max(0, target - done), perWk = weeksLeft ? Math.round(togo / weeksLeft * 2) / 2 : null;
+  const extra = target >= 60 ? 0 : (target % 10 ? 10 - target % 10 : 10);
+  const tiles = [...Array(target)].map((_, i) => `<i class="${i < done ? "d" : ""}"></i>`).join("") + '<i class="n"></i>'.repeat(extra);
+  const mockRow = m => {
+    const past = m.date && m.date < today, dl = m.date ? daysBetween(today, m.date) : null;
+    const tile = m.date ? `<span class="d ${past ? "past" : ""}"><b>${fmtDate(m.date, { day: "numeric" })}</b><small>${fmtDate(m.date, { month: "short" }).toUpperCase()}</small></span>` : `<span class="d tbc"><b>?</b><small>TBC</small></span>`;
+    const when = !m.date ? "booked, date not known yet" : past ? (m.result && m.result.overall != null ? `done · band ${bandTxt(m.result.overall)}` : "done · add result") : dl === 0 ? "today!" : `in ${dl} day${dl === 1 ? "" : "s"}`;
+    return `<button type="button" class="gl-mock" data-mock="${esc(m.mid)}">${tile}<span class="t"><b>${esc(m.institute)}</b><span class="gl-sm">${m.place ? esc(m.place) + " · " : ""}${when}</span></span><span class="gl-sm">✎</span></button>`;
+  };
+  put($("glMain"), `
+  <div class="gl-card"><div class="gl-row"><h2>The road to your exam</h2><span class="gl-sm">${left != null && left >= 0 ? `${left} days` : ""}</span></div>${roadLine(exam, today)}</div>
+  <div class="gl-card">
+    <div class="gl-item"><span class="gl-ic">${gIcon(CALF, 2.8)}</span><span class="t"><b>IELTS date</b><span class="gl-sm">${exam ? fmtDate(exam, { weekday: "short", day: "numeric", month: "short", year: "numeric" }) : "not booked yet"}</span></span>
+      <label class="gl-chg">${exam ? "Change ›" : "Set date ›"}<input id="glExam" type="date" min="${today}" value="${exam || ""}" aria-label="IELTS date"></label></div>
+    ${exam ? `<button type="button" class="gl-b2" data-gact="nodate" style="align-self:flex-start">Not booked yet</button>` : ""}
+    <div class="gl-band"><span style="font-weight:900;font-size:14px">Target band <span class="gl-sm">optional</span></span>
+      <label class="gl-chg">${d.targetBand ? d.targetBand.toFixed(1) : "—"} ›<select id="glBand" aria-label="Target band">${bands.map(b => `<option value="${b}" ${String(d.targetBand ? d.targetBand.toFixed(1) : "") === b ? "selected" : ""}>${b || "no target"}</option>`).join("")}</select></label></div>
+  </div>
+  <div class="gl-card"><div class="gl-row"><h2>Mock exams</h2><button type="button" class="gl-b2" data-gact="addmock">+ Add mock</button></div>
+    ${mocks.length ? mocks.map(mockRow).join("") : `<div class="gl-empty">No mocks yet. Booked one? Add it here.</div>`}</div>
+  <div class="gl-card"><div class="gl-row"><h2>Practice tests</h2><span class="gl-sm">one tile = one full test</span></div>
+    <div class="gl-tix">${tiles}</div>
+    <div class="gl-st"><button type="button" data-gact="tests-" aria-label="Fewer" ${target <= Math.max(1, done) ? "disabled" : ""}>−</button><output>${target} <small style="font:800 13px Nunito,system-ui,sans-serif">tests</small></output><button type="button" data-gact="tests+" aria-label="More" ${target >= 60 ? "disabled" : ""}>+</button></div>
+    <div class="gl-row"><span class="gl-sm">${done} done · ${togo} to go</span><span class="gl-sm">${perWk != null ? `≈ ${perWk} test${perWk === 1 ? "" : "s"} a week` : ""}</span></div></div>
+  <div class="gl-card"><div class="gl-row"><h2>Average study a day</h2><span class="gl-sm">starts every new week</span></div>
+    <div class="gl-st"><button type="button" data-gact="avg-" aria-label="Less" ${d.avgMin <= 30 ? "disabled" : ""}>−</button><output>${fmtGoal(d.avgMin)}</output><button type="button" data-gact="avg+" aria-label="More" ${d.avgMin >= 480 ? "disabled" : ""}>+</button></div>
+    <div class="gl-quick">${[30, 60, 90, 120].map(m => `<button type="button" data-gavg="${m}" class="${d.avgMin === m ? "on" : ""}">${m < 60 ? m + "m" : m % 60 ? "1h 30" : m / 60 + "h"}</button>`).join("")}</div>
+    <div class="gl-hint"><div><small>until the exam</small><b>${left != null && left > 0 ? "≈ " + Math.round(d.avgMin * left / 60) + "h" : "—"}</b></div><div><small>studied so far</small><b>${Math.floor(totalMs(me) / HOUR)}h</b></div></div>
+    <span class="gl-sm">This is the starting daily goal of every new week.</span></div>
+  <button type="button" class="gl-save" data-gact="savemain">SAVE</button>`);
+}
+function weekInfo() {
+  const cur = weekStart(dayKey(now())), saved = planOf(me, gWs) || {};
+  return { cur, saved, past: gWs < cur, locked: gWs === cur && !!saved.savedAt, next: gWs > cur };
+}
+const effDay = d => Math.max(30, gWeek.days[d] || gWeek.daily);
+// the lowest value allowed after the plan of the current week has been saved
+function floorOf(d) {
+  const { saved, locked } = weekInfo(); if (!locked) return 30;
+  if (d == null) return saved.daily || 30;
+  return Math.max(30, (saved.days && saved.days[d]) || saved.daily || 30);
+}
+function renderGoalWeek() {
+  const { cur, saved, past, locked } = weekInfo(), today = dayKey(now());
+  const first = weekStart(firstDay(me));
+  const range = `${fmtDate(gWs, { day: "numeric", month: "short" })} – ${fmtDate(addDays(gWs, 6), { day: "numeric", month: "short" })}`;
+  const tests = Object.entries(saved.tests || {}).map(([k, v]) => ({ k, ...v })).sort((a, b) => (a.day ? DOW.indexOf(a.day) : 9) - (b.day ? DOW.indexOf(b.day) : 9));
+  const testDays = new Set(tests.map(x => x.day).filter(Boolean));
+  const vals = DOW.map(effDay), max = Math.max(60, ...vals), total = vals.reduce((a, b) => a + b, 0);
+  const dis = past ? "disabled" : "";
+  const stair = DOW.map((d, i) => `<button type="button" class="gl-sd ${gSel === d ? "sel" : ""} ${addDays(gWs, i) === today ? "today" : ""}" data-gday="${d}" ${dis} aria-label="${DOW_NAME[i]} ${fmtMin(vals[i])}"><span class="tm">${testDays.has(d) ? "📝" : ""}</span><span>${fmtShort(vals[i])}</span><span class="col ${gWeek.days[d] ? "own" : ""}" style="height:${Math.max(12, vals[i] / max * 86)}px"></span><b>${d.toUpperCase()}</b></button>`).join("");
+  let ed = "";
+  if (gSel && !past) {
+    const i = DOW.indexOf(gSel), own = !!gWeek.days[gSel], fl = floorOf(gSel);
+    const canReset = own && gWeek.daily >= fl;
+    ed = `<div class="gl-dayed"><div class="gl-row"><b>${DOW_NAME[i]}</b>${own ? `<button type="button" class="gl-b2" data-gact="dayreset" ${canReset ? "" : "disabled"}>↺ use daily goal</button>` : `<span class="gl-sm">uses the daily goal</span>`}</div>
+      <div class="gl-st"><button type="button" data-gact="day-" aria-label="Less" ${effDay(gSel) <= fl ? "disabled" : ""}>−</button><output>${fmtGoal(effDay(gSel))}</output><button type="button" data-gact="day+" aria-label="More" ${effDay(gSel) >= 600 ? "disabled" : ""}>+</button></div></div>`;
+  }
+  const avg = (state.main[me] || {}).avgMin;
+  put($("glWeek"), `
+  <div class="gl-wsel"><button type="button" data-gact="wk-" aria-label="Previous week" ${gWs <= first ? "disabled" : ""}>‹</button><b>${range}</b><button type="button" data-gact="wk+" aria-label="Next week" ${gWs >= addDays(cur, 7) ? "disabled" : ""}>›</button></div>
+  ${past ? `<div class="gl-ro">This week is over · read only</div>` : gWs === cur ? `<div class="gl-lock">${locked ? "🔒 saved · goals can only go up this week" : "🔒 after saving: goals can only go up"}</div>` : `<div class="gl-lock">Next week · change it freely until it starts</div>`}
+  <div class="gl-card"><div class="gl-row"><h2>Daily goal this week</h2><span class="gl-sm">${avg ? "average: " + fmtShort(avg) : ""}</span></div>
+    <div class="gl-st"><button type="button" data-gact="daily-" aria-label="Less" ${past || gWeek.daily <= floorOf(null) ? "disabled" : ""}>−</button><output>${fmtGoal(gWeek.daily)}</output><button type="button" data-gact="daily+" aria-label="More" ${past || gWeek.daily >= 480 ? "disabled" : ""}>+</button></div></div>
+  <div class="gl-card"><div class="gl-row"><h2>Your week looks like this</h2><span class="gl-sm">${past ? "" : "tap a day"}</span></div>
+    <div class="gl-stair">${stair}</div>${ed}
+    <div class="gl-leg"><span><i style="background:#BFE8C6"></i>daily goal</span><span><i style="background:#F9C9A8"></i>own goal</span><span>📝 test planned</span></div>
+    <div class="gl-sum"><span>Week total</span><b>${fmtGoal(total)}</b></div></div>
+  <div class="gl-card"><div class="gl-row"><h2>📝 Tests this week</h2>${past ? "" : `<button type="button" class="gl-b2" data-gact="plantest">+ Plan a test</button>`}</div>
+    ${tests.length ? tests.map(x => `<div class="gl-pt" data-tgo="${esc(x.k)}" role="button" tabindex="0" aria-label="Open C${x.book} T${x.test} in practice tests"><span><b>C${x.book} · T${x.test}</b><span class="gl-sm">${x.day ? DOW_NAME[DOW.indexOf(x.day)].slice(0, 3) : "any day"} · log it ›</span></span>${skp(x.skills || [], x.k)}${past ? "" : `<button type="button" class="gl-ped" data-ptest="${esc(x.k)}" aria-label="Edit plan">✎</button>`}</div>`).join("") : `<div class="gl-empty">No test planned for this week.</div>`}
+    <span class="gl-sm">Only the skills you pick count as this week's test work.</span>
+    ${tests.length ? `<button type="button" class="gl-b2" data-gact="logtests" style="align-self:flex-start">📝 Log them in PRACTICE TESTS ›</button>` : ""}</div>
+  ${past ? "" : `<button type="button" class="gl-save" data-gact="saveweek">SAVE MY WEEK</button>`}`);
+}
+async function goalAct(a) {
+  const d = gMain;
+  try {
+    if (a === "nodate") { d.examDate = null; }
+    else if (a === "tests-") d.testsTarget = Math.max(Math.max(1, testsDone(me)), d.testsTarget - 1);
+    else if (a === "tests+") d.testsTarget = Math.min(60, d.testsTarget + 1);
+    else if (a === "avg-") d.avgMin = Math.max(30, d.avgMin - 15);
+    else if (a === "avg+") d.avgMin = Math.min(480, d.avgMin + 15);
+    else if (a === "addmock") return openMock(null);
+    else if (a === "savemain") {
+      await store.setMain(me, { examDate: d.examDate || null, targetBand: d.targetBand || null, testsTarget: d.testsTarget, avgMin: d.avgMin, at: now() });
+      await store.setProfile(me, { examDate: d.examDate || null });
+      saveLocal(); toast("Main goal saved ✓");
+    }
+    else if (a === "wk-" || a === "wk+") loadWeek(addDays(gWs, a === "wk-" ? -7 : 7));
+    else if (a === "daily-") gWeek.daily = Math.max(floorOf(null), 30, gWeek.daily - 15);
+    else if (a === "daily+") gWeek.daily = Math.min(480, gWeek.daily + 15);
+    else if (a === "day-" || a === "day+") {
+      const v = effDay(gSel) + (a === "day+" ? 15 : -15);
+      const nv = Math.min(600, Math.max(floorOf(gSel), 30, v));
+      if (nv === gWeek.daily) delete gWeek.days[gSel]; else gWeek.days[gSel] = nv;
+    }
+    else if (a === "dayreset") delete gWeek.days[gSel];
+    else if (a === "plantest") return openPlan(null);
+    else if (a === "logtests") { txOpen = null; return go("tests"); }
+    else if (a === "saveweek") {
+      const days = {};
+      for (const k of DOW) if (gWeek.days[k] && gWeek.days[k] !== gWeek.daily) days[k] = gWeek.days[k];
+      const val = { daily: gWeek.daily, savedAt: now() };
+      if (Object.keys(days).length) val.days = days; else val.days = null;
+      await store.setPlan(gWs, me, val);
+      saveLocal(); toast(gWs === weekStart(dayKey(now())) ? "Week saved ✓ · goals can only go up now" : "Week saved ✓");
+    }
+  } catch (e) { showErr(e); }
+  renderGoals();
+}
+// ---- mock sheet ----
+let mkEdit = null;
+function institutes() {
+  const set = new Map();
+  for (const list of Object.values(state.mocks)) for (const m of Object.values(list || {})) if (m && m.institute) set.set(m.institute.trim().toLowerCase(), m.institute.trim());
+  return [...set.values()].slice(0, 8);
+}
+function mkChips() { const v = $("mkInst").value.trim().toLowerCase(); $("mkChips").innerHTML = institutes().map(n => `<button type="button" data-inst="${esc(n)}" class="${n.toLowerCase() === v ? "on" : ""}">${esc(n)}</button>`).join(""); }
+function openMock(mid) {
+  mkEdit = mid; const m = mid ? (state.mocks[me] || {})[mid] || {} : {};
+  $("mkTitle").textContent = mid ? "EDIT MOCK EXAM" : "ADD A MOCK EXAM";
+  $("mkInst").value = m.institute || ""; $("mkDate").value = m.date || ""; $("mkTbc").checked = !!mid && !m.date;
+  $("mkDate").disabled = $("mkTbc").checked; $("mkPlace").value = m.place || "";
+  $("mkDel").hidden = !mid; mkChips();
+  $("mockSheet").classList.add("on");
+}
+async function saveMock() {
+  const inst = $("mkInst").value.trim(), tbc = $("mkTbc").checked, date = $("mkDate").value;
+  if (!inst) return toast("Write the institute name.");
+  if (!tbc && !date) return toast("Pick a date, or tick “don't know the date yet”.");
+  const mid = mkEdit || ("m" + Date.now().toString(36));
+  const old = mkEdit ? (state.mocks[me] || {})[mkEdit] || {} : {};
+  const val = { ...old, institute: inst.slice(0, 40), date: tbc ? null : date, at: now() };
+  const place = $("mkPlace").value.trim().slice(0, 40); if (place) val.place = place; else delete val.place;
+  try { await store.setMock(me, mid, val); $("mockSheet").classList.remove("on"); toast("Mock saved ✓"); } catch (e) { showErr(e); }
+  renderGoals();
+}
+async function delMock() {
+  if (!mkEdit) return;
+  try { await store.setMock(me, mkEdit, null); $("mockSheet").classList.remove("on"); toast("Mock deleted"); } catch (e) { showErr(e); }
+  renderGoals();
+}
+// ---- plan-a-test sheet ----
+let ptDraft = null;
+function openPlan(key) {
+  const t = key ? ((planOf(me, gWs) || {}).tests || {})[key] : null;
+  ptDraft = t ? { key, book: t.book, test: t.test, skills: [...(t.skills || [])], day: t.day || null } : { key: null, book: 17, test: 1, skills: ["L", "R", "W", "S"], day: null };
+  $("ptTitle").textContent = key ? "EDIT PLANNED TEST" : "PLAN A TEST";
+  $("ptSave").textContent = key ? "SAVE ▶" : "ADD TO MY WEEK ▶";
+  $("ptDel").hidden = !key;
+  $("ptBook").innerHTML = Array.from({ length: 11 }, (_, i) => `<option value="${10 + i}">Cambridge ${10 + i}</option>`).join("");
+  $("ptTest").innerHTML = [1, 2, 3, 4].map(n => `<option value="${n}">Test ${n}</option>`).join("");
+  drawPlan(); $("planSheet").classList.add("on");
+}
+function drawPlan() {
+  const d = ptDraft;
+  $("ptBook").value = d.book; $("ptTest").value = d.test; $("ptBookV").textContent = d.book + " ▾"; $("ptTestV").textContent = d.test + " ▾";
+  $("ptSkills").innerHTML = "LRWS".split("").map(k => { const on = d.skills.includes(k); return `<button type="button" data-ptsk="${k}" class="${on ? "on" : ""}" aria-pressed="${on}" style="${on ? `background:${TSK[k][1]}` : ""}"><i></i>${TSK[k][0]}</button>`; }).join("");
+  $("ptDays").innerHTML = [null, ...DOW].map(x => `<button type="button" data-ptday="${x || ""}" class="${d.day === x ? "on" : ""}">${x ? x.toUpperCase() : "ANY"}</button>`).join("");
+}
+async function savePlan() {
+  const d = ptDraft; if (!d) return;
+  if (!d.skills.length) return toast("Pick at least one skill.");
+  const tests = { ...((planOf(me, gWs) || {}).tests || {}) }, key = `c${d.book}t${d.test}`;
+  if (d.key && d.key !== key) delete tests[d.key];
+  tests[key] = { book: d.book, test: d.test, skills: "LRWS".split("").filter(k => d.skills.includes(k)), day: d.day || null };
+  try { await store.setPlanTests(gWs, me, tests); saveLocal(); $("planSheet").classList.remove("on"); toast(`C${d.book} · T${d.test} planned ✓`); } catch (e) { showErr(e); }
+  renderGoals();
+}
+async function delPlan() {
+  const d = ptDraft; if (!d || !d.key) return;
+  const tests = { ...((planOf(me, gWs) || {}).tests || {}) }; delete tests[d.key];
+  try { await store.setPlanTests(gWs, me, tests); saveLocal(); $("planSheet").classList.remove("on"); toast("Removed from this week"); } catch (e) { showErr(e); }
+  renderGoals();
+}
+function fillMeDoors() {
+  if (!me) return;
+  const today = dayKey(now()), exam = examOf(me), ms = mocksOf(me).filter(m => !m.date || m.date >= today).length;
+  $("prIcMain").innerHTML = gIcon(CALF, 2.6); $("prIcWeek").innerHTML = gIcon(CALW, 2.8);
+  $("prMainSub").textContent = (exam ? `IELTS ${fmtDate(exam, { day: "numeric", month: "short" })}` : "IELTS date not set") + ` · ${ms} mock${ms === 1 ? "" : "s"}`;
+  $("prWeekSub").textContent = `daily goal ${fmtGoal(weekDaily(me, weekStart(today)))} · today ${fmtGoal(goalOf(me))}`;
+}
+
+// ---------------- ME, MY ROAD, week detail ----------------
+const UNTAG = { id: "untagged", name: "Untagged", col: "#9C8F86" };
+const SKX = [...SKILLS, UNTAG];
+const hmU = ms => { const m = Math.floor(ms / MIN); return `${Math.floor(m / 60)}<em class="u">h</em> ${String(m % 60).padStart(2, "0")}<em class="u">m</em>`; };
+const hShort = ms => { const m = Math.round(ms / MIN); return m < 60 ? `${m}m` : `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, "0")}`; };
+const weekKeys = ws => DOW.map((_, i) => addDays(ws, i));
+// time by skill for a set of days; time without a skill (older sessions) is "untagged"
+function skillSplit(id, keys, t = now()) {
+  const o = Object.fromEntries(SKX.map(x => [x.id, 0])); let tot = 0;
+  const today = dayKey(t), ss = state.sessions[id];
+  for (const k of keys) {
+    if (k > today) continue;
+    const d = dayMs(id, k, t); tot += d;
+    const sk = ((state.skills[k] || {})[id]) || {};
+    for (const x of SKILLS) o[x.id] += sk[x.id] || 0;
+    if (ss && ss.state === "studying" && SK[ss.skill]) o[ss.skill] += runningPart(ss, k, t);
+  }
+  const tagged = SKILLS.reduce((a, x) => a + o[x.id], 0);
+  o.untagged = Math.max(0, tot - tagged);
+  return { o, tot: Math.max(tot, tagged) };
+}
+const allKeys = id => Object.keys(state.days).filter(k => state.days[k] && state.days[k][id] > 0).concat([dayKey(now())]);
+function roadWeeks(id) {
+  const today = dayKey(now()), cur = weekStart(today), first = weekStart(firstDay(id)), exam = examOf(id);
+  let last = exam && exam >= today ? weekStart(exam) : addDays(cur, 7 * 12);
+  if (last < cur) last = cur;
+  const out = []; for (let w = first; w <= last; w = addDays(w, 7)) out.push(w);
+  return out;
+}
+const weekNo = (id, ws) => Math.round(daysBetween(weekStart(firstDay(id)), ws) / 7) + 1;
+const ieltsRound = v => { const f = Math.floor(v), r = v - f; return r < 0.25 ? f : r < 0.75 ? f + 0.5 : f + 1; };
+const bandTxt = v => v == null || v === "" ? "—" : (+v).toFixed(1).replace(".0", "") ;
+let meRange = "all";
+function renderMe() {
+  const t = now(), today = dayKey(t), cur = weekStart(today), exam = examOf(me), m = state.main[me] || {};
+  const first = firstDay(me), weeks = roadWeeks(me), wn = weekNo(me, cur);
+  put($("meSpr"), img(A.chars[me], "Me"));
+  $("meSub").textContent = `Week ${wn}${exam && exam >= today ? ` of ${weekNo(me, weekStart(exam))}` : ""} · started ${fmtDate(first, { day: "numeric", month: "short" })}`;
+  // hero
+  const left = exam ? daysBetween(today, exam) : null;
+  let hero;
+  if (exam && left >= 0) {
+    const span = Math.max(1, daysBetween(first, exam)), pos = k => Math.max(0, Math.min(100, daysBetween(first, k) / span * 100));
+    const ms = mocksOf(me), dated = ms.filter(x => x.date && x.date <= exam), tbc = ms.filter(x => !x.date);
+    const lastP = dated.length ? pos(dated[dated.length - 1].date) : pos(today);
+    const P = [{ x: 0, cls: "st", bd: "—", lb: "START" }];
+    dated.forEach(x => P.push({ x: pos(x.date), cls: "", bd: bandTxt(x.result && x.result.overall), lb: "MOCK " + fmtDate(x.date, { day: "numeric", month: "short" }).toUpperCase() }));
+    tbc.forEach((x, i) => P.push({ x: lastP + (100 - lastP) * (i + 1) / (tbc.length + 1), cls: "tbc", bd: "—", lb: "MOCK TBC" }));
+    P.push({ x: 100, cls: "ex", bd: m.targetBand ? (+m.targetBand).toFixed(1) : "—", lb: "IELTS", tg: 1 });
+    // labels that would overlap the one before are hidden (the flag stays)
+    const keep = P.map(() => true); let lastX = -99;
+    keep[0] = !(P.length > 2 && P[1].x < 22);
+    P.forEach((q, k) => { if (k === 0) { if (keep[0]) lastX = 0; return; } if (k === P.length - 1) return; if (q.x - lastX < 22 || 100 - q.x < 18) keep[k] = false; else lastX = q.x; });
+    const pts = P.map((q, i) => `<div class="pt ${q.cls}" style="left:${q.x}%"><span class="bd ${q.tg ? "tg" : ""}">${q.bd}</span><span class="fl"></span><small style="${keep[i] ? "" : "visibility:hidden"}">${q.lb}</small></div>`).join("");
+    hero = `<div class="t1"><b>${Math.ceil(left / 7)} week${Math.ceil(left / 7) === 1 ? "" : "s"}</b><small>to IELTS · ${fmtDate(exam, { weekday: "short", day: "numeric", month: "short" })}</small></div>
+      <div class="mx-jr"><div class="ln"><i style="width:${pos(today)}%"></i></div>${pts}<span class="you" style="left:${pos(today)}%"></span></div>`;
+  } else hero = `<div class="t1"><b>${exam ? "Exam done 🎉" : "No exam date"}</b><small>${exam ? "set your next one" : "set it to see your road"}</small></div><button type="button" class="mx-setx" data-mact="main">SET YOUR EXAM DATE ›</button>`;
+  // KPIs
+  const tot = totalMs(me) + runningPart(state.sessions[me], today, t);
+  let need = 0, hit = 0, nd = 0;
+  for (let k = first; k <= today; k = addDays(k, 1)) { const g = goalOf(me, k) * MIN; need += g; nd++; if (dayMs(me, k, t) >= g) hit++; }
+  const onPace = tot >= need * 0.9;
+  hero += `<div class="mx-kpi"><div><b>${Math.floor(tot / HOUR)}h</b><small>studied · <span class="${onPace ? "ok" : "bh"}">${onPace ? "on pace" : "behind"}</span></small></div><div><b>${testsDone(me)}/${m.testsTarget || 20}</b><small>practice tests</small></div><div><b>${hit}/${nd}</b><small>days goal hit</small></div></div>`;
+  // where the time went
+  const split = skillSplit(me, meRange === "all" ? [...new Set(allKeys(me))] : weekKeys(cur), t);
+  const sbar = split.tot ? SKX.filter(x => split.o[x.id] > 0).map(x => `<i style="width:${split.o[x.id] / split.tot * 100}%;background:${x.col}"></i>`).join("") : "";
+  const slist = SKX.filter(x => x.id !== "untagged" || split.o.untagged > 0).map(x => `<span><i style="background:${x.col}"></i>${x.name}<b>${hmU(split.o[x.id])}</b></span>`).join("");
+  // this week
+  const wk = weekKeys(cur), wDone = wk.reduce((a, k) => a + (k <= today ? dayMs(me, k, t) : 0), 0);
+  const boxes = wk.map((k, i) => { const g = goalOf(me, k) * MIN, d = k <= today ? dayMs(me, k, t) : 0; return `<div class="${k === today ? "t" : ""}"><i><u style="height:${Math.min(100, d / g * 100)}%"></u></i><b>${"SSMTWTF"[i]}</b></div>`; }).join("");
+  const tests = Object.values((planOf(me, cur) || {}).tests || {});
+  const tLine = tests.map(x => `C${x.book}·T${x.test}${x.skills && x.skills.length < 4 ? ` (${x.skills.join(" ")})` : ""}`).join(" · ");
+  const nx = addDays(cur, 7), nxPlan = planOf(me, nx), dow = dowOf(today);
+  const nxRange = `${fmtDate(nx, { day: "numeric" })} – ${fmtDate(addDays(nx, 6), { day: "numeric", month: "short" })}`;
+  const plan = nxPlan && nxPlan.savedAt
+    ? `<button type="button" class="mx-plan" data-mact="plannext"><span><b>NEXT WEEK PLANNED ✓</b><br><small>${nxRange} · ${fmtGoal(weekGoal(me, nx))}</small></span><span class="go">EDIT ›</span></button>`
+    : `<button type="button" class="mx-plan ${dow >= 5 ? "glow" : ""}" data-mact="plannext"><span><b>PLAN NEXT WEEK</b><br><small>due Friday · ${nxRange}</small></span><span class="go">PLAN ›</span></button>`;
+  // road peek: last week, this week, next weeks
+  const ci = weeks.indexOf(cur), from = Math.max(0, ci - 1), peekW = weeks.slice(from, from + 4);
+  const peekMax = Math.max(15 * HOUR, ...peekW.map(w => Math.max(weekGoal(me, w) * MIN, skillSplit(me, weekKeys(w), t).tot)));
+  const peek = peekW.map(w => {
+    const fut = w > cur, sp = fut ? null : skillSplit(me, weekKeys(w), t);
+    const bar = fut ? `<div class="bar f"></div>` : `<div class="bar">${SKX.filter(x => sp.o[x.id] > 0).map(x => `<i style="width:${sp.o[x.id] / peekMax * 100}%;background:${x.col}"></i>`).join("")}</div>`;
+    return `<div class="r ${w === cur ? "now" : ""}"><div class="d" ${fut ? 'style="color:#8d84a0"' : ""}>WEEK ${weekNo(me, w)}<small>${w === cur ? "this week" : fmtDate(w, { day: "numeric", month: "short" })}</small></div>${bar}<div class="h" ${fut ? 'style="color:#5c5470"' : ""}>${fut ? "—" : fmtLong(sp.tot)}</div></div>`;
+  }).join("");
+  const nextMock = mocksOf(me).find(x => x.date && x.date >= today);
+  const big = nextMock ? [`${daysBetween(today, nextMock.date)}d`, "to next mock"] : exam && left >= 0 ? [`${left}d`, "to IELTS"] : ["—", "no date yet"];
+  put($("meBody"), `
+  <div class="mx-hero">${hero}</div>
+  <div class="mx-blk"><div class="mx-hd"><h2>Where your time went</h2><span class="mx-tabs"><button type="button" data-mrange="all" class="${meRange === "all" ? "on" : ""}">ALL</button><button type="button" data-mrange="week" class="${meRange === "week" ? "on" : ""}">WEEK</button></span></div>
+    <div class="mx-sbar" data-mact="wkd">${sbar}</div><div class="mx-slist" data-mact="wkd">${slist}</div></div>
+  <div class="mx-blk" data-mact="week" role="button" tabindex="0"><div class="mx-hd"><h2>This week</h2><span class="gl-sm">${fmtDate(cur, { day: "numeric", month: "short" })} – ${fmtDate(addDays(cur, 6), { day: "numeric", month: "short" })}</span></div>
+    <div class="mx-wrow">${boxes}</div>
+    <div class="mx-line"><span>Studied</span><b>${fmtLong(wDone)} <span style="color:#6A5B50;font:800 12px Nunito,system-ui,sans-serif">of</span> ${fmtGoal(weekGoal(me, cur))}</b></div>
+    ${tests.length ? `<div class="mx-line"><span>Tests planned</span><b>${esc(tLine)}</b></div>` : ""}
+    ${plan}</div>
+  <button type="button" class="mx-peek" data-mact="road"><div class="ttl"><b>MY ROAD</b><small>${weeks.length} weeks · ${fmtDate(weeks[0], { day: "numeric", month: "short" })} → ${exam && exam >= today ? fmtDate(exam, { day: "numeric", month: "short" }) : "…"}</small></div>${peek}<div class="fade"></div><div class="cta"><span>SEE ALL ${weeks.length} WEEKS ›</span></div></button>
+  <div class="mx-tcard"><div class="top"><div class="mx-hd"><h2>Practice tests</h2><span class="gl-sm">${testsDone(me)} of ${m.testsTarget || 20} done</span></div></div>
+    <div class="mx-stub"><button type="button" data-mact="addtest"><span class="pl">+</span>ADD A TEST</button><button type="button" data-mact="alltests"><span class="cnt">ALL TESTS<small>see every test</small></span><span>›</span></button></div></div>
+  <div class="mx-rows"><button type="button" class="mx-rw2" data-mact="main"><span class="t"><b>Main goal</b><small>exam date · mocks · tests · hours a day</small></span><span class="n"><b>${big[0]}</b><small>${big[1]}</small></span><span class="ch">›</span></button></div>`);
+}
+function renderRoad() {
+  const t = now(), today = dayKey(t), cur = weekStart(today), exam = examOf(me);
+  const weeks = roadWeeks(me), left = exam ? daysBetween(today, exam) : null;
+  $("ryTo").textContent = exam && left >= 0 ? `to ${fmtDate(exam, { day: "numeric", month: "short" })}` : "";
+  const sp = Object.fromEntries(weeks.filter(w => w <= cur).map(w => [w, skillSplit(me, weekKeys(w), t)]));
+  const full = Math.max(15 * HOUR, ...weeks.map(w => weekGoal(me, w) * MIN), ...Object.values(sp).map(x => x.tot));
+  const ms = mocksOf(me);
+  let cum = 0, mile = 1, rows = "", fi = 0;
+  for (const w of weeks) {
+    const fut = w > cur, g = weekGoal(me, w) * MIN, gl = `<span class="gl2" style="left:${g / full * 100}%"></span>`;
+    if (fut) {
+      const op = Math.max(0.14, 1 - fi * 0.09); fi++;
+      rows += `<div class="mx-rd fut" style="opacity:${op}"><div class="d"><b>WEEK ${weekNo(me, w)}</b><small>${fmtDate(w, { day: "numeric", month: "short" })}</small></div><div class="bar f">${gl}</div><div class="h">—<small>${fmtGoal(g / MIN)}</small></div></div>`;
+      cum += g;
+    } else {
+      const x = sp[w], segs = SKX.filter(k => x.o[k.id] > 0).map(k => `<i style="width:${x.o[k.id] / full * 100}%;background:${k.col}"></i>`).join("");
+      const now_ = w === cur, met = x.tot >= g;
+      rows += `<button type="button" class="mx-rd ${now_ ? "now" : ""}" data-wk="${w}">${now_ ? `<img class="px spr" src="${A.chars[me]}" alt="" style="left:calc(82px + (100% - 164px) * ${Math.min(1, x.tot / full).toFixed(3)})">` : ""}<div class="d"><b>WEEK ${weekNo(me, w)}</b><small>${fmtDate(w, { day: "numeric", month: "short" })}</small></div><div class="bar">${segs}${gl}</div><div class="h">${hShort(x.tot)}<small>${met ? "goal ✓" : now_ ? "so far" : "of " + hShort(g)}</small></div></button>`;
+      cum += x.tot;
+    }
+    ms.filter(m => m.date && weekStart(m.date) === w).forEach(m => {
+      const past = m.date <= today, r = m.result;
+      const info = r ? ["L", "R", "W", "S"].map(k => `${k} ${bandTxt(r[k])}`).join(" · ") + ` · <b style="margin:0;color:#FFE07A">${bandTxt(r.overall)}</b>` : `${esc(m.institute)}${m.place ? " · " + esc(m.place) : ""}${past ? " · tap to add bands" : ""}`;
+      rows += `<button type="button" class="mx-mfl" ${past ? `data-mres="${esc(m.mid)}"` : "disabled"}><span class="pole"></span><span><b>MOCK · ${fmtDate(m.date, { day: "numeric", month: "short" }).toUpperCase()}</b><small>${info}</small></span></button>`;
+    });
+    while (cum >= mile * 100 * HOUR) { rows += `<div class="mx-mile">★ ${mile * 100} HOURS ★</div>`; mile++; }
+  }
+  ms.filter(m => !m.date).forEach(m => { rows += `<button type="button" class="mx-mfl tbc" disabled><span class="pole"></span><span><b>MOCK · TBC</b><small>${esc(m.institute)} · date not known yet</small></span></button>`; });
+  rows += exam && left >= 0 ? `<div class="mx-exam">🏁 EXAM DAY · ${fmtDate(exam, { day: "numeric", month: "short" }).toUpperCase()}</div>` : `<button type="button" class="mx-exam" data-mact="main" style="display:block">SET YOUR EXAM DATE ›</button>`;
+  put($("ryBody"), `<div class="mx-stats"><div><b>${left != null && left >= 0 ? Math.ceil(left / 7) : "—"}</b><small>weeks left</small></div><div><b>${Math.floor((totalMs(me) + runningPart(state.sessions[me], today, t)) / HOUR)}h</b><small>studied</small></div><div><b>${hShort(weekGoal(me, cur) * MIN)}</b><small>this week's goal</small></div></div>
+    <div class="mx-leg">${SKX.map(x => `<span><i style="background:${x.col}"></i>${x.name}</span>`).join("")}</div>
+    <div class="mx-dark">${rows}</div>`);
+}
+let wdWs = null, wdFrom = "road";
+function openWeekDetail(ws, from) { wdWs = ws; wdFrom = from || onScreen(); go("wkd"); }
+function renderWkd() {
+  const t = now(), today = dayKey(t), keys = weekKeys(wdWs), x = skillSplit(me, keys, t);
+  $("wdCrumb").textContent = wdFrom === "road" ? "ME › MY ROAD ›" : "ME ›";
+  $("wdTitle").textContent = `WEEK ${weekNo(me, wdWs)}`;
+  $("wdTot").textContent = `${fmtDate(wdWs, { day: "numeric", month: "short" })} – ${fmtDate(addDays(wdWs, 6), { day: "numeric", month: "short" })}`;
+  const per = keys.map(k => skillSplit(me, [k], t)), max = Math.max(HOUR, ...per.map(p => p.tot));
+  const cols = per.map((p, i) => `<div><span>${p.tot ? hShort(p.tot) : ""}</span><span class="stk" style="height:${Math.max(6, p.tot / max * 100)}%">${SKX.filter(k => p.o[k.id] > 0).map(k => `<i style="height:${p.o[k.id] / p.tot * 100}%;background:${k.col}"></i>`).join("")}</span><b style="${keys[i] === today ? "background:var(--ink);color:#FFE07A;border-radius:4px;padding:0 3px" : ""}">${DOW[i].toUpperCase()}</b></div>`).join("");
+  const big = Math.max(1, ...SKX.map(k => x.o[k.id]));
+  const bars = SKX.filter(k => k.id !== "untagged" || x.o.untagged > 0).map(k => `<div class="mx-sk"><span class="nm">${k.name}</span><span class="tr"><i style="width:${x.o[k.id] / big * 100}%;background:${k.col}"></i></span><b>${hmU(x.o[k.id])}</b></div>`).join("");
+  const miss = ["listening", "reading", "writing", "speaking"].find(k => x.o[k] === 0);
+  const past = wdWs < weekStart(today);
+  const logs = Object.values(state.log[me] || {}).filter(l => l && l.day >= wdWs && l.day <= addDays(wdWs, 6)).sort((a, b) => b.at - a.at);
+  const logRows = logs.map(l => { const k = SK[l.skill] || UNTAG; return `<div class="mx-log"><i style="background:${k.col}"></i><span class="t"><b>${l.note ? esc(l.note) : k.name}</b><span class="gl-sm">${DOW[dowOf(l.day)].toUpperCase()} · ${k.name}</span></span><em>${hShort(l.ms)}</em></div>`; }).join("");
+  put($("wdBody"), `<div class="gl-card"><div class="gl-row"><h2>Day by day</h2><span class="pixel" style="font-size:16px">${fmtLong(x.tot)}</span></div><div class="mx-cols">${cols}</div></div>
+    <div class="gl-card"><div class="gl-row"><h2>Where the time went</h2><span class="gl-sm">goal ${fmtGoal(weekGoal(me, wdWs))}</span></div>${bars}</div>
+    ${x.tot && miss ? `<div class="mx-tip">💡 No ${SK[miss].name} ${past ? "that" : "yet this"} week.</div>` : ""}
+    <div class="gl-card"><h2>What I studied</h2>${logRows || `<div class="gl-empty">Nothing logged ${past ? "that" : "yet this"} week.</div>`}</div>`);
+}
+// mock result sheet
+let rsMock = null, rsDraft = null;
+const BANDS = Array.from({ length: 19 }, (_, i) => i * 0.5);
+function openResult(mid) {
+  const m = (state.mocks[me] || {})[mid]; if (!m) return;
+  rsMock = mid; rsDraft = { ...(m.result || {}) }; rsDraft.auto = !(m.result && m.result.overall != null && m.result.manual);
+  $("rsSub").textContent = `${m.institute}${m.date ? " · " + fmtDate(m.date, { day: "numeric", month: "short", year: "numeric" }) : ""}`;
+  $("rsOv").innerHTML = `<option value="">—</option>` + BANDS.map(b => `<option value="${b}">${b.toFixed(1)}</option>`).join("");
+  drawResult(); $("resSheet").classList.add("on");
+}
+function drawResult() {
+  const d = rsDraft, ks = ["L", "R", "W", "S"];
+  if (d.auto) { const v = ks.map(k => d[k]).filter(v => v != null && v !== ""); d.overall = v.length === 4 ? ieltsRound(v.reduce((a, b) => a + +b, 0) / 4) : null; }
+  $("rsGrid").innerHTML = ks.map(k => `<label class="mx-band" style="background:${TSK[k][1]}"><small>${TSK[k][0]}</small><b>${bandTxt(d[k])}</b><select data-band="${k}" aria-label="${TSK[k][0]} band"><option value="">—</option>${BANDS.map(b => `<option value="${b}" ${d[k] != null && +d[k] === b ? "selected" : ""}>${b.toFixed(1)}</option>`).join("")}</select></label>`).join("");
+  $("rsOv").value = d.overall == null ? "" : String(d.overall); $("rsOvV").textContent = bandTxt(d.overall);
+}
+async function saveResult() {
+  const m = (state.mocks[me] || {})[rsMock]; if (!m) return;
+  const r = {}; ["L", "R", "W", "S", "overall"].forEach(k => { if (rsDraft[k] != null && rsDraft[k] !== "") r[k] = +rsDraft[k]; });
+  if (!rsDraft.auto) r.manual = true;
+  try { await store.setMock(me, rsMock, { ...m, result: Object.keys(r).length ? r : null }); $("resSheet").classList.remove("on"); toast("Result saved ✓"); } catch (e) { showErr(e); }
+  render();
+}
+
+// ---------------- PRACTICE TESTS ----------------
+const tBox = (k, arr, off) => {
+  const all2 = arr.every(v => v === 2), col = TSK[k][1];
+  return `<span class="tx-sk"><span class="tx-box ${off ? "off" : ""}" style="${!off && all2 ? `box-shadow:0 0 0 2.5px ${col},0 0 8px 2px ${col}` : ""}">${arr.map(v => `<i class="p${v}" style="background:${col}"></i>`).join("")}</span><small>${k}</small></span>`;
+};
+// every test I planned in any week, newest plan first: key -> { book, test, skills, day, ws }
+function plannedAll(id) {
+  const out = {};
+  for (const ws of Object.keys(state.plans).sort().reverse()) for (const [k, x] of Object.entries((((state.plans[ws] || {})[id]) || {}).tests || {})) if (!out[k]) out[k] = { ...x, ws };
+  return out;
+}
+const segRows = (k, tr, ch) => "LRWS".split("").map(sk => {
+  const arr = partsOf(tr, sk), col = TSK[sk][1], ring = arr.every(v => v === 2);
+  return `<div class="tx-skrow ${ch && ch.length && !ch.includes(sk) ? "tx-off" : ""}" style="${ring ? `box-shadow:0 0 0 3px ${col}` : ""}"><span class="lbl"><i style="background:${col}"></i>${TSK[sk][0]}</span><span class="tx-seg">${arr.map((v, i) => `<button type="button" class="p${v}" data-xpart="${esc(k)}|${sk}${i}" style="background:${col}" aria-label="${TSK[sk][0]} ${PART_NAMES[sk][i]}: ${["not done", "done", "analysed"][v]}">${PART_NAMES[sk][i]}</button>`).join("")}</span></div>`;
+}).join("");
+let txOpen = null; // tests opened on the page (this week's planned tests are open by default)
+function renderTests() {
+  const today = dayKey(now()), cur = weekStart(today), m = state.main[me] || {};
+  const target = Math.max(m.testsTarget || 20, 1), done = testsDone(me);
+  const all = plannedAll(me), mine = state.tests[me] || {};
+  const thisWeek = Object.entries(all).filter(([, x]) => x.ws === cur).map(([k, x]) => ({ k, ...x })).sort((a, b) => (a.day ? DOW.indexOf(a.day) : 9) - (b.day ? DOW.indexOf(b.day) : 9));
+  if (!txOpen) txOpen = new Set(thisWeek.map(x => x.k));
+  const card = (k, t, x) => {
+    const tr = lastTry(t), n = tryIds(t).length, ch = x && x.skills ? x.skills : chosenSkills(me, k, t);
+    const mm = /^c(\d+)t(\d+)$/.exec(k) || [], b = (t && t.book) || (x && x.book) || mm[1], tt = (t && t.test) || (x && x.test) || mm[2];
+    const when = x && x.ws === cur ? `planned · ${x.day ? DOW_NAME[DOW.indexOf(x.day)].slice(0, 3) : "this week"}` : x && !tr ? `planned · week of ${fmtDate(x.ws, { day: "numeric", month: "short" })}` : `${n > 1 ? ordinal(n) + " try · " : ""}${tr && tr.date ? fmtDate(tr.date, { day: "numeric", month: "short" }) : ""}`;
+    const isDone = t && testIsDone(me, k, t), open = txOpen.has(k);
+    const head = `<button type="button" class="tx-tc ${x && x.ws === cur ? "pl" : ""}" data-topen="${esc(k)}" aria-expanded="${open}"><span class="nm"><b>C${b}·T${tt}</b><small>${when}</small></span>${"LRWS".split("").map(s2 => tBox(s2, partsOf(tr, s2), ch && ch.length && !ch.includes(s2))).join("")}<span class="dn">${isDone ? "✓" : `<span style="color:#c9bed8;font-size:13px">${open ? "▴" : "▾"}</span>`}</span></button>`;
+    if (!open) return head;
+    return `<div class="tx-open">${head}<div class="tx-in">${segRows(k, tr, ch)}
+      <div class="gl-row"><span class="tx-tip">${ch && ch.length < 4 ? `Planned: ${ch.map(c => TSK[c][0]).join(" + ")}` : "Tap a part: once = done, again = analysed ✓"}</span><button type="button" class="tx-more" data-tmore="${esc(k)}">score · tries ›</button></div></div></div>`;
+  };
+  let list = `<button type="button" class="tx-slot" data-tact="add"><span>+ ADD A TEST</span><span>📝</span></button>`;
+  thisWeek.forEach(x => { list += card(x.k, mine[x.k], x); });
+  const rest = new Set([...Object.keys(mine).filter(k => mine[k] && mine[k].tries), ...Object.keys(all)].filter(k => !thisWeek.some(x => x.k === k)));
+  const date = k => String((lastTry(mine[k]) || {}).date || (all[k] && all[k].ws) || "");
+  [...rest].sort((a, b) => date(b).localeCompare(date(a))).forEach(k => { list += card(k, mine[k], all[k]); });
+  const shown = thisWeek.length + rest.size, half = Math.floor(target / 2);
+  if (shown >= half && half > 0 && done >= half) list += `<div class="mx-mile">★ ${half} TESTS ★</div>`;
+  for (let n = shown + 1, i = 0; n <= target; n++, i++) {
+    list += `<div class="tx-slot f" style="opacity:${Math.max(0.14, 0.8 - i * 0.12)}"><span>TEST ${n}</span><span></span></div>`;
+    if (n === half && n < target) list += `<div class="mx-mile">★ ${half} TESTS ★</div>`;
+  }
+  list += `<div class="mx-exam">🏁 EXAM DAY · TEST ${target}</div>`;
+  put($("txBody"), `<div class="mx-stats"><div><b>${done}/${target}</b><small>tests done</small></div><div><b>${thisWeek.length}</b><small>planned this week</small></div><div><b>${retakes(me)}</b><small>re-takes</small></div></div>
+    <div class="mx-dark" style="gap:10px"><div class="tx-lg"><span><i class="p0"></i>not done</span><span><i></i>done</span><span><i class="p2"></i>analysed</span><span><span class="ring"><i class="p2"></i><i class="p2"></i></span>whole skill done + analysed</span></div>${list}</div>`);
+}
+// tap a part right on the page: the latest try changes (a first try is made if needed)
+// open PRACTICE TESTS with this test unfolded and in view
+function openTestOnPage(k) {
+  txOpen = null; go("tests"); txOpen.add(k); renderTests();
+  const el = document.querySelector(`[data-topen="${k}"]`); if (el) el.scrollIntoView({ block: "center" });
+}
+async function togglePart(k, sk, i) {
+  const mm = /^c(\d+)t(\d+)$/.exec(k); if (!mm) return;
+  const t = JSON.parse(JSON.stringify((state.tests[me] || {})[k] || { book: +mm[1], test: +mm[2], tries: {} }));
+  t.tries ||= {};
+  if (!tryIds(t).length) t.tries.t1 = { date: dayKey(now()), parts: { L: [0, 0, 0, 0], R: [0, 0, 0], W: [0, 0], S: [0, 0, 0] } };
+  const ids = tryIds(t), tr = t.tries[ids[ids.length - 1]]; tr.parts ||= {};
+  const arr = partsOf(tr, sk); arr[i] = (arr[i] + 1) % 3; tr.parts[sk] = arr;
+  const was = testIsDone(me, k, (state.tests[me] || {})[k]);
+  try { await store.setTest(me, k, t); } catch (e) { return showErr(e); }
+  if (!was && testIsDone(me, k, t)) toast(`C${t.book}·T${t.test} done ✓`);
+  render();
+}
+// add a test
+function openAddTest(book, test) {
+  $("atBook").innerHTML = Array.from({ length: 11 }, (_, i) => `<option value="${10 + i}">Cambridge ${10 + i}</option>`).join("");
+  $("atTest").innerHTML = [1, 2, 3, 4].map(n => `<option value="${n}">Test ${n}</option>`).join("");
+  $("atBook").value = book || 17; $("atTest").value = test || 1; $("atDate").value = dayKey(now()); $("atDate").max = dayKey(now());
+  drawAddTest(); $("addTest").classList.add("on");
+}
+function drawAddTest() {
+  const b = +$("atBook").value, t = +$("atTest").value, ex = (state.tests[me] || {})[`c${b}t${t}`];
+  $("atBookV").textContent = b + " ▾"; $("atTestV").textContent = t + " ▾";
+  $("atNote").textContent = ex && ex.tries ? `You did this test before — this will be your ${ordinal(tryIds(ex).length + 1)} try.` : "";
+}
+async function startLogging() {
+  const b = +$("atBook").value, tt = +$("atTest").value, key = `c${b}t${tt}`, date = $("atDate").value || dayKey(now());
+  const t = JSON.parse(JSON.stringify((state.tests[me] || {})[key] || { book: b, test: tt, tries: {} }));
+  t.tries ||= {};
+  const ids = tryIds(t), nid = "t" + ((ids.length ? +ids[ids.length - 1].slice(1) : 0) + 1);
+  t.tries[nid] = { date, parts: { L: [0, 0, 0, 0], R: [0, 0, 0], W: [0, 0], S: [0, 0, 0] } };
+  try { await store.setTest(me, key, t); } catch (e) { return showErr(e); }
+  $("addTest").classList.remove("on");
+  openLog(key, nid);
+}
+// log a test
+let lt = null, ltTimer = null;
+function openLog(key, tryId) {
+  let t = (state.tests[me] || {})[key];
+  const m = /^c(\d+)t(\d+)$/.exec(key) || [];
+  t = JSON.parse(JSON.stringify(t || { book: +m[1], test: +m[2], tries: {} }));
+  t.tries ||= {};
+  if (!tryIds(t).length) t.tries.t1 = { date: dayKey(now()), parts: { L: [0, 0, 0, 0], R: [0, 0, 0], W: [0, 0], S: [0, 0, 0] } };
+  const ids = tryIds(t);
+  lt = { key, t, tr: tryId && t.tries[tryId] ? tryId : ids[ids.length - 1] };
+  drawLog(); $("logTest").classList.add("on");
+}
+function drawLog() {
+  const { key, t, tr } = lt, cur = (((planOf(me, weekStart(dayKey(now()))) || {}).tests) || {})[key];
+  const try_ = t.tries[tr], plan = cur ? cur.skills : plannedSkills(me, key);
+  $("ltTitle").textContent = `CAMBRIDGE ${t.book} · TEST ${t.test}`;
+  $("ltSub").textContent = cur ? `planned ${cur.day ? DOW_NAME[DOW.indexOf(cur.day)].slice(0, 3) : "this week"} · ${cur.skills.join(" ")}` : "";
+  $("ltTabs").innerHTML = tryIds(t).map((id, i) => `<button type="button" data-ltry="${id}" class="${id === tr ? "on" : ""}">${ordinal(i + 1)} try · ${t.tries[id].date ? fmtDate(t.tries[id].date, { day: "numeric", month: "short" }) : ""}</button>`).join("") + `<button type="button" data-ltry="+">+ new try</button>`;
+  $("ltRows").innerHTML = "LRWS".split("").map(k => {
+    const arr = partsOf(try_, k), col = TSK[k][1], ring = arr.every(v => v === 2);
+    return `<div class="tx-skrow ${plan && !plan.includes(k) ? "tx-off" : ""}" style="${ring ? `box-shadow:0 0 0 3px ${col}` : ""}"><span class="lbl"><i style="background:${col}"></i>${TSK[k][0]}</span><span class="tx-seg">${arr.map((v, i) => `<button type="button" class="p${v}" data-lpart="${k}${i}" style="background:${col}" aria-label="${TSK[k][0]} ${PART_NAMES[k][i]}: ${["not done", "done", "analysed"][v]}">${PART_NAMES[k][i]}</button>`).join("")}</span></div>`;
+  }).join("");
+  const off = plan ? "LRWS".split("").filter(k => !plan.includes(k)) : [];
+  $("ltHint").textContent = off.length ? `${off.map(k => TSK[k][0]).join(" & ")} ${off.length > 1 ? "weren't" : "wasn't"} planned — you can still log ${off.length > 1 ? "them" : "it"}.` : "";
+  const sc = try_.score || {};
+  const bandSel = k => `<label><small>${k} band</small><b>${sc[k] != null ? (+sc[k]).toFixed(1) : "—"}</b><select data-lscore="${k}"><option value="">—</option>${BANDS.map(b => `<option value="${b}" ${sc[k] != null && +sc[k] === b ? "selected" : ""}>${b.toFixed(1)}</option>`).join("")}</select></label>`;
+  $("ltScore").innerHTML = ["L", "R"].map(k => `<label><small>${k} /40</small><input data-lscore="${k}" type="number" inputmode="numeric" min="0" max="40" value="${sc[k] != null ? sc[k] : ""}" placeholder="—"></label>`).join("") + bandSel("W") + bandSel("S");
+  $("ltDel").hidden = tryIds(t).length < 1;
+}
+function queueSave() { clearTimeout(ltTimer); const snap = lt && JSON.parse(JSON.stringify(lt)); ltTimer = setTimeout(() => { if (snap) store.setTest(me, snap.key, snap.t).catch(showErr); }, 600); }
+async function saveLog() {
+  clearTimeout(ltTimer);
+  try { await store.setTest(me, lt.key, lt.t); $("logTest").classList.remove("on"); toast(testIsDone(me, lt.key, lt.t) ? `C${lt.t.book}·T${lt.t.test} done ✓` : "Saved ✓"); } catch (e) { showErr(e); }
+  render();
+}
+async function delTry() {
+  const { key, t, tr } = lt; delete t.tries[tr];
+  clearTimeout(ltTimer);
+  try { await store.setTest(me, key, tryIds(t).length ? t : null); $("logTest").classList.remove("on"); toast("Try deleted"); } catch (e) { showErr(e); }
+  render();
 }
 
 // ---------------- daily reminder (.ics calendar event, no server needed) ----------------
@@ -738,6 +1850,33 @@ function lobbyHtml(t) {
   return h;
 }
 
+// ---------------- pixel icons ----------------
+const PIX = { K: "#2E2622", Y: "#F6D772", L: "#C9B6F2", C: "#FBF3E8", G: "#6CCB7E", B: "#9C6B4A", R: "#E4574F", W: "#FFFFFF", S: "#B8A898", T: "#5FB8B0" };
+const ICONS = {
+  home: ["....KK....", "...KYYK...", "..KYYYYK..", ".KYYYYYYK.", "KKKKKKKKKK", ".KCCCCCCK.", ".KCKKCCCK.", ".KCKBCCCK.", ".KCKBCCCK.", ".KKKKKKKKK"],
+  climb: [".......KKK", ".......KYK", "....KKKKYK", "....KYYYYK", ".KKKKYYYYK", ".KYYYYYYYK", "KKKYYYYYYK", "KYYYYYYYYK", "KKKKKKKKKK"],
+  mic: ["...KKKK...", "..KSWSSK..", "..KSSSSK..", "..KSSSSK..", "..KSSSSK..", ".K.KKKK.K.", ".K......K.", "..KK..KK..", "....KK....", "...KKKK..."],
+  table: ["....YY....", "...YYYY...", "....KK....", "....KK....", "KKKKKKKKKK", "KBBBBBBBBK", "KKKKKKKKKK", ".K......K.", ".K......K.", ".K......K."],
+};
+function pixIcon(rows, sz) {
+  const w = rows[0].length, h = rows.length; let r = "";
+  rows.forEach((row, y) => [...row].forEach((c, x) => { if (PIX[c]) r += `<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${PIX[c]}"/>`; }));
+  return `<svg width="${w * sz}" height="${h * sz}" viewBox="0 0 ${w} ${h}" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`;
+}
+// Only touch the DOM when the markup really changed, so buttons are not replaced under a finger every second.
+function put(el, html) { if (el && el._h !== html) { el.innerHTML = html; el._h = html; } }
+let lastErr = "";
+function showErr(e) {
+  const msg = (e && (e.message || (e.reason && e.reason.message) || e.reason)) || String(e);
+  console.error(e);
+  if (!msg || msg === lastErr) return; lastErr = msg;
+  let bar = document.getElementById("errBar");
+  if (!bar) { bar = document.createElement("div"); bar.id = "errBar"; bar.className = "err-bar"; bar.onclick = () => bar.remove(); document.body.appendChild(bar); }
+  bar.textContent = "Oops: " + msg + " (" + (onScreen() || "?") + " · v" + APP_VERSION + ") — tap to hide, send a screenshot to Zinat";
+}
+window.addEventListener("error", e => showErr(e.error || e.message));
+window.addEventListener("unhandledrejection", e => showErr(e.reason));
+
 // ---------------- render: home ----------------
 const flame = '<svg width="14" height="16" viewBox="0 0 7 8" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="0" width="1" height="1" fill="#E4574F"/><rect x="2" y="1" width="3" height="2" fill="#E4574F"/><rect x="1" y="3" width="5" height="4" fill="#E4574F"/><rect x="2" y="4" width="3" height="3" fill="#FFB23F"/><rect x="3" y="5" width="1" height="2" fill="#FFE3A3"/><rect x="2" y="7" width="3" height="1" fill="#E4574F"/></svg>';
 const crown = '<svg width="18" height="14" viewBox="0 0 9 7" shape-rendering="crispEdges" aria-hidden="true"><rect x="0" y="1" width="1" height="5" fill="#2E2622"/><rect x="8" y="1" width="1" height="5" fill="#2E2622"/><rect x="1" y="2" width="7" height="4" fill="#F2C94C"/><rect x="4" y="0" width="1" height="2" fill="#F2C94C"/><rect x="1" y="1" width="1" height="1" fill="#F2C94C"/><rect x="7" y="1" width="1" height="1" fill="#F2C94C"/><rect x="0" y="6" width="9" height="1" fill="#2E2622"/></svg>';
@@ -746,36 +1885,50 @@ function renderHome() {
   const t = now(), today = dayKey(t), ws = weekStart(today);
   const days = [...Array(7)].map((_, i) => addDays(ws, i));
   const p = state.profiles[me] || {};
-  $("homeMe").innerHTML = img(A.chars[me], "My goals");
+  put($("homeMe"), img(A.chars[me], "Me"));
   $("homeName").textContent = BY[me].name;
-  // countdown + today
-  const g = goalOf(me), td = dayMs(me, today, t);
-  let cd;
-  if (p.examDate) {
-    const left = daysBetween(today, p.examDate);
-    const hrs = Math.max(0, left) * g / 60;
-    cd = left > 0
-      ? `<div class="row-h"><span class="pixel big-n">${left} days</span><small>to IELTS · ${fmtDate(p.examDate, { day: "numeric", month: "short", year: "numeric" })}</small></div>
-         <span style="font-size:14px;font-weight:700">≈ <b>${Math.round(hrs)} study hours</b> left if you do ${fmtGoal(g)} a day.</span>`
-      : left === 0 ? `<span class="pixel big-n">IELTS DAY!</span><span style="font-size:14px;font-weight:700">Good luck — you've got this.</span>`
-      : `<span class="pixel big-n">Exam done 🎉</span><span style="font-size:14px;font-weight:700">Set your next date in My goals.</span>`;
-  } else cd = `<div class="row-h"><span class="pixel" style="font-size:20px">No exam date yet</span><button class="btn2" type="button" data-go="profile" style="padding:6px 10px">Set it</button></div>`;
-  cd += `<div class="row-h"><span style="font-size:13px;font-weight:800">Today ${fmtLong(td)} / ${fmtGoal(g)}</span><small>${td >= g * MIN ? "goal reached ✓" : fmtLong(Math.max(0, g * MIN - td)) + " to go"}</small></div>
-         <div class="prog"><div style="width:${Math.min(100, td / (g * MIN) * 100)}%"></div></div>`;
-  $("countCard").innerHTML = cd;
-  $("lobby").innerHTML = lobbyHtml(t);
-  $("remindCard").innerHTML = localStorage.getItem("squad-remind-dismissed") ? "" :
-    `<div class="remind"><span style="font-size:22px">🔔</span><span style="flex:1">Get a reminder every day at <b>${p.studyTime || "20:00"}</b></span><button class="btn2" type="button" data-remind="add" style="padding:6px 10px">Add</button><button class="btn2" type="button" data-remind="no" aria-label="Dismiss" style="padding:6px 10px">✕</button></div>`;
-  // race teaser on home
+  // squad: seated = colour + minutes today; away = grey + planned start time
+  const seated = seatedIds(), nowHM = new Date(t + 3.5 * HOUR).toISOString().slice(11, 16);
+  const tiles = PEOPLE.map(pp => {
+    const id = pp.id, pr = state.profiles[id], done = dayMs(id, today, t);
+    const on = seated.includes(id), ok = pr && done >= goalOf(id) * MIN;
+    const st = pr && pr.studyTime, late = !on && !ok && st && nowHM > st && done === 0;
+    const cls = !pr ? "off none" : on ? "on" : "off" + (late ? " late" : "");
+    const label = on ? `<i></i>${fmtHM(done)}` : (pr ? (ok ? fmtHM(done) : (st || "—")) : "—");
+    return `<span class="hm-p ${cls}${ok ? " done" : ""}" title="${pp.name}">${ok ? '<span class="hm-ok">✓</span>' : ""}${img(A.chars[id], pp.name)}<span class="hm-t">${label}</span></span>`;
+  }).join("");
+  put($("hmSquad"), `<span class="hm-row"><h2>The squad today</h2><small>${seated.length} at the table</small></span><span class="hm-sq">${tiles}</span>
+    <span class="hm-leg"><span><i style="background:var(--lav)"></i>studying · time today</span><span><i style="background:#FBF6EE;border-color:#BFAF9F"></i>starts at</span><span><i style="background:#FDE3E6;border-color:#E58A96"></i>late</span><span><i style="background:var(--yellow)"></i>goal done</span></span>`);
+  // my week
+  const g = goalOf(me), gMs = g * MIN, td = dayMs(me, today, t), wg = weekGoal(me, ws);
+  const wkDone = days.reduce((a, k) => a + (k <= today ? dayMs(me, k, t) : 0), 0);
+  const cols = days.map((k, i) => {
+    const d = k <= today ? dayMs(me, k, t) : 0, kg = goalOf(me, k) * MIN, met = d >= kg;
+    return `<span class="hm-wd"><span class="hm-tick">${met ? "✓" : ""}</span><span class="hm-c ${k === today ? "today" : ""}" style="height:44px"><i style="height:${Math.min(100, d / kg * 100)}%"></i></span><b class="${k === today ? "t" : ""}">${["SA", "SU", "MO", "TU", "WE", "TH", "FR"][i]}</b></span>`;
+  }).join("");
+  put($("hmWeek"), `<span class="hm-row"><h2>My week</h2><small>${fmtLong(wkDone)} of ${fmtGoal(wg)}</small></span><span class="hm-wk">${cols}</span>
+    <span class="hm-row"><b style="font-size:13px">Today ${fmtLong(td)} / ${fmtGoal(g)}</b><small>${td >= gMs ? "goal done ✓" : fmtLong(gMs - td) + " to go"}</small></span><span class="hm-prog"><div style="width:${Math.min(100, td / gMs * 100)}%"></div></span>${(() => { const pt = Object.keys(((planOf(me, ws) || {}).tests) || {}); if (!pt.length) return ""; const dn = pt.filter(k => testIsDone(me, k, (state.tests[me] || {})[k])).length; return `<span class="hm-row"><b style="font-size:13px">📝 Tests this week</b><small>${dn} of ${pt.length} done</small></span>`; })()}`);
+  // next goal: the next mock (teal flag) if it comes before the exam, otherwise the exam (red flag)
+  const exam = examOf(me), left = exam ? daysBetween(today, exam) : null;
+  const nextMock = mocksOf(me).find(m => m.date && m.date >= today && (!exam || m.date <= exam));
+  const wkBox = n => `<span class="hm-nums"><span style="display:block;border:2px solid var(--ink);border-radius:10px;padding:3px 8px;text-align:center;background:#fff"><b>${n}</b><small>weeks</small></span></span>`;
+  const sub = x => `<small style="font-size:12px;font-weight:800;color:var(--muted)">${x}</small>`;
+  let goal;
+  if (nextMock) {
+    const ml = daysBetween(today, nextMock.date);
+    goal = `<span class="hm-goal"><span class="hm-flag mock"></span><span style="flex:1;min-width:0"><b style="font-size:15px">${ml === 0 ? "Mock exam today!" : `Mock in ${ml} day${ml === 1 ? "" : "s"}`}</b><br>${sub(esc(nextMock.institute) + " · " + fmtDate(nextMock.date, { day: "numeric", month: "short" }))}</span>${exam && left >= 0 ? wkBox(Math.ceil(left / 7)) : ""}</span>`;
+  } else if (exam && left >= 0) {
+    goal = `<span class="hm-goal"><span class="hm-flag"></span><span style="flex:1"><b style="font-size:15px">${left === 0 ? "IELTS is today!" : `IELTS in ${left} days`}</b><br>${sub(fmtDate(exam, { weekday: "short", day: "numeric", month: "short", year: "numeric" }))}</span>${wkBox(Math.ceil(left / 7))}</span>`;
+  } else if (exam) goal = `<span class="hm-goal"><span class="hm-flag"></span><span><b style="font-size:15px">Exam done 🎉</b><br>${sub("Set your next date ›")}</span></span>`;
+  else goal = `<span class="hm-goal"><span class="hm-flag"></span><span><b style="font-size:15px">Set your exam date ›</b><br>${sub("see the countdown here")}</span></span>`;
+  put($("hmGoal"), goal);
+  // climb (still the race page for now)
   const wkT = id => days.reduce((s2, k) => s2 + (k <= today ? dayMs(id, k, t) : 0), 0);
-  const fr = id => Math.min(1, wkT(id) / (goalOf(id) * 7 * MIN));
-  const rank = [...PEOPLE].sort((a, b) => fr(b.id) - fr(a.id)).findIndex(pp => pp.id === me) + 1;
-  const ld = leaders(today, t);
-  $("raceBtn").innerHTML = `<span style="font-size:26px">🏁</span><span style="flex:1;display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">This week's race</b><span class="muted" style="font-size:13px;font-weight:700">You're #${rank} of 6 · ${Math.round(fr(me) * 100)}% of your week${ld.length ? " · " + ld.map(k => PAIRS[k].map(id => BY[id].name).join(" & ")).join(", ") + " lead today" : ""}</span></span><span class="pixel" style="font-size:20px">▸</span>`;
+  const fr = id => Math.min(1, wkT(id) / (weekGoal(id, ws) * MIN));
+  const onTrack = PEOPLE.filter(pp => state.profiles[pp.id] && fr(pp.id) >= Math.min(1, (daysBetween(ws, today) + 1) / 7) * 0.8).length;
+  put($("hmClimb"), `${pixIcon(ICONS.climb, 3)}<span style="flex:1;display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">The Climb · together</b><small style="font-size:12px;font-weight:800;color:var(--muted)">${onTrack} of 6 on track this week · you're at ${Math.round(fr(me) * 100)}%</small></span><b class="pixel" style="font-size:18px">›</b>`);
   const s = state.sessions[me] || {};
   $("homeGo").textContent = ["studying", "paused"].includes(s.state) ? "BACK TO TABLE ▶" : "START ▶";
-  const n = seatedIds().length;
-  $("homeSeated").textContent = n ? `${n} at the table right now` : "The table is empty — be first!";
 }
 function renderRace() {
   const t = now(), today = dayKey(t), ws = weekStart(today);
@@ -783,7 +1936,7 @@ function renderRace() {
   // trail
   $("weekRange").textContent = `${fmtDate(days[0], { day: "numeric", month: "short" })} – ${fmtDate(days[6], { day: "numeric", month: "short" })}`;
   const wk = id => days.reduce((s, k) => s + (k <= today ? dayMs(id, k, t) : 0), 0);
-  const frac = id => Math.min(1, wk(id) / (goalOf(id) * 7 * MIN));
+  const frac = id => Math.min(1, wk(id) / (weekGoal(id, ws) * MIN));
   const X = v => (v / A.MW * 100) + "%", Y = v => (v / A.MH * 100) + "%";
   let m = `<img class="px" src="${A.map}" alt="Weekly trail" style="left:0;top:0;width:100%;height:100%">`;
   A.miles.forEach(([x, y], i) => { m += `<span class="lab" style="left:${X(x)};top:${Y(y + 6)}">${(i + 1) * 20}%</span>`; });
@@ -800,10 +1953,9 @@ function renderRace() {
   // players
   $("dayHead").innerHTML = days.map(k => `<span style="width:19px;text-align:center;font-size:10px;font-weight:800;color:${k === today ? "#6A4FB3" : "#7A6A5E"}">${fmtDate(k, { weekday: "short" }).slice(0, 2)}</span>`).join("");
   $("rows").innerHTML = [...PEOPLE].sort((a, b) => frac(b.id) - frac(a.id)).map(pp => {
-    const goalMs = goalOf(pp.id) * MIN;
     const cells = days.map(k => {
       if (k > today) return '<span class="cell f"></span>';
-      const ms = dayMs(pp.id, k, t), r = ms / goalMs;
+      const ms = dayMs(pp.id, k, t), r = ms / (goalOf(pp.id, k) * MIN);
       const col = ms === 0 ? "#EFE3D2" : r < .25 ? "#F6D9A4" : r < .5 ? "#F2B65C" : r < 1 ? "#E58F3C" : "#C2622A";
       return `<span class="cell ${k === today ? "today" : ""}" style="background:${col}" title="${Math.round(ms / MIN)} min">${r >= 1 ? tick : ""}</span>`;
     }).join("");
@@ -836,6 +1988,7 @@ let notesReady = false;
 const notesFor = id => Object.entries((state.notes || {})[id] || {}).map(([k, v]) => ({ id: k, ...v })).filter(n => n && n.from && BY[n.from]).sort((a, b) => a.at - b.at);
 const pileCount = id => notesFor(id).filter(n => !flying.has(n.id)).length;
 function onData(first) {
+  try { saveLocal(); } catch (e) {}
   const all = [];
   for (const [to, list] of Object.entries(state.notes || {})) for (const [id, n] of Object.entries(list || {})) all.push({ id, to, ...n });
   if (first || !notesReady) { all.forEach(n => seen.add(n.id)); notesReady = true; pruneBoard(); return; }
@@ -1014,13 +2167,11 @@ function renderHall() {
   A.SEATS.forEach((sx, i) => {
     if (seated.includes(PEOPLE[i].id)) h += `<img class="px" src="${A.book}" alt="" style="left:${X(sx - 9)};top:${Y(A.TABLE_TOP - 3)};width:${X(19)};height:${Y(7)}">`;
   });
-  const lead = leaders(key, t);
-  A.PAIRS.forEach((c, k) => {
-    const [a, b] = PAIRS[k];
-    const s = id => dayMs(id, key, t) >= STREAK_MIN * MIN ? 1 : 0, g = id => dayMs(id, key, t) >= goalOf(id) * MIN ? 1 : 0;
-    h += `<img class="px" src="${A.lamps["streak" + s(a) + s(b)]}" alt="" style="left:${X(c - 23)};top:${Y(230)};width:${X(17)};height:${Y(12)}">`;
-    h += `<img class="px" src="${A.lamps["goal" + g(a) + g(b)]}" alt="" style="left:${X(c - 8)};top:${Y(230)};width:${X(17)};height:${Y(12)}">`;
-    h += `<img class="px" src="${A.lamps["crown" + (lead.includes(k) ? 1 : 0)]}" alt="" style="left:${X(c + 9)};top:${Y(230)};width:${X(15)};height:${Y(13)}">`;
+  // one lamp per seat: green when that person reached their own goal today
+  A.SEATS.forEach((sx, i) => {
+    const id = PEOPLE[i].id; if (!state.profiles[id]) return;
+    const on = dayMs(id, key, t) >= goalOf(id) * MIN;
+    h += `<span class="sk-lamp ${on ? "on" : ""}" title="${PEOPLE[i].name}: ${on ? "goal reached" : "not yet"}" style="left:${X(sx)};top:${Y(232)};width:${X(14)};height:${Y(8)}"></span>`;
   });
   A.SEATS.forEach((sx, i) => {
     const id = PEOPLE[i].id;
@@ -1049,26 +2200,42 @@ function renderHall() {
   // LED board
   const ln = boardNow(t);
   h += `<button type="button" class="board ${ln.cls}${ln.clock ? " clock" : ""}" data-act="board" aria-label="Room board: ${esc(ln.text)}. Tap to see today's board." style="left:${X(70)};top:${Y(3)};width:${X(100)};height:${Y(21)}"><span>${esc(ln.text)}</span></button>`;
-  $("sceneArt").innerHTML = h;
+  put($("sceneArt"), h);
   $("seatChip").textContent = `${seated.length}/6 seated`;
   const mine = pileCount(me);
   $("notesBtn").innerHTML = `✉ My notes ${mine ? `<span class="badge">${mine}</span>` : ""}`;
 
   const s = state.sessions[me] || { state: "off" };
-  if (s.state === "studying") {
-    $("timer").innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="t pixel">${fmtHMS(sittingMs(me, t))}</span><button class="round" type="button" data-act="pause" aria-label="Pause"><i></i><i></i></button><button class="stop pixel" type="button" data-act="stop">STOP <i></i></button>`;
-  } else if (s.state === "paused") {
-    $("timer").innerHTML = `<span class="t pixel" style="color:var(--muted)">${fmtHMS(sittingMs(me, t))}</span><span class="lbl">paused</span><button class="round" type="button" data-act="resume" aria-label="Resume"><svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true"><path d="M2 1l13 8-13 8z" fill="#2E2622"/></svg></button><button class="stop pixel" type="button" data-act="stop">STOP <i></i></button>`;
-  } else {
-    $("timer").innerHTML = `<div style="display:flex;flex-direction:column"><span class="lbl">Today</span><span class="t pixel">${fmtLong(dayMs(me, key, t))}</span></div><button class="sit pixel" type="button" data-act="sit">SIT DOWN ▶</button>`;
+  const sk = SK[s.skill] || SK[lastSkill()];
+  const live = isLive(s, t) ? s.state : "off";
+  put($("skRow"), live === "off" ? "" : `<span>${live === "paused" ? "Paused on" : "Studying"}</span><button type="button" class="sk-chip" data-act="skill" aria-label="Change skill"><i style="background:${sk.col}"></i>${sk.name} ▾</button><span class="muted" style="font-size:11px">tap to switch</span>`);
+  // the buttons are only rebuilt when the state changes; the clock text is updated on its own
+  if (live === "studying") put($("timer"), `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="t pixel" id="tmT"></span><button class="round" type="button" data-act="pause" aria-label="Pause"><i></i><i></i></button><button class="stop pixel" type="button" data-act="stop">STOP <i></i></button>`);
+  else if (live === "paused") put($("timer"), `<span class="t pixel" id="tmT" style="color:var(--muted)"></span><span class="lbl">paused</span><button class="round" type="button" data-act="resume" aria-label="Resume"><svg width="16" height="18" viewBox="0 0 16 18" aria-hidden="true"><path d="M2 1l13 8-13 8z" fill="#2E2622"/></svg></button><button class="stop pixel" type="button" data-act="stop">STOP <i></i></button>`);
+  else put($("timer"), `<div style="display:flex;flex-direction:column"><span class="lbl" id="tmL"></span><span class="t pixel" id="tmT"></span></div><button class="sit pixel" type="button" data-act="sit">SIT DOWN ▶</button>`);
+  if (live === "off") { $("tmT").textContent = fmtLong(dayMs(me, key, t)); $("tmL").textContent = `Today · goal ${fmtGoal(goalOf(me))}`; }
+  else $("tmT").textContent = fmtHMS(sittingMs(me, t));
+}
+// a page that fails to draw shows the reason on the page itself (and in the red bar)
+function safeRender(boxId, fn) {
+  try { fn(); }
+  catch (e) {
+    const st = String((e && e.stack) || "").split("\n").slice(0, 4).join(" / ");
+    put($(boxId), `<div class="mx-tip" style="background:#FDE3E6">This page could not load.<br><b>${esc((e && e.message) || String(e))}</b><br><span class="gl-sm">${esc(st)} · v${APP_VERSION}</span><br>Please send a screenshot to Zinat.</div>`);
+    showErr(e);
   }
 }
-function render() {
+function render() { try { renderInner(); } catch (e) { showErr(e); } }
+function renderInner() {
   const s = onScreen();
   if (!me || !state.profiles[me]) { if (s === "start" && $("stPick").classList.contains("on")) renderTiles(); return; }
   if (s === "home") renderHome();
   if (s === "race") renderRace();
   if (s === "hall") renderHall();
+  if (s === "me") safeRender("meBody", renderMe);
+  if (s === "road") safeRender("ryBody", renderRoad);
+  if (s === "wkd" && wdWs) safeRender("wdBody", renderWkd);
+  if (s === "tests") safeRender("txBody", renderTests);
   if (s === "start" && $("stPick").classList.contains("on")) renderTiles();
 }
 
@@ -1083,27 +2250,123 @@ $("pinBack").addEventListener("click", () => showStep("stPick"));
 $("setBack").addEventListener("click", () => showStep("stPick"));
 $("setGo").addEventListener("click", finishSetup);
 $("newNoDate").addEventListener("change", e => { $("newExam").disabled = e.target.checked; });
-$("profNoDate").addEventListener("change", e => { $("profExam").disabled = e.target.checked; });
 document.addEventListener("click", e => {
   const st = e.target.closest("[data-step]");
   if (st) {
     const d = +st.dataset.step;
     if (st.dataset.for === "new") { newGoal = Math.min(480, Math.max(30, newGoal + d)); $("newGoal").textContent = fmtGoal(newGoal); }
-    else { profGoal = Math.min(480, Math.max(30, profGoal + d)); showProfGoal(); }
+    else { profGoal = Math.min(480, Math.max(30, profGoal + d)); }
   }
   const g = e.target.closest("[data-go]"); if (g) go(g.dataset.go);
   const r = e.target.closest("[data-remind]");
   if (r) { if (r.dataset.remind === "add") addReminder(); else { localStorage.setItem("squad-remind-dismissed", "1"); render(); } }
 });
-$("raceBtn").addEventListener("click", () => go("race"));
-$("raceChip").addEventListener("click", () => go("race"));
+$("hmSquad").addEventListener("click", () => go("hall"));
+$("hmWeek").addEventListener("click", () => openGoals("week"));
+$("hmGoal").addEventListener("click", () => openGoals("main"));
+$("hmClimb").addEventListener("click", () => go("race"));
+document.querySelectorAll("[data-ico]").forEach(el => { el.innerHTML = pixIcon(ICONS[el.dataset.ico], el.dataset.ico === "table" ? 3.6 : 2.6); });
+$("spIco").innerHTML = pixIcon(ICONS.mic, 8);
+document.querySelector(".nav-in").addEventListener("click", e => { const b = e.target.closest("[data-nav]"); if (!b) return; try { go(b.dataset.nav); } catch (err) { showErr(err); } });
 $("raceBack").addEventListener("click", () => go("home"));
 $("raceGo").addEventListener("click", () => $("homeGo").click());
-$("homeGo").addEventListener("click", async () => { go("hall"); await guardForgotten(); const s = state.sessions[me] || {}; if (!["studying", "paused"].includes(s.state)) await sitDown(); });
-$("homeMe").addEventListener("click", () => go("profile"));
+$("homeGo").addEventListener("click", async () => { const s = state.sessions[me] || {}; if (["studying", "paused"].includes(s.state) && isLive(s)) return go("hall"); openSkill("start"); });
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-sk]"); if (b) pickSkill(b.dataset.sk);
+});
+$("skRow").addEventListener("click", e => { if (e.target.closest('[data-act="skill"]')) openSkill("switch"); });
+$("homeMe").addEventListener("click", () => go("me"));
 $("hallBack").addEventListener("click", () => go("home"));
-$("profBack").addEventListener("click", () => go("home"));
+$("profBack").addEventListener("click", () => go("me"));
 $("profSave").addEventListener("click", saveProfile);
+document.querySelectorAll("[data-door]").forEach(b => b.addEventListener("click", () => openGoals(b.dataset.door)));
+$("glBack").addEventListener("click", () => go("me"));
+$("meGear").addEventListener("click", () => go("profile"));
+$("ryBack").addEventListener("click", () => go("me"));
+$("wdBack").addEventListener("click", () => go(wdFrom === "road" ? "road" : "me"));
+$("me").addEventListener("click", e => {
+  const r = e.target.closest("[data-mrange]"); if (r) { meRange = r.dataset.mrange; return renderMe(); }
+  const a = e.target.closest("[data-mact]"); if (!a) return;
+  const cur = weekStart(dayKey(now())), act = a.dataset.mact;
+  if (act === "main") openGoals("main");
+  else if (act === "week") openGoals("week");
+  else if (act === "plannext") { openGoals("week"); loadWeek(addDays(cur, 7)); renderGoals(); }
+  else if (act === "road") go("road");
+  else if (act === "wkd") openWeekDetail(cur, "me");
+  else if (act === "addtest") openAddTest();
+  else if (act === "alltests") { txOpen = null; go("tests"); }
+});
+$("road").addEventListener("click", e => {
+  const w = e.target.closest("[data-wk]"); if (w) return openWeekDetail(w.dataset.wk, "road");
+  const m = e.target.closest("[data-mres]"); if (m) return openResult(m.dataset.mres);
+  const a = e.target.closest('[data-mact="main"]'); if (a) openGoals("main");
+});
+$("rsGrid").addEventListener("change", e => { const k = e.target.dataset.band; if (!k) return; rsDraft[k] = e.target.value === "" ? null : +e.target.value; drawResult(); });
+$("rsOv").addEventListener("change", e => { rsDraft.auto = false; rsDraft.overall = e.target.value === "" ? null : +e.target.value; drawResult(); });
+$("rsSave").addEventListener("click", saveResult);
+$("txBack").addEventListener("click", () => go("me"));
+$("tests").addEventListener("click", e => {
+  if (e.target.closest('[data-tact="add"]')) return openAddTest();
+  const x = e.target.closest("[data-xpart]"); if (x) { const [k, p2] = x.dataset.xpart.split("|"); return togglePart(k, p2[0], +p2.slice(1)); }
+  const mo = e.target.closest("[data-tmore]"); if (mo) return openLog(mo.dataset.tmore);
+  const o = e.target.closest("[data-topen]"); if (o) { const k = o.dataset.topen; txOpen.has(k) ? txOpen.delete(k) : txOpen.add(k); renderTests(); }
+});
+$("atBook").addEventListener("change", drawAddTest);
+$("atTest").addEventListener("change", drawAddTest);
+$("atGo").addEventListener("click", startLogging);
+$("ltTabs").addEventListener("click", async e => {
+  const b = e.target.closest("[data-ltry]"); if (!b) return;
+  if (b.dataset.ltry === "+") {
+    const ids = tryIds(lt.t), nid = "t" + ((ids.length ? +ids[ids.length - 1].slice(1) : 0) + 1);
+    lt.t.tries[nid] = { date: dayKey(now()), parts: { L: [0, 0, 0, 0], R: [0, 0, 0], W: [0, 0], S: [0, 0, 0] } };
+    lt.tr = nid; queueSave();
+  } else lt.tr = b.dataset.ltry;
+  drawLog();
+});
+$("ltRows").addEventListener("click", e => {
+  const b = e.target.closest("[data-lpart]"); if (!b) return;
+  const k = b.dataset.lpart[0], i = +b.dataset.lpart.slice(1), tr = lt.t.tries[lt.tr];
+  tr.parts ||= {}; const arr = partsOf(tr, k); arr[i] = (arr[i] + 1) % 3; tr.parts[k] = arr;
+  drawLog(); queueSave();
+});
+$("ltScore").addEventListener("change", e => {
+  const k = e.target.dataset.lscore; if (!k) return;
+  const tr = lt.t.tries[lt.tr]; tr.score ||= {};
+  let v = e.target.value === "" ? null : +e.target.value;
+  if (v != null && (k === "L" || k === "R")) v = Math.max(0, Math.min(40, Math.round(v)));
+  if (v == null) delete tr.score[k]; else tr.score[k] = v;
+  if (!Object.keys(tr.score).length) delete tr.score;
+  drawLog(); queueSave();
+});
+$("ltSave").addEventListener("click", saveLog);
+$("ltDel").addEventListener("click", delTry);
+// a closed log sheet still saves what was tapped
+$("logTest").addEventListener("click", e => { if (e.target.closest('[data-close="logTest"]') && lt) { clearTimeout(ltTimer); store.setTest(me, lt.key, lt.t).catch(showErr); setTimeout(render, 50); } });
+$("rsEdit").addEventListener("click", () => { const id = rsMock; $("resSheet").classList.remove("on"); openMock(id); });
+document.querySelectorAll("[data-gtab]").forEach(b => b.addEventListener("click", () => { gTab = b.dataset.gtab; renderGoals(); window.scrollTo(0, 0); }));
+$("goals").addEventListener("click", e => {
+  const a = e.target.closest("[data-gact]"); if (a && !a.disabled) return goalAct(a.dataset.gact);
+  const q = e.target.closest("[data-gavg]"); if (q) { gMain.avgMin = +q.dataset.gavg; return renderGoals(); }
+  const m = e.target.closest("[data-mock]"); if (m) { const mk = (state.mocks[me] || {})[m.dataset.mock]; return mk && mk.date && mk.date <= dayKey(now()) ? openResult(m.dataset.mock) : openMock(m.dataset.mock); }
+  const dd = e.target.closest("[data-gday]"); if (dd && !dd.disabled) { gSel = gSel === dd.dataset.gday ? null : dd.dataset.gday; return renderGoals(); }
+  const pt = e.target.closest("[data-ptest]"); if (pt && !pt.disabled) return openPlan(pt.dataset.ptest);
+  const tg = e.target.closest("[data-tgo]"); if (tg) return openTestOnPage(tg.dataset.tgo);
+});
+$("goals").addEventListener("change", e => {
+  if (e.target.id === "glExam") { gMain.examDate = e.target.value || null; renderGoals(); }
+  if (e.target.id === "glBand") { gMain.targetBand = e.target.value ? +e.target.value : null; renderGoals(); }
+});
+$("mkInst").addEventListener("input", mkChips);
+$("mkChips").addEventListener("click", e => { const b = e.target.closest("[data-inst]"); if (b) { $("mkInst").value = b.dataset.inst; mkChips(); } });
+$("mkTbc").addEventListener("change", () => { $("mkDate").disabled = $("mkTbc").checked; });
+$("mkSave").addEventListener("click", saveMock);
+$("mkDel").addEventListener("click", delMock);
+$("ptBook").addEventListener("change", () => { ptDraft.book = +$("ptBook").value; drawPlan(); });
+$("ptTest").addEventListener("change", () => { ptDraft.test = +$("ptTest").value; drawPlan(); });
+$("ptSkills").addEventListener("click", e => { const b = e.target.closest("[data-ptsk]"); if (!b) return; const k = b.dataset.ptsk, sk = ptDraft.skills; ptDraft.skills = sk.includes(k) ? sk.filter(x => x !== k) : [...sk, k]; drawPlan(); });
+$("ptDays").addEventListener("click", e => { const b = e.target.closest("[data-ptday]"); if (!b) return; ptDraft.day = b.dataset.ptday || null; drawPlan(); });
+$("ptSave").addEventListener("click", savePlan);
+$("ptDel").addEventListener("click", delPlan);
 $("profRemind").addEventListener("click", async () => { if ($("profTime").value) await store.setProfile(me, { studyTime: $("profTime").value }); addReminder(); });
 $("signOut").addEventListener("click", () => { setTrusted(trusted().filter(x => x !== me)); localStorage.removeItem("squad-me"); me = ""; go("start"); });
 $("sceneArt").addEventListener("click", e => {
@@ -1131,11 +2394,11 @@ document.querySelectorAll(".ovl").forEach(o => o.addEventListener("click", e => 
 document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
   if ($("composer").classList.contains("on")) closeComposer();
-  ["reader", "boardModal"].forEach(id => $(id).classList.remove("on"));
+  ["reader", "boardModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"].forEach(id => $(id).classList.remove("on"));
 });
 $("timer").addEventListener("click", e => {
   const act = e.target.closest("[data-act]")?.dataset.act;
-  if (act === "pause") pause(); if (act === "resume") resume(); if (act === "stop") stopIt(); if (act === "sit") sitDown();
+  if (act === "pause") pause(); if (act === "resume") resume(); if (act === "stop") stopIt(); if (act === "sit") openSkill("start");
 });
 window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (SCREENS.includes(h) && h !== onScreen()) go(h); });
 setInterval(() => { if (["home", "race", "hall"].includes(onScreen())) render(); if (loaded && me) { const t = now(); sweepStale(t); checkLeadChange(t); } }, 1000);
@@ -1143,7 +2406,7 @@ setInterval(() => { if (store && me && $("composer").classList.contains("on")) s
 
 // ---------------- update check ----------------
 // Bump APP_VERSION and version.json together whenever new files are uploaded.
-const APP_VERSION = "2026.11.03-1";
+const APP_VERSION = "2026.11.05-7";
 async function checkUpdate() {
   if (!/^https?:/.test(location.protocol)) return;
   try {
