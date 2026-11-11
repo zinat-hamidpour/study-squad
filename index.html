@@ -8,6 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="splash.mp4" as="video" type="video/mp4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Study Squad">
@@ -704,6 +705,26 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 </style>
 </head>
 <body>
+<!-- opening animation: shown at once (before the app script), gone when it ends, on tap, or after 4.5 s -->
+<style>
+#splash{position:fixed;inset:0;z-index:200;background:#6D59FD;transition:opacity .4s}
+#splash.off{opacity:0;pointer-events:none}
+#splash video{width:100%;height:100%;object-fit:contain;display:block;image-rendering:pixelated}
+</style>
+<div id="splash" aria-hidden="true"><video id="splashV" src="splash.mp4" poster="splash-end.png" autoplay muted playsinline preload="auto"></video></div>
+<script>
+(function () {
+  var s = document.getElementById("splash"), v = document.getElementById("splashV"), done = false;
+  if (navigator.webdriver) { s.remove(); return; }               // automated tests: no animation
+  function hide() { if (done) return; done = true; s.classList.add("off"); setTimeout(function () { s.remove(); }, 450); }
+  v.addEventListener("ended", function () { setTimeout(hide, 300); });
+  v.addEventListener("error", hide);
+  s.addEventListener("click", hide);
+  setTimeout(hide, 4500);
+  // a phone that won't autoplay (e.g. iPhone in Low Power Mode) shows the last frame for a moment instead
+  var p = v.play && v.play(); if (p && p.catch) p.catch(function () { setTimeout(hide, 1200); });
+})();
+</script>
 <div class="app">
 <div id="demo" class="demo" hidden>DEMO MODE · not connected · data stays on this phone</div>
 <div id="ghBar" class="gh-bar" hidden><span id="ghBarTxt"></span><button id="ghLeave" type="button">Leave</button></div>
@@ -851,7 +872,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 
 <!-- ============ PROFILE / GOALS ============ -->
 <section id="me" class="screen">
-  <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings"><i data-pi="gear" data-sz="2.5"></i></button></header>
+  <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings"><i data-pi="gear" data-sz="2"></i></button></header>
   <div id="meTabs"></div>
   <div id="mePlan" class="mx-body">
     <div class="mx-sub" role="tablist"><button type="button" data-gtab="main">MAIN GOAL</button><button type="button" data-gtab="week">WEEKLY PLAN</button></div>
@@ -1028,10 +1049,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.11-11"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.11-12"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.11-11";
+const APP_VERSION = "2026.11.11-12";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -2520,7 +2541,7 @@ const ICONS = {
   table: ["....YY....", "...YYYY...", "....KK....", "....KK....", "KKKKKKKKKK", "KBBBBBBBBK", "KKKKKKKKKK", ".K......K.", ".K......K.", ".K......K."],
   // small UI icons (design rule: every icon is pixel art, never an emoji)
   pencil: [".....KK.", "....KPPK", "...KYKKK", "..KYYYK.", ".KYYYK..", "KCYYK...", "KKCK....", "KK......"],
-  gear: ["....KKK....", "..K.KSK.K..", ".KSKSSSKSK.", "..KSSSSSK..", "KKSSSKSSSKK", "KSSSK.KSSSK", "KKSSSKSSSKK", "..KSSSSSK..", ".KSKSSSKSK.", "..K.KSK.K..", "....KKK...."],
+  gear: ["....KK....", ".KK.KK.KK.", ".KKKSSKKK.", "..KSSSSK..", "KKSSKKSSKK", "KKSSKKSSKK", "..KSSSSK..", ".KKKSSKKK.", ".KK.KK.KK.", "....KK...."],
   close: ["KK...KK", "KKK.KKK", ".KKKKK.", "..KKK..", ".KKKKK.", "KKK.KKK", "KK...KK"],
   check: ["......KK", ".....KKK", "K...KKK.", "KK.KKK..", "KKKKK...", ".KKK....", "..K....."],
   note: ["KKKKKKKK", "KWWWWWWK", "KWKKKKWK", "KWWWWWWK", "KWKKKKWK", "KWWWWWWK", "KWKKWWWK", "KWWWWWWK", "KKKKKKKK"],
@@ -2530,7 +2551,7 @@ const ICONS = {
   bulb: ["..KKK..", ".KYYYK.", "KYYWYYK", "KYYYYYK", "KYYYYYK", ".KYYYK.", "..KSK..", "..KSK..", "..KKK.."],
   mail: ["KKKKKKKKK", "KKWWWWWKK", "KWKWWWKWK", "KWWKWKWWK", "KWWWKWWWK", "KWWWWWWWK", "KKKKKKKKK"],
   calendar: [".K.....K.", "KKKKKKKKK", "KRRRRRRRK", "KKKKKKKKK", "KWWWWWWWK", "KWKWKWKWK", "KWWWWWWWK", "KWKWKWWWK", "KKKKKKKKK"],
-  chart: ["K.......", "K.....GG", "K.....GG", "K..YY.GG", "K..YY.GG", "KLLYY.GG", "KLLYY.GG", "KKKKKKKK"],
+  chart: ["K.......", "K.....GG", "K.....GG", "K..PP.GG", "K..PP.GG", "KDDPP.GG", "KDDPP.GG", "KKKKKKKK"],
   download: ["..KKK..", "..KGK..", "..KGK..", "KKKGKKK", ".KGGGK.", "..KGK..", "...K...", "KKKKKKK"],
   star: ["...K...", "..KYK..", "KKKYKKK", "KYYYYYK", ".KYYYK.", ".KYKYK.", "KK...KK"],
   pizza: ["KKKKKKKK", "KOOOOOOK", "KYRYYRK.", ".KYYYYK.", ".KYRYK..", "..KYYK..", "..KYK...", "...K...."],

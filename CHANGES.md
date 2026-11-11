@@ -1,3 +1,14 @@
+# Study Squad 2026.11.11-12 · New app icon + opening animation
+
+1. **New app icon** (the pixel note ball on purple) in every size: 180 (iPhone), 192, 512 and 1024.
+   Phones that already have the app on the home screen keep the old icon until it is removed and added again.
+2. **Opening animation**: when the app opens, the note ball flies in and opens into "THE STUDY SQUAD" (3 s).
+   Tap to skip. If a phone won't play it (e.g. iPhone in Low Power Mode), the last picture shows for a moment.
+   The home-screen app now starts on the same purple, so the opening is one smooth piece.
+3. Settings gear: smaller and clearly a gear. PROGRESS icon: bars in the skill colours (blue, pink, green).
+
+---
+
 # Study Squad 2026.11.11-11 · Pixel icons everywhere
 
 1. Every icon in the app is now pixel art, like the rest of the app: no more phone emoji.

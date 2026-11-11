@@ -3,7 +3,7 @@
  "short_name": "Study Squad",
  "start_url": "./",
  "display": "standalone",
- "background_color": "#F6EBDD",
+ "background_color": "#6D59FD",
  "theme_color": "#F6EBDD",
  "icons": [
   {
@@ -16,6 +16,11 @@
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "any maskable"
+  },
+  {
+   "src": "icon-1024.png",
+   "sizes": "1024x1024",
+   "type": "image/png"
   }
  ]
 }
