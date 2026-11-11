@@ -1,4 +1,4 @@
-# Study Squad 2026.11.11-9 · ME: PLAN | PROGRESS
+# Study Squad 2026.11.11-10 · ME: clearer tabs, MY BANDS, weekly tests + to-do
 
 1. ME has two tabs: **🗓 PLAN** (what I'm going to do) and **📈 PROGRESS** (what I've done). The open tab is lavender
    and raised, so you always see where you are.
@@ -18,6 +18,13 @@
 6. Mock exams are planned only in MAIN GOAL.
 7. My study time (fix a day, start fresh) moved to **Settings (⚙)**. Ghost guests and the clean-up are there too,
    only for Zinat.
+
+---
+
+# Study Squad 2026.11.11-9 · ME: PLAN | PROGRESS
+
+1. ME has two tabs: PLAN (what I'm going to do) and PROGRESS (what I've done).
+   (First version; 2026.11.11-10 above finishes it.)
 
 ---
 
