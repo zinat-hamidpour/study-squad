@@ -1,3 +1,40 @@
+# Study Squad 2026.11.11-3 · Ghost touches
+
+1. A ghost dropped on the rug slips under it: only the top of its head and its eyes peek out (now and then it bobs).
+   New ghosts appear in front of the table, not under the rug.
+2. The ghost-name field in the note is now a small dashed line under TO, with a tiny ghost next to it.
+3. A note thrown to a ghost that is in the hall flies to the ghost and sticks to its body (up to 3 balls show).
+   A ghost's note to one of the six flies from the ghost to that person's desk.
+
+---
+
+# Study Squad 2026.11.11-2 · Ghost guests
+
+Replace these files in the GitHub Pages repo: index.html, assets.js, version.json (and this CHANGES.md).
+This version includes everything in 2026.11.11-1 (below).
+
+## Ghost guests (up to 10 friends outside the six)
+1. A tiny grey ghost sits under the six tiles on the start screen. Tap it to come in as a ghost.
+2. NEW GHOST: pick a name (2–14 letters, not one of the six, not taken), your own password (4+ characters)
+   and your colour from 10. Colours other ghosts already have are greyed out. At most 10 ghosts.
+3. I'M BACK: the ghost's name (capital letters don't matter) + password. The phone remembers the ghost until you tap Leave.
+4. Ghosts see every page through Zinat's eyes, read-only. Any change (timer, goals, board, lanterns, settings…)
+   is blocked with "Ghosts can look, but not touch."
+5. Ghosts can send notes to any of the six or to another ghost: 5 notes a day. Their notes are signed under the text
+   with their name and a dot in their colour.
+6. The six send a note to a ghost by typing its exact name under TO (capital letters and extra spaces don't matter).
+   There is no list: when the name matches, a dot in the ghost's colour appears and the note can be sent.
+7. A ghost has its own mailbox: MAIL in the hall shows the ghost's notes, never Zinat's.
+8. Ghosts float over the rug in the hall with a small name under them. A ghost can drag itself with a finger;
+   everyone sees where it lands. A ghost whose phone hasn't checked in for 3 minutes disappears from the hall.
+9. Only Zinat can let a ghost go: ME → Ghost guests → Let go (tap twice). The ghost's notes go with it, and its phone
+   is sent back to the start screen.
+
+Note on safety: PINs and ghost passwords are checked on the phone, and the database itself is still open.
+Before sharing the link with people outside the squad, lock the database (Firebase Anonymous Auth + Security Rules).
+
+---
+
 # Study Squad 2026.11.11-1
 
 Replace these files in the GitHub Pages repo: index.html, assets.js, version.json (and this CHANGES.md).
