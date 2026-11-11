@@ -1,3 +1,13 @@
+# Study Squad 2026.11.11-4 · Update fix
+
+1. Fix: after tapping UPDATE some phones showed a white page with an empty red bar. The new index.html was running
+   with the old assets.js still in the phone's cache. assets.js now carries the version in its address, and UPDATE
+   refreshes it before reloading.
+2. Fix: the error bar now shows its message even when the app fails during startup.
+3. Fix: creating a new ghost was refused by the database rules (it wrote the whole ghost list); it now writes only its own spot.
+
+---
+
 # Study Squad 2026.11.11-3 · Ghost touches
 
 1. A ghost dropped on the rug slips under it: only the top of its head and its eyes peek out (now and then it bobs).
