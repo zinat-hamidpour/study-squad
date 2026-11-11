@@ -1,16 +1,22 @@
 # Study Squad 2026.11.11-9 · ME: PLAN | PROGRESS
 
-1. ME has two tabs. **PLAN** = what I'm going to do. **PROGRESS** = what I've done.
-2. **PLAN** has two parts right at the top, no other page opens: **MAIN GOAL** (exam date, target band, mock exams,
-   practice-test target, hours a day) and **WEEKLY PLAN** (‹ › to change week, **PLAN NEXT WEEK** on top,
-   then 1 Daily goal · 2 Each day · 3 Tests, then SAVE). Next week is filled in from your main goal.
-3. **PROGRESS**: weeks to IELTS + studied / tests done / days goal hit · **This week** (hours only; tap → day by day) ·
-   Where your time went · MY ROAD · **Practice tests**.
-4. **My bands** (new): a chart of your band in Listening, Reading, Writing, Speaking and overall, from practice-test
-   scores (L and R out of 40 are turned into bands) and mock results. ● = practice test, ■ = mock. Tap a point to see
-   its bands. It is in Practice tests on PROGRESS and on top of the PRACTICE TESTS page.
-5. Mock exams are planned only in MAIN GOAL.
-6. My study time (fix a day, start fresh) moved to **Settings (⚙)**. Ghost guests and the clean-up are there too,
+1. ME has two tabs: **🗓 PLAN** (what I'm going to do) and **📈 PROGRESS** (what I've done). The open tab is lavender
+   and raised, so you always see where you are.
+2. **PLAN** has two parts, underlined under the tabs, edited in place (no other page opens):
+   - **MAIN GOAL**: exam date, target band, mock exams, practice-test target, hours a day.
+   - **WEEKLY PLAN**: ‹ › to change week, **PLAN NEXT WEEK** on top, then
+     1 Daily goal · 2 Each day · 3 **Tests this week** (+ CHOOSE THIS WEEK'S TEST: it goes straight into PRACTICE TESTS)
+     · 4 **To-do this week** (add, tick, delete; saved right away) · SAVE. Next week is filled in from your main goal.
+3. **PROGRESS**: weeks to IELTS + studied / tests done / days goal hit · **This week** (hours, planned tests, to-do
+   done; tap → day by day) · Where your time went · MY ROAD · **📝 Practice tests**.
+4. **Practice tests** says what to do: 1 do a Cambridge test · 2 tick the parts you did · 3 add your score
+   (✎ add score in PRACTICE TESTS). ADD A TEST and ALL TESTS are right there.
+5. **MY BANDS** (new): tap ▾ to open a chart of your band in Listening, Reading, Writing, Speaking and overall.
+   Three tabs: **WEEK** and **MONTH** (the average of each week / month) and **ALL** (every test ● and mock ■).
+   L and R scores out of 40 become bands with the usual Academic tables. Tap a point to see its bands.
+   Also on top of the PRACTICE TESTS page.
+6. Mock exams are planned only in MAIN GOAL.
+7. My study time (fix a day, start fresh) moved to **Settings (⚙)**. Ghost guests and the clean-up are there too,
    only for Zinat.
 
 ---
