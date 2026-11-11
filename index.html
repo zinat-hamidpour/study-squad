@@ -975,8 +975,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js"></script>
+<script src="assets.js?v=2026.11.11-4"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
+// Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
+const APP_VERSION = "2026.11.11-4";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1072,11 +1074,11 @@ async function makeFirebaseStore() {
     giveLantern: async (ws, to, val) => (await F.runTransaction(F.ref(db, `squad/lanterns/${ws}/${to}`), cur => cur ? undefined : val)).committed,
     setParty: (ws, val) => F.set(F.ref(db, `squad/party/${ws}`), val),
     // ghosts: the whole list is one transaction, so two phones can't take the same name or colour, and there are never more than 10
-    addGhost: async (gid, val) => (await F.runTransaction(F.ref(db, "squad/ghosts"), cur => {
-      const list = Object.values(cur || {}).filter(g => g && g.name);
-      if (list.length >= GH_MAX || list.some(g => g.key === val.key || g.color === val.color)) return;
-      return { ...(cur || {}), [gid]: val };
-    })).committed,
+    addGhost: async (gid, val) => {
+      const list = Object.values(state.ghosts || {}).filter(g => g && g.name);
+      if (list.length >= GH_MAX || list.some(g => g.key === val.key || g.color === val.color)) return false;
+      return (await F.runTransaction(F.ref(db, `squad/ghosts/${gid}`), cur => cur ? undefined : val)).committed;
+    },
     // a ghost's daily note allowance; aborts once the day's notes are used up
     ghostSent: async (gid, day) => (await F.runTransaction(F.ref(db, `squad/ghosts/${gid}/sent`), cur => cur && cur.day === day ? (cur.n >= GH_NOTES_DAY ? undefined : { day, n: cur.n + 1 }) : { day, n: 1 })).committed,
     setGhostPos: (gid, val) => F.set(F.ref(db, `squad/ghostpos/${gid}`), val),
@@ -1290,7 +1292,7 @@ const ghostsAll = () => Object.entries(state.ghosts || {}).filter(([, g]) => g &
 const ghostOf = gid => { const g = (state.ghosts || {})[gid]; return g && g.name ? g : null; };
 const ghKey = v => String(v || "").trim().replace(/\s+/g, " ").toLowerCase();
 const findGhost = name => { const k = ghKey(name); if (!k) return ""; const hit = ghostsAll().find(([, g]) => g.key === k); return hit ? hit[0] : ""; };
-const ghSrc = hue => A.miniGhosts[hue] || A.miniGhosts[GH_HUES[0]];
+const ghSrc = hue => { const mg = A.miniGhosts || {}; return mg[hue] || mg[GH_HUES[0]] || ""; };
 const ghImg = (hue, alt = "") => `<img class="px" src="${ghSrc(hue)}" alt="${alt}">`;
 const inbox = () => GHOST || me;                         // whose notes this phone reads
 const nameOf = id => BY[id] ? BY[id].name : (ghostOf(id) || {}).name || "a ghost";
@@ -3111,8 +3113,6 @@ setInterval(() => { if (["home", "race", "hall"].includes(onScreen())) render();
 setInterval(() => { if (store && me && $("composer").classList.contains("on")) store.setWriting(me, { at: now() }).catch(() => {}); }, 60 * 1000);
 
 // ---------------- update check ----------------
-// Bump APP_VERSION and version.json together whenever new files are uploaded.
-const APP_VERSION = "2026.11.11-3";
 async function checkUpdate() {
   if (!/^https?:/.test(location.protocol)) return;
   try {
@@ -3122,7 +3122,12 @@ async function checkUpdate() {
     if (v && v !== APP_VERSION) $("updBar").hidden = false;
   } catch (e) {}
 }
-$("updGo").addEventListener("click", () => { location.replace(location.pathname + "?v=" + Date.now()); });
+$("updGo").addEventListener("click", async () => {
+  // refresh the cached assets.js first: a new index.html with an old assets.js shows a white page
+  const src = (document.querySelector('script[src^="assets.js"]') || {}).src || "assets.js";
+  try { await fetch(src, { cache: "reload" }); } catch (e) {}
+  location.replace(location.pathname + "?v=" + Date.now());
+});
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") checkUpdate(); });
 setInterval(checkUpdate, 5 * 60 * 1000);
 setTimeout(checkUpdate, 3000);
