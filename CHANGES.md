@@ -1,3 +1,19 @@
+# Study Squad 2026.11.11-9 · ME: PLAN | PROGRESS
+
+1. ME has two tabs. **PLAN** = what I'm going to do; **PROGRESS** = what I've done. Same cards and colours as before.
+2. PLAN, top to bottom: **the goal card** (weeks to IELTS, target band, hours a day, practice tests): tap it, or
+   ✎ MY GOAL, to change your main goal · **This week** (tap to change it) · **PLAN NEXT WEEK** · **Practice tests**.
+3. PROGRESS: studied / tests done / days goal hit · Where your time went (tap → this week day by day) · MY ROAD ·
+   Mock exams & exam day.
+4. **Skills per day come from the timer**: the small coloured dots under each day on ME show what you studied that
+   day (the skill you pick when you sit down). "Today" on ME says how long and which skills. Nothing to plan or save.
+5. Planning a week is three numbered steps: 1 Daily goal · 2 Each day · 3 Tests, then SAVE.
+   Next week says it is filled in from your main goal.
+6. My study time (fix a day, start fresh), Zinat's clean-up and Ghost guests moved from ME to **Settings (⚙)**.
+   Ghost guests and the clean-up show only in Zinat's settings.
+
+---
+
 # Study Squad 2026.11.11-8 · Back button
 
 1. Back (the phone's back button or the swipe from the screen edge) now stays inside the app:
