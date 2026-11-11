@@ -21,6 +21,10 @@ function staticChecks() {
   const assetsV = (html.match(/<script src="assets\.js\?v=([^"]+)"/) || [])[1];
   ok(appV && appV === fileV, `APP_VERSION (${appV}) = version.json (${fileV})`);
   ok(appV && appV === assetsV, `assets.js?v= (${assetsV}) = APP_VERSION (${appV})`);
+  console.log("app icon + opening animation");
+  const man = JSON.parse(fs.readFileSync(path.join(ROOT, "manifest.json"), "utf8"));
+  ok(man.icons.every(i => fs.existsSync(path.join(ROOT, i.src))) && fs.existsSync(path.join(ROOT, "apple-touch-icon.png")), "every icon in manifest.json exists");
+  ok(/id="splashV" src="splash.mp4"/.test(html) && fs.existsSync(path.join(ROOT, "splash.mp4")) && fs.existsSync(path.join(ROOT, "splash-end.png")), "opening animation: splash.mp4 + splash-end.png are there");
   console.log("design system");
   // every icon is pixel art (pi() / pixIcon()); emoji are only allowed inside sample messages written by people
   const emoji = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{2B50}\u{2B06}\u{2B07}]/u, allowed = /[✓✕✎★]|text: "/;
