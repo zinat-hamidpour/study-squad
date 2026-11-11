@@ -106,7 +106,7 @@ async function writesUnderRules(browser, base) {
   await page.click("#ghCols [data-hue]:not([disabled])"); await page.click("#ghGo"); await page.clock.runFor(1500);
   const ghosts = await page.evaluate(() => Object.values((window.__FAKE_DB__.squad || {}).ghosts || {}).map(g => g.name));
   ok(ghosts.includes("Mahsa"), "a new ghost is saved");
-  await nav(page, "me");
+  await nav(page, "me"); await page.click("#meGear"); await page.clock.runFor(400);
   ok(await page.$eval("#meData", b => b.hidden), "a ghost can't edit or reset study data");
   ok((await denied(page)).length === 0, `no refused writes (ghost)${(await denied(page)).length ? " → " + (await denied(page)).join(", ") : ""}`);
   await finish(page, "ghost");
@@ -140,7 +140,7 @@ async function fixMyData(browser, base) {
 
   // Farzad edits Monday of this week
   let page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "farzad", db: seed() });
-  await pickMe(page, "farzad"); await nav(page, "me");
+  await pickMe(page, "farzad"); await nav(page, "me"); await click(page, "#meGear");
   const days = await page.$$eval("#meData [data-dxedit]", b => b.map(x => x.dataset.dxedit));
   ok(days.join() === "2026-11-07,2026-11-08,2026-11-09,2026-11-10,2026-11-11", `only Sat → today can be edited (${days.join(", ")})`);
   await click(page, '[data-dxedit="2026-11-09"]'); await setHM(page, 2, 5); await click(page, '[data-dxsave="2026-11-09"]');
@@ -165,7 +165,7 @@ async function fixMyData(browser, base) {
 
   // Arian starts fresh from today
   page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "arian", db: seed() });
-  await pickMe(page, "arian"); await nav(page, "me");
+  await pickMe(page, "arian"); await nav(page, "me"); await click(page, "#meGear");
   await click(page, "[data-dxfresh]");
   ok((await DB(page)).days["2026-11-08"].arian === 90 * M, "nothing is deleted before confirming");
   await click(page, "[data-dxfreshgo]");
@@ -180,7 +180,7 @@ async function fixMyData(browser, base) {
 
   // Zinat's one-time clean-up before 7 Nov
   page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "zinat", db: seed() });
-  await pickMe(page, "zinat"); await nav(page, "me");
+  await pickMe(page, "zinat"); await nav(page, "me"); await click(page, "#meGear");
   const sum = await page.$eval("#meData", b => b.textContent);
   ok(/2 days · 4 study entries · 1 log line/.test(sum), "Zinat sees what will be deleted (2 days · 4 study entries · 1 log line)");
   await click(page, "[data-dxclean]");
@@ -197,6 +197,34 @@ async function fixMyData(browser, base) {
   await noDenied(page, "clean-up"); await finish(page, "clean-up");
 }
 
+async function mePlanning(browser, base) {
+  console.log("ME: PLAN | PROGRESS, goal card, skills per day (fake Firebase)");
+  const prof = { goal: 150 };
+  const db = { squad: { profiles: { zinat: prof, milad: prof, niloufar: prof, arian: prof, farzad: prof, shaghayegh: prof },
+    main: { niloufar: { avgMin: 150, testsTarget: 25, targetBand: 7, examDate: "2027-03-06" } } } };
+  const page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "niloufar", db });
+  const click = async sel => { await page.click(sel); await page.clock.runFor(400); };
+  await pickMe(page, "niloufar"); await nav(page, "me");
+  ok(await page.$eval('[data-mtab="plan"]', b => b.classList.contains("on")), "ME opens on PLAN");
+  ok(await page.$$eval("#meBody .mx-sbar", x => x.length) === 0, "PLAN has no 'where your time went'");
+  ok(await page.$$eval('#meBody [data-mact="addtest"]', x => x.length) === 1, "practice tests are reachable from PLAN");
+  ok(await page.$$eval("#meGhosts, #meData", x => x.every(b => b.closest("#profile"))), "ghosts + my study time live in SETTINGS (⚙)");
+  await click('[data-mtab="prog"]');
+  ok(await page.$$eval("#meBody .mx-sbar", x => x.length) === 1 && await page.$$eval('#meBody [data-mact="road"]', x => x.length) === 1, "PROGRESS shows time split + road");
+  await click('[data-mtab="plan"]');
+  await click('#meBody .mx-hero[data-mact="main"]');
+  ok(await page.evaluate(() => document.querySelector(".screen.on").id) === "goals" && await page.$eval("#glTitle", h => h.textContent) === "MAIN GOAL", "tapping the goal card opens MY GOAL");
+  await nav(page, "me"); await click('#meBody [data-mact="plannext"]');
+  ok(/filled in from your main goal/.test(await page.$eval("#glWeek", x => x.textContent)), "next week says it comes from the main goal");
+  await click('[data-gday="mon"]'); await click('[data-gsk="listening"]'); await click('[data-gsk="vocab"]');
+  await click('[data-gact="saveweek"]');
+  const saved = await page.evaluate(() => { const p = window.__FAKE_DB__.squad.plans; return p && p["2026-11-14"] && p["2026-11-14"].niloufar; });
+  ok(saved && JSON.stringify(saved.skills) === '{"mon":["listening","vocab"]}', `skills per day saved (${JSON.stringify(saved && saved.skills)})`);
+  ok(saved && saved.daily === 150, "next week's daily goal = main goal (2h 30)");
+  const d = await denied(page); ok(d.length === 0, `no refused writes (planning)${d.length ? " → " + d.join(", ") : ""}`);
+  await finish(page, "planning");
+}
+
 (async () => {
   staticChecks();
   const srv = await serve(), base = `http://localhost:${srv.address().port}`;
@@ -207,6 +235,7 @@ async function fixMyData(browser, base) {
     await lanternGift(browser, base);
     await writesUnderRules(browser, base);
     await fixMyData(browser, base);
+    await mePlanning(browser, base);
   } catch (e) { ok(false, "test crashed: " + e.message); }
   await browser.close(); srv.close();
   console.log(failed ? `\n${failed} check(s) FAILED` : "\nall checks passed");

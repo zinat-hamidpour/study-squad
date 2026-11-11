@@ -304,6 +304,17 @@ body.has-nav .dockfix{bottom:calc(84px + env(safe-area-inset-bottom));background
 .mx-slist b{white-space:nowrap;margin-left:auto;font:700 13px 'Pixelify Sans',monospace}
 em.u{font:800 9px Nunito,system-ui,sans-serif;color:var(--muted);font-style:normal;margin:0 1px}
 .mx-wrow{display:flex;gap:5px}.mx-wrow div{flex:1;text-align:center}
+/* ME: PLAN | PROGRESS, the goal card opens MY GOAL, planned skills as small dots */
+.mx-mtab{margin-bottom:2px}
+.mx-hero[data-mact]{cursor:pointer;text-align:left}
+.mx-edit{align-self:flex-end;background:#FFE07A;color:var(--ink);border-radius:10px;padding:6px 10px;font:700 12px 'Pixelify Sans',monospace;margin-top:-4px}
+.mx-dots{display:flex;justify-content:center;gap:2px;min-height:7px;margin-top:2px}.mx-dots i{width:6px;height:6px;border-radius:2px;border:1px solid var(--ink)}
+.gl-sd .dots{display:flex;gap:2px;justify-content:center;height:7px}.gl-sd .dots i{width:6px;height:6px;border-radius:2px;border:1px solid var(--ink)}
+.gl-skc{display:flex;flex-wrap:wrap;gap:6px}
+.gl-skc button{display:flex;align-items:center;gap:5px;border:2px solid var(--ink);border-radius:999px;background:#fff;padding:5px 10px;font:800 12px Nunito,system-ui,sans-serif}
+.gl-skc button i{width:9px;height:9px;border-radius:3px;border:1.5px solid var(--ink)}
+.gl-skc button.on{background:var(--ink);color:#fff}.gl-skc button:disabled{opacity:.45}
+.gl-step{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;background:var(--ink);color:#FFE07A;font:700 12px 'Pixelify Sans',monospace;margin-right:6px;vertical-align:1px}
 .mx-wrow i{display:block;height:30px;border:2px solid var(--ink);border-radius:6px;background:#FBF6EE;position:relative;overflow:hidden}
 .mx-wrow i u{position:absolute;left:0;right:0;bottom:0;background:var(--green)}
 .mx-wrow b{font:700 9px 'Pixelify Sans',monospace;color:var(--muted)}.mx-wrow div.t b{color:var(--ink)}.mx-wrow div.t i{outline:2.5px solid var(--yellow);outline-offset:1px}
@@ -813,8 +824,6 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <section id="me" class="screen">
   <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings">⚙</button></header>
   <div id="meBody" class="mx-body"></div>
-  <div id="meGhosts" class="mx-blk" hidden></div>
-  <div id="meData" class="mx-blk" hidden></div>
 </section>
 <section id="road" class="screen">
   <header class="bar"><button id="ryBack" class="back" type="button" aria-label="Back to ME"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div style="flex:1"><span class="gl-crumb">ME ›</span><h1 class="pixel">MY ROAD</h1></div><span class="gl-sm" id="ryTo"></span></header>
@@ -848,6 +857,8 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     </div>
     <button id="profSave" class="big pixel" type="button" style="width:100%">SAVE</button>
   </div>
+  <div id="meData" class="mx-blk" hidden></div>
+  <div id="meGhosts" class="mx-blk" hidden></div>
   <button id="signOut" class="btn2" type="button" style="align-self:center">Forget me on this phone (ask PIN next time)</button>
 </section>
 </div>
@@ -985,10 +996,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.11-6"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.11-7"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.11-6";
+const APP_VERSION = "2026.11.11-7";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1172,7 +1183,7 @@ function makeDemoStore() {
     setMain: async (id, val) => { state.main[id] = { ...(state.main[id] || {}), ...val }; persist(); },
     setTest: async (id, key, val) => { const t = (state.tests[id] ||= {}); if (val) t[key] = JSON.parse(JSON.stringify(val)); else delete t[key]; persist(); },
     setMock: async (id, mid, val) => { const m = (state.mocks[id] ||= {}); if (val) m[mid] = val; else delete m[mid]; persist(); },
-    setPlan: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}), ...val }; if (!val.days) delete w[id].days; persist(); },
+    setPlan: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}), ...val }; if (!val.days) delete w[id].days; if ("skills" in val && !val.skills) delete w[id].skills; persist(); },
     setPlanTests: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}) }; if (val && Object.keys(val).length) w[id].tests = val; else delete w[id].tests; persist(); },
     pushNote: async (to, val) => { (state.notes[to] ||= {})[nid()] = val; persist(); },
     removeNote: async (to, id) => { if (state.notes[to]) delete state.notes[to][id]; persist(); },
@@ -1202,6 +1213,9 @@ const DOW = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
 const DOW_NAME = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 const dowOf = key => daysBetween(weekStart(key), key);
 const planOf = (id, ws) => ((state.plans[ws] || {})[id]) || null;
+// skills planned for a day (plans/<week>/<id>/skills/<sat…fri> = ["listening", …])
+const planSkills = (id, key) => ((((planOf(id, weekStart(key)) || {}).skills) || {})[DOW[dowOf(key)]] || []).filter(x => SK[x]);
+const skDots = ids => ids.map(x => `<i style="background:${SK[x].col}" title="${SK[x].name}"></i>`).join("");
 // a week without its own plan starts from the main goal's average, then last saved week, then the old profile goal
 function weekDaily(id, ws) {
   const p = planOf(id, ws); if (p && p.daily) return p.daily;
@@ -1634,7 +1648,7 @@ function openGoals(tab) {
 function loadWeek(ws) {
   gWs = ws; gSel = null;
   const p = planOf(me, ws) || {};
-  gWeek = { daily: weekDaily(me, ws), days: { ...(p.days || {}) } };
+  gWeek = { daily: weekDaily(me, ws), days: { ...(p.days || {}) }, skills: JSON.parse(JSON.stringify(p.skills || {})) };
 }
 function renderGoals() {
   if (!gMain) { openGoals(gTab); return; }
@@ -1712,25 +1726,27 @@ function renderGoalWeek() {
   const testDays = new Set(tests.map(x => x.day).filter(Boolean));
   const vals = DOW.map(effDay), max = Math.max(60, ...vals), total = vals.reduce((a, b) => a + b, 0);
   const dis = past ? "disabled" : "";
-  const stair = DOW.map((d, i) => `<button type="button" class="gl-sd ${gSel === d ? "sel" : ""} ${addDays(gWs, i) === today ? "today" : ""}" data-gday="${d}" ${dis} aria-label="${DOW_NAME[i]} ${fmtMin(vals[i])}"><span class="tm">${testDays.has(d) ? "📝" : ""}</span><span>${fmtShort(vals[i])}</span><span class="col ${gWeek.days[d] ? "own" : ""}" style="height:${Math.max(12, vals[i] / max * 86)}px"></span><b>${d.toUpperCase()}</b></button>`).join("");
+  const stair = DOW.map((d, i) => `<button type="button" class="gl-sd ${gSel === d ? "sel" : ""} ${addDays(gWs, i) === today ? "today" : ""}" data-gday="${d}" ${dis} aria-label="${DOW_NAME[i]} ${fmtMin(vals[i])}"><span class="tm">${testDays.has(d) ? "📝" : ""}</span><span>${fmtShort(vals[i])}</span><span class="col ${gWeek.days[d] ? "own" : ""}" style="height:${Math.max(12, vals[i] / max * 86)}px"></span><b>${d.toUpperCase()}</b><span class="dots">${skDots((gWeek.skills[d] || []).filter(x => SK[x]))}</span></button>`).join("");
   let ed = "";
   if (gSel && !past) {
     const i = DOW.indexOf(gSel), own = !!gWeek.days[gSel], fl = floorOf(gSel);
     const canReset = own && gWeek.daily >= fl;
     ed = `<div class="gl-dayed"><div class="gl-row"><b>${DOW_NAME[i]}</b>${own ? `<button type="button" class="gl-b2" data-gact="dayreset" ${canReset ? "" : "disabled"}>↺ use daily goal</button>` : `<span class="gl-sm">uses the daily goal</span>`}</div>
-      <div class="gl-st"><button type="button" data-gact="day-" aria-label="Less" ${effDay(gSel) <= fl ? "disabled" : ""}>−</button><output>${fmtGoal(effDay(gSel))}</output><button type="button" data-gact="day+" aria-label="More" ${effDay(gSel) >= 600 ? "disabled" : ""}>+</button></div></div>`;
+      <div class="gl-st"><button type="button" data-gact="day-" aria-label="Less" ${effDay(gSel) <= fl ? "disabled" : ""}>−</button><output>${fmtGoal(effDay(gSel))}</output><button type="button" data-gact="day+" aria-label="More" ${effDay(gSel) >= 600 ? "disabled" : ""}>+</button></div>
+      <div class="gl-row"><b style="font-size:14px">Skills</b><span class="gl-sm">pick up to 3</span></div>
+      <div class="gl-skc">${SKILLS.map(x => { const on = (gWeek.skills[gSel] || []).includes(x.id); return `<button type="button" data-gsk="${x.id}" class="${on ? "on" : ""}" ${!on && (gWeek.skills[gSel] || []).length >= 3 ? "disabled" : ""}><i style="background:${x.col}"></i>${x.name}</button>`; }).join("")}</div></div>`;
   }
   const avg = (state.main[me] || {}).avgMin;
   put($("glWeek"), `
   <div class="gl-wsel"><button type="button" data-gact="wk-" aria-label="Previous week" ${gWs <= first ? "disabled" : ""}>‹</button><b>${range}</b><button type="button" data-gact="wk+" aria-label="Next week" ${gWs >= addDays(cur, 7) ? "disabled" : ""}>›</button></div>
-  ${past ? `<div class="gl-ro">This week is over · read only</div>` : gWs === cur ? `<div class="gl-lock">${locked ? "🔒 saved · goals can only go up this week" : "🔒 after saving: goals can only go up"}</div>` : `<div class="gl-lock">Next week · change it freely until it starts</div>`}
-  <div class="gl-card"><div class="gl-row"><h2>Daily goal this week</h2><span class="gl-sm">${avg ? "average: " + fmtShort(avg) : ""}</span></div>
+  ${past ? `<div class="gl-ro">This week is over · read only</div>` : gWs === cur ? `<div class="gl-lock">${locked ? "🔒 saved · goals can only go up this week" : "🔒 after saving: goals can only go up"}</div>` : `<div class="gl-lock">Next week · filled in from your main goal · change it freely, then SAVE</div>`}
+  <div class="gl-card"><div class="gl-row"><h2>${past ? "" : `<span class="gl-step">1</span>`}Daily goal</h2><span class="gl-sm">${avg ? "average: " + fmtShort(avg) : ""}</span></div>
     <div class="gl-st"><button type="button" data-gact="daily-" aria-label="Less" ${past || gWeek.daily <= floorOf(null) ? "disabled" : ""}>−</button><output>${fmtGoal(gWeek.daily)}</output><button type="button" data-gact="daily+" aria-label="More" ${past || gWeek.daily >= 480 ? "disabled" : ""}>+</button></div></div>
-  <div class="gl-card"><div class="gl-row"><h2>Your week looks like this</h2><span class="gl-sm">${past ? "" : "tap a day"}</span></div>
+  <div class="gl-card"><div class="gl-row"><h2>${past ? "" : `<span class="gl-step">2</span>`}Each day: time + skills</h2><span class="gl-sm">${past ? "" : "tap a day"}</span></div>
     <div class="gl-stair">${stair}</div>${ed}
     <div class="gl-leg"><span><i style="background:#BFE8C6"></i>daily goal</span><span><i style="background:#F9C9A8"></i>own goal</span><span>📝 test planned</span></div>
     <div class="gl-sum"><span>Week total</span><b>${fmtGoal(total)}</b></div></div>
-  <div class="gl-card"><div class="gl-row"><h2>📝 Tests this week</h2>${past ? "" : `<button type="button" class="gl-b2" data-gact="plantest">+ Plan a test</button>`}</div>
+  <div class="gl-card"><div class="gl-row"><h2>${past ? "📝 " : `<span class="gl-step">3</span>`}Tests this week</h2>${past ? "" : `<button type="button" class="gl-b2" data-gact="plantest">+ Plan a test</button>`}</div>
     ${tests.length ? tests.map(x => `<div class="gl-pt" data-tgo="${esc(x.k)}" role="button" tabindex="0" aria-label="Open C${x.book} T${x.test} in practice tests"><span><b>C${x.book} · T${x.test}</b><span class="gl-sm">${x.day ? DOW_NAME[DOW.indexOf(x.day)].slice(0, 3) : "any day"} · log it ›</span></span>${skp(x.skills || [], x.k)}${past ? "" : `<button type="button" class="gl-ped" data-ptest="${esc(x.k)}" aria-label="Edit plan">✎</button>`}</div>`).join("") : `<div class="gl-empty">No test planned for this week.</div>`}
     <span class="gl-sm">Only the skills you pick count as this week's test work.</span>
     ${tests.length ? `<button type="button" class="gl-b2" data-gact="logtests" style="align-self:flex-start">📝 Log them in PRACTICE TESTS ›</button>` : ""}</div>
@@ -1766,6 +1782,8 @@ async function goalAct(a) {
       for (const k of DOW) if (gWeek.days[k] && gWeek.days[k] !== gWeek.daily) days[k] = gWeek.days[k];
       const val = { daily: gWeek.daily, savedAt: now() };
       if (Object.keys(days).length) val.days = days; else val.days = null;
+      const sks = {}; for (const k of DOW) { const a = (gWeek.skills[k] || []).filter(x => SK[x]); if (a.length) sks[k] = a; }
+      val.skills = Object.keys(sks).length ? sks : null;
       await store.setPlan(gWs, me, val);
       saveLocal(); toast(gWs === weekStart(dayKey(now())) ? "Week saved ✓ · goals can only go up now" : "Week saved ✓");
     }
@@ -1877,7 +1895,7 @@ function roadWeeks(id) {
 const weekNo = (id, ws) => Math.round(daysBetween(weekStart(firstDay(id)), ws) / 7) + 1;
 const ieltsRound = v => { const f = Math.floor(v), r = v - f; return r < 0.25 ? f : r < 0.75 ? f + 0.5 : f + 1; };
 const bandTxt = v => v == null || v === "" ? "—" : (+v).toFixed(1).replace(".0", "") ;
-let meRange = "all";
+let meRange = "all", meTab = "plan";
 function renderMeGhosts() {
   const box = $("meGhosts");
   if (me !== "zinat" || GHOST) { box.hidden = true; return; }
@@ -2009,14 +2027,16 @@ function renderMe() {
   let need = 0, hit = 0, nd = 0;
   for (let k = first; k <= today; k = addDays(k, 1)) { const g = goalOf(me, k) * MIN; need += g; nd++; if (dayMs(me, k, t) >= g) hit++; }
   const onPace = tot >= need * 0.9;
-  hero += `<div class="mx-kpi"><div><b>${Math.floor(tot / HOUR)}h</b><small>studied · <span class="${onPace ? "ok" : "bh"}">${onPace ? "on pace" : "behind"}</span></small></div><div><b>${testsDone(me)}/${m.testsTarget || 20}</b><small>practice tests</small></div><div><b>${hit}/${nd}</b><small>days goal hit</small></div></div>`;
+  const kpis = `<div class="mx-kpi"><div><b>${Math.floor(tot / HOUR)}h</b><small>studied · <span class="${onPace ? "ok" : "bh"}">${onPace ? "on pace" : "behind"}</span></small></div><div><b>${testsDone(me)}/${m.testsTarget || 20}</b><small>practice tests</small></div><div><b>${hit}/${nd}</b><small>days goal hit</small></div></div>`;
+  const avgMin = m.avgMin || weekDaily(me, addDays(cur, 7));   // the same number a new week starts from
+  const goalKv = `<div class="mx-kpi"><div><b>${m.targetBand ? (+m.targetBand).toFixed(1) : "—"}</b><small>target band</small></div><div><b>${fmtShort(avgMin)}</b><small>a day</small></div><div><b>${m.testsTarget || 20}</b><small>practice tests</small></div></div>`;
   // where the time went
   const split = skillSplit(me, meRange === "all" ? [...new Set(allKeys(me))] : weekKeys(cur), t);
   const sbar = split.tot ? SKX.filter(x => split.o[x.id] > 0).map(x => `<i style="width:${split.o[x.id] / split.tot * 100}%;background:${x.col}"></i>`).join("") : "";
   const slist = SKX.filter(x => x.id !== "untagged" || split.o.untagged > 0).map(x => `<span><i style="background:${x.col}"></i>${x.name}<b>${hmU(split.o[x.id])}</b></span>`).join("");
   // this week
   const wk = weekKeys(cur), wDone = wk.reduce((a, k) => a + (k <= today ? dayMs(me, k, t) : 0), 0);
-  const boxes = wk.map((k, i) => { const g = goalOf(me, k) * MIN, d = k <= today ? dayMs(me, k, t) : 0; return `<div class="${k === today ? "t" : ""}"><i><u style="height:${Math.min(100, d / g * 100)}%"></u></i><b>${"SSMTWTF"[i]}</b></div>`; }).join("");
+  const boxes = wk.map((k, i) => { const g = goalOf(me, k) * MIN, d = k <= today ? dayMs(me, k, t) : 0; return `<div class="${k === today ? "t" : ""}"><i><u style="height:${Math.min(100, d / g * 100)}%"></u></i><b>${"SSMTWTF"[i]}</b><span class="mx-dots">${skDots(planSkills(me, k))}</span></div>`; }).join("");
   const tests = Object.values((planOf(me, cur) || {}).tests || {});
   const tLine = tests.map(x => `C${x.book}·T${x.test}${x.skills && x.skills.length < 4 ? ` (${x.skills.join(" ")})` : ""}`).join(" · ");
   const nx = addDays(cur, 7), nxPlan = planOf(me, nx), dow = dowOf(today);
@@ -2034,19 +2054,26 @@ function renderMe() {
   }).join("");
   const nextMock = mocksOf(me).find(x => x.date && x.date >= today);
   const big = nextMock ? [`${daysBetween(today, nextMock.date)}d`, "to next mock"] : exam && left >= 0 ? [`${left}d`, "to IELTS"] : ["—", "no date yet"];
-  put($("meBody"), `
-  <div class="mx-hero">${hero}</div>
-  <div class="mx-blk"><div class="mx-hd"><h2>Where your time went</h2><span class="mx-tabs"><button type="button" data-mrange="all" class="${meRange === "all" ? "on" : ""}">ALL</button><button type="button" data-mrange="week" class="${meRange === "week" ? "on" : ""}">WEEK</button></span></div>
-    <div class="mx-sbar" data-mact="wkd">${sbar}</div><div class="mx-slist" data-mact="wkd">${slist}</div></div>
+  const tabs = `<div class="gl-tab mx-mtab" role="tablist"><button type="button" role="tab" data-mtab="plan" class="${meTab === "plan" ? "on" : ""}" aria-selected="${meTab === "plan"}">PLAN</button><button type="button" role="tab" data-mtab="prog" class="${meTab === "prog" ? "on" : ""}" aria-selected="${meTab === "prog"}">PROGRESS</button></div>`;
+  const todaySk = planSkills(me, today);
+  if (meTab === "plan") return put($("meBody"), `${tabs}
+  <div class="mx-hero" data-mact="main" role="button" tabindex="0" aria-label="My goal: tap to change">${hero}${goalKv}<span class="mx-edit">✎ MY GOAL</span></div>
   <div class="mx-blk" data-mact="week" role="button" tabindex="0"><div class="mx-hd"><h2>This week</h2><span class="gl-sm">${fmtDate(cur, { day: "numeric", month: "short" })} – ${fmtDate(addDays(cur, 6), { day: "numeric", month: "short" })}</span></div>
     <div class="mx-wrow">${boxes}</div>
     <div class="mx-line"><span>Studied</span><b>${fmtLong(wDone)} <span style="color:#6A5B50;font:800 12px Nunito,system-ui,sans-serif">of</span> ${fmtGoal(weekGoal(me, cur))}</b></div>
+    <div class="mx-line"><span>Today</span><b style="font:800 12px Nunito,system-ui,sans-serif">${fmtGoal(goalOf(me, today))}${todaySk.length ? " · " + todaySk.map(x => SK[x].name).join(", ") : " · tap to plan skills"}</b></div>
     ${tests.length ? `<div class="mx-line"><span>Tests planned</span><b>${esc(tLine)}</b></div>` : ""}
-    ${plan}</div>
-  <button type="button" class="mx-peek" data-mact="road"><div class="ttl"><b>MY ROAD</b><small>${weeks.length} weeks · ${fmtDate(weeks[0], { day: "numeric", month: "short" })} → ${exam && exam >= today ? fmtDate(exam, { day: "numeric", month: "short" }) : "…"}</small></div>${peek}<div class="fade"></div><div class="cta"><span>SEE ALL ${weeks.length} WEEKS ›</span></div></button>
+    <span class="gl-sm" style="text-align:right">tap to change this week ›</span></div>
+  ${plan}
   <div class="mx-tcard"><div class="top"><div class="mx-hd"><h2>Practice tests</h2><span class="gl-sm">${testsDone(me)} of ${m.testsTarget || 20} done</span></div></div>
-    <div class="mx-stub"><button type="button" data-mact="addtest"><span class="pl">+</span>ADD A TEST</button><button type="button" data-mact="alltests"><span class="cnt">ALL TESTS<small>see every test</small></span><span>›</span></button></div></div>
-  <div class="mx-rows"><button type="button" class="mx-rw2" data-mact="main"><span class="t"><b>Main goal</b><small>exam date · mocks · tests · hours a day</small></span><span class="n"><b>${big[0]}</b><small>${big[1]}</small></span><span class="ch">›</span></button></div>`);
+    <div class="mx-stub"><button type="button" data-mact="addtest"><span class="pl">+</span>ADD A TEST</button><button type="button" data-mact="alltests"><span class="cnt">ALL TESTS<small>see every test</small></span><span>›</span></button></div></div>`);
+  put($("meBody"), `${tabs}
+  <div class="mx-hero">${kpis}</div>
+  <div class="mx-blk"><div class="mx-hd"><h2>Where your time went</h2><span class="mx-tabs"><button type="button" data-mrange="all" class="${meRange === "all" ? "on" : ""}">ALL</button><button type="button" data-mrange="week" class="${meRange === "week" ? "on" : ""}">WEEK</button></span></div>
+    <div class="mx-sbar" data-mact="wkd">${sbar}</div><div class="mx-slist" data-mact="wkd">${slist}</div>
+    <span class="gl-sm" style="text-align:right" data-mact="wkd">tap for this week, day by day ›</span></div>
+  <button type="button" class="mx-peek" data-mact="road"><div class="ttl"><b>MY ROAD</b><small>${weeks.length} weeks · ${fmtDate(weeks[0], { day: "numeric", month: "short" })} → ${exam && exam >= today ? fmtDate(exam, { day: "numeric", month: "short" }) : "…"}</small></div>${peek}<div class="fade"></div><div class="cta"><span>SEE ALL ${weeks.length} WEEKS ›</span></div></button>
+  <div class="mx-rows"><button type="button" class="mx-rw2" data-mact="main"><span class="t"><b>Mock exams &amp; exam day</b><small>in MY GOAL</small></span><span class="n"><b>${big[0]}</b><small>${big[1]}</small></span><span class="ch">›</span></button></div>`);
 }
 function renderRoad() {
   const t = now(), today = dayKey(t), cur = weekStart(today), exam = examOf(me);
@@ -3020,7 +3047,8 @@ function renderInner() {
   if (s === "home") renderHome();
   if (s === "race") renderRace();
   if (s === "hall") renderHall();
-  if (s === "me") { safeRender("meBody", renderMe); renderMeGhosts(); renderMeData(); }
+  if (s === "me") safeRender("meBody", renderMe);
+  if (s === "profile") { renderMeData(); renderMeGhosts(); }
   if (s === "road") safeRender("ryBody", renderRoad);
   if (s === "wkd" && wdWs) safeRender("wdBody", renderWkd);
   if (s === "tests") safeRender("txBody", renderTests);
@@ -3133,6 +3161,7 @@ $("ryBack").addEventListener("click", () => go("me"));
 $("wdBack").addEventListener("click", () => go(wdFrom === "road" ? "road" : "me"));
 $("me").addEventListener("click", e => {
   const r = e.target.closest("[data-mrange]"); if (r) { meRange = r.dataset.mrange; return renderMe(); }
+  const tb = e.target.closest("[data-mtab]"); if (tb) { meTab = tb.dataset.mtab; renderMe(); return window.scrollTo(0, 0); }
   const a = e.target.closest("[data-mact]"); if (!a) return;
   const cur = weekStart(dayKey(now())), act = a.dataset.mact;
   if (act === "main") openGoals("main");
@@ -3196,6 +3225,11 @@ $("goals").addEventListener("click", e => {
   const q = e.target.closest("[data-gavg]"); if (q) { gMain.avgMin = +q.dataset.gavg; return renderGoals(); }
   const m = e.target.closest("[data-mock]"); if (m) { const mk = (state.mocks[me] || {})[m.dataset.mock]; return mk && mk.date && mk.date <= dayKey(now()) ? openResult(m.dataset.mock) : openMock(m.dataset.mock); }
   const dd = e.target.closest("[data-gday]"); if (dd && !dd.disabled) { gSel = gSel === dd.dataset.gday ? null : dd.dataset.gday; return renderGoals(); }
+  const sk = e.target.closest("[data-gsk]"); if (sk && !sk.disabled && gSel) {
+    const a = gWeek.skills[gSel] || [], x = sk.dataset.gsk;
+    gWeek.skills[gSel] = a.includes(x) ? a.filter(y => y !== x) : [...a, x].slice(0, 3);
+    return renderGoals();
+  }
   const pt = e.target.closest("[data-ptest]"); if (pt && !pt.disabled) return openPlan(pt.dataset.ptest);
   const tg = e.target.closest("[data-tgo]"); if (tg) return openTestOnPage(tg.dataset.tgo);
 });
