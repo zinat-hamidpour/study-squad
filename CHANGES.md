@@ -1,16 +1,17 @@
 # Study Squad 2026.11.11-9 · ME: PLAN | PROGRESS
 
-1. ME has two tabs. **PLAN** = what I'm going to do; **PROGRESS** = what I've done. Same cards and colours as before.
-2. PLAN, top to bottom: **the goal card** (weeks to IELTS, target band, hours a day, practice tests): tap it, or
-   ✎ MY GOAL, to change your main goal · **This week** (tap to change it) · **PLAN NEXT WEEK** · **Practice tests**.
-3. PROGRESS: studied / tests done / days goal hit · Where your time went (tap → this week day by day) · MY ROAD ·
-   Mock exams & exam day.
-4. **Skills per day come from the timer**: the small coloured dots under each day on ME show what you studied that
-   day (the skill you pick when you sit down). "Today" on ME says how long and which skills. Nothing to plan or save.
-5. Planning a week is three numbered steps: 1 Daily goal · 2 Each day · 3 Tests, then SAVE.
-   Next week says it is filled in from your main goal.
-6. My study time (fix a day, start fresh), Zinat's clean-up and Ghost guests moved from ME to **Settings (⚙)**.
-   Ghost guests and the clean-up show only in Zinat's settings.
+1. ME has two tabs. **PLAN** = what I'm going to do. **PROGRESS** = what I've done.
+2. **PLAN** has two parts right at the top, no other page opens: **MAIN GOAL** (exam date, target band, mock exams,
+   practice-test target, hours a day) and **WEEKLY PLAN** (‹ › to change week, **PLAN NEXT WEEK** on top,
+   then 1 Daily goal · 2 Each day · 3 Tests, then SAVE). Next week is filled in from your main goal.
+3. **PROGRESS**: weeks to IELTS + studied / tests done / days goal hit · **This week** (hours only; tap → day by day) ·
+   Where your time went · MY ROAD · **Practice tests**.
+4. **My bands** (new): a chart of your band in Listening, Reading, Writing, Speaking and overall, from practice-test
+   scores (L and R out of 40 are turned into bands) and mock results. ● = practice test, ■ = mock. Tap a point to see
+   its bands. It is in Practice tests on PROGRESS and on top of the PRACTICE TESTS page.
+5. Mock exams are planned only in MAIN GOAL.
+6. My study time (fix a day, start fresh) moved to **Settings (⚙)**. Ghost guests and the clean-up are there too,
+   only for Zinat.
 
 ---
 
