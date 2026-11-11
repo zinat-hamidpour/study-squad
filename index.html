@@ -535,7 +535,16 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 .cl-guest{transition:opacity .4s}
 .cup{position:absolute;pointer-events:none}
 /* ghost guests */
-.gh-bar[hidden],.gh-dot[hidden],#meGhosts[hidden],#ghColF[hidden]{display:none!important}
+.gh-bar[hidden],.gh-dot[hidden],#meGhosts[hidden],#meData[hidden],#ghColF[hidden]{display:none!important}
+/* ---- my study time: edit a day, start fresh, clean-up (dx-) ---- */
+.dx-list{display:flex;flex-direction:column;gap:6px}
+.dx-row{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:6px 10px;font-size:13px}
+.dx-row b{flex:1;font-weight:900}.dx-row span{font:700 14px 'Pixelify Sans',monospace}
+.dx-row input{width:46px;border:2px solid var(--ink);border-radius:8px;padding:3px 4px;font:700 14px Nunito,sans-serif;text-align:center}
+.dx-b{border:2px solid var(--ink);border-radius:9px;background:#fff;font:700 12px Nunito,system-ui,sans-serif;padding:4px 10px;color:var(--ink)}
+.dx-b.red{color:#C0392B}.dx-b.fill{background:#C0392B;color:#fff}.dx-b:disabled{opacity:.4}
+.dx-box{background:#FFF6E4;border:2px dashed #C0392B;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:700}
+.dx-box label{display:flex;gap:8px;align-items:center}.dx-ok{display:flex;gap:8px;flex-wrap:wrap}
 .gh-doorrow{display:flex;justify-content:flex-end;margin-top:-4px}
 .gh-door{background:none;border:0;padding:4px;opacity:.5;width:34px;height:40px;cursor:pointer}
 .gh-door:hover,.gh-door:focus-visible{opacity:.9}
@@ -805,6 +814,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
   <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings">⚙</button></header>
   <div id="meBody" class="mx-body"></div>
   <div id="meGhosts" class="mx-blk" hidden></div>
+  <div id="meData" class="mx-blk" hidden></div>
 </section>
 <section id="road" class="screen">
   <header class="bar"><button id="ryBack" class="back" type="button" aria-label="Back to ME"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div style="flex:1"><span class="gl-crumb">ME ›</span><h1 class="pixel">MY ROAD</h1></div><span class="gl-sm" id="ryTo"></span></header>
@@ -975,10 +985,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.11-4"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.11-6"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.11-4";
+const APP_VERSION = "2026.11.11-6";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1083,7 +1093,14 @@ async function makeFirebaseStore() {
     ghostSent: async (gid, day) => (await F.runTransaction(F.ref(db, `squad/ghosts/${gid}/sent`), cur => cur && cur.day === day ? (cur.n >= GH_NOTES_DAY ? undefined : { day, n: cur.n + 1 }) : { day, n: 1 })).committed,
     setGhostPos: (gid, val) => F.set(F.ref(db, `squad/ghostpos/${gid}`), val),
     removeGhost: gid => F.update(F.ref(db, "squad"), { [`ghosts/${gid}`]: null, [`ghostpos/${gid}`]: null, [`notes/${gid}`]: null }),
+    // several fixes in one go (edit a day, start fresh, clean-up): keys are "section/key/..." under squad/
+    patch: obj => F.update(F.ref(db, "squad"), patchPaths(obj)),
   };
+}
+// the live rules refuse a write to a whole section: every path must be "section/key" or deeper
+function patchPaths(obj) {
+  for (const p of Object.keys(obj)) if (p.split("/").filter(Boolean).length < 2) throw new Error("refused path: squad/" + p);
+  return obj;
 }
 function makeDemoStore() {
   $("demo").hidden = false;
@@ -1169,6 +1186,14 @@ function makeDemoStore() {
     ghostSent: async (gid, day) => { const g = state.ghosts[gid]; if (!g) return false; const c = g.sent; if (c && c.day === day && c.n >= GH_NOTES_DAY) return false; g.sent = c && c.day === day ? { day, n: c.n + 1 } : { day, n: 1 }; persist(); return true; },
     setGhostPos: async (gid, val) => { state.ghostpos[gid] = val; persist(); },
     removeGhost: async gid => { delete state.ghosts[gid]; delete state.ghostpos[gid]; delete state.notes[gid]; persist(); },
+    patch: async obj => {
+      for (const [p, v] of Object.entries(patchPaths(obj))) {
+        const ps = p.split("/"); let o = state;
+        ps.slice(0, -1).forEach(k => { if (typeof o[k] !== "object" || o[k] == null) o[k] = {}; o = o[k]; });
+        if (v == null) delete o[ps.at(-1)]; else o[ps.at(-1)] = JSON.parse(JSON.stringify(v));
+      }
+      persist();
+    },
   };
 }
 
@@ -1197,6 +1222,8 @@ function firstDay(id) {
   let f = null;
   for (const [k, v] of Object.entries(state.days)) if (v && v[id] > 0 && (!f || k < f)) f = k;
   const c = (state.profiles[id] || {}).createdAt; if (c) { const ck = dayKey(c); if (!f || ck < f) f = ck; }
+  const ff = (state.profiles[id] || {}).freshFrom;        // "start fresh" / the clean-up: the road begins here
+  if (ff && (!f || f < ff)) f = ff;
   return f || dayKey(now());
 }
 const totalMs = id => Object.values(state.days).reduce((a, v) => a + ((v && v[id]) || 0), 0);
@@ -1861,6 +1888,98 @@ function renderMeGhosts() {
     + (list.length ? `<div class="gh-list">${list.map(([gid, g]) => `<div class="gh-row">${ghImg(g.color, g.name)}<div><b>${esc(g.name)}</b><small>${seen(gid)}</small></div><button type="button" data-ghdel="${gid}">Let go</button></div>`).join("")}</div>`
       : `<span class="gl-sm">No ghosts yet. Friends can float in from the little ghost on the start screen.</span>`));
 }
+// ---- my study time: edit a day of this week, start fresh, Zinat's one-time clean-up ----
+const DAY_CAP = 12 * HOUR, CLEAN_BEFORE = "2026-11-07";
+const fmtFix = ms => { const m = Math.round(ms / MIN); return m < 60 ? `${m}m` : `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, "0")}m`; };
+const editableDays = (t = now()) => { const today = dayKey(t), out = []; for (let k = weekStart(today); k <= today; k = addDays(k, 1)) out.push(k); return out; };
+const studyingNow = id => { const ss = state.sessions[id]; return !!(ss && ss.state === "studying" && isLive(ss)); };
+// what a clean-up would delete: whole days for everyone (who = null) or one person's entries, before a day
+function wipeList(before, who) {
+  const p = {}; let days = 0, entries = 0, logs = 0;
+  for (const [k, v] of Object.entries(state.days || {})) if (k < before && v) {
+    if (who) { if (v[who] != null) { p[`days/${k}/${who}`] = null; days++; entries++; } }
+    else { p[`days/${k}`] = null; days++; entries += Object.keys(v).length; }
+  }
+  for (const [k, v] of Object.entries(state.skills || {})) if (k < before && v) {
+    if (who) { if (v[who] != null) p[`skills/${k}/${who}`] = null; } else p[`skills/${k}`] = null;
+  }
+  for (const [id, l] of Object.entries(state.log || {})) if (!who || id === who)
+    for (const [lid, x] of Object.entries(l || {})) if (x && (x.day || dayKey(x.at || 0)) < before) { p[`log/${id}/${lid}`] = null; logs++; }
+  return { p, days, entries, logs };
+}
+// edited total → skills: more time = the extra shows as "untagged"; less time = every skill shrinks by the same share
+function skillsFor(id, k, ms) {
+  const sk = { ...(((state.skills[k] || {})[id]) || {}) }, tagged = Object.values(sk).reduce((a, v) => a + (+v || 0), 0);
+  if (tagged <= ms) return Object.keys(sk).length ? sk : null;
+  if (!ms) return null;
+  for (const x of Object.keys(sk)) sk[x] = Math.floor(sk[x] * ms / tagged);
+  return sk;
+}
+async function editDay(k, ms) {
+  if (GHOST || !me) return false;
+  if (!editableDays().includes(k)) { toast("Only days of this week (Saturday → today) can be edited."); return false; }
+  if (!(ms >= 0) || ms > DAY_CAP) { toast("A day can have at most 12 hours."); return false; }
+  if (studyingNow(me)) { toast("Pause or stop your timer first."); return false; }
+  const old = ((state.days[k] || {})[me]) || 0;
+  ms = Math.round(ms / MIN) * MIN;
+  if (Math.round(old / MIN) === ms / MIN) return true;
+  await store.patch({ [`days/${k}/${me}`]: ms || null, [`skills/${k}/${me}`]: skillsFor(me, k, ms) });
+  await store.pushBoard({ kind: "fix", who: me, text: `${BY[me].name} edited ${DOW_NAME[dowOf(k)]}: ${fmtFix(old)} → ${fmtFix(ms)}`, at: now() });
+  return true;
+}
+async function startFresh() {
+  if (GHOST || !me) return false;
+  if (studyingNow(me)) { toast("Pause or stop your timer first."); return false; }
+  const today = dayKey(now()), w = wipeList(today, me);
+  await store.patch({ ...w.p, [`profiles/${me}/freshFrom`]: today });
+  await store.pushBoard({ kind: "fix", who: me, text: `${BY[me].name} started fresh from today`, at: now() });
+  return true;
+}
+async function cleanHistory() {
+  if (GHOST || me !== "zinat") return false;
+  const w = wipeList(CLEAN_BEFORE, null), p = { ...w.p };
+  for (const id of Object.keys(state.profiles)) { const ff = state.profiles[id].freshFrom; if (!ff || ff < CLEAN_BEFORE) p[`profiles/${id}/freshFrom`] = CLEAN_BEFORE; }
+  await store.patch(p);
+  await store.pushBoard({ kind: "fix", who: me, text: `${BY[me].name} cleared all study history before ${fmtDate(CLEAN_BEFORE, { day: "numeric", month: "short" })}`, at: now() });
+  return true;
+}
+function downloadBackup() {
+  const blob = new Blob([JSON.stringify({ squad: state, savedAt: new Date(now()).toISOString(), version: APP_VERSION }, null, 1)], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `study-squad-backup-${dayKey(now())}.json`;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+let dxEdit = null, dxH = "", dxM = "", dxFresh = false, dxClean = false, dxBacked = false;
+function renderMeData() {
+  const box = $("meData");
+  if (GHOST || !me) { box.hidden = true; return; }
+  box.hidden = false;
+  const t = now(), today = dayKey(t);
+  const rows = editableDays(t).map(k => {
+    const ms = ((state.days[k] || {})[me]) || 0, nm = `${DOW[dowOf(k)].toUpperCase()} ${fmtDate(k, { day: "numeric", month: "short" })}`;
+    if (dxEdit === k) return `<div class="dx-row" data-dxrow="${k}"><b>${DOW[dowOf(k)].toUpperCase()} ${+k.slice(8)}</b><input id="dxH" type="number" inputmode="numeric" min="0" max="12" value="${esc(dxH)}" aria-label="hours">h<input id="dxM" type="number" inputmode="numeric" min="0" max="59" step="5" value="${esc(dxM)}" aria-label="minutes">m<button type="button" class="dx-b" data-dxsave="${k}">Save</button><button type="button" class="dx-b" data-dxcancel aria-label="Cancel">✕</button></div>`;
+    return `<div class="dx-row"><b>${nm}${k === today ? " · today" : ""}</b><span>${fmtFix(dayMs(me, k, t))}</span><button type="button" class="dx-b" data-dxedit="${k}">edit</button></div>`;
+  }).join("");
+  const mine = wipeList(today, me);
+  let h = `<div class="mx-hd"><h2>My study time</h2><span class="gl-sm">this week · up to 12h a day</span></div>
+    <div class="dx-list">${rows}</div>
+    <span class="gl-sm">Fixing a day changes this week's climb. Everyone sees a short line on the room board.</span>`;
+  h += dxFresh
+    ? `<div class="dx-box"><span>Start fresh from today? This deletes <b>your</b> study time before today: ${mine.days} day${mine.days === 1 ? "" : "s"} and ${mine.logs} log line${mine.logs === 1 ? "" : "s"}. Your goals, tests and mocks stay. Days before today won't count as empty spots. It can't be undone.</span>
+       <div class="dx-ok"><button type="button" class="dx-b fill" data-dxfreshgo>Yes, start fresh</button><button type="button" class="dx-b" data-dxfreshno>Cancel</button></div></div>`
+    : `<button type="button" class="dx-b red" data-dxfresh style="align-self:flex-start">Start fresh from today</button>`;
+  if (me === "zinat") {
+    const all = wipeList(CLEAN_BEFORE, null), when = fmtDate(CLEAN_BEFORE, { weekday: "short", day: "numeric", month: "short" });
+    h += `<div class="mx-hd" style="margin-top:6px"><h2>Clear history before 7 Nov</h2><span class="gl-sm">only you see this</span></div>`;
+    if (!all.days && !all.logs) h += `<span class="gl-sm">Nothing left before ${when} ✓</span>`;
+    else if (!dxClean) h += `<span class="gl-sm">${all.days} day${all.days === 1 ? "" : "s"} · ${all.entries} study entr${all.entries === 1 ? "y" : "ies"} · ${all.logs} log line${all.logs === 1 ? "" : "s"}, for everyone, dated before ${when}.</span><button type="button" class="dx-b red" data-dxclean style="align-self:flex-start">Clear history before 7 Nov…</button>`;
+    else h += `<div class="dx-box"><span>This deletes, for <b>everyone</b>, all study time, skills and log lines dated before ${when}:<br>${all.days} day${all.days === 1 ? "" : "s"} · ${all.entries} study entr${all.entries === 1 ? "y" : "ies"} · ${all.logs} log line${all.logs === 1 ? "" : "s"}. Goals, plans, tests, mocks, notes and cups stay. It can't be undone.</span>
+       <span>1. Export a backup first: Firebase console › Realtime Database › ⋮ › Export JSON. You can also download one here:</span>
+       <button type="button" class="dx-b" data-dxbackup style="align-self:flex-start">⬇ Download backup (JSON)</button>
+       <label><input type="checkbox" id="dxBacked" ${dxBacked ? "checked" : ""}> 2. I have a backup</label>
+       <div class="dx-ok"><button type="button" class="dx-b fill" data-dxcleango ${dxBacked ? "" : "disabled"}>Delete for everyone</button><button type="button" class="dx-b" data-dxcleanno>Cancel</button></div></div>`;
+  }
+  put(box, h);
+}
 function renderMe() {
   const t = now(), today = dayKey(t), cur = weekStart(today), exam = examOf(me), m = state.main[me] || {};
   const first = firstDay(me), weeks = roadWeeks(me), wn = weekNo(me, cur);
@@ -2279,6 +2398,8 @@ function faceOf(id, k, t, today) {
   if (k > today) return "future";
   const got = lanternsIn(weekStart(k))[id];
   if (got && got.day === k) return "lan";
+  const ff = (state.profiles[id] || {}).freshFrom;
+  if (ff && k < ff) return "out";                          // before a fresh start: like before joining, no empty spot
   if (dayMs(id, k, t) >= goalOf(id, k) * MIN) return "done";
   return k === today ? "wait" : "miss";
 }
@@ -2691,7 +2812,7 @@ function renderReader() {
 // ---- board ----
 function boardItems(t) {
   const today = dayKey(t);
-  const items = Object.entries(state.board || {}).map(([id, b]) => ({ id, ...b })).filter(b => b && b.text && (b.kind === "shout" || b.kind === "lead") && dayKey(b.at) === today).sort((a, b) => b.at - a.at);
+  const items = Object.entries(state.board || {}).map(([id, b]) => ({ id, ...b })).filter(b => b && b.text && (b.kind === "shout" || b.kind === "lead" || b.kind === "fix") && dayKey(b.at) === today).sort((a, b) => b.at - a.at);
   return items;
 }
 const LEAD_SHOW = 3 * MIN;
@@ -2699,7 +2820,7 @@ const pairName = k => PAIRS[k].map(id => BY[id].name).join(" & ");
 function boardNow(t) {
   const items = boardItems(t);                       // newest first, today only
   const latest = items[0];
-  if (latest && latest.kind === "lead" && t - latest.at < LEAD_SHOW) return { cls: "ev", text: latest.text };
+  if (latest && (latest.kind === "lead" || latest.kind === "fix") && t - latest.at < LEAD_SHOW) return { cls: "ev", text: latest.text };
   const chat = items.find(b => b.kind === "shout");
   if (chat) return { cls: "sh", text: `${(BY[chat.who] || {}).name || "?"}: ${chat.text}` };
   const hm = new Date(t + 3.5 * HOUR).toISOString().slice(11, 16);
@@ -2719,7 +2840,7 @@ function checkLeadChange(t) {
 }
 function renderBoardModal() {
   const t = now(), items = boardItems(t);
-  $("bHist").innerHTML = items.length ? items.map(b => `<div class="${b.kind === "shout" ? "sh" : "ev"}"><time>${new Date(b.at + 3.5 * HOUR).toISOString().slice(11, 16)}</time><span>${b.kind === "shout" ? esc((BY[b.who] || {}).name || "?") + ": " : "★ "}${esc(b.text)}</span></div>`).join("")
+  $("bHist").innerHTML = items.length ? items.map(b => `<div class="${b.kind === "shout" ? "sh" : "ev"}"><time>${new Date(b.at + 3.5 * HOUR).toISOString().slice(11, 16)}</time><span>${b.kind === "shout" ? esc((BY[b.who] || {}).name || "?") + ": " : b.kind === "fix" ? "✎ " : "★ "}${esc(b.text)}</span></div>`).join("")
     : `<div class="ev"><span>Nothing yet today.</span></div>`;
   updateShoutMeta();
 }
@@ -2899,7 +3020,7 @@ function renderInner() {
   if (s === "home") renderHome();
   if (s === "race") renderRace();
   if (s === "hall") renderHall();
-  if (s === "me") { safeRender("meBody", renderMe); renderMeGhosts(); }
+  if (s === "me") { safeRender("meBody", renderMe); renderMeGhosts(); renderMeData(); }
   if (s === "road") safeRender("ryBody", renderRoad);
   if (s === "wkd" && wdWs) safeRender("wdBody", renderWkd);
   if (s === "tests") safeRender("txBody", renderTests);
@@ -2933,6 +3054,30 @@ $("meGhosts").addEventListener("click", async e => {
   const g = ghostOf(b.dataset.ghdel);
   try { await store.removeGhost(b.dataset.ghdel); toast(`${g ? g.name : "The ghost"} floated away.`); } catch (err) { toast("Couldn't reach the server — is your VPN on?"); }
   $("meGhosts")._h = ""; render();
+});
+$("meData").addEventListener("input", e => { if (e.target.id === "dxH") dxH = e.target.value; if (e.target.id === "dxM") dxM = e.target.value; });
+$("meData").addEventListener("change", e => { if (e.target.id === "dxBacked") { dxBacked = e.target.checked; render(); } });
+$("meData").addEventListener("click", async e => {
+  if (GHOST) return;
+  const b = e.target.closest("button"); if (!b) return;
+  const d = b.dataset, redo = () => { $("meData")._h = ""; render(); };
+  try {
+    if (d.dxedit) { const ms = ((state.days[d.dxedit] || {})[me]) || 0; dxEdit = d.dxedit; dxH = String(Math.floor(ms / HOUR)); dxM = String(Math.round(ms % HOUR / MIN)); redo(); setTimeout(() => $("dxH")?.select(), 30); return; }
+    if ("dxcancel" in d) { dxEdit = null; return redo(); }
+    if (d.dxsave) {
+      const hh = +dxH || 0, mm = +dxM || 0;
+      if (hh < 0 || mm < 0 || mm > 59 || !Number.isFinite(hh + mm)) return toast("Hours 0–12, minutes 0–59.");
+      if (await editDay(d.dxsave, hh * HOUR + mm * MIN)) { dxEdit = null; toast("Saved ✓"); }
+      return redo();
+    }
+    if ("dxfresh" in d) { dxFresh = true; return redo(); }
+    if ("dxfreshno" in d) { dxFresh = false; return redo(); }
+    if ("dxfreshgo" in d) { b.disabled = true; if (await startFresh()) { dxFresh = false; toast("Fresh start ✓"); } return redo(); }
+    if ("dxclean" in d) { dxClean = true; dxBacked = false; return redo(); }
+    if ("dxcleanno" in d) { dxClean = false; return redo(); }
+    if ("dxbackup" in d) return downloadBackup();
+    if ("dxcleango" in d) { if (!dxBacked) return; b.disabled = true; if (await cleanHistory()) { dxClean = false; toast("History before 7 Nov cleared ✓"); } return redo(); }
+  } catch (err) { showErr(err); redo(); }
 });
 $("pinIn").addEventListener("input", () => { if ($("pinIn").value.length === 4) tryPin(); });
 $("pinIn").addEventListener("keydown", e => { if (e.key === "Enter") tryPin(); });

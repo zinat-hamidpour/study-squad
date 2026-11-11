@@ -1,3 +1,20 @@
+# Study Squad 2026.11.11-6 · Fix my data
+
+1. ME → **My study time**: the days of this week (Saturday → today) with their time. Tap **edit** to correct a day.
+   Only your own days, only this week, at most 12 hours a day. Not while your timer is running.
+   Skills: if you add time, the extra shows as "untagged"; if you lower it, every skill shrinks by the same share.
+   The "What I studied" list keeps its original lines.
+2. **Start fresh from today** (with a confirm step): deletes your own study time, skills and log lines before today.
+   Goals, plans, tests and mocks stay. Your road starts today, and your days before it are not empty spots on the climb.
+3. Every edit or fresh start posts a short line on the room board, e.g. "Farzad edited Monday: 1h 20m → 2h 05m".
+4. Zinat only: **Clear history before 7 Nov**, for everyone. Shows how many days, entries and log lines it will delete,
+   asks for a backup first (Firebase console › Realtime Database › ⋮ › Export JSON, or ⬇ Download backup here),
+   and deletes only data dated before Saturday 7 Nov. Everyone's road then starts on 7 Nov.
+5. Ghosts can't do any of this.
+6. Edits can change this week's climb, lanterns, empty spots and cup.
+
+---
+
 # Study Squad 2026.11.11-4 · Update fix
 
 1. Fix: after tapping UPDATE some phones showed a white page with an empty red bar. The new index.html was running
