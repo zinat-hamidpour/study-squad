@@ -1,0 +1,11 @@
+{
+  "name": "study-squad",
+  "private": true,
+  "description": "Study Squad: a static web app on GitHub Pages (no build step).",
+  "scripts": {
+    "test": "node tests/smoke.cjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  }
+}
