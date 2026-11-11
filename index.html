@@ -2259,7 +2259,7 @@ function renderHome() {
   put($("hmGoal"), goal);
   // climb: gold steps toward the Friday Rooftop
   const cw = climbWeek(t), ts = cw.steps.find(x => x.today);
-  const clSub = cw.friday ? (cw.cup === "gold" ? "Friday Rooftop is ON 🍕 · gold cup" : cw.cup === "silver" ? "Quiet Friday · silver cup" : "Quiet Friday · new climb tomorrow") : `${cw.empty} empty spot${cw.empty === 1 ? "" : "s"} · ${cw.onTrack ? "on track for the roof" : cw.possible ? "lanterns can save it" : "no party this week"}${ts ? ` · today ${ts.lit}/6 done` : ""}`;
+  const clSub = cw.friday ? (cw.cup === "gold" ? "Friday Rooftop is ON 🍕" + (cw.ws === CUP_START ? "" : " · gold cup") : cw.cup === "silver" && cw.ws !== CUP_START ? "Quiet Friday · silver cup" : "Quiet Friday · new climb tomorrow") : `${cw.empty} empty spot${cw.empty === 1 ? "" : "s"} · ${cw.onTrack ? "on track for the roof" : cw.possible ? "lanterns can save it" : "no party this week"}${ts ? ` · today ${ts.lit}/6 done` : ""}`;
   put($("hmClimb"), `${pixIcon(ICONS.climb, 3)}<span style="flex:1;display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">The Climb · together</b><small style="font-size:12px;font-weight:800;color:var(--muted)">${clSub}</small></span>${lanternsLeft(me, cw.ws, t) ? LANTERN.replace('class="lan-ico"', 'class="lan-ico" style="width:16px;height:22px"') : ""}<b class="pixel" style="font-size:18px">›</b>`);
   const s = state.sessions[me] || {};
   $("homeGo").textContent = ["studying", "paused"].includes(s.state) ? "BACK TO TABLE ▶" : "START ▶";
@@ -2360,7 +2360,8 @@ function squadCups(t = now()) {
   const today = dayKey(t), key = today + "|" + dataVer;
   if (cupCache.key === key) return cupCache.list;
   const list = [{ first: true, ws: CUP_START }];
-  for (let ws = CUP_START; addDays(ws, 6) <= today; ws = addDays(ws, 7)) {        // weeks whose Friday has come
+  // the first cup IS the first week (week of CUP_START): that week adds nothing more; earned cups start the week after
+  for (let ws = addDays(CUP_START, 7); addDays(ws, 6) <= today; ws = addDays(ws, 7)) {        // weeks whose Friday has come
     const cw = climbWeek(t, ws);
     if (cw.cup) list.push({ ws, kind: cw.cup, empty: cw.empty, plan: partyPlan(ws) });
   }
@@ -2475,7 +2476,7 @@ function renderRace() {
   });
   svg += "</svg>";
   let h = svg;
-  h += `<div class="cl-sign ${lit ? "on" : ""}" style="left:50%;top:${Y(28)}"><b>FRIDAY ROOFTOP</b><small>${lit ? esc(partyPlan(ws)) + " · it's ON 🍕" : c.friday ? (c.cup === "silver" ? "quiet tonight · silver cup" : "quiet tonight") : c.possible ? esc(partyPlan(ws)) : "quiet this week"}</small></div>`;
+  h += `<div class="cl-sign ${lit ? "on" : ""}" style="left:50%;top:${Y(28)}"><b>FRIDAY ROOFTOP</b><small>${lit ? esc(partyPlan(ws)) + " · it's ON 🍕" : c.friday ? (c.cup === "silver" && c.ws !== CUP_START ? "quiet tonight · silver cup" : "quiet tonight") : c.possible ? esc(partyPlan(ws)) : "quiet this week"}</small></div>`;
   // ---- people ----
   // the party: the six of us standing in one row behind the long table
   if (lit) {
@@ -2511,12 +2512,12 @@ function renderRace() {
   const sp = n => `${n} empty spot${n === 1 ? "" : "s"}`;
   const todayLine = todayStep ? `Today: ${todayStep.lit} of 6 reached their goal${todayStep.gold ? " · step lit ✓" : ""}. ` : "";
   let st;
-  if (c.friday && c.cup === "gold") st = `<h3>It's ON tonight! Friday Rooftop 🍕</h3><p>${sp(c.empty)} this week. The roof is open for all six of us, and a gold cup is on the shelf.</p>${bulbs}`;
-  else if (c.friday && c.cup === "silver") st = `<h3>A quiet Friday · silver cup</h3><p>${sp(c.empty)} this week. No party tonight, but a silver cup is on the shelf. A new climb starts tomorrow.</p>${bulbs}`;
+  if (c.friday && c.cup === "gold") st = `<h3>It's ON tonight! Friday Rooftop 🍕</h3><p>${sp(c.empty)} this week. The roof is open for all six of us, and ${c.ws === CUP_START ? "the first cup stands for this week" : "a gold cup is on the shelf"}.</p>${bulbs}`;
+  else if (c.friday && c.cup === "silver") st = `<h3>A quiet Friday${c.ws === CUP_START ? "" : " · silver cup"}</h3><p>${sp(c.empty)} this week. No party tonight${c.ws === CUP_START ? ", but the first cup stands for this week" : ", but a silver cup is on the shelf"}. A new climb starts tomorrow.</p>${bulbs}`;
   else if (c.friday) st = `<h3>A quiet Friday</h3><p>${sp(c.empty)} this week. No cup this time. A new climb starts tomorrow.</p>${bulbs}`;
-  else if (c.onTrack) st = `<h3>On track for the Friday Rooftop</h3><p>${todayLine}${sp(c.empty)} so far. Up to ${PARTY_MAX} → party + gold cup · ${PARTY_MAX + 1}–${SILVER_MAX} → silver cup.</p>${bulbs}`;
+  else if (c.onTrack) st = `<h3>On track for the Friday Rooftop</h3><p>${todayLine}${sp(c.empty)} so far. ${c.ws === CUP_START ? `Up to ${PARTY_MAX} → party. Cups start next week.` : `Up to ${PARTY_MAX} → party + gold cup · ${PARTY_MAX + 1}–${SILVER_MAX} → silver cup.`}</p>${bulbs}`;
   else if (c.possible) st = `<h3>${sp(c.empty)} · lanterns can still save the party</h3><p>${todayLine}Light a friend's unlit lantern to bring it back to ${PARTY_MAX} or fewer.</p>${bulbs}`;
-  else st = `<h3>${sp(c.empty)} · no party this week</h3><p>${todayLine}${c.silverPossible ? `Keep it at ${SILVER_MAX} or fewer for a silver cup.` : "Keep climbing: a new week starts Saturday."}</p>${bulbs}`;
+  else st = `<h3>${sp(c.empty)} · no party this week</h3><p>${todayLine}${c.silverPossible && c.ws !== CUP_START ? `Keep it at ${SILVER_MAX} or fewer for a silver cup.` : "Keep climbing: a new week starts Saturday."}</p>${bulbs}`;
   const nCups = squadCups(t).length;
   st += `<p style="display:flex;align-items:center;gap:8px">${CUP_ICON().replace('class="cup-ico"', 'class="cup-ico" style="width:16px;height:22px"')} ${nCups} cup${nCups === 1 ? "" : "s"} on the library shelf</p>`;
   put($("clStatus"), st);

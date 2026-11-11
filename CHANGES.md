@@ -67,7 +67,8 @@ Phones on the old version see the "new version" banner within 5 minutes.
 
 ## Squad cups
 14. Gold or silver cups (see 9–10) go on the bottom shelf of the study-hall bookcase on Friday.
-15. The first cup (gold) stands in the middle under a brass plaque: "FOR FRIENDSHIP & COMPANIONSHIP". It is there from the start.
+15. The first cup (gold) stands in the middle under a brass plaque: "FOR FRIENDSHIP & COMPANIONSHIP". It is there from the start and stands for the first week (week of 7 Nov): that week adds no second cup.
+    Earned cups start with the week of 14 Nov (first one possible on Friday 20 Nov).
 16. Ten small things keep the shelf company until cups take their place, left to right:
     Cambridge books, hourglass, plant, photo of the six of us, glass of tea, globe, candle, radio, word books, alarm clock.
 17. Tap the shelf → the list of all cups (week, gold/silver, empty spots, Friday plan). Cups are computed from the study data; nothing new is stored.
