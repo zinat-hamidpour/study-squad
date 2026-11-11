@@ -239,31 +239,59 @@ async function fixMyData(browser, base) {
 }
 
 async function mePlanning(browser, base) {
-  console.log("ME: PLAN | PROGRESS, goal card, skills per day (fake Firebase)");
-  const prof = { goal: 150 };
+  console.log("ME: PLAN (main goal | weekly plan) · PROGRESS (week, time, road, tests + band chart) (fake Firebase)");
+  const prof = { goal: 150 }, M = 60e3;
+  const P4 = { L: [1, 1, 1, 1], R: [1, 1, 1], W: [1, 1], S: [1, 1, 1] };
   const db = { squad: { profiles: { zinat: prof, milad: prof, niloufar: prof, arian: prof, farzad: prof, shaghayegh: prof },
     main: { niloufar: { avgMin: 150, testsTarget: 25, targetBand: 7, examDate: "2027-03-06" } },
-    days: { "2026-11-09": { niloufar: 90 * 60e3 } }, skills: { "2026-11-09": { niloufar: { listening: 60 * 60e3, vocab: 30 * 60e3 } } } } };
+    days: { "2026-11-09": { niloufar: 90 * M } }, skills: { "2026-11-09": { niloufar: { listening: 60 * M, vocab: 30 * M } } },
+    tests: { niloufar: { c17t1: { book: 17, test: 1, tries: { t1: { date: "2026-11-02", parts: P4, score: { L: 30, R: 33, W: 6, S: 6.5 } },
+                                                               t2: { date: "2026-11-09", parts: P4, score: { L: 35, R: 35 } } } } } },
+    mocks: { niloufar: { m1: { institute: "Safir", date: "2026-11-05", result: { L: 7, R: 7.5, W: 6, S: 6.5, overall: 7 } } } } } };
   const page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "niloufar", db });
   const click = async sel => { await page.click(sel); await page.clock.runFor(400); };
+  const screen = () => page.evaluate(() => document.querySelector(".screen.on").id);
+  const visible = sel => page.$eval(sel, el => !!el.offsetParent).catch(() => false);
   await pickMe(page, "niloufar"); await nav(page, "me");
   ok(await page.$eval('[data-mtab="plan"]', b => b.classList.contains("on")), "ME opens on PLAN");
-  ok(await page.$$eval("#meBody .mx-sbar", x => x.length) === 0, "PLAN has no 'where your time went'");
-  ok(await page.$$eval('#meBody [data-mact="addtest"]', x => x.length) === 1, "practice tests are reachable from PLAN");
-  ok(await page.$$eval("#meGhosts, #meData", x => x.every(b => b.closest("#profile"))), "ghosts + my study time live in SETTINGS (⚙)");
-  await click('[data-mtab="prog"]');
-  ok(await page.$$eval("#meBody .mx-sbar", x => x.length) === 1 && await page.$$eval('#meBody [data-mact="road"]', x => x.length) === 1, "PROGRESS shows time split + road");
-  await click('[data-mtab="plan"]');
-  await click('#meBody .mx-hero[data-mact="main"]');
-  ok(await page.evaluate(() => document.querySelector(".screen.on").id) === "goals" && await page.$eval("#glTitle", h => h.textContent) === "MAIN GOAL", "tapping the goal card opens MY GOAL");
-  await nav(page, "me"); await click('#meBody [data-mact="plannext"]');
-  ok(/filled in from your main goal/.test(await page.$eval("#glWeek", x => x.textContent)), "next week says it comes from the main goal");
+  ok(await visible('#mePlan [data-gtab="main"]') && await visible('#mePlan [data-gtab="week"]'), "PLAN shows MAIN GOAL | WEEKLY PLAN right at the top");
+  ok(await visible("#glWeek") && !(await visible("#meBody")), "PLAN opens on the weekly plan; no progress cards on PLAN");
+  await click('#mePlan [data-gtab="main"]');
+  ok(await screen() === "me" && await visible("#glMain") && /Mock exams/.test(await page.$eval("#glMain", x => x.textContent)), "MAIN GOAL (with mock exams) opens inside ME, no other page");
+  await click('#mePlan [data-gtab="week"]');
+  await click('#glWeek [data-gact="wk+"]');
+  ok(/14 Nov/.test(await page.$eval("#glWeek", x => x.textContent)) && /filled in from your main goal/.test(await page.$eval("#glWeek", x => x.textContent)), "PLAN NEXT WEEK opens next week in the same place");
   await click('[data-gact="saveweek"]');
   const saved = await page.evaluate(() => { const p = window.__FAKE_DB__.squad.plans; return p && p["2026-11-14"] && p["2026-11-14"].niloufar; });
-  ok(saved && saved.daily === 150, "next week's daily goal = main goal (2h 30)");
-  await nav(page, "me");
-  const dots = await page.$$eval("#meBody .mx-wrow > div", d => d.map(x => x.querySelectorAll(".mx-dots i").length));
-  ok(dots.join() === "0,0,2,0,0,0,0", `skill dots come from the timer: Monday = Listening + Vocab (${dots.join()})`);
+  ok(saved && saved.daily === 150, "next week's daily goal = main goal (2h 30), saved");
+  ok(await page.$$eval('#glWeek .gl-pick[data-gact="plantest"]', x => x.length) === 1, "step 3: a clear '+ choose this week's test' button");
+  // to-do: add two, tick one, delete one — saved at once, no SAVE
+  await page.fill("#tdIn", "learn 30 words"); await page.press("#tdIn", "Enter"); await page.clock.runFor(400);
+  await page.fill("#tdIn", "shadowing 15 min"); await click("#glWeek [data-tadd]");
+  await click("#glWeek [data-tdo]");
+  let todo = await page.evaluate(() => Object.values(window.__FAKE_DB__.squad.plans["2026-11-14"].niloufar.todo || {}));
+  ok(todo.length === 2 && todo.filter(t => t.done).length === 1, `to-do: 2 added, 1 ticked (${JSON.stringify(todo.map(t => [t.text, t.done]))})`);
+  await click("#glWeek [data-tdel]");
+  todo = await page.evaluate(() => Object.values(window.__FAKE_DB__.squad.plans["2026-11-14"].niloufar.todo || {}));
+  ok(todo.length === 1, "to-do: one deleted");
+  await click('[data-mtab="prog"]');
+  ok(await visible("#meBody .mx-wrow") && await page.$$eval("#meBody .mx-dots", x => x.length) === 0, "PROGRESS has this week (hours only, no skill dots)");
+  ok(await visible('#meBody [data-mact="addtest"]') && await visible("#meBody .mx-sbar") && await visible('#meBody [data-mact="road"]'), "PROGRESS: time split, road, practice tests");
+  ok(!/Mock exams &/.test(await page.$eval("#meBody", x => x.textContent)), "no mock row in PROGRESS (mocks are planned in MAIN GOAL)");
+  ok(await page.$$eval("#meBody .sc-svg", x => x.length) === 0, "MY BANDS starts closed");
+  await click("#meBody [data-scopen]");
+  const lines = await page.$$eval("#meBody .sc-svg polyline", x => x.length);
+  ok(lines === 5, `band chart: a line for L, R, W, S and overall (${lines})`);
+  const det = await page.$eval("#meBody .sc-det", x => x.textContent);
+  ok(/C17·T1/.test(det) && /L 8 · R 8/.test(det), `the last point is shown: 35/40 → band 8 (${det.trim()})`);
+  await click('#meBody [data-sci="1"]');
+  ok(/Mock · Safir/.test(await page.$eval("#meBody .sc-det", x => x.textContent)) && /Overall 7/.test(await page.$eval("#meBody .sc-det", x => x.textContent)), "tap a point: the mock's bands + overall");
+  await click('#meBody [data-scr="month"]');
+  ok(/November 2026 · 3 results/.test(await page.$eval("#meBody .sc-det", x => x.textContent)), "MONTH: one point, the average of November's 3 results");
+  await click('#meBody [data-scr="week"]');
+  ok(await page.$$eval('#meBody .sc-svg [data-sci]', x => x.length) === 2, "WEEK: one point per week (2 weeks: 31 Oct, 7 Nov)");
+  await click('#meBody [data-mact="alltests"]');
+  ok(await page.$$eval("#txBody .sc-svg", x => x.length) === 1, "the band chart is on top of PRACTICE TESTS too");
   const d = await denied(page); ok(d.length === 0, `no refused writes (planning)${d.length ? " → " + d.join(", ") : ""}`);
   await finish(page, "planning");
 }

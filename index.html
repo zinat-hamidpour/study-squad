@@ -297,7 +297,7 @@ body.has-nav .dockfix{bottom:calc(84px + env(safe-area-inset-bottom));background
 .mx-blk{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;text-align:left;width:100%}
 .mx-hd{display:flex;align-items:center;justify-content:space-between;gap:8px}.mx-hd h2{margin:0;font-size:15px;font-weight:900}
 .mx-tabs{display:flex;border:2px solid var(--ink);border-radius:10px;overflow:hidden;width:140px}
-.mx-tabs button{flex:1;border:0;padding:7px;font:700 12px 'Pixelify Sans',monospace;background:#fff}.mx-tabs button.on{background:var(--ink);color:#FFE07A}
+.mx-tabs button{flex:1;border:0;padding:7px;font:700 12px 'Pixelify Sans',monospace;background:#fff;color:var(--muted)}.mx-tabs button.on{background:var(--lav);color:var(--ink);box-shadow:inset 0 -3px 0 var(--ink)}
 .mx-sbar{display:flex;height:16px;border:2px solid var(--ink);border-radius:6px;overflow:hidden;background:#FBF6EE}.mx-sbar i{height:100%;border-right:1.5px solid var(--ink)}.mx-sbar i:last-child{border-right:0}
 .mx-slist{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
 .mx-slist span{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:800}.mx-slist i{width:10px;height:10px;border-radius:3px;border:1.5px solid var(--ink);flex:0 0 auto}
@@ -308,8 +308,38 @@ em.u{font:800 9px Nunito,system-ui,sans-serif;color:var(--muted);font-style:norm
 .mx-mtab{margin-bottom:2px}
 .mx-hero[data-mact]{cursor:pointer;text-align:left}
 .mx-edit{align-self:flex-end;background:#FFE07A;color:var(--ink);border-radius:10px;padding:6px 10px;font:700 12px 'Pixelify Sans',monospace;margin-top:-4px}
-.mx-dots{display:flex;justify-content:center;gap:2px;min-height:7px;margin-top:2px}.mx-dots i{width:6px;height:6px;border-radius:2px;border:1px solid var(--ink)}
-.gl-step{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;background:var(--ink);color:#FFE07A;font:700 12px 'Pixelify Sans',monospace;margin-right:6px;vertical-align:1px}
+#mePlan[hidden],#meBody[hidden]{display:none!important}
+/* PLAN | PROGRESS: a chunky switch, the open one is lavender and raised */
+.mx-mtab{display:flex;gap:6px;background:#EADBC8;border:2.5px solid var(--ink);border-radius:16px;padding:5px}
+.mx-mtab button{flex:1;border:0;border-radius:11px;background:transparent;color:#8C7A6C;padding:10px 4px 9px;font:700 14px 'Pixelify Sans',monospace;letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:6px}
+.mx-mtab button.on{background:var(--lav);color:var(--ink);box-shadow:inset 0 0 0 2.5px var(--ink),0 3px 0 var(--ink);transform:translateY(-1px)}
+/* MAIN GOAL | WEEKLY PLAN: lighter, underlined, so the two levels never look alike */
+.mx-sub{display:flex;border-bottom:2.5px solid #DCCBB7}
+.mx-sub button{flex:1;border:0;background:none;padding:8px 4px 8px;font:700 13px 'Pixelify Sans',monospace;letter-spacing:1px;color:#9C8A7C;border-bottom:4px solid transparent;margin-bottom:-2.5px}
+.mx-sub button.on{color:var(--ink);border-bottom-color:var(--ink)}
+.mx-sub button.on:before{content:"▸ "}
+/* practice tests card on PROGRESS */
+.tx-how{display:flex;gap:6px;font-size:11.5px;font-weight:800;color:#5a4a40}
+.tx-how span{flex:1;background:#fff;border:2px solid var(--ink);border-radius:10px;padding:6px;text-align:center;line-height:1.25}
+.tx-how b{display:block;font:700 13px 'Pixelify Sans',monospace;color:var(--ink)}
+.sc-tog{display:flex;align-items:center;gap:8px;width:100%;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:9px 12px;text-align:left}
+.sc-tog b{font:700 14px 'Pixelify Sans',monospace;letter-spacing:1px}.sc-tog small{flex:1;color:var(--muted);font-size:11.5px;font-weight:800}
+.sc-tog .ar{font:700 16px 'Pixelify Sans',monospace;transition:transform .2s}.sc-tog[aria-expanded="true"] .ar{transform:rotate(180deg)}
+/* weekly to-do */
+.td-list{display:flex;flex-direction:column;gap:6px}
+.td-it{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--ink);border-radius:10px;padding:6px 8px;font-size:13.5px;font-weight:800}
+.td-it .ck{width:24px;height:24px;flex:0 0 auto;border:2.5px solid var(--ink);border-radius:7px;background:#fff;font:700 14px 'Pixelify Sans',monospace;padding:0;display:grid;place-items:center}
+.td-it.done .ck{background:var(--green)}.td-it.done span{text-decoration:line-through;color:var(--muted)}
+.td-it span{flex:1;min-width:0;overflow-wrap:anywhere}.td-it .del{border:0;background:none;color:var(--muted);font-size:15px;padding:2px 4px}
+.td-add{display:flex;gap:6px}.td-add input{flex:1;min-width:0;border:2px solid var(--ink);border-radius:10px;padding:8px 10px;font:700 14px Nunito,sans-serif;background:#fff}
+.gl-pick{border:2.5px dashed var(--ink);border-radius:12px;padding:12px;background:#fff;font:700 13px 'Pixelify Sans',monospace;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center;width:100%}
+/* score chart (bands per skill + overall) */
+.sc-card{display:flex;flex-direction:column;gap:8px}
+.sc-svg{width:100%;height:auto;display:block;background:#fff;border:2px solid var(--ink);border-radius:12px}
+.sc-leg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;font-weight:800}.sc-leg span{display:flex;align-items:center;gap:5px}
+.sc-leg i{width:14px;height:3px;border-radius:2px;display:inline-block}.sc-leg i.o{height:4px;background:var(--ink)}
+.sc-det{background:#FBF6EE;border:2px dashed var(--muted);border-radius:10px;padding:6px 10px;font-size:12px;font-weight:800}
+.sc-det b{font:700 13px 'Pixelify Sans',monospace}.gl-step{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;background:var(--ink);color:#FFE07A;font:700 12px 'Pixelify Sans',monospace;margin-right:6px;vertical-align:1px}
 .mx-wrow i{display:block;height:30px;border:2px solid var(--ink);border-radius:6px;background:#FBF6EE;position:relative;overflow:hidden}
 .mx-wrow i u{position:absolute;left:0;right:0;bottom:0;background:var(--green)}
 .mx-wrow b{font:700 9px 'Pixelify Sans',monospace;color:var(--muted)}.mx-wrow div.t b{color:var(--ink)}.mx-wrow div.t i{outline:2.5px solid var(--yellow);outline-offset:1px}
@@ -818,6 +848,12 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <!-- ============ PROFILE / GOALS ============ -->
 <section id="me" class="screen">
   <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings">⚙</button></header>
+  <div id="meTabs"></div>
+  <div id="mePlan" class="mx-body">
+    <div class="mx-sub" role="tablist"><button type="button" data-gtab="main">MAIN GOAL</button><button type="button" data-gtab="week">WEEKLY PLAN</button></div>
+    <div id="glMain" class="gl-pane"></div>
+    <div id="glWeek" class="gl-pane"></div>
+  </div>
   <div id="meBody" class="mx-body"></div>
 </section>
 <section id="road" class="screen">
@@ -834,9 +870,6 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 </section>
 <section id="goals" class="screen">
   <header class="bar"><button id="glBack" class="back" type="button" aria-label="Back to ME"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div style="flex:1"><span class="gl-crumb">ME › MY GOALS ›</span><h1 class="pixel" id="glTitle">MAIN GOAL</h1></div></header>
-  <div class="gl-tab" role="tablist"><button type="button" data-gtab="main">MAIN GOAL</button><button type="button" data-gtab="week">THIS WEEK</button></div>
-  <div id="glMain" class="gl-pane"></div>
-  <div id="glWeek" class="gl-pane"></div>
 </section>
 <section id="profile" class="screen">
   <header class="bar">
@@ -991,10 +1024,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.11-9"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.11-10"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.11-9";
+const APP_VERSION = "2026.11.11-10";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1080,6 +1113,7 @@ async function makeFirebaseStore() {
     setMock: (id, mid, val) => F.set(F.ref(db, `squad/mocks/${id}/${mid}`), val),
     setPlan: (ws, id, val) => F.update(F.ref(db, `squad/plans/${ws}/${id}`), val),
     setPlanTests: (ws, id, val) => F.set(F.ref(db, `squad/plans/${ws}/${id}/tests`), val && Object.keys(val).length ? val : null),
+    setTodo: (ws, id, key, val) => F.set(F.ref(db, `squad/plans/${ws}/${id}/todo/${key}`), val),
     pushNote: (to, val) => F.push(F.ref(db, `squad/notes/${to}`), val),
     removeNote: (to, id) => F.remove(F.ref(db, `squad/notes/${to}/${id}`)),
     setWriting: (id, val) => { const r = F.ref(db, `squad/writing/${id}`); if (val) F.onDisconnect(r).remove(); return F.set(r, val); },
@@ -1179,6 +1213,7 @@ function makeDemoStore() {
     setTest: async (id, key, val) => { const t = (state.tests[id] ||= {}); if (val) t[key] = JSON.parse(JSON.stringify(val)); else delete t[key]; persist(); },
     setMock: async (id, mid, val) => { const m = (state.mocks[id] ||= {}); if (val) m[mid] = val; else delete m[mid]; persist(); },
     setPlan: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}), ...val }; if (!val.days) delete w[id].days; persist(); },
+    setTodo: async (ws, id, key, val) => { const w = (state.plans[ws] ||= {}), p = (w[id] ||= {}), td = (p.todo ||= {}); if (val) td[key] = val; else delete td[key]; persist(); },
     setPlanTests: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}) }; if (val && Object.keys(val).length) w[id].tests = val; else delete w[id].tests; persist(); },
     pushNote: async (to, val) => { (state.notes[to] ||= {})[nid()] = val; persist(); },
     removeNote: async (to, id) => { if (state.notes[to]) delete state.notes[to][id]; persist(); },
@@ -1208,7 +1243,6 @@ const DOW = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
 const DOW_NAME = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 const dowOf = key => daysBetween(weekStart(key), key);
 const planOf = (id, ws) => ((state.plans[ws] || {})[id]) || null;
-const skDots = ids => ids.map(x => `<i style="background:${SK[x].col}" title="${SK[x].name}"></i>`).join("");
 // a week without its own plan starts from the main goal's average, then last saved week, then the old profile goal
 function weekDaily(id, ws) {
   const p = planOf(id, ws); if (p && p.daily) return p.daily;
@@ -1481,6 +1515,7 @@ function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.
 const SCREENS = ["start", "home", "race", "hall", "speak", "me", "road", "wkd", "tests", "profile", "goals"];
 const NAV_SCREENS = { home: "home", race: "race", hall: "hall", speak: "speak", me: "me", road: "me", wkd: "me", tests: "me", profile: "me", goals: "me" };
 function go(name) {
+  if (name === "goals") { name = "me"; meTab = "plan"; }   // MY GOALS lives inside ME › PLAN now
   if (name !== "start" && !(me && state.profiles[me])) name = "start";
   closeOverlays();
   for (const s of SCREENS) $(s).classList.toggle("on", s === name);
@@ -1665,22 +1700,22 @@ const TSK = { L: ["Listening", "#7FB3E6"], R: ["Reading", "#6CCB7E"], W: ["Writi
 const skp = (on, key) => { const tr = key ? lastTry(((state.tests[me] || {})[key])) : null;
   return `<span class="gl-skp">${"LRWS".split("").map(k => { const a = partsOf(tr, k), st = !key ? 1 : a.every(v => v === 2) ? 2 : a.every(v => v >= 1) ? 1 : 0;
     return `<span class="${on.includes(k) ? "on" : ""}" style="${on.includes(k) ? `background:${TSK[k][1]};opacity:${st ? 1 : .45}` : ""}">${st === 2 && on.includes(k) ? "✓" : k}</span>`; }).join("")}</span>`; };
-let gTab = "main", gMain = null, gWs = null, gWeek = null, gSel = null;
+let gTab = "week", gMain = null, gWs = null, gWeek = null, gSel = null;
 
-function openGoals(tab) {
-  gTab = tab === "week" ? "week" : "main";
+function initGoals(tab) {
+  gTab = tab === "main" ? "main" : "week";
   const m = state.main[me] || {}, p = state.profiles[me] || {};
   gMain = { examDate: examOf(me), targetBand: m.targetBand || null, testsTarget: m.testsTarget || 20, avgMin: m.avgMin || p.goalMin || DEFAULT_GOAL };
   loadWeek(weekStart(dayKey(now())));
-  go("goals");
 }
+function openGoals(tab) { initGoals(tab); meTab = "plan"; go("me"); }
 function loadWeek(ws) {
   gWs = ws; gSel = null;
   const p = planOf(me, ws) || {};
   gWeek = { daily: weekDaily(me, ws), days: { ...(p.days || {}) } };
 }
 function renderGoals() {
-  if (!gMain) { openGoals(gTab); return; }
+  if (!gMain) initGoals(gTab);
   $("glTitle").textContent = gTab === "main" ? "MAIN GOAL" : "THIS WEEK";
   document.querySelectorAll("[data-gtab]").forEach(b => { b.classList.toggle("on", b.dataset.gtab === gTab); b.setAttribute("aria-selected", b.dataset.gtab === gTab); });
   $("glMain").classList.toggle("on", gTab === "main"); $("glWeek").classList.toggle("on", gTab === "week");
@@ -1747,6 +1782,37 @@ function floorOf(d) {
   if (d == null) return saved.daily || 30;
   return Math.max(30, (saved.days && saved.days[d]) || saved.daily || 30);
 }
+function nextWeekBtn(cur) {
+  const nx = addDays(cur, 7), p = planOf(me, nx), dow = dowOf(dayKey(now()));
+  const range = `${fmtDate(nx, { day: "numeric" })} – ${fmtDate(addDays(nx, 6), { day: "numeric", month: "short" })}`;
+  return p && p.savedAt
+    ? `<button type="button" class="mx-plan" data-gact="wk+"><span><b>NEXT WEEK PLANNED ✓</b><br><small>${range} · ${fmtGoal(weekGoal(me, nx))}</small></span><span class="go">EDIT ›</span></button>`
+    : `<button type="button" class="mx-plan ${dow >= 5 ? "glow" : ""}" data-gact="wk+"><span><b>PLAN NEXT WEEK</b><br><small>due Friday · ${range}</small></span><span class="go">PLAN ›</span></button>`;
+}
+// a small to-do list for the week: saved as soon as you add or tick, no SAVE needed
+const todosOf = (id, ws) => Object.entries(((planOf(id, ws) || {}).todo) || {}).filter(([, x]) => x && x.text).sort((a, b) => (a[1].at || 0) - (b[1].at || 0));
+function todoCard(past) {
+  const list = todosOf(me, gWs), done = list.filter(([, x]) => x.done).length;
+  const rows = list.map(([k, x]) => `<div class="td-it ${x.done ? "done" : ""}"><button type="button" class="ck" data-tdo="${esc(k)}" ${past ? "disabled" : ""} aria-label="${x.done ? "Not done" : "Done"}">${x.done ? "✓" : ""}</button><span>${esc(x.text)}</span>${past ? "" : `<button type="button" class="del" data-tdel="${esc(k)}" aria-label="Delete">✕</button>`}</div>`).join("");
+  return `<div class="gl-card"><div class="gl-row"><h2>${past ? "☑ " : `<span class="gl-step">4</span>`}To-do this week</h2><span class="gl-sm">${list.length ? `${done} / ${list.length} done` : "optional"}</span></div>
+    ${list.length ? `<div class="td-list">${rows}</div>` : past ? `<div class="gl-empty">No to-do that week.</div>` : ""}
+    ${past ? "" : `<div class="td-add"><input id="tdIn" maxlength="80" placeholder="e.g. learn 30 words on crime" autocomplete="off"><button type="button" class="gl-b2" data-tadd>+ Add</button></div><span class="gl-sm">Saved right away. Tick when done.</span>`}</div>`;
+}
+async function todoAct(kind, key) {
+  if (GHOST) return;
+  const list = Object.fromEntries(todosOf(me, gWs));
+  try {
+    if (kind === "add") {
+      const v = ($("tdIn").value || "").trim(); if (!v) return $("tdIn").focus();
+      if (Object.keys(list).length >= 20) return toast("20 to-dos is the most for a week.");
+      await store.setTodo(gWs, me, "t" + Date.now().toString(36), { text: v.slice(0, 80), done: false, at: now() });
+      $("tdIn").value = "";
+    } else if (kind === "toggle" && list[key]) await store.setTodo(gWs, me, key, { ...list[key], done: !list[key].done });
+    else if (kind === "del" && list[key]) await store.setTodo(gWs, me, key, null);
+  } catch (e) { showErr(e); }
+  renderGoals();
+  if (kind === "add") setTimeout(() => $("tdIn") && $("tdIn").focus(), 30);
+}
 function renderGoalWeek() {
   const { cur, saved, past, locked } = weekInfo(), today = dayKey(now());
   const first = weekStart(firstDay(me));
@@ -1768,17 +1834,20 @@ function renderGoalWeek() {
   put($("glWeek"), `
   <div class="gl-wsel"><button type="button" data-gact="wk-" aria-label="Previous week" ${gWs <= first ? "disabled" : ""}>‹</button><b>${range}</b><button type="button" data-gact="wk+" aria-label="Next week" ${gWs >= addDays(cur, 7) ? "disabled" : ""}>›</button></div>
   ${past ? `<div class="gl-ro">This week is over · read only</div>` : gWs === cur ? `<div class="gl-lock">${locked ? "🔒 saved · goals can only go up this week" : "🔒 after saving: goals can only go up"}</div>` : `<div class="gl-lock">Next week · filled in from your main goal · change it freely, then SAVE</div>`}
+  ${gWs === cur ? nextWeekBtn(cur) : ""}
   <div class="gl-card"><div class="gl-row"><h2>${past ? "" : `<span class="gl-step">1</span>`}Daily goal</h2><span class="gl-sm">${avg ? "average: " + fmtShort(avg) : ""}</span></div>
     <div class="gl-st"><button type="button" data-gact="daily-" aria-label="Less" ${past || gWeek.daily <= floorOf(null) ? "disabled" : ""}>−</button><output>${fmtGoal(gWeek.daily)}</output><button type="button" data-gact="daily+" aria-label="More" ${past || gWeek.daily >= 480 ? "disabled" : ""}>+</button></div></div>
   <div class="gl-card"><div class="gl-row"><h2>${past ? "" : `<span class="gl-step">2</span>`}Each day</h2><span class="gl-sm">${past ? "" : "tap a day"}</span></div>
     <div class="gl-stair">${stair}</div>${ed}
     <div class="gl-leg"><span><i style="background:#BFE8C6"></i>daily goal</span><span><i style="background:#F9C9A8"></i>own goal</span><span>📝 test planned</span></div>
     <div class="gl-sum"><span>Week total</span><b>${fmtGoal(total)}</b></div></div>
-  <div class="gl-card"><div class="gl-row"><h2>${past ? "📝 " : `<span class="gl-step">3</span>`}Tests this week</h2>${past ? "" : `<button type="button" class="gl-b2" data-gact="plantest">+ Plan a test</button>`}</div>
-    ${tests.length ? tests.map(x => `<div class="gl-pt" data-tgo="${esc(x.k)}" role="button" tabindex="0" aria-label="Open C${x.book} T${x.test} in practice tests"><span><b>C${x.book} · T${x.test}</b><span class="gl-sm">${x.day ? DOW_NAME[DOW.indexOf(x.day)].slice(0, 3) : "any day"} · log it ›</span></span>${skp(x.skills || [], x.k)}${past ? "" : `<button type="button" class="gl-ped" data-ptest="${esc(x.k)}" aria-label="Edit plan">✎</button>`}</div>`).join("") : `<div class="gl-empty">No test planned for this week.</div>`}
+  <div class="gl-card"><div class="gl-row"><h2>${past ? "📝 " : `<span class="gl-step">3</span>`}Tests this week</h2>${past || !tests.length ? "" : `<button type="button" class="gl-b2" data-gact="plantest">+ Plan a test</button>`}</div>
+    ${!tests.length && !past ? `<button type="button" class="gl-pick" data-gact="plantest"><span>+ CHOOSE THIS WEEK'S TEST</span><span>📝</span></button><span class="gl-sm">It goes straight into PRACTICE TESTS, ready to log.</span>` : ""}
+    ${tests.length ? tests.map(x => `<div class="gl-pt" data-tgo="${esc(x.k)}" role="button" tabindex="0" aria-label="Open C${x.book} T${x.test} in practice tests"><span><b>C${x.book} · T${x.test}</b><span class="gl-sm">${x.day ? DOW_NAME[DOW.indexOf(x.day)].slice(0, 3) : "any day"} · log it ›</span></span>${skp(x.skills || [], x.k)}${past ? "" : `<button type="button" class="gl-ped" data-ptest="${esc(x.k)}" aria-label="Edit plan">✎</button>`}</div>`).join("") : (past ? `<div class="gl-empty">No test planned that week.</div>` : "")}
     <span class="gl-sm">Only the skills you pick count as this week's test work.</span>
     ${tests.length ? `<button type="button" class="gl-b2" data-gact="logtests" style="align-self:flex-start">📝 Log them in PRACTICE TESTS ›</button>` : ""}</div>
-  ${past ? "" : `<button type="button" class="gl-save" data-gact="saveweek">SAVE MY WEEK</button>`}`);
+  ${todoCard(past)}
+  ${past ? "" : `<button type="button" class="gl-save" data-gact="saveweek">SAVE ${gWs > cur ? "NEXT WEEK" : "MY WEEK"}</button>`}`);
 }
 async function goalAct(a) {
   const d = gMain;
@@ -2054,24 +2123,16 @@ function renderMe() {
   for (let k = first; k <= today; k = addDays(k, 1)) { const g = goalOf(me, k) * MIN; need += g; nd++; if (dayMs(me, k, t) >= g) hit++; }
   const onPace = tot >= need * 0.9;
   const kpis = `<div class="mx-kpi"><div><b>${Math.floor(tot / HOUR)}h</b><small>studied · <span class="${onPace ? "ok" : "bh"}">${onPace ? "on pace" : "behind"}</span></small></div><div><b>${testsDone(me)}/${m.testsTarget || 20}</b><small>practice tests</small></div><div><b>${hit}/${nd}</b><small>days goal hit</small></div></div>`;
-  const avgMin = m.avgMin || weekDaily(me, addDays(cur, 7));   // the same number a new week starts from
-  const goalKv = `<div class="mx-kpi"><div><b>${m.targetBand ? (+m.targetBand).toFixed(1) : "—"}</b><small>target band</small></div><div><b>${fmtShort(avgMin)}</b><small>a day</small></div><div><b>${m.testsTarget || 20}</b><small>practice tests</small></div></div>`;
   // where the time went
   const split = skillSplit(me, meRange === "all" ? [...new Set(allKeys(me))] : weekKeys(cur), t);
   const sbar = split.tot ? SKX.filter(x => split.o[x.id] > 0).map(x => `<i style="width:${split.o[x.id] / split.tot * 100}%;background:${x.col}"></i>`).join("") : "";
   const slist = SKX.filter(x => x.id !== "untagged" || split.o.untagged > 0).map(x => `<span><i style="background:${x.col}"></i>${x.name}<b>${hmU(split.o[x.id])}</b></span>`).join("");
   // this week
   // skills studied on a day, from the timer (biggest first)
-  const studiedSkills = k => { if (k > today) return []; const o = skillSplit(me, [k], t).o; return SKILLS.filter(x => o[x.id] >= MIN).sort((a, b) => o[b.id] - o[a.id]).map(x => x.id); };
   const wk = weekKeys(cur), wDone = wk.reduce((a, k) => a + (k <= today ? dayMs(me, k, t) : 0), 0);
-  const boxes = wk.map((k, i) => { const g = goalOf(me, k) * MIN, d = k <= today ? dayMs(me, k, t) : 0; return `<div class="${k === today ? "t" : ""}"><i><u style="height:${Math.min(100, d / g * 100)}%"></u></i><b>${"SSMTWTF"[i]}</b><span class="mx-dots">${skDots(studiedSkills(k))}</span></div>`; }).join("");
+  const boxes = wk.map((k, i) => { const g = goalOf(me, k) * MIN, d = k <= today ? dayMs(me, k, t) : 0; return `<div class="${k === today ? "t" : ""}"><i><u style="height:${Math.min(100, d / g * 100)}%"></u></i><b>${"SSMTWTF"[i]}</b></div>`; }).join("");
   const tests = Object.values((planOf(me, cur) || {}).tests || {});
   const tLine = tests.map(x => `C${x.book}·T${x.test}${x.skills && x.skills.length < 4 ? ` (${x.skills.join(" ")})` : ""}`).join(" · ");
-  const nx = addDays(cur, 7), nxPlan = planOf(me, nx), dow = dowOf(today);
-  const nxRange = `${fmtDate(nx, { day: "numeric" })} – ${fmtDate(addDays(nx, 6), { day: "numeric", month: "short" })}`;
-  const plan = nxPlan && nxPlan.savedAt
-    ? `<button type="button" class="mx-plan" data-mact="plannext"><span><b>NEXT WEEK PLANNED ✓</b><br><small>${nxRange} · ${fmtGoal(weekGoal(me, nx))}</small></span><span class="go">EDIT ›</span></button>`
-    : `<button type="button" class="mx-plan ${dow >= 5 ? "glow" : ""}" data-mact="plannext"><span><b>PLAN NEXT WEEK</b><br><small>due Friday · ${nxRange}</small></span><span class="go">PLAN ›</span></button>`;
   // road peek: last week, this week, next weeks
   const ci = weeks.indexOf(cur), from = Math.max(0, ci - 1), peekW = weeks.slice(from, from + 4);
   const peekMax = Math.max(15 * HOUR, ...peekW.map(w => Math.max(weekGoal(me, w) * MIN, skillSplit(me, weekKeys(w), t).tot)));
@@ -2080,28 +2141,112 @@ function renderMe() {
     const bar = fut ? `<div class="bar f"></div>` : `<div class="bar">${SKX.filter(x => sp.o[x.id] > 0).map(x => `<i style="width:${sp.o[x.id] / peekMax * 100}%;background:${x.col}"></i>`).join("")}</div>`;
     return `<div class="r ${w === cur ? "now" : ""}"><div class="d" ${fut ? 'style="color:#8d84a0"' : ""}>WEEK ${weekNo(me, w)}<small>${w === cur ? "this week" : fmtDate(w, { day: "numeric", month: "short" })}</small></div>${bar}<div class="h" ${fut ? 'style="color:#5c5470"' : ""}>${fut ? "—" : fmtLong(sp.tot)}</div></div>`;
   }).join("");
-  const nextMock = mocksOf(me).find(x => x.date && x.date >= today);
-  const big = nextMock ? [`${daysBetween(today, nextMock.date)}d`, "to next mock"] : exam && left >= 0 ? [`${left}d`, "to IELTS"] : ["—", "no date yet"];
-  const tabs = `<div class="gl-tab mx-mtab" role="tablist"><button type="button" role="tab" data-mtab="plan" class="${meTab === "plan" ? "on" : ""}" aria-selected="${meTab === "plan"}">PLAN</button><button type="button" role="tab" data-mtab="prog" class="${meTab === "prog" ? "on" : ""}" aria-selected="${meTab === "prog"}">PROGRESS</button></div>`;
-  const todayX = skillSplit(me, [today], t), todaySk = studiedSkills(today);
-  if (meTab === "plan") return put($("meBody"), `${tabs}
-  <div class="mx-hero" data-mact="main" role="button" tabindex="0" aria-label="My goal: tap to change">${hero}${goalKv}<span class="mx-edit">✎ MY GOAL</span></div>
-  <div class="mx-blk" data-mact="week" role="button" tabindex="0"><div class="mx-hd"><h2>This week</h2><span class="gl-sm">${fmtDate(cur, { day: "numeric", month: "short" })} – ${fmtDate(addDays(cur, 6), { day: "numeric", month: "short" })}</span></div>
+  const tabs = `<div class="mx-mtab" role="tablist"><button type="button" role="tab" data-mtab="plan" class="${meTab === "plan" ? "on" : ""}" aria-selected="${meTab === "plan"}">🗓 PLAN</button><button type="button" role="tab" data-mtab="prog" class="${meTab === "prog" ? "on" : ""}" aria-selected="${meTab === "prog"}">📈 PROGRESS</button></div>`;
+  put($("meTabs"), tabs);
+  $("mePlan").hidden = meTab !== "plan"; $("meBody").hidden = meTab === "plan";
+  // PLAN = MAIN GOAL | WEEKLY PLAN, edited right here
+  if (meTab === "plan") return renderGoals();
+  // PROGRESS = what I've done
+  put($("meBody"), `
+  <div class="mx-hero">${hero}${kpis}</div>
+  <div class="mx-blk" data-mact="wkd" role="button" tabindex="0"><div class="mx-hd"><h2>This week</h2><span class="gl-sm">${fmtDate(cur, { day: "numeric", month: "short" })} – ${fmtDate(addDays(cur, 6), { day: "numeric", month: "short" })}</span></div>
     <div class="mx-wrow">${boxes}</div>
     <div class="mx-line"><span>Studied</span><b>${fmtLong(wDone)} <span style="color:#6A5B50;font:800 12px Nunito,system-ui,sans-serif">of</span> ${fmtGoal(weekGoal(me, cur))}</b></div>
-    <div class="mx-line"><span>Today</span><b style="font:800 12px Nunito,system-ui,sans-serif">${fmtLong(todayX.tot)} of ${fmtGoal(goalOf(me, today))}${todaySk.length ? " · " + todaySk.map(x => SK[x].name).join(", ") : ""}</b></div>
+    <div class="mx-line"><span>Today</span><b>${fmtLong(dayMs(me, today, t))} <span style="color:#6A5B50;font:800 12px Nunito,system-ui,sans-serif">of</span> ${fmtGoal(goalOf(me, today))}</b></div>
     ${tests.length ? `<div class="mx-line"><span>Tests planned</span><b>${esc(tLine)}</b></div>` : ""}
-    <span class="gl-sm" style="text-align:right">tap to change this week ›</span></div>
-  ${plan}
-  <div class="mx-tcard"><div class="top"><div class="mx-hd"><h2>Practice tests</h2><span class="gl-sm">${testsDone(me)} of ${m.testsTarget || 20} done</span></div></div>
-    <div class="mx-stub"><button type="button" data-mact="addtest"><span class="pl">+</span>ADD A TEST</button><button type="button" data-mact="alltests"><span class="cnt">ALL TESTS<small>see every test</small></span><span>›</span></button></div></div>`);
-  put($("meBody"), `${tabs}
-  <div class="mx-hero">${kpis}</div>
+    ${todosOf(me, cur).length ? `<div class="mx-line"><span>To-do</span><b>${todosOf(me, cur).filter(([, x]) => x.done).length} / ${todosOf(me, cur).length} done</b></div>` : ""}
+    <span class="gl-sm" style="text-align:right">day by day ›</span></div>
   <div class="mx-blk"><div class="mx-hd"><h2>Where your time went</h2><span class="mx-tabs"><button type="button" data-mrange="all" class="${meRange === "all" ? "on" : ""}">ALL</button><button type="button" data-mrange="week" class="${meRange === "week" ? "on" : ""}">WEEK</button></span></div>
-    <div class="mx-sbar" data-mact="wkd">${sbar}</div><div class="mx-slist" data-mact="wkd">${slist}</div>
-    <span class="gl-sm" style="text-align:right" data-mact="wkd">tap for this week, day by day ›</span></div>
+    <div class="mx-sbar" data-mact="wkd">${sbar}</div><div class="mx-slist" data-mact="wkd">${slist}</div></div>
   <button type="button" class="mx-peek" data-mact="road"><div class="ttl"><b>MY ROAD</b><small>${weeks.length} weeks · ${fmtDate(weeks[0], { day: "numeric", month: "short" })} → ${exam && exam >= today ? fmtDate(exam, { day: "numeric", month: "short" }) : "…"}</small></div>${peek}<div class="fade"></div><div class="cta"><span>SEE ALL ${weeks.length} WEEKS ›</span></div></button>
-  <div class="mx-rows"><button type="button" class="mx-rw2" data-mact="main"><span class="t"><b>Mock exams &amp; exam day</b><small>in MY GOAL</small></span><span class="n"><b>${big[0]}</b><small>${big[1]}</small></span><span class="ch">›</span></button></div>`);
+  <div class="mx-tcard"><div class="top sc-card"><div class="mx-hd"><h2>📝 Practice tests</h2><span class="gl-sm">${testsDone(me)} of ${m.testsTarget || 20} done</span></div>
+    <div class="tx-how"><span><b>1</b>do a Cambridge test</span><span><b>2</b>tick the parts you did</span><span><b>3</b>add your score</span></div>
+    ${bandsBlock(me)}</div>
+    <div class="mx-stub"><button type="button" data-mact="addtest"><span class="pl">+</span>ADD A TEST</button><button type="button" data-mact="alltests"><span class="cnt">ALL TESTS<small>see every test</small></span><span>›</span></button></div></div>`);
+}
+// ---- scores: bands per skill + overall, from practice-test scores and mock results ----
+// Listening / Academic Reading: correct answers out of 40 → band (the usual IELTS tables)
+const RAW_BAND = { L: [[39, 9], [37, 8.5], [35, 8], [32, 7.5], [30, 7], [26, 6.5], [23, 6], [18, 5.5], [16, 5], [13, 4.5], [10, 4], [8, 3.5], [6, 3], [4, 2.5], [1, 1]],
+                   R: [[39, 9], [37, 8.5], [35, 8], [33, 7.5], [30, 7], [27, 6.5], [23, 6], [19, 5.5], [15, 5], [13, 4.5], [10, 4], [8, 3.5], [6, 3], [4, 2.5], [1, 1]] };
+const rawBand = (k, n) => { for (const [min, b] of RAW_BAND[k]) if (n >= min) return b; return 0; };
+const SC_COL = { L: "#2563B8", R: "#3A9A3F", W: "#C8366F", S: "#B07A00" };   // darker steps of the skill colours, checked for colour-blind safety
+function scorePoints(id) {
+  const pts = [];
+  for (const [, t] of testsOf(id)) for (const n of tryIds(t)) {
+    const tr = t.tries[n], sc = tr && tr.score; if (!sc) continue;
+    const b = {};
+    if (sc.L != null && sc.L !== "") b.L = rawBand("L", +sc.L);
+    if (sc.R != null && sc.R !== "") b.R = rawBand("R", +sc.R);
+    if (sc.W != null && sc.W !== "") b.W = +sc.W;
+    if (sc.S != null && sc.S !== "") b.S = +sc.S;
+    if (!Object.keys(b).length) continue;
+    if ("LRWS".split("").every(k => b[k] != null)) b.O = ieltsRound((b.L + b.R + b.W + b.S) / 4);
+    pts.push({ date: tr.date || "", mock: false, name: `C${t.book}·T${t.test}`, b });
+  }
+  for (const m of mocksOf(id)) {
+    const r = m.result; if (!r || !m.date) continue;
+    const b = {}; "LRWS".split("").forEach(k => { if (r[k] != null) b[k] = +r[k]; }); if (r.overall != null) b.O = +r.overall;
+    if (Object.keys(b).length) pts.push({ date: m.date, mock: true, name: `Mock · ${m.institute || ""}`, b });
+  }
+  return pts.sort((a, b) => a.date.localeCompare(b.date));
+}
+function bandsTap(e) {
+  if (e.target.closest("[data-scopen]")) { scOpen = !scOpen; lsSet("squad-bands", scOpen ? "1" : "0"); return true; }
+  const r = e.target.closest("[data-scr]"); if (r) { scRange = r.dataset.scr; scSel = null; return true; }
+  return false;
+}
+let scSel = null, scOpen = lsGet("squad-bands") === "1", scRange = "all";
+// WEEK / MONTH = the average band of each week / month; ALL = every test and mock
+function scoreGroups(raw, by) {
+  if (by === "all") return raw;
+  const g = new Map();
+  for (const p of raw) { const k = by === "week" ? weekStart(p.date || dayKey(now())) : (p.date || dayKey(now())).slice(0, 7); if (!g.has(k)) g.set(k, []); g.get(k).push(p); }
+  return [...g.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([k, ps]) => {
+    const b = {}; for (const s2 of ["L", "R", "W", "S", "O"]) { const v = ps.map(p => p.b[s2]).filter(x => x != null); if (v.length) b[s2] = ieltsRound(v.reduce((a, c) => a + c, 0) / v.length); }
+    const name = by === "week" ? `Week of ${fmtDate(k, { day: "numeric", month: "short" })}` : fmtDate(k + "-01", { month: "long", year: "numeric" });
+    return { date: by === "week" ? k : k + "-01", mock: false, name: `${name} · ${ps.length} result${ps.length === 1 ? "" : "s"}`, b, month: by === "month" };
+  });
+}
+function bandsBlock(id) {
+  const n = scorePoints(id).length;
+  const head = `<button type="button" class="sc-tog" data-scopen aria-expanded="${scOpen}"><b>MY BANDS</b><small>${n ? `${n} result${n === 1 ? "" : "s"} · week, month, all` : "your scores, as a chart"}</small><span class="ar">▾</span></button>`;
+  if (!scOpen) return head;
+  return head + `<span class="mx-tabs" style="width:100%">${[["week", "WEEK"], ["month", "MONTH"], ["all", "ALL"]].map(([k, l]) => `<button type="button" data-scr="${k}" class="${scRange === k ? "on" : ""}">${l}</button>`).join("")}</span>${scoreChart(id)}`;
+}
+function scoreChart(id) {
+  const pts = scoreGroups(scorePoints(id), scRange);
+  if (!pts.length) return `<div class="gl-empty">No scores yet. Open a test in PRACTICE TESTS, tap <b>✎ add score</b>, and your bands show here. Mock results count too.</div>`;
+  const W = 320, H = 170, L = 28, R = 30, T = 10, B = 24, keys = ["L", "R", "W", "S", "O"];
+  const all = pts.flatMap(p => keys.map(k => p.b[k]).filter(v => v != null));
+  const lo = Math.max(0, Math.floor(Math.min(...all) - 0.5)), hi = Math.min(9, Math.max(lo + 2, Math.ceil(Math.max(...all) + 0.5)));
+  const x = i => pts.length === 1 ? L + (W - L - R) / 2 : L + i * (W - L - R) / (pts.length - 1);
+  const y = v => T + (hi - v) / (hi - lo) * (H - T - B);
+  const sel = scSel != null && scSel < pts.length ? scSel : pts.length - 1;
+  let g = "";
+  for (let v = lo; v <= hi; v++) g += `<line x1="${L}" x2="${W - R + 6}" y1="${y(v)}" y2="${y(v)}" stroke="#EDE2D4" stroke-width="1"/><text x="${L - 6}" y="${y(v) + 3.5}" text-anchor="end" font-size="10" font-weight="800" fill="#7A6A5E">${v}</text>`;
+  g += `<line x1="${x(sel)}" x2="${x(sel)}" y1="${T}" y2="${H - B}" stroke="#2E2622" stroke-width="1" stroke-dasharray="3 3" opacity=".35"/>`;
+  const every = Math.max(1, Math.ceil(pts.length / 5));
+  pts.forEach((p, i) => { if (i % every === 0 || i === pts.length - 1) g += `<text x="${x(i)}" y="${H - 7}" text-anchor="middle" font-size="9.5" font-weight="800" fill="#7A6A5E">${p.date ? fmtDate(p.date, p.month ? { month: "short" } : { day: "numeric", month: "short" }) : "?"}</text>`; });
+  const ends = [];
+  keys.forEach(k => {
+    const col = k === "O" ? "#2E2622" : SC_COL[k], sw = k === "O" ? 3 : 2;
+    const ps = pts.map((p, i) => [i, p]).filter(([, p]) => p.b[k] != null);
+    if (!ps.length) return;
+    if (ps.length > 1) g += `<polyline fill="none" stroke="${col}" stroke-width="${sw}" stroke-linejoin="round" stroke-linecap="round" points="${ps.map(([i, p]) => `${x(i)},${y(p.b[k])}`).join(" ")}"/>`;
+    ps.forEach(([i, p]) => { g += p.mock
+      ? `<rect x="${x(i) - 4.5}" y="${y(p.b[k]) - 4.5}" width="9" height="9" rx="1.5" fill="${col}" stroke="#fff" stroke-width="2"/>`
+      : `<circle cx="${x(i)}" cy="${y(p.b[k])}" r="4.5" fill="${col}" stroke="#fff" stroke-width="2"/>`; });
+    const [li, lp] = ps[ps.length - 1]; ends.push({ k, x: x(li), y: y(lp.b[k]) });
+  });
+  // direct labels at the line ends (ink text, pushed apart so they don't collide)
+  ends.sort((a, b) => a.y - b.y); for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 10) ends[i].y = ends[i - 1].y + 10;
+  ends.forEach(e => { g += `<text x="${e.x + 8}" y="${e.y + 3.5}" font-size="10" font-weight="900" fill="#2E2622">${e.k === "O" ? "All" : e.k}</text>`; });
+  // tap targets: one column per test or mock
+  pts.forEach((p, i) => { const w = pts.length === 1 ? 60 : (W - L - R) / (pts.length - 1); g += `<rect data-sci="${i}" x="${x(i) - w / 2}" y="0" width="${w}" height="${H}" fill="transparent" style="cursor:pointer"><title>${esc(p.name)}</title></rect>`; });
+  const p = pts[sel], val = k => p.b[k] != null ? bandTxt(p.b[k]) : "—";
+  return `<svg class="sc-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Band scores over time: Listening, Reading, Writing, Speaking and overall">${g}</svg>
+    <div class="sc-leg">${["L", "R", "W", "S"].map(k => `<span><i style="background:${SC_COL[k]}"></i>${TSK[k][0]}</span>`).join("")}<span><i class="o"></i>Overall</span>${scRange === "all" ? "<span>● test ■ mock</span>" : "<span>average per " + scRange + "</span>"}</div>
+    <div class="sc-det"><b>${esc(p.name)}</b>${scRange === "all" ? ` · ${p.date ? fmtDate(p.date, { day: "numeric", month: "short" }) : "no date"}` : ""}<br>L ${val("L")} · R ${val("R")} · W ${val("W")} · S ${val("S")} · <b>Overall ${val("O")}</b></div>`;
 }
 function renderRoad() {
   const t = now(), today = dayKey(t), cur = weekStart(today), exam = examOf(me);
@@ -2210,7 +2355,7 @@ function renderTests() {
     const head = `<button type="button" class="tx-tc ${x && x.ws === cur ? "pl" : ""}" data-topen="${esc(k)}" aria-expanded="${open}"><span class="nm"><b>C${b}·T${tt}</b><small>${when}</small></span>${"LRWS".split("").map(s2 => tBox(s2, partsOf(tr, s2), ch && ch.length && !ch.includes(s2))).join("")}<span class="dn">${isDone ? "✓" : `<span style="color:#c9bed8;font-size:13px">${open ? "▴" : "▾"}</span>`}</span></button>`;
     if (!open) return head;
     return `<div class="tx-open">${head}<div class="tx-in">${segRows(k, tr, ch)}
-      <div class="gl-row"><span class="tx-tip">${ch && ch.length < 4 ? `Planned: ${ch.map(c => TSK[c][0]).join(" + ")}` : "Tap a part: once = done, again = analysed ✓"}</span><button type="button" class="tx-more" data-tmore="${esc(k)}">score · tries ›</button></div></div></div>`;
+      <div class="gl-row"><span class="tx-tip">${ch && ch.length < 4 ? `Planned: ${ch.map(c => TSK[c][0]).join(" + ")}` : "Tap a part: once = done, again = analysed ✓"}</span><button type="button" class="tx-more" data-tmore="${esc(k)}">✎ add score · re-take ›</button></div></div></div>`;
   };
   let list = `<button type="button" class="tx-slot" data-tact="add"><span>+ ADD A TEST</span><span>📝</span></button>`;
   thisWeek.forEach(x => { list += card(x.k, mine[x.k], x); });
@@ -2224,7 +2369,8 @@ function renderTests() {
     if (n === half && n < target) list += `<div class="mx-mile">★ ${half} TESTS ★</div>`;
   }
   list += `<div class="mx-exam">🏁 EXAM DAY · TEST ${target}</div>`;
-  put($("txBody"), `<div class="mx-stats"><div><b>${done}/${target}</b><small>tests done</small></div><div><b>${thisWeek.length}</b><small>planned this week</small></div><div><b>${retakes(me)}</b><small>re-takes</small></div></div>
+  put($("txBody"), `<div class="mx-blk sc-card"><div class="tx-how"><span><b>1</b>do a Cambridge test</span><span><b>2</b>tick the parts you did</span><span><b>3</b>✎ add your score</span></div>${bandsBlock(me)}</div>
+    <div class="mx-stats"><div><b>${done}/${target}</b><small>tests done</small></div><div><b>${thisWeek.length}</b><small>planned this week</small></div><div><b>${retakes(me)}</b><small>re-takes</small></div></div>
     <div class="mx-dark" style="gap:10px"><div class="tx-lg"><span><i class="p0"></i>not done</span><span><i></i>done</span><span><i class="p2"></i>analysed</span><span><span class="ring"><i class="p2"></i><i class="p2"></i></span>whole skill done + analysed</span></div>${list}</div>`);
 }
 // tap a part right on the page: the latest try changes (a first try is made if needed)
@@ -3190,6 +3336,8 @@ $("wdBack").addEventListener("click", () => go(wdFrom === "road" ? "road" : "me"
 $("me").addEventListener("click", e => {
   const r = e.target.closest("[data-mrange]"); if (r) { meRange = r.dataset.mrange; return renderMe(); }
   const tb = e.target.closest("[data-mtab]"); if (tb) { meTab = tb.dataset.mtab; renderMe(); return window.scrollTo(0, 0); }
+  const sc = e.target.closest("[data-sci]"); if (sc) { scSel = +sc.dataset.sci; return renderMe(); }
+  if (bandsTap(e)) return renderMe();
   const a = e.target.closest("[data-mact]"); if (!a) return;
   const cur = weekStart(dayKey(now())), act = a.dataset.mact;
   if (act === "main") openGoals("main");
@@ -3210,6 +3358,8 @@ $("rsOv").addEventListener("change", e => { rsDraft.auto = false; rsDraft.overal
 $("rsSave").addEventListener("click", saveResult);
 $("txBack").addEventListener("click", () => go("me"));
 $("tests").addEventListener("click", e => {
+  const sc = e.target.closest("[data-sci]"); if (sc) { scSel = +sc.dataset.sci; return renderTests(); }
+  if (bandsTap(e)) return renderTests();
   if (e.target.closest('[data-tact="add"]')) return openAddTest();
   const x = e.target.closest("[data-xpart]"); if (x) { const [k, p2] = x.dataset.xpart.split("|"); return togglePart(k, p2[0], +p2.slice(1)); }
   const mo = e.target.closest("[data-tmore]"); if (mo) return openLog(mo.dataset.tmore);
@@ -3248,7 +3398,9 @@ $("ltDel").addEventListener("click", delTry);
 $("logTest").addEventListener("click", e => { if (e.target.closest('[data-close="logTest"]') && lt) { clearTimeout(ltTimer); store.setTest(me, lt.key, lt.t).catch(showErr); setTimeout(render, 50); } });
 $("rsEdit").addEventListener("click", () => { const id = rsMock; $("resSheet").classList.remove("on"); openMock(id); });
 document.querySelectorAll("[data-gtab]").forEach(b => b.addEventListener("click", () => { gTab = b.dataset.gtab; renderGoals(); window.scrollTo(0, 0); }));
-$("goals").addEventListener("click", e => {
+$("mePlan").addEventListener("click", e => {
+  const td = e.target.closest("[data-tdo],[data-tdel],[data-tadd]");
+  if (td && !td.disabled) return todoAct("tadd" in td.dataset ? "add" : "tdo" in td.dataset ? "toggle" : "del", td.dataset.tdo || td.dataset.tdel);
   const a = e.target.closest("[data-gact]"); if (a && !a.disabled) return goalAct(a.dataset.gact);
   const q = e.target.closest("[data-gavg]"); if (q) { gMain.avgMin = +q.dataset.gavg; return renderGoals(); }
   const m = e.target.closest("[data-mock]"); if (m) { const mk = (state.mocks[me] || {})[m.dataset.mock]; return mk && mk.date && mk.date <= dayKey(now()) ? openResult(m.dataset.mock) : openMock(m.dataset.mock); }
@@ -3256,7 +3408,8 @@ $("goals").addEventListener("click", e => {
   const pt = e.target.closest("[data-ptest]"); if (pt && !pt.disabled) return openPlan(pt.dataset.ptest);
   const tg = e.target.closest("[data-tgo]"); if (tg) return openTestOnPage(tg.dataset.tgo);
 });
-$("goals").addEventListener("change", e => {
+$("mePlan").addEventListener("keydown", e => { if (e.target.id === "tdIn" && e.key === "Enter") todoAct("add"); });
+$("mePlan").addEventListener("change", e => {
   if (e.target.id === "glExam") { gMain.examDate = e.target.value || null; renderGoals(); }
   if (e.target.id === "glBand") { gMain.targetBand = e.target.value ? +e.target.value : null; renderGoals(); }
 });

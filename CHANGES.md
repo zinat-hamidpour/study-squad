@@ -1,16 +1,30 @@
+# Study Squad 2026.11.11-10 · ME: clearer tabs, MY BANDS, weekly tests + to-do
+
+1. ME has two tabs: **🗓 PLAN** (what I'm going to do) and **📈 PROGRESS** (what I've done). The open tab is lavender
+   and raised, so you always see where you are.
+2. **PLAN** has two parts, underlined under the tabs, edited in place (no other page opens):
+   - **MAIN GOAL**: exam date, target band, mock exams, practice-test target, hours a day.
+   - **WEEKLY PLAN**: ‹ › to change week, **PLAN NEXT WEEK** on top, then
+     1 Daily goal · 2 Each day · 3 **Tests this week** (+ CHOOSE THIS WEEK'S TEST: it goes straight into PRACTICE TESTS)
+     · 4 **To-do this week** (add, tick, delete; saved right away) · SAVE. Next week is filled in from your main goal.
+3. **PROGRESS**: weeks to IELTS + studied / tests done / days goal hit · **This week** (hours, planned tests, to-do
+   done; tap → day by day) · Where your time went · MY ROAD · **📝 Practice tests**.
+4. **Practice tests** says what to do: 1 do a Cambridge test · 2 tick the parts you did · 3 add your score
+   (✎ add score in PRACTICE TESTS). ADD A TEST and ALL TESTS are right there.
+5. **MY BANDS** (new): tap ▾ to open a chart of your band in Listening, Reading, Writing, Speaking and overall.
+   Three tabs: **WEEK** and **MONTH** (the average of each week / month) and **ALL** (every test ● and mock ■).
+   L and R scores out of 40 become bands with the usual Academic tables. Tap a point to see its bands.
+   Also on top of the PRACTICE TESTS page.
+6. Mock exams are planned only in MAIN GOAL.
+7. My study time (fix a day, start fresh) moved to **Settings (⚙)**. Ghost guests and the clean-up are there too,
+   only for Zinat.
+
+---
+
 # Study Squad 2026.11.11-9 · ME: PLAN | PROGRESS
 
-1. ME has two tabs. **PLAN** = what I'm going to do; **PROGRESS** = what I've done. Same cards and colours as before.
-2. PLAN, top to bottom: **the goal card** (weeks to IELTS, target band, hours a day, practice tests): tap it, or
-   ✎ MY GOAL, to change your main goal · **This week** (tap to change it) · **PLAN NEXT WEEK** · **Practice tests**.
-3. PROGRESS: studied / tests done / days goal hit · Where your time went (tap → this week day by day) · MY ROAD ·
-   Mock exams & exam day.
-4. **Skills per day come from the timer**: the small coloured dots under each day on ME show what you studied that
-   day (the skill you pick when you sit down). "Today" on ME says how long and which skills. Nothing to plan or save.
-5. Planning a week is three numbered steps: 1 Daily goal · 2 Each day · 3 Tests, then SAVE.
-   Next week says it is filled in from your main goal.
-6. My study time (fix a day, start fresh), Zinat's clean-up and Ghost guests moved from ME to **Settings (⚙)**.
-   Ghost guests and the clean-up show only in Zinat's settings.
+1. ME has two tabs: PLAN (what I'm going to do) and PROGRESS (what I've done).
+   (First version; 2026.11.11-10 above finishes it.)
 
 ---
 
