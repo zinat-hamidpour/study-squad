@@ -106,6 +106,8 @@ async function writesUnderRules(browser, base) {
   await page.click("#ghCols [data-hue]:not([disabled])"); await page.click("#ghGo"); await page.clock.runFor(1500);
   const ghosts = await page.evaluate(() => Object.values((window.__FAKE_DB__.squad || {}).ghosts || {}).map(g => g.name));
   ok(ghosts.includes("Mahsa"), "a new ghost is saved");
+  await nav(page, "me");
+  ok(await page.$eval("#meData", b => b.hidden), "a ghost can't edit or reset study data");
   ok((await denied(page)).length === 0, `no refused writes (ghost)${(await denied(page)).length ? " → " + (await denied(page)).join(", ") : ""}`);
   await finish(page, "ghost");
   // the Friday plan
@@ -159,6 +161,83 @@ async function backLeavesApp(browser, base) {
   await page.context().close();
 }
 
+async function fixMyData(browser, base) {
+  console.log("fix my data: edit a day, 12h cap, start fresh, Zinat's clean-up (fake Firebase)");
+  const M = 60e3, prof = { goal: 150 };
+  const seed = () => ({ squad: {
+    profiles: { zinat: { ...prof }, milad: { ...prof }, niloufar: { ...prof }, arian: { ...prof }, farzad: { ...prof }, shaghayegh: { ...prof } },
+    days: { "2026-10-20": { zinat: 50 * M, farzad: 30 * M }, "2026-11-05": { farzad: 70 * M, arian: 20 * M },
+            "2026-11-08": { arian: 90 * M, milad: 60 * M }, "2026-11-09": { farzad: 80 * M } },
+    skills: { "2026-10-20": { zinat: { reading: 50 * M } }, "2026-11-09": { farzad: { reading: 60 * M, listening: 20 * M } } },
+    log: { farzad: { a: { day: "2026-10-20", at: 1, skill: "reading", ms: 30 * M }, b: { day: "2026-11-09", at: 2, skill: "reading", ms: 60 * M } },
+           arian: { c: { day: "2026-11-08", at: 3, skill: "vocab", ms: 90 * M } } },
+  } });
+  const DB = page => page.evaluate(() => window.__FAKE_DB__.squad);
+  const toastTxt = page => page.$eval("#toast", t => t.textContent);
+  const boardLines = async page => Object.values((await DB(page)).board || {}).filter(b => b.kind === "fix").map(b => b.text);
+  const noDenied = async (page, label) => { const d = await denied(page); ok(d.length === 0, `no refused writes (${label})${d.length ? " → " + d.join(", ") : ""}`); };
+  const setHM = async (page, h, m) => { await page.fill("#dxH", String(h)); await page.fill("#dxM", String(m)); };
+  const click = async (page, sel) => { await page.click(sel); await page.clock.runFor(500); };
+
+  // Farzad edits Monday of this week
+  let page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "farzad", db: seed() });
+  await pickMe(page, "farzad"); await nav(page, "me");
+  const days = await page.$$eval("#meData [data-dxedit]", b => b.map(x => x.dataset.dxedit));
+  ok(days.join() === "2026-11-07,2026-11-08,2026-11-09,2026-11-10,2026-11-11", `only Sat → today can be edited (${days.join(", ")})`);
+  await click(page, '[data-dxedit="2026-11-09"]'); await setHM(page, 2, 5); await click(page, '[data-dxsave="2026-11-09"]');
+  let db = await DB(page);
+  ok(db.days["2026-11-09"].farzad === 125 * M, "Monday saved as 2h 05m");
+  ok(db.skills["2026-11-09"].farzad.reading === 60 * M && db.skills["2026-11-09"].farzad.listening === 20 * M, "more time: skills kept (the extra is untagged)");
+  ok((await boardLines(page)).includes("Farzad edited Monday: 1h 20m → 2h 05m"), "board: \"Farzad edited Monday: 1h 20m → 2h 05m\"");
+  await click(page, '[data-dxedit="2026-11-09"]'); await setHM(page, 0, 40); await click(page, '[data-dxsave="2026-11-09"]');
+  db = await DB(page); const sk = db.skills["2026-11-09"].farzad;
+  ok(db.days["2026-11-09"].farzad === 40 * M && sk.reading + sk.listening <= 40 * M && sk.reading === 30 * M, `less time: skills shrink by the same share (${sk.reading / M}m + ${sk.listening / M}m)`);
+  // 12h cap
+  await click(page, '[data-dxedit="2026-11-10"]'); await setHM(page, 12, 30); await click(page, '[data-dxsave="2026-11-10"]');
+  ok(!((await DB(page)).days["2026-11-10"] || {}).farzad && /at most 12 hours/.test(await toastTxt(page)), "12h 30m is refused (12h cap)");
+  await setHM(page, 12, 0); await click(page, '[data-dxsave="2026-11-10"]');
+  ok((await DB(page)).days["2026-11-10"].farzad === 720 * M, "12h 00m is accepted");
+  // a day outside this week (last Thursday) is refused even if asked for directly
+  await page.evaluate(() => { const b = document.createElement("button"); b.dataset.dxsave = "2026-11-05"; b.id = "fakeSave"; document.getElementById("meData").appendChild(b); });
+  await page.click("#fakeSave"); await page.clock.runFor(500);
+  ok((await DB(page)).days["2026-11-05"].farzad === 70 * M && /Only days of this week/.test(await toastTxt(page)), "last week's Thursday can't be edited");
+  ok(await page.$$eval("[data-dxclean]", x => x.length) === 0, "Farzad doesn't see Zinat's clean-up");
+  await noDenied(page, "edit"); await finish(page, "edit");
+
+  // Arian starts fresh from today
+  page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "arian", db: seed() });
+  await pickMe(page, "arian"); await nav(page, "me");
+  await click(page, "[data-dxfresh]");
+  ok((await DB(page)).days["2026-11-08"].arian === 90 * M, "nothing is deleted before confirming");
+  await click(page, "[data-dxfreshgo]");
+  db = await DB(page);
+  ok(!db.days["2026-11-08"].arian && !(db.days["2026-11-05"] || {}).arian && !Object.keys((db.log || {}).arian || {}).length, "start fresh: Arian's days and log before today are gone");
+  ok(db.days["2026-11-08"].milad === 60 * M && db.days["2026-11-05"].farzad === 70 * M, "start fresh: everyone else's data stays");
+  ok(db.profiles.arian.freshFrom === "2026-11-11", "start fresh: Arian's road starts today");
+  ok((await boardLines(page)).includes("Arian started fresh from today"), "board: \"Arian started fresh from today\"");
+  await nav(page, "race");
+  ok(await page.$$eval('.cl-slot[title^="Arian"]', x => x.length) === 0, "days before Arian's fresh start are not empty spots");
+  await noDenied(page, "fresh"); await finish(page, "fresh");
+
+  // Zinat's one-time clean-up before 7 Nov
+  page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "zinat", db: seed() });
+  await pickMe(page, "zinat"); await nav(page, "me");
+  const sum = await page.$eval("#meData", b => b.textContent);
+  ok(/2 days · 4 study entries · 1 log line/.test(sum), "Zinat sees what will be deleted (2 days · 4 study entries · 1 log line)");
+  await click(page, "[data-dxclean]");
+  ok(await page.$eval("[data-dxcleango]", b => b.disabled), "Delete stays off until 'I have a backup' is ticked");
+  ok(/Export JSON/.test(await page.$eval("#meData", b => b.textContent)), "the confirm step says to export a backup first");
+  await page.check("#dxBacked"); await page.clock.runFor(300);
+  await click(page, "[data-dxcleango]");
+  db = await DB(page);
+  ok(Object.keys(db.days).sort().join() === "2026-11-08,2026-11-09", `only days from 7 Nov stay (${Object.keys(db.days).sort().join(", ")})`);
+  ok(!db.skills["2026-10-20"] && db.skills["2026-11-09"], "skills before 7 Nov gone, after kept");
+  ok(!db.log.farzad.a && db.log.farzad.b && db.log.arian.c, "log lines before 7 Nov gone, after kept");
+  ok((await boardLines(page)).some(t => /cleared all study history before 7 Nov/.test(t)), "board line for the clean-up");
+  ok(/Nothing left before/.test(await page.$eval("#meData", b => b.textContent)), "afterwards: nothing left to clear");
+  await noDenied(page, "clean-up"); await finish(page, "clean-up");
+}
+
 (async () => {
   staticChecks();
   const srv = await serve(), base = `http://localhost:${srv.address().port}`;
@@ -170,6 +249,7 @@ async function backLeavesApp(browser, base) {
     await writesUnderRules(browser, base);
     await backButton(browser, base);
     await backLeavesApp(browser, base);
+    await fixMyData(browser, base);
   } catch (e) { ok(false, "test crashed: " + e.message); }
   await browser.close(); srv.close();
   console.log(failed ? `\n${failed} check(s) FAILED` : "\nall checks passed");
