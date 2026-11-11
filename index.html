@@ -985,10 +985,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.11-6"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.11-8"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.11-6";
+const APP_VERSION = "2026.11.11-8";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1475,17 +1475,14 @@ const SCREENS = ["start", "home", "race", "hall", "speak", "me", "road", "wkd", 
 const NAV_SCREENS = { home: "home", race: "race", hall: "hall", speak: "speak", me: "me", road: "me", wkd: "me", tests: "me", profile: "me", goals: "me" };
 function go(name) {
   if (name !== "start" && !(me && state.profiles[me])) name = "start";
-  if ($("composer").classList.contains("on")) closeComposer();
-  ["reader", "boardModal", "cupsModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"].forEach(id => $(id).classList.remove("on"));
+  closeOverlays();
   for (const s of SCREENS) $(s).classList.toggle("on", s === name);
   document.body.classList.toggle("has-nav", !!NAV_SCREENS[name]);
   document.querySelectorAll("[data-nav]").forEach(b => b.classList.toggle("on", b.dataset.nav === NAV_SCREENS[name]));
   if (me && $("navMe")) $("navMe").innerHTML = GHOST && ghostOf(GHOST) ? ghImg(ghostOf(GHOST).color) : img(A.chars[me], "");
   renderGhostBar();
   $("signOut").textContent = GHOST ? "Leave as a ghost (password next time)" : "Forget me on this phone (ask PIN next time)";
-  const h = name === "start" ? "" : name;
-  // some previews (sandboxed frames) forbid changing the address; the app works without it
-  try { if (location.hash.slice(1) !== h) history.replaceState(null, "", h ? "#" + h : location.pathname); } catch (e) {}
+  syncHistory();
   window.scrollTo(0, 0);
   if (name === "start") showStep("stPick");
   if (name === "profile") fillProfile();
@@ -1493,6 +1490,45 @@ function go(name) {
   render();
 }
 const onScreen = () => (document.querySelector(".screen.on") || {}).id;
+
+// Back button. The browser history holds at most 3 entries of ours:
+//   depth 0 = HOME (or the start screen's first step) · 1 = any inner page · 2 = a sheet/modal open on top.
+// Back closes the sheet first, then returns to HOME, then leaves the app. In-app buttons that go "down"
+// (✕, ‹ back, nav to HOME) step the history back too, so it never piles up and HOME is always one Back from leaving.
+const OVLS = ["composer", "reader", "boardModal", "cupsModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"];
+const ovlOpen = () => OVLS.some(id => $(id).classList.contains("on"));
+function closeOverlays() {
+  if ($("composer").classList.contains("on")) closeComposer();
+  OVLS.forEach(id => $(id).classList.remove("on"));
+}
+const atRoot = () => { const s = onScreen(); return s === "home" || (s === "start" && $("stPick").classList.contains("on")); };
+const wantDepth = () => (atRoot() ? 0 : 1) + (ovlOpen() ? 1 : 0);
+const histDepth = () => (history.state && history.state.ssd) || 0;
+let popPending = false;
+function syncHistory() {
+  if (popPending) return; // a step back is on its way; popstate calls us again
+  const s = onScreen(), h = s && s !== "start" ? "#" + s : location.pathname + location.search;
+  const want = wantDepth(), have = histDepth();
+  // some previews (sandboxed frames) forbid changing the address; the app works without it
+  try {
+    if (want < have) { popPending = true; history.go(want - have); return; }
+    if (want === have) { if (history.state?.ssd !== want || location.hash !== (h[0] === "#" ? h : "")) history.replaceState({ ssd: want }, "", h); return; }
+    for (let d = have + 1; d <= want; d++) history.pushState({ ssd: d }, "", h);
+  } catch (e) { popPending = false; }
+}
+window.addEventListener("popstate", () => {
+  if (popPending) { popPending = false; return syncHistory(); }
+  // the user pressed Back (or Forward): bring the screen down to the depth the browser is now at
+  const at = histDepth();
+  if (ovlOpen() && wantDepth() > at) closeOverlays();
+  if (!atRoot() && wantDepth() > at) {
+    if (onScreen() === "start") showStep("stPick"); else go("home");
+  }
+  syncHistory();
+});
+// sheets open and close from many places: watch them instead of touching each one
+{ const mo = new MutationObserver(() => syncHistory());
+  [...OVLS, "stPick", "stPin", "stSetup", "stGhost"].forEach(id => mo.observe($(id), { attributes: true, attributeFilter: ["class"] })); }
 
 // ---------------- start / sign-in / setup ----------------
 let picked = "", newGoal = DEFAULT_GOAL, profGoal = DEFAULT_GOAL;
@@ -3246,8 +3282,7 @@ document.querySelectorAll(".ovl").forEach(o => o.addEventListener("click", e => 
 }));
 document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
-  if ($("composer").classList.contains("on")) closeComposer();
-  ["reader", "boardModal", "cupsModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"].forEach(id => $(id).classList.remove("on"));
+  closeOverlays();
 });
 $("timer").addEventListener("click", e => {
   const act = e.target.closest("[data-act]")?.dataset.act;

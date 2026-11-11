@@ -1,3 +1,13 @@
+# Study Squad 2026.11.11-8 · Back button
+
+1. Back (the phone's back button or the swipe from the screen edge) now stays inside the app:
+   - a sheet or window that is open (note, mailbox, cups, board, study sheet, mock, plan, tests…) closes first;
+   - on CLIMB, STUDY HALL, ME, SPEAK or any page inside ME, Back returns to HOME;
+   - on HOME, Back leaves the app as usual. On the start screen, Back from the PIN or ghost step returns to the tiles.
+2. In-app ‹ back and ✕ buttons step the history back too, so Back never needs pressing twice.
+
+---
+
 # Study Squad 2026.11.11-6 · Fix my data
 
 1. ME → **My study time**: the days of this week (Saturday → today) with their time. Tap **edit** to correct a day.
