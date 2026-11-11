@@ -309,11 +309,6 @@ em.u{font:800 9px Nunito,system-ui,sans-serif;color:var(--muted);font-style:norm
 .mx-hero[data-mact]{cursor:pointer;text-align:left}
 .mx-edit{align-self:flex-end;background:#FFE07A;color:var(--ink);border-radius:10px;padding:6px 10px;font:700 12px 'Pixelify Sans',monospace;margin-top:-4px}
 .mx-dots{display:flex;justify-content:center;gap:2px;min-height:7px;margin-top:2px}.mx-dots i{width:6px;height:6px;border-radius:2px;border:1px solid var(--ink)}
-.gl-sd .dots{display:flex;gap:2px;justify-content:center;height:7px}.gl-sd .dots i{width:6px;height:6px;border-radius:2px;border:1px solid var(--ink)}
-.gl-skc{display:flex;flex-wrap:wrap;gap:6px}
-.gl-skc button{display:flex;align-items:center;gap:5px;border:2px solid var(--ink);border-radius:999px;background:#fff;padding:5px 10px;font:800 12px Nunito,system-ui,sans-serif}
-.gl-skc button i{width:9px;height:9px;border-radius:3px;border:1.5px solid var(--ink)}
-.gl-skc button.on{background:var(--ink);color:#fff}.gl-skc button:disabled{opacity:.45}
 .gl-step{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:6px;background:var(--ink);color:#FFE07A;font:700 12px 'Pixelify Sans',monospace;margin-right:6px;vertical-align:1px}
 .mx-wrow i{display:block;height:30px;border:2px solid var(--ink);border-radius:6px;background:#FBF6EE;position:relative;overflow:hidden}
 .mx-wrow i u{position:absolute;left:0;right:0;bottom:0;background:var(--green)}
@@ -1183,7 +1178,7 @@ function makeDemoStore() {
     setMain: async (id, val) => { state.main[id] = { ...(state.main[id] || {}), ...val }; persist(); },
     setTest: async (id, key, val) => { const t = (state.tests[id] ||= {}); if (val) t[key] = JSON.parse(JSON.stringify(val)); else delete t[key]; persist(); },
     setMock: async (id, mid, val) => { const m = (state.mocks[id] ||= {}); if (val) m[mid] = val; else delete m[mid]; persist(); },
-    setPlan: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}), ...val }; if (!val.days) delete w[id].days; if ("skills" in val && !val.skills) delete w[id].skills; persist(); },
+    setPlan: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}), ...val }; if (!val.days) delete w[id].days; persist(); },
     setPlanTests: async (ws, id, val) => { const w = (state.plans[ws] ||= {}); w[id] = { ...(w[id] || {}) }; if (val && Object.keys(val).length) w[id].tests = val; else delete w[id].tests; persist(); },
     pushNote: async (to, val) => { (state.notes[to] ||= {})[nid()] = val; persist(); },
     removeNote: async (to, id) => { if (state.notes[to]) delete state.notes[to][id]; persist(); },
@@ -1213,8 +1208,6 @@ const DOW = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
 const DOW_NAME = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 const dowOf = key => daysBetween(weekStart(key), key);
 const planOf = (id, ws) => ((state.plans[ws] || {})[id]) || null;
-// skills planned for a day (plans/<week>/<id>/skills/<sat…fri> = ["listening", …])
-const planSkills = (id, key) => ((((planOf(id, weekStart(key)) || {}).skills) || {})[DOW[dowOf(key)]] || []).filter(x => SK[x]);
 const skDots = ids => ids.map(x => `<i style="background:${SK[x].col}" title="${SK[x].name}"></i>`).join("");
 // a week without its own plan starts from the main goal's average, then last saved week, then the old profile goal
 function weekDaily(id, ws) {
@@ -1648,7 +1641,7 @@ function openGoals(tab) {
 function loadWeek(ws) {
   gWs = ws; gSel = null;
   const p = planOf(me, ws) || {};
-  gWeek = { daily: weekDaily(me, ws), days: { ...(p.days || {}) }, skills: JSON.parse(JSON.stringify(p.skills || {})) };
+  gWeek = { daily: weekDaily(me, ws), days: { ...(p.days || {}) } };
 }
 function renderGoals() {
   if (!gMain) { openGoals(gTab); return; }
@@ -1726,15 +1719,14 @@ function renderGoalWeek() {
   const testDays = new Set(tests.map(x => x.day).filter(Boolean));
   const vals = DOW.map(effDay), max = Math.max(60, ...vals), total = vals.reduce((a, b) => a + b, 0);
   const dis = past ? "disabled" : "";
-  const stair = DOW.map((d, i) => `<button type="button" class="gl-sd ${gSel === d ? "sel" : ""} ${addDays(gWs, i) === today ? "today" : ""}" data-gday="${d}" ${dis} aria-label="${DOW_NAME[i]} ${fmtMin(vals[i])}"><span class="tm">${testDays.has(d) ? "📝" : ""}</span><span>${fmtShort(vals[i])}</span><span class="col ${gWeek.days[d] ? "own" : ""}" style="height:${Math.max(12, vals[i] / max * 86)}px"></span><b>${d.toUpperCase()}</b><span class="dots">${skDots((gWeek.skills[d] || []).filter(x => SK[x]))}</span></button>`).join("");
+  const stair = DOW.map((d, i) => `<button type="button" class="gl-sd ${gSel === d ? "sel" : ""} ${addDays(gWs, i) === today ? "today" : ""}" data-gday="${d}" ${dis} aria-label="${DOW_NAME[i]} ${fmtMin(vals[i])}"><span class="tm">${testDays.has(d) ? "📝" : ""}</span><span>${fmtShort(vals[i])}</span><span class="col ${gWeek.days[d] ? "own" : ""}" style="height:${Math.max(12, vals[i] / max * 86)}px"></span><b>${d.toUpperCase()}</b></button>`).join("");
   let ed = "";
   if (gSel && !past) {
     const i = DOW.indexOf(gSel), own = !!gWeek.days[gSel], fl = floorOf(gSel);
     const canReset = own && gWeek.daily >= fl;
     ed = `<div class="gl-dayed"><div class="gl-row"><b>${DOW_NAME[i]}</b>${own ? `<button type="button" class="gl-b2" data-gact="dayreset" ${canReset ? "" : "disabled"}>↺ use daily goal</button>` : `<span class="gl-sm">uses the daily goal</span>`}</div>
       <div class="gl-st"><button type="button" data-gact="day-" aria-label="Less" ${effDay(gSel) <= fl ? "disabled" : ""}>−</button><output>${fmtGoal(effDay(gSel))}</output><button type="button" data-gact="day+" aria-label="More" ${effDay(gSel) >= 600 ? "disabled" : ""}>+</button></div>
-      <div class="gl-row"><b style="font-size:14px">Skills</b><span class="gl-sm">pick up to 3</span></div>
-      <div class="gl-skc">${SKILLS.map(x => { const on = (gWeek.skills[gSel] || []).includes(x.id); return `<button type="button" data-gsk="${x.id}" class="${on ? "on" : ""}" ${!on && (gWeek.skills[gSel] || []).length >= 3 ? "disabled" : ""}><i style="background:${x.col}"></i>${x.name}</button>`; }).join("")}</div></div>`;
+</div>`;
   }
   const avg = (state.main[me] || {}).avgMin;
   put($("glWeek"), `
@@ -1742,7 +1734,7 @@ function renderGoalWeek() {
   ${past ? `<div class="gl-ro">This week is over · read only</div>` : gWs === cur ? `<div class="gl-lock">${locked ? "🔒 saved · goals can only go up this week" : "🔒 after saving: goals can only go up"}</div>` : `<div class="gl-lock">Next week · filled in from your main goal · change it freely, then SAVE</div>`}
   <div class="gl-card"><div class="gl-row"><h2>${past ? "" : `<span class="gl-step">1</span>`}Daily goal</h2><span class="gl-sm">${avg ? "average: " + fmtShort(avg) : ""}</span></div>
     <div class="gl-st"><button type="button" data-gact="daily-" aria-label="Less" ${past || gWeek.daily <= floorOf(null) ? "disabled" : ""}>−</button><output>${fmtGoal(gWeek.daily)}</output><button type="button" data-gact="daily+" aria-label="More" ${past || gWeek.daily >= 480 ? "disabled" : ""}>+</button></div></div>
-  <div class="gl-card"><div class="gl-row"><h2>${past ? "" : `<span class="gl-step">2</span>`}Each day: time + skills</h2><span class="gl-sm">${past ? "" : "tap a day"}</span></div>
+  <div class="gl-card"><div class="gl-row"><h2>${past ? "" : `<span class="gl-step">2</span>`}Each day</h2><span class="gl-sm">${past ? "" : "tap a day"}</span></div>
     <div class="gl-stair">${stair}</div>${ed}
     <div class="gl-leg"><span><i style="background:#BFE8C6"></i>daily goal</span><span><i style="background:#F9C9A8"></i>own goal</span><span>📝 test planned</span></div>
     <div class="gl-sum"><span>Week total</span><b>${fmtGoal(total)}</b></div></div>
@@ -1782,8 +1774,6 @@ async function goalAct(a) {
       for (const k of DOW) if (gWeek.days[k] && gWeek.days[k] !== gWeek.daily) days[k] = gWeek.days[k];
       const val = { daily: gWeek.daily, savedAt: now() };
       if (Object.keys(days).length) val.days = days; else val.days = null;
-      const sks = {}; for (const k of DOW) { const a = (gWeek.skills[k] || []).filter(x => SK[x]); if (a.length) sks[k] = a; }
-      val.skills = Object.keys(sks).length ? sks : null;
       await store.setPlan(gWs, me, val);
       saveLocal(); toast(gWs === weekStart(dayKey(now())) ? "Week saved ✓ · goals can only go up now" : "Week saved ✓");
     }
@@ -2035,8 +2025,10 @@ function renderMe() {
   const sbar = split.tot ? SKX.filter(x => split.o[x.id] > 0).map(x => `<i style="width:${split.o[x.id] / split.tot * 100}%;background:${x.col}"></i>`).join("") : "";
   const slist = SKX.filter(x => x.id !== "untagged" || split.o.untagged > 0).map(x => `<span><i style="background:${x.col}"></i>${x.name}<b>${hmU(split.o[x.id])}</b></span>`).join("");
   // this week
+  // skills studied on a day, from the timer (biggest first)
+  const studiedSkills = k => { if (k > today) return []; const o = skillSplit(me, [k], t).o; return SKILLS.filter(x => o[x.id] >= MIN).sort((a, b) => o[b.id] - o[a.id]).map(x => x.id); };
   const wk = weekKeys(cur), wDone = wk.reduce((a, k) => a + (k <= today ? dayMs(me, k, t) : 0), 0);
-  const boxes = wk.map((k, i) => { const g = goalOf(me, k) * MIN, d = k <= today ? dayMs(me, k, t) : 0; return `<div class="${k === today ? "t" : ""}"><i><u style="height:${Math.min(100, d / g * 100)}%"></u></i><b>${"SSMTWTF"[i]}</b><span class="mx-dots">${skDots(planSkills(me, k))}</span></div>`; }).join("");
+  const boxes = wk.map((k, i) => { const g = goalOf(me, k) * MIN, d = k <= today ? dayMs(me, k, t) : 0; return `<div class="${k === today ? "t" : ""}"><i><u style="height:${Math.min(100, d / g * 100)}%"></u></i><b>${"SSMTWTF"[i]}</b><span class="mx-dots">${skDots(studiedSkills(k))}</span></div>`; }).join("");
   const tests = Object.values((planOf(me, cur) || {}).tests || {});
   const tLine = tests.map(x => `C${x.book}·T${x.test}${x.skills && x.skills.length < 4 ? ` (${x.skills.join(" ")})` : ""}`).join(" · ");
   const nx = addDays(cur, 7), nxPlan = planOf(me, nx), dow = dowOf(today);
@@ -2055,13 +2047,13 @@ function renderMe() {
   const nextMock = mocksOf(me).find(x => x.date && x.date >= today);
   const big = nextMock ? [`${daysBetween(today, nextMock.date)}d`, "to next mock"] : exam && left >= 0 ? [`${left}d`, "to IELTS"] : ["—", "no date yet"];
   const tabs = `<div class="gl-tab mx-mtab" role="tablist"><button type="button" role="tab" data-mtab="plan" class="${meTab === "plan" ? "on" : ""}" aria-selected="${meTab === "plan"}">PLAN</button><button type="button" role="tab" data-mtab="prog" class="${meTab === "prog" ? "on" : ""}" aria-selected="${meTab === "prog"}">PROGRESS</button></div>`;
-  const todaySk = planSkills(me, today);
+  const todayX = skillSplit(me, [today], t), todaySk = studiedSkills(today);
   if (meTab === "plan") return put($("meBody"), `${tabs}
   <div class="mx-hero" data-mact="main" role="button" tabindex="0" aria-label="My goal: tap to change">${hero}${goalKv}<span class="mx-edit">✎ MY GOAL</span></div>
   <div class="mx-blk" data-mact="week" role="button" tabindex="0"><div class="mx-hd"><h2>This week</h2><span class="gl-sm">${fmtDate(cur, { day: "numeric", month: "short" })} – ${fmtDate(addDays(cur, 6), { day: "numeric", month: "short" })}</span></div>
     <div class="mx-wrow">${boxes}</div>
     <div class="mx-line"><span>Studied</span><b>${fmtLong(wDone)} <span style="color:#6A5B50;font:800 12px Nunito,system-ui,sans-serif">of</span> ${fmtGoal(weekGoal(me, cur))}</b></div>
-    <div class="mx-line"><span>Today</span><b style="font:800 12px Nunito,system-ui,sans-serif">${fmtGoal(goalOf(me, today))}${todaySk.length ? " · " + todaySk.map(x => SK[x].name).join(", ") : " · tap to plan skills"}</b></div>
+    <div class="mx-line"><span>Today</span><b style="font:800 12px Nunito,system-ui,sans-serif">${fmtLong(todayX.tot)} of ${fmtGoal(goalOf(me, today))}${todaySk.length ? " · " + todaySk.map(x => SK[x].name).join(", ") : ""}</b></div>
     ${tests.length ? `<div class="mx-line"><span>Tests planned</span><b>${esc(tLine)}</b></div>` : ""}
     <span class="gl-sm" style="text-align:right">tap to change this week ›</span></div>
   ${plan}
@@ -3225,11 +3217,6 @@ $("goals").addEventListener("click", e => {
   const q = e.target.closest("[data-gavg]"); if (q) { gMain.avgMin = +q.dataset.gavg; return renderGoals(); }
   const m = e.target.closest("[data-mock]"); if (m) { const mk = (state.mocks[me] || {})[m.dataset.mock]; return mk && mk.date && mk.date <= dayKey(now()) ? openResult(m.dataset.mock) : openMock(m.dataset.mock); }
   const dd = e.target.closest("[data-gday]"); if (dd && !dd.disabled) { gSel = gSel === dd.dataset.gday ? null : dd.dataset.gday; return renderGoals(); }
-  const sk = e.target.closest("[data-gsk]"); if (sk && !sk.disabled && gSel) {
-    const a = gWeek.skills[gSel] || [], x = sk.dataset.gsk;
-    gWeek.skills[gSel] = a.includes(x) ? a.filter(y => y !== x) : [...a, x].slice(0, 3);
-    return renderGoals();
-  }
   const pt = e.target.closest("[data-ptest]"); if (pt && !pt.disabled) return openPlan(pt.dataset.ptest);
   const tg = e.target.closest("[data-tgo]"); if (tg) return openTestOnPage(tg.dataset.tgo);
 });

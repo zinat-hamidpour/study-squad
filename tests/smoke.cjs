@@ -201,7 +201,8 @@ async function mePlanning(browser, base) {
   console.log("ME: PLAN | PROGRESS, goal card, skills per day (fake Firebase)");
   const prof = { goal: 150 };
   const db = { squad: { profiles: { zinat: prof, milad: prof, niloufar: prof, arian: prof, farzad: prof, shaghayegh: prof },
-    main: { niloufar: { avgMin: 150, testsTarget: 25, targetBand: 7, examDate: "2027-03-06" } } } };
+    main: { niloufar: { avgMin: 150, testsTarget: 25, targetBand: 7, examDate: "2027-03-06" } },
+    days: { "2026-11-09": { niloufar: 90 * 60e3 } }, skills: { "2026-11-09": { niloufar: { listening: 60 * 60e3, vocab: 30 * 60e3 } } } } };
   const page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "niloufar", db });
   const click = async sel => { await page.click(sel); await page.clock.runFor(400); };
   await pickMe(page, "niloufar"); await nav(page, "me");
@@ -216,11 +217,12 @@ async function mePlanning(browser, base) {
   ok(await page.evaluate(() => document.querySelector(".screen.on").id) === "goals" && await page.$eval("#glTitle", h => h.textContent) === "MAIN GOAL", "tapping the goal card opens MY GOAL");
   await nav(page, "me"); await click('#meBody [data-mact="plannext"]');
   ok(/filled in from your main goal/.test(await page.$eval("#glWeek", x => x.textContent)), "next week says it comes from the main goal");
-  await click('[data-gday="mon"]'); await click('[data-gsk="listening"]'); await click('[data-gsk="vocab"]');
   await click('[data-gact="saveweek"]');
   const saved = await page.evaluate(() => { const p = window.__FAKE_DB__.squad.plans; return p && p["2026-11-14"] && p["2026-11-14"].niloufar; });
-  ok(saved && JSON.stringify(saved.skills) === '{"mon":["listening","vocab"]}', `skills per day saved (${JSON.stringify(saved && saved.skills)})`);
   ok(saved && saved.daily === 150, "next week's daily goal = main goal (2h 30)");
+  await nav(page, "me");
+  const dots = await page.$$eval("#meBody .mx-wrow > div", d => d.map(x => x.querySelectorAll(".mx-dots i").length));
+  ok(dots.join() === "0,0,2,0,0,0,0", `skill dots come from the timer: Monday = Listening + Vocab (${dots.join()})`);
   const d = await denied(page); ok(d.length === 0, `no refused writes (planning)${d.length ? " → " + d.join(", ") : ""}`);
   await finish(page, "planning");
 }

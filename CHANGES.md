@@ -5,11 +5,12 @@
    ✎ MY GOAL, to change your main goal · **This week** (tap to change it) · **PLAN NEXT WEEK** · **Practice tests**.
 3. PROGRESS: studied / tests done / days goal hit · Where your time went (tap → this week day by day) · MY ROAD ·
    Mock exams & exam day.
-4. **Skills per day**: in MY GOALS › THIS WEEK, tap a day and pick up to 3 skills. They show as small coloured dots
-   under the days on ME and in the week, and "Today" on ME says what to study.
-5. Planning a week is three numbered steps: 1 Daily goal · 2 Each day: time + skills · 3 Tests, then SAVE.
+4. **Skills per day come from the timer**: the small coloured dots under each day on ME show what you studied that
+   day (the skill you pick when you sit down). "Today" on ME says how long and which skills. Nothing to plan or save.
+5. Planning a week is three numbered steps: 1 Daily goal · 2 Each day · 3 Tests, then SAVE.
    Next week says it is filled in from your main goal.
 6. My study time (fix a day, start fresh), Zinat's clean-up and Ghost guests moved from ME to **Settings (⚙)**.
+   Ghost guests and the clean-up show only in Zinat's settings.
 
 ---
 
