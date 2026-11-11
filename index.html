@@ -70,6 +70,7 @@ h2{margin:0;font-size:16px;font-weight:800}
 .check input{width:20px;height:20px}
 /* home */
 #home,#race{padding:0 18px 140px;gap:14px}
+#race{padding-bottom:120px}
 header.bar{padding:calc(env(safe-area-inset-top) + 18px) 18px 12px;display:flex;align-items:center;gap:8px}
 #home header.bar,#race header.bar{padding-left:0;padding-right:0}
 header.bar h1{margin:0;font-size:22px}
@@ -148,6 +149,17 @@ header.bar h1{margin:0;font-size:22px}
 .pilebtn:focus-visible{outline:3px solid #6A4FB3}
 .over7{position:absolute;transform:translate(-50%,-50%);background:#E4574F;color:#fff;border:2px solid var(--ink);border-radius:6px;font:700 10px/1 'Pixelify Sans',monospace;padding:2px 4px}
 .notebar{display:flex;gap:10px;padding:12px 18px 0}
+.notebar[hidden]{display:none}
+#noteBtns .scobj{pointer-events:auto}
+.scobj{position:absolute;padding:0;border:0;background:none;cursor:pointer;filter:drop-shadow(0 2px 0 rgba(46,38,34,.25))}
+.scobj svg{width:100%;height:100%;display:block}
+.scobj:active{transform:translateY(1px)}
+.scobj:focus-visible{outline:2px solid #6A4FB3;outline-offset:2px;border-radius:4px}
+.scobj.mail .mb-flag{transform-origin:24px 15px;animation:mbflag 1.6s ease-in-out infinite}
+@keyframes mbflag{0%,70%,100%{transform:rotate(0)}80%{transform:rotate(-8deg)}90%{transform:rotate(6deg)}}
+@media (prefers-reduced-motion:reduce){.scobj.mail .mb-flag{animation:none}}
+.scplate{position:absolute;transform:translate(-50%,-50%);background:#C9A24C;border:1.5px solid var(--ink);border-radius:3px;padding:1px 4px;font:700 clamp(7px,2.1vw,10px)/1.1 'Pixelify Sans',monospace;letter-spacing:.08em;color:#3A2416;white-space:nowrap;pointer-events:none}
+
 .notebar button{flex:1;height:44px;border:2px solid var(--ink);border-radius:12px;background:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:6px}
 .notebar .badge{background:#E4574F;color:#fff;border-radius:999px;font-size:11px;padding:1px 7px}
 .ovl{position:fixed;inset:0;z-index:20;display:none}
@@ -505,6 +517,95 @@ em.u{font:800 9px Nunito,system-ui,sans-serif;color:var(--muted);font-style:norm
 .pr-door{display:flex;align-items:center;gap:12px;background:var(--card);border:2.5px solid var(--ink);border-radius:16px;padding:12px 14px;width:100%;text-align:left;box-shadow:0 3px 0 var(--ink)}
 .pr-door b{font:700 16px 'Pixelify Sans',monospace;letter-spacing:1px;display:block}
 body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-bottom));z-index:5;padding:10px 18px 10px;background:linear-gradient(rgba(246,235,221,0),var(--cream) 22%)}
+/* ---- THE CLIMB · together ---- */
+.climb{position:relative;width:100%;aspect-ratio:240/430;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:linear-gradient(#211C3A,#2B2448 45%,#30284A);flex:0 0 auto}
+.climb>*{position:absolute}
+.climb img.px{image-rendering:pixelated}
+.cl-star{width:1.2%;aspect-ratio:1;background:#CFC6EE;opacity:.55}
+.cl-wire{border-top:2px solid #14111F;border-radius:0 0 50% 50%/0 0 100% 100%}
+.cl-bulb{width:4.4%;aspect-ratio:3/4;transform:translate(-50%,0);border:2px solid #14111F;border-radius:40% 40% 50% 50%;background:#3A3550}
+.cl-bulb.on{background:#FFE07A;box-shadow:0 0 10px 3px rgba(255,214,102,.75)}
+.cl-sign{transform:translateX(-50%);border:2px solid #5A4F7C;border-radius:8px;background:rgba(60,52,92,.6);color:#8F86B0;text-align:center;padding:1.4% 2.4%;display:flex;flex-direction:column;gap:2px;white-space:nowrap}
+.cl-sign b{font-family:'Pixelify Sans',monospace;font-size:clamp(12px,4.4vw,19px);letter-spacing:.14em}
+.cl-sign small{font-size:clamp(10px,3vw,13px);font-weight:800}
+.cl-sign.on{border-color:#FF6FA8;background:#3A1838;color:#FFE7F1;box-shadow:0 0 14px 2px rgba(255,92,160,.6),inset 0 0 8px rgba(255,92,160,.4)}
+.cl-sign.on small{color:#FFC7DD}
+.cl-rail{border-top:3px solid #14111F;border-bottom:3px solid #14111F;background:repeating-linear-gradient(90deg,transparent 0 9px,#14111F 9px 11px)}
+.cl-table{background:#C08A55;border:2px solid #14111F;border-radius:3px}
+.cl-guest{transition:opacity .4s}
+.cup{position:absolute;pointer-events:none}
+.ghost{opacity:.82;filter:drop-shadow(0 0 3px rgba(170,250,232,.95)) drop-shadow(0 0 7px rgba(150,240,220,.6));animation:ghostfloat 3.2s ease-in-out infinite;pointer-events:none}
+@keyframes ghostfloat{50%{transform:translateY(-4%)}}
+@media (prefers-reduced-motion:reduce){.ghost{animation:none}}
+.cup.first{filter:drop-shadow(0 0 2px rgba(255,224,122,.8))}
+.cup-plq{position:absolute;transform:translate(-50%,-50%);font:700 clamp(5px,1.55vw,7px)/1.05 'Pixelify Sans',monospace;color:#4A3018;text-align:center;letter-spacing:.04em;white-space:nowrap;pointer-events:none}
+.dlamp{position:absolute;pointer-events:none}
+.dlamp .dlamp-ico{width:100%;height:100%;display:block}
+.dlamp-glow{position:absolute;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(rgba(255,236,150,.85),rgba(255,214,102,.35) 55%,transparent 72%);pointer-events:none}
+.cup-row.first{background:#FFF7DE}
+.cup .cup-ico{width:100%;height:100%;display:block}
+.cup.new{filter:drop-shadow(0 0 3px #FFE07A) drop-shadow(0 0 1px #FFE07A)}
+.cupbtn{position:absolute;border:0;background:none;padding:0;cursor:pointer}
+.cup-list{display:flex;flex-direction:column;gap:8px;max-height:52vh;overflow:auto}
+.cup-row{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:8px 12px}
+.cup-row .cup-ico{width:26px;height:35px;flex:0 0 auto}
+.cup-row span{display:flex;flex-direction:column;gap:2px}
+.cup-row small{font-size:12px;font-weight:700;color:var(--muted)}
+.cl-hang{transform:translateX(-50%);pointer-events:none}
+.cl-hang i{position:absolute;left:50%;top:0;width:1px;height:25%;background:#14111F}
+.cl-slot .lan-ico{filter:none!important}
+.cl-hang .lan-ico{position:absolute;left:0;bottom:0;width:100%;height:auto;filter:drop-shadow(0 0 3px rgba(255,178,63,.95))}
+.cl-spot{border:0;background:none;padding:0;cursor:pointer;border-radius:6px}
+.cl-spot:focus-visible{outline:2px solid #FFE27A}
+.cl-roof.off .cl-guest{opacity:0}
+.cl-conf{width:1.6%;aspect-ratio:1}
+.cl-shelf{background:#241E36;border:2px solid #14111F}
+.cl-shelf i{position:absolute;bottom:0;width:22%}
+.cl-step{border:2px solid #14111F;background:#B88A5C;box-shadow:inset 0 4px 0 #F2CF7A}
+.cl-step.future{background:#5A4A5E;box-shadow:inset 0 4px 0 #6E5C70}
+.cl-step.gold{background:linear-gradient(#FFE27A,#F2B53C);box-shadow:inset 0 4px 0 #FFF4C2,0 0 14px 3px rgba(255,205,80,.55)}
+.cl-step.today{outline:3px dashed #FFE27A;outline-offset:-6px}
+.cl-day{font-family:'Pixelify Sans',monospace;font-weight:700;font-size:clamp(10px,3.2vw,14px);color:#4A3424;transform:translateY(-50%)}
+.cl-step.future+.cl-day,.cl-day.future{color:#A898A8}
+.cl-face{transform:translate(-50%,-50%);display:block;padding:0;border:0;background:none}
+.cl-face img{width:100%;height:auto;display:block}
+.cl-face.miss img{filter:grayscale(1) brightness(.75);opacity:.28}
+.cl-face.wait img{filter:grayscale(1);opacity:.45}
+.cl-face.lan::before{content:"";position:absolute;inset:-14% -14%;border-radius:50%;background:radial-gradient(#FFD36B 0 45%,rgba(255,178,63,.55) 60%,transparent 72%)}
+.cl-face.lan img{position:relative}
+.cl-wait{opacity:.8;filter:saturate(.6)}
+.cl-blink{animation:clblink 1.1s steps(2) infinite}
+@keyframes clblink{50%{opacity:.25}}
+.cl-face.pick{cursor:pointer}
+.cl-face.sel img{opacity:1;filter:drop-shadow(0 0 5px #FFB23F)}
+.cl-face.pick img{opacity:.7;filter:grayscale(.4) drop-shadow(0 0 4px #FFD36B);animation:clpulse 1.2s ease-in-out infinite}
+@keyframes clpulse{50%{transform:scale(1.12)}}
+.cl-dot{transform:translate(-50%,-50%);border:2px dotted #8E7E92;border-radius:50%}
+.cl-tag{transform:translate(-50%,-50%);background:#FFE27A;color:#2E2622;border:2px solid #14111F;border-radius:999px;font-size:clamp(9px,2.7vw,12px);font-weight:800;padding:1px 7px;white-space:nowrap}
+.cl-bubble{transform:translate(-50%,-100%);background:#fff;border:2px solid #14111F;border-radius:999px;font-size:clamp(9px,2.7vw,12px);font-weight:800;padding:2px 8px;white-space:nowrap}
+.cl-card{gap:8px}
+.cl-card h3{margin:0;font-size:17px}
+.cl-card p{margin:0;font-size:13px;font-weight:700;color:var(--muted);line-height:1.45}
+.cl-bulbs{display:flex;gap:6px}
+.cl-bulbs i{width:26px;height:10px;border:2px solid var(--ink);border-radius:6px;background:#fff}
+.cl-bulbs i.on{background:var(--yellow)}
+.cl-lan{background:#FFF7DE}
+.cl-lan .row{display:flex;align-items:center;gap:10px}
+.cl-give{display:flex;flex-wrap:wrap;gap:8px}
+.cl-give button{display:flex;align-items:center;gap:6px;border:2px solid var(--ink);border-radius:12px;background:#fff;padding:5px 10px 5px 5px;font:inherit;font-size:13px;font-weight:800;cursor:pointer}
+.cl-give button img{width:26px}
+.cl-give button.sel{background:var(--yellow)}
+.cl-ok{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cl-plan{font-size:15px;font-weight:800}
+.cl-planf{display:flex;gap:8px}
+.cl-planf[hidden]{display:none}
+.cl-planf input{flex:1;min-width:0;border:2px solid var(--ink);border-radius:10px;padding:8px 10px;font:inherit;font-weight:700}
+.cl-how summary{cursor:pointer;font-size:14px}
+.cl-how p{margin-top:6px}
+.lan-ico{display:inline-block;width:22px;height:30px;flex:0 0 auto}
+.hall-lan{position:absolute;transform:translate(-50%,0);pointer-events:none}
+.hall-lan i{position:absolute;left:50%;top:0;width:1px;background:#2E2622}
+.hall-lan .lan-ico{position:absolute;left:0;bottom:0;width:100%;height:auto;filter:drop-shadow(0 0 4px rgba(255,178,63,.9))}
 </style>
 </head>
 <body>
@@ -583,24 +684,24 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <section id="race" class="screen">
   <header class="bar">
     <button id="raceBack" class="back" type="button" aria-label="Back to home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <div style="display:flex;flex-direction:column"><h1 class="pixel">THE CLIMB</h1><small class="muted" style="font-size:12px;font-weight:800">together</small></div>
+    <h1 class="pixel">THE CLIMB</h1>
+    <span id="clWeek" class="chip" style="margin-left:auto"></span>
   </header>
-  <div class="card sec">
-    <div class="row-h"><h2>This week's race</h2><small id="weekRange"></small></div>
-    <div id="map" class="map"></div>
-    <small class="muted" style="font-size:12px;font-weight:700">Everyone walks toward their own weekly goal.</small>
+  <div id="climb" class="climb"></div>
+  <div id="clStatus" class="card sec cl-card"></div>
+  <div id="clLantern" class="card sec cl-card"></div>
+  <div class="card sec cl-card">
+    <div class="row-h"><h2>Friday plan</h2><button id="clPlanEd" class="gl-b2" type="button">✎ edit</button></div>
+    <div id="clPlanView" class="cl-plan"></div>
+    <div id="clPlanForm" class="cl-planf" hidden><input id="clPlanIn" maxlength="40" placeholder="pizza + movie at Milad's" autocomplete="off"><button id="clPlanSave" class="gl-b2" type="button">Save</button></div>
   </div>
-  <div class="card sec" style="padding-bottom:6px;gap:0">
-    <div style="display:flex;align-items:center;gap:8px;padding-bottom:8px"><h2 style="width:122px;flex:0 0 auto">Players</h2><div id="dayHead" class="cells"></div></div>
-    <div id="rows"></div>
-  </div>
-  <div class="pairs">
-    <div class="row-h"><h2>Pairs</h2><small id="crownNote"></small></div>
-    <div id="pcards" class="pairs"></div>
-  </div>
-  <div class="dockfix">
-    <button id="raceGo" class="big pixel" type="button">START ▶</button>
-  </div>
+  <details class="card sec cl-card cl-how"><summary><b>How the climb works</b></summary>
+    <p>At 4 AM we all stand on the same step. Reach your own goal for the day → you climb that day's step.</p>
+    <p>Didn't reach it? At 4 AM a <b>faint, unlit lantern</b> takes your place on that step and you move up with everyone.</p>
+    <p>A step lights up when at least 3 of us climbed it.</p>
+    <p>Study <b>double</b> your goal one day → you earn a lantern 🏮 (it hangs at your seat in the study hall). Hang it on a friend's unlit lantern from the last 2 days to light it. Each person can get one lantern a week.</p>
+    <p>On Friday we count the unlit lanterns nobody lit: <b>3 or fewer</b> → Friday Rooftop for all of us + a gold cup on the shelf. <b>4 to 6</b> → a silver cup. More → no cup.</p>
+  </details>
 </section>
 
 <!-- ============ STUDY HALL ============ -->
@@ -610,10 +711,11 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <h1 class="pixel">STUDY HALL</h1>
     <span id="seatChip" class="chip" style="margin-left:auto"></span>
   </header>
-  <div id="scene" class="scene"><div id="sceneArt" style="position:absolute;inset:0"></div><div id="fx" style="position:absolute;inset:0;pointer-events:none"></div></div>
-  <div class="notebar"><button id="writeBtn" type="button">✎ Write a note</button><button id="notesBtn" type="button"></button></div>
+  <div id="scene" class="scene"><div id="sceneArt" style="position:absolute;inset:0"></div><div id="noteBtns" style="position:absolute;inset:0;pointer-events:none"></div><div id="fx" style="position:absolute;inset:0;pointer-events:none"></div></div>
+  <div class="notebar" hidden><button id="writeBtn" type="button">✎ Write a note</button><button id="notesBtn" type="button"></button></div>
   <div class="legend" style="justify-content:flex-start">
-    <span><i style="display:inline-block;width:16px;height:10px;border-radius:50%;border:2px solid var(--ink);background:#8CF08F;box-shadow:0 0 6px 2px rgba(108,203,126,.7)"></i>Lamp = today's own goal reached</span>
+    <span><i id="lgLamp" style="display:inline-block;width:14px;height:17px"></i>Lamp on = goal done</span>
+    <span><img id="lgGhost" class="px" alt="" style="width:13px;height:18px"> Spirit = late, seat waits</span>
   </div>
   <div class="legend" style="display:none">
     <span><img class="px" id="lgS" alt="" width="22">30-min streak</span>
@@ -777,6 +879,15 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <div class="acts"><button id="rdToss" class="btn" type="button">Toss it</button><button id="rdBack" class="btn main" type="button">THROW BACK ▶</button></div>
   </div>
 </div>
+<div id="cupsModal" class="ovl" role="dialog" aria-modal="true" aria-label="Squad cups">
+  <div class="dim" data-close="cupsModal"></div>
+  <div class="sheet" style="background:#FBF3E8">
+    <button class="xbtn" type="button" data-close="cupsModal" aria-label="Close">✕</button>
+    <b class="pixel" style="font-size:18px">SQUAD CUPS</b>
+    <span class="muted" style="font-size:12px;font-weight:700;margin-top:-6px">Gold: a week with 3 empty spots or fewer (Friday Rooftop). Silver: 4 to 6. They live on the bottom shelf of the study hall.</span>
+    <div id="cupList" class="cup-list"></div>
+  </div>
+</div>
 <div id="boardModal" class="ovl" role="dialog" aria-modal="true" aria-label="Room board">
   <div class="dim" data-close="boardModal"></div>
   <div class="sheet" style="background:#FBF3E8">
@@ -836,7 +947,7 @@ async function hashPin(id, pin) {
 }
 
 // ---------------- data store ----------------
-let state = { sessions: {}, days: {}, profiles: {}, notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {} };
+let state = { sessions: {}, days: {}, profiles: {}, notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {} };
 let offset = 0, loaded = false;
 const now = () => Date.now() + offset;
 let store;
@@ -851,7 +962,7 @@ async function makeFirebaseStore() {
   F.onValue(F.ref(db, "squad"), s => {
     clearTimeout(slow);
     const v = s.val() || {};
-    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {}, notes: v.notes || {}, board: v.board || {}, writing: v.writing || {}, skills: v.skills || {}, log: v.log || {}, main: v.main || {}, mocks: v.mocks || {}, plans: v.plans || {}, tests: v.tests || {} };
+    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {}, notes: v.notes || {}, board: v.board || {}, writing: v.writing || {}, skills: v.skills || {}, log: v.log || {}, main: v.main || {}, mocks: v.mocks || {}, plans: v.plans || {}, tests: v.tests || {}, lanterns: v.lanterns || {}, party: v.party || {} };
     mergeLocal();
     const first = !loaded; loaded = true;
     onData(first);
@@ -885,11 +996,14 @@ async function makeFirebaseStore() {
     pushBoard: val => F.push(F.ref(db, "squad/board"), val),
     setBoard: (key, val) => F.set(F.ref(db, `squad/board/${key}`), val),
     removeBoard: id => F.remove(F.ref(db, `squad/board/${id}`)),
+    // one lantern per person per week: the path itself is the limit, the transaction stops a double gift
+    giveLantern: async (ws, to, val) => (await F.runTransaction(F.ref(db, `squad/lanterns/${ws}/${to}`), cur => cur ? undefined : val)).committed,
+    setParty: (ws, val) => F.set(F.ref(db, `squad/party/${ws}`), val),
   };
 }
 function makeDemoStore() {
   $("demo").hidden = false;
-  const KEY = "squad-demo-v10";
+  const KEY = "squad-demo-v11";
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!saved) {
@@ -923,13 +1037,21 @@ function makeDemoStore() {
     const tests = { arian: {
       c16t4: { book: 16, test: 4, tries: { t1: { date: addDays(today, -15), parts: P4([1, 1, 1, 1], [1, 1, 1], [1, 0], [0, 0, 0]) }, t2: { date: addDays(today, -4), parts: P4([2, 2, 1, 1], [1, 1, 1], [1, 0], [0, 0, 0]) } } },
       c17t1: { book: 17, test: 1, tries: { t1: { date: addDays(today, -10), parts: P4([2, 2, 2, 2], [2, 2, 1], [2, 1], [2, 1, 0]), score: { L: 31, R: 33 } } } } } };
-    saved = { tests, mocks, plans, main: {}, skills: skillsSeed, days, profiles, notes, board, writing: {}, sessions: {
+    // this week's climb: most people hit their goal, a few misses, one lantern already given
+    const ws0 = weekStart(today), miss = { 1: ["farzad"], 2: ["arian", "shaghayegh"], 3: ["farzad"] }, lanterns = {};
+    for (let i = 0; i < 6; i++) { const k = addDays(ws0, i); if (k >= today) break;
+      PEOPLE.forEach((pp, pi) => { if (pp.id === "zinat") return; const g = [120, 90, 150, 180, 120][pi];
+        (days[k] ||= {})[pp.id] = ((miss[i] || []).includes(pp.id) ? Math.round(g * .4) : g + 10 * ((i + pi) % 3)) * MIN; }); }
+    if (dowOf(today) >= 2) { const k = addDays(ws0, 0); days[k].niloufar = 380 * MIN; }
+    if (dowOf(today) >= 2 && dowOf(today) <= 3) lanterns[ws0] = { farzad: { from: "niloufar", day: addDays(ws0, 1), at: t - 3 * HOUR } };
+    const party = { [ws0]: { text: "pizza + movie at Milad's", by: "milad", at: t } };
+    saved = { lanterns, party, tests, mocks, plans, main: {}, skills: skillsSeed, days, profiles, notes, board, writing: {}, sessions: {
       milad: { state: "studying", startedAt: t - 42 * MIN, accum: 0, skill: "listening" },
       farzad: { state: "studying", startedAt: t - 27 * MIN, accum: 0, skill: "reading" },
       niloufar: { state: "paused", accum: 18 * MIN, pausedAt: t - 5 * MIN },
     } };
   }
-  state = { notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, ...saved }; loaded = true;
+  state = { notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {}, ...saved }; loaded = true;
   const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} onData(false); render(); };
   onData(true);
   setTimeout(boot2, 0);
@@ -957,6 +1079,8 @@ function makeDemoStore() {
     pushBoard: async val => { state.board[nid()] = val; persist(); },
     setBoard: async (key, val) => { state.board[key] = val; persist(); },
     removeBoard: async id => { delete state.board[id]; persist(); },
+    giveLantern: async (ws, to, val) => { const w = (state.lanterns[ws] ||= {}); if (w[to]) return false; w[to] = val; persist(); return true; },
+    setParty: async (ws, val) => { state.party[ws] = val; persist(); },
   };
 }
 
@@ -1173,7 +1297,7 @@ const NAV_SCREENS = { home: "home", race: "race", hall: "hall", speak: "speak", 
 function go(name) {
   if (name !== "start" && !(me && state.profiles[me])) name = "start";
   if ($("composer").classList.contains("on")) closeComposer();
-  ["reader", "boardModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"].forEach(id => $(id).classList.remove("on"));
+  ["reader", "boardModal", "cupsModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"].forEach(id => $(id).classList.remove("on"));
   for (const s of SCREENS) $(s).classList.toggle("on", s === name);
   document.body.classList.toggle("has-nav", !!NAV_SCREENS[name]);
   document.querySelectorAll("[data-nav]").forEach(b => b.classList.toggle("on", b.dataset.nav === NAV_SCREENS[name]));
@@ -1922,60 +2046,286 @@ function renderHome() {
   } else if (exam) goal = `<span class="hm-goal"><span class="hm-flag"></span><span><b style="font-size:15px">Exam done 🎉</b><br>${sub("Set your next date ›")}</span></span>`;
   else goal = `<span class="hm-goal"><span class="hm-flag"></span><span><b style="font-size:15px">Set your exam date ›</b><br>${sub("see the countdown here")}</span></span>`;
   put($("hmGoal"), goal);
-  // climb (still the race page for now)
-  const wkT = id => days.reduce((s2, k) => s2 + (k <= today ? dayMs(id, k, t) : 0), 0);
-  const fr = id => Math.min(1, wkT(id) / (weekGoal(id, ws) * MIN));
-  const onTrack = PEOPLE.filter(pp => state.profiles[pp.id] && fr(pp.id) >= Math.min(1, (daysBetween(ws, today) + 1) / 7) * 0.8).length;
-  put($("hmClimb"), `${pixIcon(ICONS.climb, 3)}<span style="flex:1;display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">The Climb · together</b><small style="font-size:12px;font-weight:800;color:var(--muted)">${onTrack} of 6 on track this week · you're at ${Math.round(fr(me) * 100)}%</small></span><b class="pixel" style="font-size:18px">›</b>`);
+  // climb: gold steps toward the Friday Rooftop
+  const cw = climbWeek(t), ts = cw.steps.find(x => x.today);
+  const clSub = cw.friday ? (cw.cup === "gold" ? "Friday Rooftop is ON 🍕" + (cw.ws === CUP_START ? "" : " · gold cup") : cw.cup === "silver" && cw.ws !== CUP_START ? "Quiet Friday · silver cup" : "Quiet Friday · new climb tomorrow") : `${cw.empty} empty spot${cw.empty === 1 ? "" : "s"} · ${cw.onTrack ? "on track for the roof" : cw.possible ? "lanterns can save it" : "no party this week"}${ts ? ` · today ${ts.lit}/6 done` : ""}`;
+  put($("hmClimb"), `${pixIcon(ICONS.climb, 3)}<span style="flex:1;display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">The Climb · together</b><small style="font-size:12px;font-weight:800;color:var(--muted)">${clSub}</small></span>${lanternsLeft(me, cw.ws, t) ? LANTERN.replace('class="lan-ico"', 'class="lan-ico" style="width:16px;height:22px"') : ""}<b class="pixel" style="font-size:18px">›</b>`);
   const s = state.sessions[me] || {};
   $("homeGo").textContent = ["studying", "paused"].includes(s.state) ? "BACK TO TABLE ▶" : "START ▶";
 }
-function renderRace() {
-  const t = now(), today = dayKey(t), ws = weekStart(today);
-  const days = [...Array(7)].map((_, i) => addDays(ws, i));
-  // trail
-  $("weekRange").textContent = `${fmtDate(days[0], { day: "numeric", month: "short" })} – ${fmtDate(days[6], { day: "numeric", month: "short" })}`;
-  const wk = id => days.reduce((s, k) => s + (k <= today ? dayMs(id, k, t) : 0), 0);
-  const frac = id => Math.min(1, wk(id) / (weekGoal(id, ws) * MIN));
-  const X = v => (v / A.MW * 100) + "%", Y = v => (v / A.MH * 100) + "%";
-  let m = `<img class="px" src="${A.map}" alt="Weekly trail" style="left:0;top:0;width:100%;height:100%">`;
-  A.miles.forEach(([x, y], i) => { m += `<span class="lab" style="left:${X(x)};top:${Y(y + 6)}">${(i + 1) * 20}%</span>`; });
-  const [fx, fy] = A.trail[A.trail.length - 1];
-  m += `<span class="lab" style="left:${X(fx - 6)};top:${Y(fy + 7)}">WEEK GOAL</span>`;
-  m += `<span class="lab" style="left:${X(A.trail[0][0])};top:${Y(A.trail[0][1] + 8)}">GO</span>`;
-  const spots = {};
-  [...PEOPLE].sort((a, b) => frac(b.id) - frac(a.id)).forEach(pp => {
-    const [x, y] = A.trail[Math.round(frac(pp.id) * (A.trail.length - 1))];
-    const k = Math.round(x / 10) + "," + Math.round(y / 10), n = spots[k] = (spots[k] || 0) + 1;
-    m += `<img class="px" src="${A.chars[pp.id]}" alt="${pp.name}" title="${pp.name} · ${Math.round(frac(pp.id) * 100)}%" style="width:${X(23)};height:${Y(29)};left:${X(x - 11.5 + (n - 1) * 9)};top:${Y(y - 24 - (n - 1) * 3)}">`;
+// ---------------- the climb (together) ----------------
+// Sat–Thu are six steps. Your face is on a step when you reached your own goal that day.
+// 3 of 6 up = a lit step. 5 gold steps = Friday Rooftop for everyone.
+const GOLD_AT = 3, PARTY_MAX = 3, SILVER_MAX = 6, BULBS = 4, LAN_BACK = 2, CLIMB_DAYS = 6;
+const LANTERN = '<svg class="lan-ico" viewBox="0 0 11 15" shape-rendering="crispEdges" aria-hidden="true"><rect x="4" y="0" width="3" height="1" fill="#2E2622"/><rect x="5" y="1" width="1" height="1" fill="#2E2622"/><rect x="2" y="2" width="7" height="2" fill="#2E2622"/><rect x="1" y="4" width="9" height="8" fill="#2E2622"/><rect x="2" y="5" width="7" height="6" fill="#FFB23F"/><rect x="4" y="6" width="3" height="4" fill="#FFE7A3"/><rect x="5" y="5" width="1" height="6" fill="#2E2622" opacity=".25"/><rect x="2" y="12" width="7" height="2" fill="#2E2622"/></svg>';
+const LANTERN_SLOT = '<svg class="lan-ico" viewBox="0 0 11 15" shape-rendering="crispEdges" aria-hidden="true"><g opacity=".5"><rect x="4" y="0" width="3" height="1" fill="#6B4A2E"/><rect x="5" y="1" width="1" height="1" fill="#6B4A2E"/><rect x="2" y="2" width="7" height="2" fill="#6B4A2E"/><rect x="1" y="4" width="9" height="8" fill="#6B4A2E"/><rect x="2" y="5" width="7" height="6" fill="#D9BC8E"/><rect x="5" y="5" width="1" height="6" fill="#B08A5E"/><rect x="2" y="12" width="7" height="2" fill="#6B4A2E"/></g></svg>';   // a faint, unlit lantern: a missed day waiting for a friend's light
+const climbDays = ws => [...Array(CLIMB_DAYS)].map((_, i) => addDays(ws, i));
+const lanternsIn = ws => (state.lanterns || {})[ws] || {};
+const partyPlan = ws => ((state.party || {})[ws] || {}).text || "pizza + movie night";
+function faceOf(id, k, t, today) {
+  if (k > today) return "future";
+  const got = lanternsIn(weekStart(k))[id];
+  if (got && got.day === k) return "lan";
+  if (dayMs(id, k, t) >= goalOf(id, k) * MIN) return "done";
+  return k === today ? "wait" : "miss";
+}
+function climbWeek(t = now(), wsOf) {
+  const today = dayKey(t), ws = wsOf || weekStart(today);
+  const steps = climbDays(ws).map(k => {
+    const faces = PEOPLE.map(pp => ({ id: pp.id, st: faceOf(pp.id, k, t, today) }));
+    const lit = faces.filter(f => f.st === "done" || f.st === "lan").length;
+    return { k, faces, lit, gold: lit >= GOLD_AT, future: k > today, today: k === today };
   });
-  $("map").innerHTML = m;
-  // players
-  $("dayHead").innerHTML = days.map(k => `<span style="width:19px;text-align:center;font-size:10px;font-weight:800;color:${k === today ? "#6A4FB3" : "#7A6A5E"}">${fmtDate(k, { weekday: "short" }).slice(0, 2)}</span>`).join("");
-  $("rows").innerHTML = [...PEOPLE].sort((a, b) => frac(b.id) - frac(a.id)).map(pp => {
-    const cells = days.map(k => {
-      if (k > today) return '<span class="cell f"></span>';
-      const ms = dayMs(pp.id, k, t), r = ms / (goalOf(pp.id, k) * MIN);
-      const col = ms === 0 ? "#EFE3D2" : r < .25 ? "#F6D9A4" : r < .5 ? "#F2B65C" : r < 1 ? "#E58F3C" : "#C2622A";
-      return `<span class="cell ${k === today ? "today" : ""}" style="background:${col}" title="${Math.round(ms / MIN)} min">${r >= 1 ? tick : ""}</span>`;
-    }).join("");
-    return `<div class="prow"><div style="width:32px;flex:0 0 auto">${img(A.chars[pp.id])}</div><div class="nm"><b>${pp.name}${pp.id === me ? " (you)" : ""}</b><span>${fmtLong(wk(pp.id))} · ${Math.round(frac(pp.id) * 100)}%</span></div><div class="cells">${cells}</div><div class="streak pixel">${flame}${streakOf(pp.id, t)}</div></div>`;
-  }).join("");
-  // pairs
-  $("crownNote").innerHTML = `<span style="display:flex;align-items:center;gap:4px">${crown} = day's cup, decided 4 AM</span>`;
-  const crowns = [0, 0, 0];
-  days.filter(k => k < today).forEach(k => leaders(k, t).forEach(i => crowns[i]++));
-  const lead = leaders(today, t);
-  const tot = PAIRS.map(([a, b]) => wk(a) + wk(b));
-  const max = Math.max(1, ...tot);
-  $("pcards").innerHTML = [0, 1, 2].sort((a, b) => tot[b] - tot[a]).map(k => {
-    const [a, b] = PAIRS[k];
-    return `<div class="pcard"><div class="top"><div class="duo">${img(A.chars[a])}${img(A.chars[b])}</div><b style="font-size:14px">${BY[a].name} &amp; ${BY[b].name}</b><span class="pixel" style="margin-left:auto;font-size:16px">${fmtLong(tot[k])}</span></div>
-      <div class="barw"><div style="width:${tot[k] / max * 100}%;background:${PAIR_COL[k]}"></div></div>
-      <div style="display:flex;align-items:center;gap:6px">${crowns[k] ? crown.repeat(crowns[k]) : '<span style="font-size:12px;font-weight:700;color:#A8998A">no cups yet</span>'}${lead.includes(k) ? '<span class="pill">leading now · lamp on</span>' : ""}</div></div>`;
-  }).join("");
-  const s = state.sessions[me] || {};
-  $("raceGo").textContent = ["studying", "paused"].includes(s.state) ? "BACK TO TABLE ▶" : "START ▶";
+  const gold = steps.filter(s => s.gold).length;
+  // a step can still turn gold if it's today or later, or a recent day that lanterns can still fix
+  const open = steps.filter(s => !s.gold && (s.k >= today || (daysBetween(s.k, today) <= LAN_BACK && s.lit + s.faces.filter(f => f.st === "miss" && !lanternsIn(ws)[f.id]).length >= GOLD_AT))).length;
+  // the week is judged by its empty lantern spots (missed days nobody lit), counted for everyone who has joined
+  let empty = 0, fixable = 0; const fixers = new Set();
+  steps.forEach(s => s.faces.forEach(f => {
+    if (f.st !== "miss" || !state.profiles[f.id]) return;
+    empty++;
+    if (daysBetween(s.k, today) <= LAN_BACK && !lanternsIn(ws)[f.id] && !fixers.has(f.id)) { fixable++; fixers.add(f.id); }
+  }));
+  const done = addDays(ws, 6) <= today;                          // Friday has come: the week is decided
+  const cup = !done ? null : empty <= PARTY_MAX ? "gold" : empty <= SILVER_MAX ? "silver" : null;
+  return { today, ws, steps, gold, empty, friday: dowOf(today) === 6 && !wsOf, done, cup,
+           on: done && empty <= PARTY_MAX,                       // party night
+           onTrack: empty <= PARTY_MAX, possible: empty - fixable <= PARTY_MAX, silverPossible: empty - fixable <= SILVER_MAX };
+}
+// ---- squad cups: every week the rooftop opens, one cup goes on the library shelf ----
+const CUP_ICON = (kind = "gold") => { const [a, b] = kind === "silver" ? ["#DCE2EA", "#A7B0BD"] : ["#F2C94C", "#C9962E"];
+  return `<svg class="cup-ico" viewBox="0 0 11 15" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="9" height="1" fill="#2E2622"/><rect x="0" y="1" width="1" height="4" fill="#2E2622"/><rect x="10" y="1" width="1" height="4" fill="#2E2622"/><rect x="1" y="1" width="9" height="5" fill="${a}"/><rect x="6" y="1" width="3" height="5" fill="${b}"/><rect x="2" y="2" width="1" height="3" fill="#FFF8DC"/><rect x="2" y="6" width="7" height="1" fill="${a}"/><rect x="3" y="7" width="5" height="1" fill="${b}"/><rect x="4" y="8" width="3" height="2" fill="${b}"/><rect x="2" y="10" width="7" height="3" fill="#6B4428"/><rect x="4" y="11" width="3" height="1" fill="${a}"/><rect x="1" y="13" width="9" height="1" fill="#2E2622"/>${kind === "never" ? '<rect x="5" y="2" width="1" height="3" fill="#fff"/><rect x="4" y="3" width="3" height="1" fill="#fff"/>' : ""}</svg>`; };
+// green banker's lamp on the table: lit when that person reached today's goal
+const DESK_LAMP = on => `<svg class="dlamp-ico" viewBox="0 0 11 14" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="0" width="9" height="1" fill="#2E2622"/><rect x="0" y="1" width="11" height="3" fill="#2E2622"/><rect x="1" y="1" width="9" height="2" fill="${on ? "#3FAF6A" : "#2F5A43"}"/><rect x="2" y="1" width="3" height="1" fill="${on ? "#A8EBC0" : "#47705A"}"/>${on ? '<rect x="1" y="4" width="9" height="1" fill="#FFF1A8"/>' : ""}<rect x="5" y="4" width="1" height="7" fill="#9C7A2E"/><rect x="2" y="11" width="7" height="1" fill="#2E2622"/><rect x="2" y="12" width="7" height="1" fill="#C9A24C"/><rect x="1" y="13" width="9" height="1" fill="#2E2622"/></svg>`;
+// things that keep the cup shelf company until cups take their place (one per slot, left to right)
+const SHELF_THINGS = [
+  ["Cambridge IELTS books", '<rect x="1" y="12" width="10" height="3" fill="#A0503C"/><rect x="1" y="12" width="10" height="1" fill="#F6EBDD"/><rect x="2" y="9" width="9" height="3" fill="#3E6A8A"/><rect x="2" y="9" width="9" height="1" fill="#F6EBDD"/><rect x="1" y="6" width="10" height="3" fill="#5D7A5A"/><rect x="1" y="6" width="10" height="1" fill="#F6EBDD"/><rect x="1" y="15" width="10" height="1" fill="#2E2622"/>'],
+  ["an hourglass", '<rect x="2" y="1" width="8" height="1" fill="#6B4428"/><rect x="2" y="15" width="8" height="1" fill="#6B4428"/><rect x="2" y="2" width="1" height="13" fill="#6B4428"/><rect x="9" y="2" width="1" height="13" fill="#6B4428"/><rect x="3" y="2" width="6" height="13" fill="#CFE3EA" opacity=".45"/><rect x="4" y="3" width="4" height="2" fill="#E8C27A"/><rect x="5" y="5" width="2" height="2" fill="#E8C27A"/><rect x="5.5" y="7" width="1" height="4" fill="#E8C27A"/><rect x="4" y="12" width="4" height="3" fill="#E8C27A"/>'],
+  ["a little plant", '<rect x="5" y="2" width="2" height="4" fill="#6CCB7E"/><rect x="2" y="4" width="3" height="2" fill="#5D7A5A"/><rect x="7" y="3" width="3" height="2" fill="#5D7A5A"/><rect x="3" y="6" width="6" height="3" fill="#6CCB7E"/><rect x="2" y="9" width="8" height="1" fill="#9C4F30"/><rect x="3" y="10" width="6" height="5" fill="#B7643F"/><rect x="3" y="15" width="6" height="1" fill="#2E2622"/>'],
+  ["a photo of the six of us", '<rect x="1" y="3" width="10" height="12" fill="#6B4428"/><rect x="2" y="4" width="8" height="9" fill="#F6E7C8"/><rect x="2" y="9" width="8" height="4" fill="#C9B6F2"/><rect x="2.5" y="7" width="2" height="2" fill="#E0B48A"/><rect x="5" y="6.5" width="2" height="2" fill="#D9A47A"/><rect x="7.5" y="7" width="2" height="2" fill="#F0C8A8"/><rect x="3.5" y="10" width="2" height="2" fill="#C99A70"/><rect x="6.5" y="10" width="2" height="2" fill="#E8B898"/><rect x="5" y="15" width="2" height="1" fill="#2E2622"/>'],
+  ["a glass of tea", '<rect x="1" y="14" width="10" height="1" fill="#F2F0EA"/><rect x="1" y="15" width="10" height="1" fill="#2E2622"/><rect x="3" y="5" width="6" height="1" fill="#EAF4F8"/><rect x="3" y="6" width="6" height="2" fill="#C2622A"/><rect x="4" y="8" width="4" height="2" fill="#A0461E"/><rect x="3" y="10" width="6" height="2" fill="#C2622A"/><rect x="4" y="12" width="4" height="2" fill="#EAF4F8"/><rect x="4" y="6" width="1" height="5" fill="#F2A36A"/><rect x="9" y="12" width="2" height="2" fill="#fff"/>'],
+  ["a globe", '<rect x="2" y="2" width="8" height="8" rx="4" fill="#3E6A8A"/><rect x="3" y="4" width="3" height="2" fill="#5D7A5A"/><rect x="6" y="6" width="3" height="2" fill="#5D7A5A"/><rect x="4" y="8" width="2" height="1" fill="#5D7A5A"/><rect x="10" y="4" width="1" height="8" fill="#C9A24C"/><rect x="5.5" y="10" width="1" height="4" fill="#6B4428"/><rect x="3" y="14" width="6" height="1" fill="#6B4428"/><rect x="3" y="15" width="6" height="1" fill="#2E2622"/>'],
+  ["a candle", '<rect x="5" y="3" width="2" height="3" fill="#FFB23F"/><rect x="5.5" y="4" width="1" height="2" fill="#FFF1A8"/><rect x="5" y="6" width="2" height="7" fill="#F6EBDD"/><rect x="3" y="13" width="6" height="2" fill="#C9A24C"/><rect x="3" y="15" width="6" height="1" fill="#2E2622"/>'],
+  ["a radio for listening practice", '<rect x="3" y="4" width="6" height="1" fill="#2E2622"/><rect x="3" y="5" width="1" height="1" fill="#2E2622"/><rect x="8" y="5" width="1" height="1" fill="#2E2622"/><rect x="1" y="6" width="10" height="9" fill="#5FB8B0"/><rect x="2" y="9" width="5" height="5" fill="#2E2622"/><rect x="3" y="10" width="3" height="3" fill="#3A3550"/><rect x="8" y="8" width="2" height="2" fill="#FFE07A"/><rect x="8" y="11" width="2" height="1" fill="#2E2622"/><rect x="1" y="15" width="10" height="1" fill="#2E2622"/>'],
+  ["a row of word books", '<rect x="1" y="4" width="2" height="11" fill="#E4574F"/><rect x="3" y="6" width="2" height="9" fill="#F6D772"/><rect x="5" y="3" width="2" height="12" fill="#6A4FB3"/><rect x="7" y="5" width="2" height="10" fill="#5D7A5A"/><rect x="9" y="7" width="2" height="8" fill="#3E6A8A"/><rect x="1" y="15" width="10" height="1" fill="#2E2622"/>'],
+  ["an alarm clock", '<rect x="2" y="3" width="2" height="2" fill="#2E2622"/><rect x="8" y="3" width="2" height="2" fill="#2E2622"/><rect x="2" y="5" width="8" height="8" rx="4" fill="#E4574F"/><rect x="3" y="6" width="6" height="6" rx="3" fill="#fff"/><rect x="5.5" y="7" width="1" height="2.5" fill="#2E2622"/><rect x="5.5" y="9" width="2" height="1" fill="#2E2622"/><rect x="3" y="13" width="1" height="2" fill="#2E2622"/><rect x="8" y="13" width="1" height="2" fill="#2E2622"/>'],
+];
+const THING = i => `<svg class="cup-ico" viewBox="0 0 12 16" shape-rendering="crispEdges" aria-hidden="true">${SHELF_THINGS[i][1]}</svg>`;
+// ---- spirits: from your planned start time until you sit down, reach today's goal, or the day ends (4 AM) ----
+const minsFrom4 = hm => { const [a, b] = String(hm).split(":").map(Number); return ((a * 60 + b) - 240 + 1440) % 1440; };
+function ghostIds(t = now()) {
+  const key = dayKey(t); if (dowOf(key) === 6) return [];                 // Friday is party day
+  const nowM = minsFrom4(new Date(t + 3.5 * HOUR).toISOString().slice(11, 16));
+  return PEOPLE.map(p => p.id).filter(id => {
+    const pr = state.profiles[id]; if (!pr || !pr.studyTime) return false;
+    if (isLive(state.sessions[id], t)) return false;                        // at the table (studying or paused)
+    if (dayMs(id, key, t) >= goalOf(id, key) * MIN) return false;           // already reached today's goal
+    return nowM >= minsFrom4(pr.studyTime);
+  });
+}
+// a little writing table (inkwell, quill, paper) and a wooden letterbox with a red flag that goes up when mail waits
+const WRITE_DESK = `<svg viewBox="0 0 26 34" shape-rendering="crispEdges" aria-hidden="true">
+<rect x="0" y="13" width="26" height="5" fill="#2E2622"/><rect x="1" y="14" width="24" height="3" fill="#B07A48"/><rect x="1" y="14" width="24" height="1" fill="#C99460"/>
+<rect x="3" y="18" width="20" height="2" fill="#2E2622"/><rect x="4" y="18" width="18" height="1" fill="#7A5434"/>
+<rect x="10" y="20" width="6" height="11" fill="#2E2622"/><rect x="11" y="20" width="4" height="11" fill="#8A5A35"/><rect x="11" y="20" width="1" height="11" fill="#A06C42"/>
+<rect x="6" y="31" width="14" height="3" fill="#2E2622"/><rect x="7" y="31" width="12" height="2" fill="#7A5434"/>
+<rect x="2" y="10" width="12" height="4" fill="#2E2622"/><rect x="3" y="10" width="10" height="3" fill="#FFFDF6"/><rect x="4" y="11" width="6" height="1" fill="#C9B9A4"/>
+<rect x="16" y="7" width="7" height="7" fill="#2E2622"/><rect x="17" y="8" width="5" height="5" fill="#33405F"/><rect x="17" y="8" width="5" height="1" fill="#C9A24C"/><rect x="18" y="9" width="1" height="3" fill="#5C6E96"/>
+<rect x="20" y="6" width="1" height="2" fill="#2E2622"/><rect x="21" y="4" width="1" height="2" fill="#2E2622"/><rect x="21" y="2" width="2" height="3" fill="#E9E1F7"/><rect x="22" y="0" width="2" height="3" fill="#C9B6F2"/><rect x="24" y="0" width="1" height="2" fill="#8E73D6"/><rect x="23" y="3" width="1" height="1" fill="#8E73D6"/>
+</svg>`;
+const MAILBOX = (n) => `<svg viewBox="0 0 26 34" shape-rendering="crispEdges" aria-hidden="true">
+<rect x="10" y="18" width="6" height="13" fill="#2E2622"/><rect x="11" y="18" width="4" height="13" fill="#8A5A35"/><rect x="11" y="18" width="1" height="13" fill="#A06C42"/>
+<rect x="6" y="31" width="14" height="3" fill="#2E2622"/><rect x="7" y="31" width="12" height="2" fill="#7A5434"/>
+<rect x="7" y="2" width="12" height="1" fill="#2E2622"/><rect x="5" y="3" width="16" height="2" fill="#2E2622"/><rect x="3" y="5" width="20" height="15" fill="#2E2622"/>
+<rect x="7" y="3" width="12" height="1" fill="#B07A48"/><rect x="5" y="4" width="16" height="2" fill="#B07A48"/><rect x="4" y="6" width="18" height="13" fill="#9C6B3E"/><rect x="4" y="6" width="18" height="1" fill="#C99460"/><rect x="19" y="7" width="3" height="12" fill="#86592F"/>
+<rect x="7" y="12" width="12" height="3" fill="#2E2622"/><rect x="8" y="12" width="10" height="1" fill="#C9A24C"/><rect x="8" y="14" width="10" height="1" fill="#C9A24C"/><rect x="8" y="13" width="10" height="1" fill="#1A1412"/>
+${n ? '<rect x="9" y="9" width="8" height="4" fill="#2E2622"/><rect x="10" y="10" width="6" height="3" fill="#FFFDF6"/><rect x="12" y="11" width="2" height="1" fill="#C2453A"/>' : ""}
+${n ? `<g class="mb-flag"><rect x="23" y="3" width="1" height="12" fill="#2E2622"/><rect x="24" y="3" width="2" height="1" fill="#2E2622"/><rect x="24" y="4" width="2" height="3" fill="#C2453A"/><rect x="24" y="7" width="2" height="1" fill="#2E2622"/></g>`
+     : `<rect x="23" y="13" width="1" height="3" fill="#2E2622"/><rect x="22" y="15" width="4" height="1" fill="#2E2622"/><rect x="24" y="14" width="2" height="1" fill="#8E3A30"/>`}
+</svg>`;
+const CUP_START = "2026-11-07";      // the week the climb began: the first cup is on the shelf from day one
+let dataVer = 0, cupCache = { key: "", list: [] };
+function squadCups(t = now()) {
+  const today = dayKey(t), key = today + "|" + dataVer;
+  if (cupCache.key === key) return cupCache.list;
+  const list = [{ first: true, ws: CUP_START }];
+  // the first cup IS the first week (week of CUP_START): that week adds nothing more; earned cups start the week after
+  for (let ws = addDays(CUP_START, 7); addDays(ws, 6) <= today; ws = addDays(ws, 7)) {        // weeks whose Friday has come
+    const cw = climbWeek(t, ws);
+    if (cw.cup) list.push({ ws, kind: cw.cup, empty: cw.empty, plan: partyPlan(ws) });
+  }
+  cupCache = { key, list };
+  return list;
+}
+// a lantern is earned on every day (Sat–Thu) you study double your goal
+const lanternsEarned = (id, ws, t = now()) => climbDays(ws).filter(k => k <= dayKey(t) && dayMs(id, k, t) >= 2 * goalOf(id, k) * MIN).length;
+const lanternsGiven = (id, ws) => Object.values(lanternsIn(ws)).filter(l => l.from === id).length;
+const lanternsLeft = (id, ws, t = now()) => Math.max(0, lanternsEarned(id, ws, t) - lanternsGiven(id, ws));
+function lanternTargets(t = now()) {
+  const today = dayKey(t), ws = weekStart(today), got = lanternsIn(ws), out = [];
+  for (const pp of PEOPLE) {
+    if (pp.id === me || !state.profiles[pp.id] || got[pp.id]) continue;
+    for (const k of climbDays(ws)) if (k < today && daysBetween(k, today) <= LAN_BACK && faceOf(pp.id, k, t, today) === "miss") out.push({ id: pp.id, k });
+  }
+  return out;
+}
+let lanPick = null;   // "id|day" waiting for "light it"
+async function giveLantern(id, k) {
+  const ws = weekStart(dayKey(now()));
+  if (lanternsLeft(me, ws) < 1) return toast("You don't have a lantern right now.");
+  const ok = await store.giveLantern(ws, id, { from: me, day: k, at: now() }).catch(showErr);
+  lanPick = null;
+  toast(ok ? `🏮 You lit ${BY[id].name}'s ${DOW_NAME[dowOf(k)]}.` : `${BY[id].name} already got a lantern this week.`);
+  render();
+}
+function renderCups() {
+  const cups = squadCups();
+  $("cupList").innerHTML = [...cups].reverse().map(cp => cp.first
+    ? `<div class="cup-row first">${CUP_ICON()}<span><b>For friendship &amp; companionship</b><small>The first cup · week of ${fmtDate(cp.ws, { day: "numeric", month: "short", year: "numeric" })} · the climb began</small></span></div>`
+    : `<div class="cup-row">${CUP_ICON(cp.kind)}<span><b>Week of ${fmtDate(cp.ws, { day: "numeric", month: "short" })} · ${cp.kind === "gold" ? "gold" : "silver"}</b><small>${cp.empty} empty spot${cp.empty === 1 ? "" : "s"}${cp.kind === "gold" ? " · " + esc(cp.plan) : ""}</small></span></div>`).join("")
+    + (cups.length === 1 ? `<div class="gl-sm" style="padding:6px 2px">Open the Friday Rooftop to put the next cup next to it.</div>` : "");
+}
+function renderRace() {
+  const t = now(), c = climbWeek(t), ws = c.ws;
+  const W = 240, H = 430, X = v => (v / W * 100) + "%", Y = v => (v / H * 100) + "%";
+  $("clWeek").textContent = `${DOW_NAME[dowOf(c.today)].slice(0, 3)} · ${fmtDate(c.today, { day: "numeric", month: "short" })}`;
+  const mine = lanternsLeft(me, ws, t), targets = mine ? lanternTargets(t) : [];
+  const pickable = new Set(targets.map(x => x.id + "|" + x.k));
+  const party = c.on && c.friday;                 // the squad is up on the roof
+  const nm = id => BY[id] ? BY[id].name : "a friend";
+  // --- art (one SVG stretched to the box) ---
+  const STARS = [[18, 34], [44, 52], [62, 20], [96, 8], [150, 16], [196, 44], [214, 26], [230, 62], [8, 70], [132, 50], [90, 64], [30, 96]];
+  const bez = u => [(1 - u) ** 2 * 10 + 2 * (1 - u) * u * 120 + u * u * 230, (1 - u) ** 2 * 6 + 2 * (1 - u) * u * 22 + u * u * 6];
+  let svg = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="left:0;top:0;width:100%;height:100%" aria-hidden="true"><defs><filter id="clg" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="2.4"/></filter><linearGradient id="clbeam" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#FFF4C2" stop-opacity=".05"/><stop offset="1" stop-color="#FFF4C2" stop-opacity=".35"/></linearGradient></defs>`;
+  STARS.forEach(([x, y]) => { svg += `<rect x="${x}" y="${y}" width="2" height="2" fill="#CFC6EE" opacity=".5"/>`; });
+  // bookshelves beside the stairs
+  for (const sx of [2, 218]) {
+    svg += `<rect x="${sx}" y="236" width="20" height="194" fill="#241E36" stroke="#14111F" stroke-width="2"/>`;
+    for (let r = 0; r < 4; r++) {
+      const by = 268 + r * 42; svg += `<rect x="${sx}" y="${by}" width="20" height="2" fill="#14111F"/>`;
+      ["#B7643F", "#5D7A5A", "#6A4FB3", "#C9A24C", "#3E6A8A"].forEach((col, j) => { if ((j + r + sx) % 4 !== 3) svg += `<rect x="${sx + 2 + j * 3.4}" y="${by - 14 + ((j * 5 + r) % 4)}" width="2.6" height="${14 - ((j * 5 + r) % 4)}" fill="${col}"/>`; });
+    }
+  }
+  // ---- the rooftop ----
+  const lit = c.on;
+  // second string of party lights (only when it's ON) + progress string (one bulb per lit step)
+  if (lit) {
+    svg += `<path d="M10 50 Q60 70 120 52 Q180 70 230 50" stroke="#14111F" stroke-width="1.6" fill="none"/>`;
+    [[30, 58], [60, 64], [90, 60], [150, 60], [180, 64], [210, 58]].forEach(([x, y], i) => { const col = ["#FF6FA8", "#6CCB7E", "#C9B6F2", "#5FB8B0", "#FFE07A", "#FF9F5A"][i]; svg += `<circle cx="${x}" cy="${y + 3}" r="4" fill="${col}" opacity=".55" filter="url(#clg)"/><rect x="${x - 2}" y="${y}" width="4" height="5" rx="1.5" fill="${col}" stroke="#14111F" stroke-width="1"/>`; });
+  }
+  svg += `<path d="M10 6 Q120 22 230 6" stroke="#14111F" stroke-width="2" fill="none"/>`;
+  for (let i = 0; i < BULBS; i++) {
+    const [bx, by] = bez((i + 1) / (BULBS + 1)), on = i < BULBS - c.empty;
+    if (on) svg += `<ellipse cx="${bx}" cy="${by + 7}" rx="7" ry="7" fill="#FFD666" opacity=".7" filter="url(#clg)"/>`;
+    svg += `<rect x="${bx - 4}" y="${by + 1}" width="8" height="11" rx="3" fill="${on ? "#FFE07A" : "#3A3550"}" stroke="#14111F" stroke-width="2"/>`;
+  }
+  // movie screen on a tall stand (left), lit by a projector on the table
+  svg += `<rect x="36" y="100" width="3" height="80" fill="#14111F"/><rect x="26" y="178" width="23" height="3" fill="#14111F"/>`;
+  svg += `<rect x="10" y="64" width="56" height="38" fill="${lit ? "#1E3A5C" : "#2A2540"}" stroke="#14111F" stroke-width="2"/>`;
+  if (lit) {
+    svg += `<rect x="11" y="63" width="54" height="36" fill="#2C4E78"/><circle cx="52" cy="73" r="4.5" fill="#FFF4C2"/><path d="M11 99 L26 82 L37 91 L48 78 L65 95 L65 99 Z" fill="#14324F"/><rect x="11" y="94" width="54" height="5" fill="#0E2238"/>`;
+    svg += `<path d="M194 145.5 L66 63 L66 99 Z" fill="url(#clbeam)"/>`;
+  }
+  // tall floor speaker (right) with music
+  svg += `<rect x="212" y="118" width="18" height="62" rx="2" fill="#2E2A3E" stroke="#14111F" stroke-width="2"/><circle cx="221" cy="130" r="4" fill="#14111F"/><circle cx="221" cy="150" r="6.5" fill="#14111F"/><circle cx="221" cy="150" r="2.4" fill="${lit ? "#6CCB7E" : "#3A3550"}"/><circle cx="221" cy="168" r="4" fill="#14111F"/>`;
+  if (lit) svg += `<path d="M210 112 v-9 h5 v2 h-3 v7 Z M220 106 v-8 h5 v2 h-3 v6 Z" fill="#FFE07A"/><rect x="207" y="111" width="4" height="3" fill="#FFE07A"/><rect x="217" y="105" width="4" height="3" fill="#FFE07A"/><path d="M230 100 v-7 h4 v2 h-2 v5 Z" fill="#FF9FC4"/><rect x="228" y="99" width="3" height="2" fill="#FF9FC4"/>`;
+  // the long table is drawn over the people standing behind it
+  let tbl = `<rect x="52" y="150" width="156" height="6" fill="#C08A55" stroke="#14111F" stroke-width="2"/><rect x="54" y="156" width="152" height="8" fill="#9C6B3E" stroke="#14111F" stroke-width="2"/><rect x="60" y="164" width="3" height="16" fill="#14111F"/><rect x="197" y="164" width="3" height="16" fill="#14111F"/>`;
+  if (lit) {
+    // an open pizza box, flat on the table
+    tbl += `<rect x="72" y="146" width="24" height="4" fill="#F2F0EA" stroke="#14111F" stroke-width="1.4"/><path d="M75 148 L84 145.5 L93 148" stroke="#E4574F" stroke-width="2.2" fill="none"/>`;
+    // goblets
+    [[78, "#8E2C48"], [104, "#F2C94C"], [130, "#F2A3AE"], [156, "#6A4FB3"], [182, "#8E2C48"]].forEach(([gx, d]) => {
+      tbl += `<path d="M${gx - 3.5} 138 h7 l-1.2 5 h-4.6 Z" fill="${d}" stroke="#14111F" stroke-width="1"/><rect x="${gx - 2.4}" y="138.8" width="1" height="2" fill="#fff" opacity=".7"/><rect x="${gx - .5}" y="143" width="1" height="5" fill="#14111F"/><rect x="${gx - 2.5}" y="148" width="5" height="1.6" fill="#14111F"/>`;
+    });
+    tbl += `<rect x="194" y="142.0" width="12" height="8" fill="#3A3550" stroke="#14111F" stroke-width="1.4"/><circle cx="194" cy="145.5" r="2" fill="#FFF4C2"/>`;   // projector
+  }
+  if (!lit) svg += tbl;
+  svg += `<rect x="10" y="182" width="220" height="3" fill="#14111F"/>`;
+  for (let x = 12; x < 230; x += 12) svg += `<rect x="${x}" y="182" width="2" height="18" fill="#14111F"/>`;
+  svg += `<rect x="6" y="200" width="228" height="8" fill="#3B3150" stroke="#14111F" stroke-width="2"/>`;
+  if (lit) {
+    const CONF = ["#FF6FA8", "#FFE07A", "#6CCB7E", "#C9B6F2", "#5FB8B0"];
+    for (let i = 0; i < 30; i++) { const x = (i * 53) % 224 + 8, y = (i * 37) % 70 + 6; svg += `<rect x="${x}" y="${y}" width="3" height="3" fill="${CONF[i % 5]}" transform="rotate(${(i * 29) % 90} ${x + 1.5} ${y + 1.5})"/>`; }
+  }
+  // ---- the stairs: Saturday at the bottom, Thursday at the top ----
+  // colours of the first design: warm wood, a yellow lip that lights up; every person has their own piece of the lip
+  const GROUND = 412, SH = 30, stepY = i => GROUND - (i + 1) * SH, stepW = i => 224 - i * 12;
+  const colX = j => 108 + (j - 2.5) * 21;
+  svg += `<rect x="0" y="${GROUND}" width="${W}" height="${H - GROUND}" fill="#3B2E3A"/><rect x="0" y="${GROUND}" width="${W}" height="2" fill="#14111F"/>`;
+  c.steps.forEach((s, i) => {
+    const y = stepY(i), w = stepW(i), x = 120 - w / 2, glow = !s.future && s.gold;
+    if (glow) svg += `<rect x="${x}" y="${y - 3}" width="${w}" height="9" fill="#FFD666" opacity=".55" filter="url(#clg)"/>`;
+    svg += `<rect x="${x}" y="${y}" width="${w}" height="${SH}" fill="${s.future ? "#3A2E36" : "#B98A5C"}" stroke="#14111F" stroke-width="2"/>`;
+    svg += `<rect x="${x + 1}" y="${y + SH - 9}" width="${w - 2}" height="8" fill="${s.future ? "#33282F" : "#A67A50"}"/>`;
+    // the lip: whole step lit when at most one person missed; that person's piece stays dark
+    const base = s.future ? "#4A3C44" : glow ? "#FFD86B" : "#5A4032";
+    svg += `<rect x="${x + 1}" y="${y + 1}" width="${w - 2}" height="4" fill="${base}"/>`;
+    if (s.today) svg += `<rect x="${x + 3}" y="${y + 8}" width="${w - 6}" height="${SH - 12}" fill="none" stroke="#FFE27A" stroke-width="1.4" stroke-dasharray="4 3"/>`;
+  });
+  svg += "</svg>";
+  let h = svg;
+  h += `<div class="cl-sign ${lit ? "on" : ""}" style="left:50%;top:${Y(28)}"><b>FRIDAY ROOFTOP</b><small>${lit ? esc(partyPlan(ws)) + " · it's ON 🍕" : c.friday ? (c.cup === "silver" && c.ws !== CUP_START ? "quiet tonight · silver cup" : "quiet tonight") : c.possible ? esc(partyPlan(ws)) : "quiet this week"}</small></div>`;
+  // ---- people ----
+  // the party: the six of us standing in one row behind the long table
+  if (lit) {
+    PEOPLE.forEach((pp, j) => { h += `<img class="px cl-guest" src="${A.chars[pp.id]}" alt="${nm(pp.id)}" title="${nm(pp.id)}" style="left:${X(65 + j * 26 - 13)};top:${Y(119 - (j % 2) * 2)};width:${X(26)}">`; });
+    h += `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="left:0;top:0;width:100%;height:100%" aria-hidden="true"><defs><filter id="clg2" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="2.4"/></filter></defs>${tbl.replace(/#clg\)/g, "#clg2)")}</svg>`;
+    h += `<span class="cl-bubble" style="left:${X(party ? 168 : 128)};top:${Y(party ? 103 : 112)}">${party ? "🍕 one more slice" : "see you Friday!"}</span>`;
+  }
+  // on the stairs: at 4 AM everyone stands on the same step; reaching today's goal = climbing today's step
+  if (!party) PEOPLE.forEach((pp, j) => {
+    if (!state.profiles[pp.id]) return;
+    const ti = c.friday ? CLIMB_DAYS : dowOf(c.today), up = !c.friday && faceOf(pp.id, c.today, t, c.today) === "done";
+    const si = c.friday ? CLIMB_DAYS - 1 : up ? ti : ti - 1;          // until you reach today's goal you wait one step below (-1 = the floor)
+    const feet = si < 0 ? H - 3 : stepY(si) + 6;
+    const lab = `${pp.name}: ${up ? "climbed today" : c.friday ? "at the top" : "not up yet today"}`;
+    h += `<img class="px cl-guest${up || c.friday ? "" : " cl-wait"}" src="${A.chars[pp.id]}" alt="${esc(lab)}" title="${esc(lab)}" style="left:${X(colX(j) - 10.5)};top:${Y(feet - 27)};width:${X(21)}">`;
+  });
+  // lanterns hang on the step edge where a friend lit a missed day; open spots can be tapped
+  c.steps.forEach((s, i) => s.faces.forEach((f, j) => {
+    const y = stepY(i), k = f.id + "|" + s.k;
+    if (f.st === "miss" && state.profiles[f.id]) h += `<span class="cl-hang cl-slot${pickable.has(k) ? " cl-blink" : ""}" title="${esc(nm(f.id) + " missed " + DOW_NAME[i] + " · a faint lantern waits for a friend's light")}" style="left:${X(colX(j))};top:${Y(y + 8)};width:${X(9)};height:${Y(13)}">${LANTERN_SLOT}</span>`;
+    if (f.st === "lan") { const l = lanternsIn(ws)[f.id] || {}; h += `<span class="cl-hang" title="${esc(nm(l.from) + "'s lantern for " + nm(f.id))}" style="left:${X(colX(j))};top:${Y(y + 3)};width:${X(9)};height:${Y(17)}"><i></i>${LANTERN}</span>`; }
+    if (pickable.has(k)) h += `<button type="button" class="cl-spot" data-lan="${k}" aria-label="Hang your lantern on ${esc(nm(f.id))}'s ${DOW_NAME[i]}" style="left:${X(colX(j) - 10)};top:${Y(y - 6)};width:${X(20)};height:${Y(16)}"></button>`;
+  }));
+  c.steps.forEach((s, i) => {
+    const y = stepY(i), w = stepW(i);
+    h += `<span class="cl-day ${s.future ? "future" : ""}" style="right:${X(W - (120 + w / 2) + 6)};top:${Y(y + SH / 2 + 2)}">${DOW[i].toUpperCase()}</span>`;
+    if (s.today) h += `<span class="cl-tag" style="left:${X(120 - w / 2 + 2)};top:${Y(y + SH / 2 + 2)}">today</span>`;
+  });
+  put($("climb"), h);
+  // --- status card ---
+  const todayStep = c.steps.find(s => s.today);
+  const bulbs = `<span class="cl-bulbs">${[...Array(BULBS)].map((_, i) => `<i class="${i < BULBS - c.empty ? "on" : ""}"></i>`).join("")}</span>`;
+  const sp = n => `${n} empty spot${n === 1 ? "" : "s"}`;
+  const todayLine = todayStep ? `Today: ${todayStep.lit} of 6 reached their goal${todayStep.gold ? " · step lit ✓" : ""}. ` : "";
+  let st;
+  if (c.friday && c.cup === "gold") st = `<h3>It's ON tonight! Friday Rooftop 🍕</h3><p>${sp(c.empty)} this week. The roof is open for all six of us, and ${c.ws === CUP_START ? "the first cup stands for this week" : "a gold cup is on the shelf"}.</p>${bulbs}`;
+  else if (c.friday && c.cup === "silver") st = `<h3>A quiet Friday${c.ws === CUP_START ? "" : " · silver cup"}</h3><p>${sp(c.empty)} this week. No party tonight${c.ws === CUP_START ? ", but the first cup stands for this week" : ", but a silver cup is on the shelf"}. A new climb starts tomorrow.</p>${bulbs}`;
+  else if (c.friday) st = `<h3>A quiet Friday</h3><p>${sp(c.empty)} this week. No cup this time. A new climb starts tomorrow.</p>${bulbs}`;
+  else if (c.onTrack) st = `<h3>On track for the Friday Rooftop</h3><p>${todayLine}${sp(c.empty)} so far. ${c.ws === CUP_START ? `Up to ${PARTY_MAX} → party. Cups start next week.` : `Up to ${PARTY_MAX} → party + gold cup · ${PARTY_MAX + 1}–${SILVER_MAX} → silver cup.`}</p>${bulbs}`;
+  else if (c.possible) st = `<h3>${sp(c.empty)} · lanterns can still save the party</h3><p>${todayLine}Light a friend's unlit lantern to bring it back to ${PARTY_MAX} or fewer.</p>${bulbs}`;
+  else st = `<h3>${sp(c.empty)} · no party this week</h3><p>${todayLine}${c.silverPossible && c.ws !== CUP_START ? `Keep it at ${SILVER_MAX} or fewer for a silver cup.` : "Keep climbing: a new week starts Saturday."}</p>${bulbs}`;
+  const nCups = squadCups(t).length;
+  st += `<p style="display:flex;align-items:center;gap:8px">${CUP_ICON().replace('class="cup-ico"', 'class="cup-ico" style="width:16px;height:22px"')} ${nCups} cup${nCups === 1 ? "" : "s"} on the library shelf</p>`;
+  put($("clStatus"), st);
+  // --- lantern card ---
+  const given = Object.entries(lanternsIn(ws)).map(([to, l]) => `<p>🏮 ${esc(BY[l.from] ? BY[l.from].name : "?")} lit ${to === me ? "your" : esc(BY[to].name) + "'s"} ${DOW_NAME[dowOf(l.day)]}.</p>`).join("");
+  let lc;
+  if (mine) {
+    const sel = lanPick && pickable.has(lanPick) ? lanPick.split("|") : null;
+    lc = `<div class="row">${LANTERN}<h3>You have ${mine > 1 ? mine + " lanterns" : "a lantern"}</h3></div>`;
+    if (!targets.length) lc += `<p>Nobody has a missed day in the last ${LAN_BACK} days. It stays at your seat in the study hall until someone needs it.</p>`;
+    else if (sel) lc += `<p>Light <b>${BY[sel[0]].name}'s ${DOW_NAME[dowOf(sel[1])]}</b>? Your lantern hangs on their spot and lights it up. It can't be undone.</p><div class="cl-ok"><button type="button" class="gl-save" data-lgive="${esc(lanPick)}" style="width:auto;padding:8px 18px">🏮 Light it</button><button type="button" class="gl-b2" data-lcancel>Cancel</button></div>`;
+    else lc += `<p>Hang it on a friend's dark spot (last ${LAN_BACK} days). Tap the blinking spot on the stairs or pick here:</p><div class="cl-give">${targets.map(x => `<button type="button" data-lan="${x.id}|${x.k}">${img(A.chars[x.id])}${BY[x.id].name} · ${DOW_NAME[dowOf(x.k)].slice(0, 3)}</button>`).join("")}</div>`;
+  } else {
+    const g2 = 2 * goalOf(me) * MIN, td = dayMs(me, c.today, t);
+    lc = `<div class="row">${LANTERN}<h3>Lantern</h3></div><p>${c.friday ? "No lantern to give today." : `Study double your goal today (${fmtGoal(2 * goalOf(me))}) to earn one. You're at ${fmtLong(td)}.`}</p>${c.friday ? "" : `<span class="hm-prog"><div style="width:${Math.min(100, td / g2 * 100)}%"></div></span>`}`;
+  }
+  put($("clLantern"), lc + given);
+  $("clLantern").classList.toggle("cl-lan", !!mine);
+  if ($("clPlanForm").hidden) $("clPlanView").textContent = partyPlan(ws) + (((state.party || {})[ws] || {}).by ? ` · by ${BY[state.party[ws].by].name}` : "");
 }
 
 // ---------------- notes + board ----------------
@@ -1988,6 +2338,7 @@ let notesReady = false;
 const notesFor = id => Object.entries((state.notes || {})[id] || {}).map(([k, v]) => ({ id: k, ...v })).filter(n => n && n.from && BY[n.from]).sort((a, b) => a.at - b.at);
 const pileCount = id => notesFor(id).filter(n => !flying.has(n.id)).length;
 function onData(first) {
+  dataVer++;
   try { saveLocal(); } catch (e) {}
   const all = [];
   for (const [to, list] of Object.entries(state.notes || {})) for (const [id, n] of Object.entries(list || {})) all.push({ id, to, ...n });
@@ -2159,19 +2510,56 @@ function renderHall() {
   const t = now(), key = dayKey(t), seated = seatedIds();
   const X = v => (v / A.W * 100) + "%", Y = v => (v / A.H * 100) + "%";
   let h = `<img class="px" src="${A.bg}" alt="Library study hall" style="left:0;top:0;width:100%;height:100%">`;
+  { const [rx, ry, rw, rh] = A.RUG_AT; h += `<img class="px" src="${A.rug}" alt="" style="left:${X(rx)};top:${Y(ry)};width:${X(rw)};height:${Y(rh)}">`; }
+  // the bottom shelf of the bookcase holds the squad's cups, one for every week the rooftop opened.
+  // The first cup stands in the middle under its plaque; the others replace small things, left to right.
+  {
+    const cups = squadCups(t), COMP = [[17, 84], [87, 155.4], [157.8, 223]], SLOTS = [];
+    [COMP[0], COMP[2]].forEach(([a, b]) => { for (let n = 0; n < 4; n++) SLOTS.push(a + 9 + n * ((b - a - 18) / 3)); });
+    SLOTS.push(95, 147.4);
+    let sv = `<svg viewBox="0 0 ${A.W} ${A.H}" preserveAspectRatio="none" style="position:absolute;left:0;top:0;width:100%;height:100%" aria-hidden="true">`;
+    COMP.forEach(([a, b]) => { sv += `<rect x="${a}" y="97.6" width="${b - a}" height="29.2" fill="#4E3220"/><rect x="${a}" y="97.6" width="${b - a}" height="3" fill="#3A2416"/><rect x="${a}" y="124.6" width="${b - a}" height="2" fill="#7A5434"/>`; });
+    sv += `<rect x="102" y="99.6" width="38" height="9.4" fill="#C9A24C" stroke="#2E2622" stroke-width=".7"/><rect x="103" y="100.6" width="36" height="1" fill="#E9CB78"/>`;
+    sv += "</svg>";
+    h += sv;
+    h += `<span class="cup-plq" style="left:${X(121)};top:${Y(104.3)}">FOR FRIENDSHIP<br>&amp; COMPANIONSHIP</span>`;
+    h += `<span class="cup first" title="The first cup · for friendship &amp; companionship" style="left:${X(121 - 7)};top:${Y(108.5)};width:${X(14)};height:${Y(18)}">${CUP_ICON()}</span>`;
+    const rest = cups.slice(1), show = rest.length > SLOTS.length ? rest.slice(-(SLOTS.length - 1)) : rest, more = rest.length - show.length;
+    const fresh = weekStart(key);
+    SLOTS.forEach((x, n) => {
+      const cp = show[n];
+      if (cp) h += `<span class="cup${cp.ws === fresh ? " new" : ""}" title="Week of ${fmtDate(cp.ws, { day: "numeric", month: "short" })}" style="left:${X(x - 6)};top:${Y(109.5)};width:${X(12)};height:${Y(16)}">${CUP_ICON(cp.kind)}</span>`;
+      else h += `<span class="cup" title="${SHELF_THINGS[n][0]} · waiting for a cup" style="left:${X(x - 5.5)};top:${Y(111)};width:${X(11)};height:${Y(14.7)}">${THING(n)}</span>`;
+    });
+    if (more) h += `<span class="over7" style="left:${X(SLOTS[0])};top:${Y(103)}">+${more}</span>`;
+    h += `<button type="button" class="cupbtn" data-act="cups" aria-label="Squad cups: ${cups.length}. Tap to see them." style="left:${X(17)};top:${Y(97.6)};width:${X(206)};height:${Y(29)}"></button>`;
+  }
   A.SEATS.forEach((sx, i) => {
     const id = PEOPLE[i].id;
     if (seated.includes(id)) h += `<img class="px" src="${A.chars[id]}" alt="${PEOPLE[i].name} at the table" style="left:${X(sx - 18)};top:${Y(A.TABLE_TOP - 37)};width:${X(36)};height:${Y(46)}">`;
   });
   h += `<img class="px" src="${A.table}" alt="" style="left:0;top:0;width:100%;height:100%">`;
+  // a mint spirit floats over the empty seat of whoever is past their planned start time
+  const ghosts = ghostIds(t);
+  A.SEATS.forEach((sx, i) => {
+    const id = PEOPLE[i].id; if (!ghosts.includes(id)) return;
+    h += `<img class="px ghost" src="${A.ghosts[id]}" alt="${PEOPLE[i].name}'s spirit is waiting at the seat" title="${PEOPLE[i].name} planned to start at ${esc(state.profiles[id].studyTime)} · the seat is waiting" style="left:${X(sx - 20)};top:${Y(148)};width:${X(40)};height:${Y(54)};animation-delay:${-i * 0.7}s">`;
+  });
   A.SEATS.forEach((sx, i) => {
     if (seated.includes(PEOPLE[i].id)) h += `<img class="px" src="${A.book}" alt="" style="left:${X(sx - 9)};top:${Y(A.TABLE_TOP - 3)};width:${X(19)};height:${Y(7)}">`;
   });
   // one lamp per seat: green when that person reached their own goal today
   A.SEATS.forEach((sx, i) => {
-    const id = PEOPLE[i].id; if (!state.profiles[id]) return;
-    const on = dayMs(id, key, t) >= goalOf(id) * MIN;
-    h += `<span class="sk-lamp ${on ? "on" : ""}" title="${PEOPLE[i].name}: ${on ? "goal reached" : "not yet"}" style="left:${X(sx)};top:${Y(232)};width:${X(14)};height:${Y(8)}"></span>`;
+    const id = PEOPLE[i].id;
+    const on = !!state.profiles[id] && dayMs(id, key, t) >= goalOf(id) * MIN, lx = sx + 14;   // every lamp to the right of its chair (the last one may touch the room's edge)
+    if (on) h += `<span class="dlamp-glow" style="left:${X(lx)};top:${Y(218)};width:${X(28)};height:${Y(9)}"></span>`;
+    h += `<span class="dlamp" title="${PEOPLE[i].name}: ${on ? "goal reached · lamp on" : "lamp off · goal not reached yet"}" style="left:${X(lx - 6)};top:${Y(204.5)};width:${X(12)};height:${Y(15.5)}">${DESK_LAMP(on)}</span>`;
+  });
+  // a lantern earned this week hangs in front of its owner's seat until it's given away
+  const lws = weekStart(key);
+  A.SEATS.forEach((sx, i) => {
+    const id = PEOPLE[i].id; if (!state.profiles[id] || !lanternsLeft(id, lws, t)) return;
+    h += `<span class="hall-lan" title="${PEOPLE[i].name} has a lantern to give" style="left:${X(sx + 12)};top:${Y(219)};width:${X(10)};height:${Y(25)}"><i style="height:30%"></i>${LANTERN}</span>`;
   });
   A.SEATS.forEach((sx, i) => {
     const id = PEOPLE[i].id;
@@ -2204,6 +2592,8 @@ function renderHall() {
   $("seatChip").textContent = `${seated.length}/6 seated`;
   const mine = pileCount(me);
   $("notesBtn").innerHTML = `✉ My notes ${mine ? `<span class="badge">${mine}</span>` : ""}`;
+  put($("noteBtns"), `<button type="button" class="scobj" data-act="write" aria-label="Write a note" style="left:${X(8)};top:${Y(251)};width:${X(29)};height:${Y(38)}">${WRITE_DESK}</button><span class="scplate" style="left:${X(22.5)};top:${Y(293)}">WRITE</span>`
+    + `<button type="button" class="scobj${mine ? " mail" : ""}" data-act="read" aria-label="My notes${mine ? ": " + mine + " waiting" : ""}" style="left:${X(198)};top:${Y(251)};width:${X(29)};height:${Y(38)}">${MAILBOX(mine)}</button><span class="scplate" style="left:${X(212.5)};top:${Y(293)}">MAIL${mine ? ` · ${mine}` : ""}</span>`);
 
   const s = state.sessions[me] || { state: "off" };
   const sk = SK[s.skill] || SK[lastSkill()];
@@ -2241,6 +2631,8 @@ function renderInner() {
 
 // ---------------- events ----------------
 document.querySelectorAll(".spark").forEach(s => s.innerHTML = '<svg width="14" height="14" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="0" width="1" height="7" fill="#E7B83C"/><rect x="0" y="3" width="7" height="1" fill="#E7B83C"/><rect x="2" y="2" width="3" height="3" fill="#F6D772"/></svg>');
+$("lgGhost").src = A.ghosts.zinat;
+$("lgLamp").innerHTML = DESK_LAMP(true).replace('class="dlamp-ico"', 'class="dlamp-ico" style="width:14px;height:17px;display:block"');
 $("lgS").src = A.lamps.streak10; $("lgG").src = A.lamps.goal10; $("lgC").src = A.lamps.crown1;
 $("tiles").addEventListener("click", e => { const b = e.target.closest(".tile"); if (b) pickPerson(b.dataset.id); });
 $("pinGo").addEventListener("click", tryPin);
@@ -2269,7 +2661,19 @@ document.querySelectorAll("[data-ico]").forEach(el => { el.innerHTML = pixIcon(I
 $("spIco").innerHTML = pixIcon(ICONS.mic, 8);
 document.querySelector(".nav-in").addEventListener("click", e => { const b = e.target.closest("[data-nav]"); if (!b) return; try { go(b.dataset.nav); } catch (err) { showErr(err); } });
 $("raceBack").addEventListener("click", () => go("home"));
-$("raceGo").addEventListener("click", () => $("homeGo").click());
+$("race").addEventListener("click", e => {
+  const p = e.target.closest("[data-lan]"); if (p) { lanPick = lanPick === p.dataset.lan ? null : p.dataset.lan; render(); $("clLantern").scrollIntoView({ behavior: "smooth", block: "nearest" }); return; }
+  const g = e.target.closest("[data-lgive]"); if (g) { const [id, k] = g.dataset.lgive.split("|"); g.disabled = true; giveLantern(id, k); return; }
+  if (e.target.closest("[data-lcancel]")) { lanPick = null; render(); }
+});
+$("clPlanEd").addEventListener("click", () => { const f = $("clPlanForm"); f.hidden = !f.hidden; if (!f.hidden) { $("clPlanIn").value = partyPlan(weekStart(dayKey(now()))); $("clPlanIn").focus(); } else render(); });
+const savePlanText = async () => {
+  const v = $("clPlanIn").value.trim().slice(0, 40); if (!v) return;
+  await store.setParty(weekStart(dayKey(now())), { text: v, by: me, at: now() }).catch(showErr);
+  $("clPlanForm").hidden = true; render();
+};
+$("clPlanSave").addEventListener("click", savePlanText);
+$("clPlanIn").addEventListener("keydown", e => { if (e.key === "Enter") savePlanText(); });
 $("homeGo").addEventListener("click", async () => { const s = state.sessions[me] || {}; if (["studying", "paused"].includes(s.state) && isLive(s)) return go("hall"); openSkill("start"); });
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-sk]"); if (b) pickSkill(b.dataset.sk);
@@ -2369,10 +2773,16 @@ $("ptSave").addEventListener("click", savePlan);
 $("ptDel").addEventListener("click", delPlan);
 $("profRemind").addEventListener("click", async () => { if ($("profTime").value) await store.setProfile(me, { studyTime: $("profTime").value }); addReminder(); });
 $("signOut").addEventListener("click", () => { setTrusted(trusted().filter(x => x !== me)); localStorage.removeItem("squad-me"); me = ""; go("start"); });
+$("noteBtns").addEventListener("click", e => {
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if (act === "read") openReader();
+  if (act === "write") openComposer("", "");
+});
 $("sceneArt").addEventListener("click", e => {
   const act = e.target.closest("[data-act]")?.dataset.act;
   if (act === "read") openReader();
   if (act === "board") { renderBoardModal(); $("boardModal").classList.add("on"); }
+  if (act === "cups") { renderCups(); $("cupsModal").classList.add("on"); }
 });
 $("writeBtn").addEventListener("click", () => openComposer("", ""));
 $("notesBtn").addEventListener("click", openReader);
@@ -2394,7 +2804,7 @@ document.querySelectorAll(".ovl").forEach(o => o.addEventListener("click", e => 
 document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
   if ($("composer").classList.contains("on")) closeComposer();
-  ["reader", "boardModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"].forEach(id => $(id).classList.remove("on"));
+  ["reader", "boardModal", "cupsModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"].forEach(id => $(id).classList.remove("on"));
 });
 $("timer").addEventListener("click", e => {
   const act = e.target.closest("[data-act]")?.dataset.act;
@@ -2406,7 +2816,7 @@ setInterval(() => { if (store && me && $("composer").classList.contains("on")) s
 
 // ---------------- update check ----------------
 // Bump APP_VERSION and version.json together whenever new files are uploaded.
-const APP_VERSION = "2026.11.05-7";
+const APP_VERSION = "2026.11.11-1";
 async function checkUpdate() {
   if (!/^https?:/.test(location.protocol)) return;
   try {
