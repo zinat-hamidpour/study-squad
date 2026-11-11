@@ -1,4 +1,4 @@
-# Study Squad 2026.11.11-7 · ME: PLAN | PROGRESS
+# Study Squad 2026.11.11-9 · ME: PLAN | PROGRESS
 
 1. ME has two tabs. **PLAN** = what I'm going to do; **PROGRESS** = what I've done. Same cards and colours as before.
 2. PLAN, top to bottom: **the goal card** (weeks to IELTS, target band, hours a day, practice tests): tap it, or
@@ -11,6 +11,16 @@
    Next week says it is filled in from your main goal.
 6. My study time (fix a day, start fresh), Zinat's clean-up and Ghost guests moved from ME to **Settings (⚙)**.
    Ghost guests and the clean-up show only in Zinat's settings.
+
+---
+
+# Study Squad 2026.11.11-8 · Back button
+
+1. Back (the phone's back button or the swipe from the screen edge) now stays inside the app:
+   - a sheet or window that is open (note, mailbox, cups, board, study sheet, mock, plan, tests…) closes first;
+   - on CLIMB, STUDY HALL, ME, SPEAK or any page inside ME, Back returns to HOME;
+   - on HOME, Back leaves the app as usual. On the start screen, Back from the PIN or ghost step returns to the tiles.
+2. In-app ‹ back and ✕ buttons step the history back too, so Back never needs pressing twice.
 
 ---
 

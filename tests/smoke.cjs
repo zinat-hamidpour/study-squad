@@ -120,6 +120,47 @@ async function writesUnderRules(browser, base) {
   await finish(page, "plan");
 }
 
+async function backButton(browser, base) {
+  console.log("Back button: sheet first, then HOME, then out of the app (demo data)");
+  const page = await openPage(browser, base, { mode: "demo", when: DAYS.Wednesday, me: "niloufar" });
+  await pickMe(page, "niloufar");
+  const back = async () => { await page.evaluate(() => history.back()); await page.clock.runFor(400); };
+  const where = () => page.evaluate(() => ({ s: document.querySelector(".screen.on")?.id, ovl: [...document.querySelectorAll(".ovl.on")].map(o => o.id) }));
+  ok((await where()).s === "home", "signed in → HOME");
+  await nav(page, "race"); await back();
+  ok((await where()).s === "home", "CLIMB → Back → HOME");
+  await nav(page, "me"); await nav(page, "race"); await nav(page, "speak"); await back();
+  ok((await where()).s === "home", "ME → CLIMB → SPEAK → Back → HOME (one step, not a trail)");
+  await nav(page, "hall");
+  await page.evaluate(() => document.querySelector(".cupbtn")?.click()); await page.clock.runFor(300);
+  ok((await where()).ovl.includes("cupsModal"), "cups open in the hall");
+  await back();
+  let w = await where();
+  ok(w.s === "hall" && w.ovl.length === 0, `Back closes the cups first and stays in the hall (${w.s}, [${w.ovl}])`);
+  await back();
+  ok((await where()).s === "home", "Back again → HOME");
+  // a sheet closed with its own ✕ must not leave an extra Back behind
+  await nav(page, "hall");
+  await page.evaluate(() => document.querySelector(".cupbtn")?.click()); await page.clock.runFor(300);
+  await page.evaluate(() => document.querySelector("#cupsModal [data-close]")?.click()); await page.clock.runFor(300);
+  await back();
+  ok((await where()).s === "home", "cups closed with ✕, then Back → HOME");
+  // the in-app ‹ back to HOME steps the history back too
+  await nav(page, "race"); await page.click("#raceBack"); await page.clock.runFor(400);
+  ok(await page.evaluate(() => (history.state && history.state.ssd) || 0) === 0, "‹ back to HOME leaves no extra history entry");
+  await finish(page, "back");
+}
+
+async function backLeavesApp(browser, base) {
+  const page = await openPage(browser, base, { mode: "demo", when: DAYS.Wednesday, me: "niloufar" });
+  await pickMe(page, "niloufar");
+  await nav(page, "me"); await page.evaluate(() => history.back()); await page.clock.runFor(400);
+  await page.evaluate(() => history.back()).catch(() => {}); // the page goes away: that is the point
+  await page.waitForURL("about:blank", { timeout: 3000 }).catch(() => {});
+  ok(page.url() === "about:blank", `on HOME, Back leaves the app (${page.url()})`);
+  await page.context().close();
+}
+
 async function fixMyData(browser, base) {
   console.log("fix my data: edit a day, 12h cap, start fresh, Zinat's clean-up (fake Firebase)");
   const M = 60e3, prof = { goal: 150 };
@@ -236,6 +277,8 @@ async function mePlanning(browser, base) {
     await screensEveryDay(browser, base);
     await lanternGift(browser, base);
     await writesUnderRules(browser, base);
+    await backButton(browser, base);
+    await backLeavesApp(browser, base);
     await fixMyData(browser, base);
     await mePlanning(browser, base);
   } catch (e) { ok(false, "test crashed: " + e.message); }
