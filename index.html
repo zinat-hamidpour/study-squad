@@ -534,6 +534,52 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 .cl-table{background:#C08A55;border:2px solid #14111F;border-radius:3px}
 .cl-guest{transition:opacity .4s}
 .cup{position:absolute;pointer-events:none}
+/* ghost guests */
+.gh-bar[hidden],.gh-dot[hidden],#meGhosts[hidden],#ghColF[hidden]{display:none!important}
+.gh-doorrow{display:flex;justify-content:flex-end;margin-top:-4px}
+.gh-door{background:none;border:0;padding:4px;opacity:.5;width:34px;height:40px;cursor:pointer}
+.gh-door:hover,.gh-door:focus-visible{opacity:.9}
+.gh-door img{width:100%;height:100%;display:block}
+.gh-tabs{display:flex;gap:8px}
+.gh-tabs button{flex:1;border:2px solid var(--ink);border-radius:10px;background:#fff;padding:8px 4px;font:700 13px 'Pixelify Sans',monospace;letter-spacing:.06em;color:var(--ink)}
+.gh-tabs button[aria-pressed=true]{background:var(--ink);color:#FFF8EC}
+.gh-cols{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.gh-col{background:#fff;border:2px solid var(--ink);border-radius:10px;padding:6px 0 4px;display:flex;justify-content:center;cursor:pointer}
+.gh-col img{width:26px;height:34px;display:block}
+.gh-col[aria-pressed=true]{background:#FFF3D6;box-shadow:0 0 0 3px #C9A24C}
+.gh-col:disabled{opacity:.22;cursor:not-allowed;filter:grayscale(.6)}
+.gh-dot{display:inline-block;width:11px;height:11px;border-radius:50%;border:1.5px solid rgba(46,38,34,.55);vertical-align:-1px;flex:none}
+.gh-to{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin:2px 2px 0}
+.gh-to img{width:11px;height:14px;opacity:.6}
+.gh-to input{width:118px;border:0;border-bottom:1.5px dashed #9C8B7C;background:transparent;font:700 12px Nunito,system-ui,sans-serif;color:var(--ink);padding:2px 2px;border-radius:0;outline:none}
+.gh-to input::placeholder{color:#A8998B;font-weight:600}
+.gh-to input:focus{border-bottom-color:var(--ink)}
+.gh-sign{display:flex;align-items:center;justify-content:flex-end;gap:6px;font:italic 700 14px Nunito,system-ui,sans-serif;color:#5B4B40;margin:-4px 4px 4px}
+.gh-sign:empty{display:none}
+.gh-bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:8px;background:#2E2622;color:#FFF8EC;font:700 12px Nunito,system-ui,sans-serif;padding:5px 10px;border-radius:0 0 12px 12px}
+.gh-bar img{width:14px;height:18px}
+.gh-bar span{flex:1}
+.gh-bar button{background:none;border:1.5px solid #FFF8EC;color:#FFF8EC;border-radius:8px;font:700 11px Nunito,system-ui,sans-serif;padding:2px 8px}
+.hall-gh{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;pointer-events:none;user-select:none;-webkit-user-select:none}
+.hall-gh .gh-fl{position:relative;width:100%;aspect-ratio:14/18;animation:ghostfloat 3.6s ease-in-out infinite}
+.scene .hall-gh .gh-body{position:absolute;left:0;top:0;width:100%;height:auto;opacity:.88}
+.scene .hall-gh .gh-ball{position:absolute;width:50%;height:auto}
+.hall-gh.under .gh-fl{aspect-ratio:14/8;overflow:hidden;animation:ghostpeek 4.2s ease-in-out infinite}
+.hall-gh.under .gh-body{opacity:1}
+.hall-gh.under b{display:none}
+.hall-gh.under.mine b{display:block;opacity:.75}
+@keyframes ghostpeek{0%,82%,100%{transform:translateY(0)}88%{transform:translateY(18%)}94%{transform:translateY(-6%)}}
+.hall-gh b{margin-top:-1px;font:700 clamp(5px,1.5vw,7px)/1 Nunito,system-ui,sans-serif;color:#fff;white-space:nowrap;text-shadow:0 0 2px #2E2622,0 0 2px #2E2622,0 0 1px #2E2622;letter-spacing:.02em}
+.hall-gh.mine{pointer-events:auto;touch-action:none;cursor:grab}
+.hall-gh.drag{cursor:grabbing}
+.hall-gh.drag .gh-fl{animation:none}
+.gh-list{display:flex;flex-direction:column;gap:8px}
+.gh-row{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:6px 10px}
+.gh-row img{width:21px;height:27px}
+.gh-row div{flex:1;display:flex;flex-direction:column;min-width:0}
+.gh-row small{color:#6A5B50;font-weight:700}
+.gh-row button{border:2px solid var(--ink);border-radius:9px;background:#fff;font:700 12px Nunito,system-ui,sans-serif;padding:4px 10px;color:#C0392B}
+.gh-row button.armed{background:#C0392B;color:#fff}
 .ghost{opacity:.82;filter:drop-shadow(0 0 3px rgba(170,250,232,.95)) drop-shadow(0 0 7px rgba(150,240,220,.6));animation:ghostfloat 3.2s ease-in-out infinite;pointer-events:none}
 @keyframes ghostfloat{50%{transform:translateY(-4%)}}
 @media (prefers-reduced-motion:reduce){.ghost{animation:none}}
@@ -611,6 +657,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <body>
 <div class="app">
 <div id="demo" class="demo" hidden>DEMO MODE · not connected · data stays on this phone</div>
+<div id="ghBar" class="gh-bar" hidden><span id="ghBarTxt"></span><button id="ghLeave" type="button">Leave</button></div>
 
 <!-- ============ START / SIGN-IN / SETUP ============ -->
 <section id="start" class="screen">
@@ -624,6 +671,28 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <h2 style="font-size:17px">Who are you?</h2>
     <span id="pickHint" class="muted" style="font-size:13px;font-weight:700;margin-top:-8px">Tap yourself to come in.</span>
     <div id="tiles" class="tiles"></div>
+    <div class="gh-doorrow"><button id="ghDoor" class="gh-door" type="button" aria-label="Come in as a ghost guest" title="Guests"></button></div>
+  </div>
+
+  <div id="stGhost" class="step">
+    <div class="gh-tabs"><button type="button" data-ghtab="new" aria-pressed="true">NEW GHOST</button><button type="button" data-ghtab="back" aria-pressed="false">I'M BACK</button></div>
+    <span id="ghIntro" class="muted" style="font-size:13px;font-weight:700">Ghosts can look around and send notes, but they can't change anything.</span>
+    <div class="field">
+      <label for="ghName">Ghost name</label>
+      <input id="ghName" class="inp" maxlength="14" autocomplete="off" spellcheck="false">
+      <span id="ghNameHint" class="hint">Friends type this exact name to send you a note.</span>
+    </div>
+    <div class="field">
+      <label for="ghPw">Password</label>
+      <input id="ghPw" class="inp" type="password" maxlength="32" autocomplete="off">
+      <span id="ghPwHint" class="hint">At least 4 characters. Only you know it.</span>
+    </div>
+    <div class="field" id="ghColF">
+      <label>Pick your colour</label>
+      <div id="ghCols" class="gh-cols"></div>
+    </div>
+    <span id="ghErr" class="err"></span>
+    <div class="go"><button id="ghBack" class="btn2" type="button">Back</button><button id="ghGo" class="big pixel" type="button" style="width:auto;flex:1">FLOAT IN ▶</button></div>
   </div>
 
   <div id="stPin" class="step">
@@ -711,7 +780,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <h1 class="pixel">STUDY HALL</h1>
     <span id="seatChip" class="chip" style="margin-left:auto"></span>
   </header>
-  <div id="scene" class="scene"><div id="sceneArt" style="position:absolute;inset:0"></div><div id="noteBtns" style="position:absolute;inset:0;pointer-events:none"></div><div id="fx" style="position:absolute;inset:0;pointer-events:none"></div></div>
+  <div id="scene" class="scene"><div id="sceneArt" style="position:absolute;inset:0"></div><div id="noteBtns" style="position:absolute;inset:0;pointer-events:none"></div><div id="ghLayer" style="position:absolute;inset:0;pointer-events:none"></div><div id="fx" style="position:absolute;inset:0;pointer-events:none"></div></div>
   <div class="notebar" hidden><button id="writeBtn" type="button">✎ Write a note</button><button id="notesBtn" type="button"></button></div>
   <div class="legend" style="justify-content:flex-start">
     <span><i id="lgLamp" style="display:inline-block;width:14px;height:17px"></i>Lamp on = goal done</span>
@@ -735,6 +804,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <section id="me" class="screen">
   <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings">⚙</button></header>
   <div id="meBody" class="mx-body"></div>
+  <div id="meGhosts" class="mx-blk" hidden></div>
 </section>
 <section id="road" class="screen">
   <header class="bar"><button id="ryBack" class="back" type="button" aria-label="Back to ME"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><div style="flex:1"><span class="gl-crumb">ME ›</span><h1 class="pixel">MY ROAD</h1></div><span class="gl-sm" id="ryTo"></span></header>
@@ -864,6 +934,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
   <div class="dim" data-close="composer"></div>
   <div class="sheet"><div class="tape"></div>
     <div class="to"><b class="pixel" style="font-size:15px">TO:</b><div id="toList" class="avs"></div></div>
+    <div class="gh-to"><span id="ghToIco"></span><input id="ghTo" maxlength="14" placeholder="or a ghost's name" aria-label="Ghost name" autocomplete="off" spellcheck="false"><i id="ghToDot" class="gh-dot" hidden></i></div>
     <div class="ruled"><textarea id="noteText" maxlength="140" placeholder="Write in English…" aria-label="Your note"></textarea></div>
     <div class="meta"><span id="noteHint">English only</span><span id="noteCount">0 / 140</span></div>
     <div class="acts"><button id="noteCancel" class="btn" type="button">Cancel</button><button id="noteSend" class="btn main" type="button">CRUMPLE &amp; THROW ▶</button></div>
@@ -875,6 +946,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <button class="xbtn" type="button" data-close="reader" aria-label="Close">✕</button>
     <div id="rdFrom" class="from"></div>
     <div id="rdMsg" class="msg"></div>
+    <div id="rdSign" class="gh-sign"></div>
     <div class="pager"><button id="rdPrev" type="button">‹ Prev</button><span id="rdPos"></span><button id="rdNext" type="button">Next ›</button></div>
     <div class="acts"><button id="rdToss" class="btn" type="button">Toss it</button><button id="rdBack" class="btn main" type="button">THROW BACK ▶</button></div>
   </div>
@@ -947,7 +1019,7 @@ async function hashPin(id, pin) {
 }
 
 // ---------------- data store ----------------
-let state = { sessions: {}, days: {}, profiles: {}, notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {} };
+let state = { sessions: {}, days: {}, profiles: {}, notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {}, ghosts: {}, ghostpos: {} };
 let offset = 0, loaded = false;
 const now = () => Date.now() + offset;
 let store;
@@ -962,7 +1034,7 @@ async function makeFirebaseStore() {
   F.onValue(F.ref(db, "squad"), s => {
     clearTimeout(slow);
     const v = s.val() || {};
-    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {}, notes: v.notes || {}, board: v.board || {}, writing: v.writing || {}, skills: v.skills || {}, log: v.log || {}, main: v.main || {}, mocks: v.mocks || {}, plans: v.plans || {}, tests: v.tests || {}, lanterns: v.lanterns || {}, party: v.party || {} };
+    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {}, notes: v.notes || {}, board: v.board || {}, writing: v.writing || {}, skills: v.skills || {}, log: v.log || {}, main: v.main || {}, mocks: v.mocks || {}, plans: v.plans || {}, tests: v.tests || {}, lanterns: v.lanterns || {}, party: v.party || {}, ghosts: v.ghosts || {}, ghostpos: v.ghostpos || {} };
     mergeLocal();
     const first = !loaded; loaded = true;
     onData(first);
@@ -999,6 +1071,16 @@ async function makeFirebaseStore() {
     // one lantern per person per week: the path itself is the limit, the transaction stops a double gift
     giveLantern: async (ws, to, val) => (await F.runTransaction(F.ref(db, `squad/lanterns/${ws}/${to}`), cur => cur ? undefined : val)).committed,
     setParty: (ws, val) => F.set(F.ref(db, `squad/party/${ws}`), val),
+    // ghosts: the whole list is one transaction, so two phones can't take the same name or colour, and there are never more than 10
+    addGhost: async (gid, val) => (await F.runTransaction(F.ref(db, "squad/ghosts"), cur => {
+      const list = Object.values(cur || {}).filter(g => g && g.name);
+      if (list.length >= GH_MAX || list.some(g => g.key === val.key || g.color === val.color)) return;
+      return { ...(cur || {}), [gid]: val };
+    })).committed,
+    // a ghost's daily note allowance; aborts once the day's notes are used up
+    ghostSent: async (gid, day) => (await F.runTransaction(F.ref(db, `squad/ghosts/${gid}/sent`), cur => cur && cur.day === day ? (cur.n >= GH_NOTES_DAY ? undefined : { day, n: cur.n + 1 }) : { day, n: 1 })).committed,
+    setGhostPos: (gid, val) => F.set(F.ref(db, `squad/ghostpos/${gid}`), val),
+    removeGhost: gid => F.update(F.ref(db, "squad"), { [`ghosts/${gid}`]: null, [`ghostpos/${gid}`]: null, [`notes/${gid}`]: null }),
   };
 }
 function makeDemoStore() {
@@ -1051,7 +1133,7 @@ function makeDemoStore() {
       niloufar: { state: "paused", accum: 18 * MIN, pausedAt: t - 5 * MIN },
     } };
   }
-  state = { notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {}, ...saved }; loaded = true;
+  state = { notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {}, ghosts: {}, ghostpos: {}, ...saved }; loaded = true;
   const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} onData(false); render(); };
   onData(true);
   setTimeout(boot2, 0);
@@ -1081,6 +1163,10 @@ function makeDemoStore() {
     removeBoard: async id => { delete state.board[id]; persist(); },
     giveLantern: async (ws, to, val) => { const w = (state.lanterns[ws] ||= {}); if (w[to]) return false; w[to] = val; persist(); return true; },
     setParty: async (ws, val) => { state.party[ws] = val; persist(); },
+    addGhost: async (gid, val) => { const list = Object.values(state.ghosts).filter(g => g && g.name); if (list.length >= GH_MAX || list.some(g => g.key === val.key || g.color === val.color)) return false; state.ghosts[gid] = val; persist(); return true; },
+    ghostSent: async (gid, day) => { const g = state.ghosts[gid]; if (!g) return false; const c = g.sent; if (c && c.day === day && c.n >= GH_NOTES_DAY) return false; g.sent = c && c.day === day ? { day, n: c.n + 1 } : { day, n: 1 }; persist(); return true; },
+    setGhostPos: async (gid, val) => { state.ghostpos[gid] = val; persist(); },
+    removeGhost: async gid => { delete state.ghosts[gid]; delete state.ghostpos[gid]; delete state.notes[gid]; persist(); },
   };
 }
 
@@ -1139,13 +1225,13 @@ const retakes = id => testsOf(id).reduce((a, [, t]) => a + Math.max(0, tryIds(t)
 const ordinal = n => n + (n % 10 === 1 && n % 100 !== 11 ? "st" : n % 10 === 2 && n % 100 !== 12 ? "nd" : n % 10 === 3 && n % 100 !== 13 ? "rd" : "th");
 // my plans + main goal are also kept on this phone (Firebase wins when both exist)
 function saveLocal() {
-  if (!me) return;
+  if (!me || GHOST) return;
   const cur = weekStart(dayKey(now())), plans = {};
   for (let i = -7; i <= 1; i++) { const ws = addDays(cur, 7 * i), pl = planOf(me, ws); if (pl) plans[ws] = pl; }
   lsSet("squad-plan-" + me, JSON.stringify({ main: state.main[me] || null, plans }));
 }
 function mergeLocal() {
-  if (!me) return;
+  if (!me || GHOST) return;
   let c = null; try { c = JSON.parse(lsGet("squad-plan-" + me)); } catch (e) {}
   if (!c) return;
   if (c.main && !state.main[me]) state.main[me] = c.main;
@@ -1194,6 +1280,70 @@ const SKILLS = [
 const SK = Object.fromEntries(SKILLS.map(x => [x.id, x]));
 const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+// ---------------- ghost guests ----------------
+// Up to 10 friends outside the six. A ghost sees the app through Zinat's eyes, read-only,
+// can send notes (signed with its name and colour) and floats in the hall.
+const GH_HUES = ["#FF6F91", "#FF9A5C", "#F2C94C", "#6CCB7E", "#3FC1B5", "#5E9EFF", "#8E7CFF", "#D36BFF", "#C7905A", "#8FA3B8"];
+const GH_MAX = 10, GH_NOTES_DAY = 5, GH_FRESH = 3 * 60 * 1000, GH_BEAT = 60 * 1000;
+let GHOST = lsGet("squad-ghost") || "", realStore = null, ghDragging = false;
+const ghostsAll = () => Object.entries(state.ghosts || {}).filter(([, g]) => g && g.name);
+const ghostOf = gid => { const g = (state.ghosts || {})[gid]; return g && g.name ? g : null; };
+const ghKey = v => String(v || "").trim().replace(/\s+/g, " ").toLowerCase();
+const findGhost = name => { const k = ghKey(name); if (!k) return ""; const hit = ghostsAll().find(([, g]) => g.key === k); return hit ? hit[0] : ""; };
+const ghSrc = hue => A.miniGhosts[hue] || A.miniGhosts[GH_HUES[0]];
+const ghImg = (hue, alt = "") => `<img class="px" src="${ghSrc(hue)}" alt="${alt}">`;
+const inbox = () => GHOST || me;                         // whose notes this phone reads
+const nameOf = id => BY[id] ? BY[id].name : (ghostOf(id) || {}).name || "a ghost";
+// ghosts look through Zinat's eyes (or the first profile, in an empty demo)
+const viewAs = () => state.profiles.zinat ? "zinat" : ((PEOPLE.find(p => state.profiles[p.id]) || {}).id || "");
+// a read-only store: ghosts may only send notes, toss their own notes, and move themselves
+const GH_SILENT = new Set(["setWriting", "closeIfStale", "setBoard", "removeBoard"]);
+function ghostStore(s) {
+  return new Proxy(s, { get(t, k) {
+    if (k === "pushNote") return (to, val) => val && val.from === GHOST ? t.pushNote(to, val) : new Promise(() => {});
+    if (k === "removeNote") return (to, id) => to === GHOST ? t.removeNote(to, id) : new Promise(() => {});
+    if (k === "ghostSent" || k === "setGhostPos") return (gid, v) => gid === GHOST ? t[k](gid, v) : Promise.resolve(false);
+    if (typeof t[k] !== "function") return t[k];
+    if (GH_SILENT.has(k)) return () => Promise.resolve(null);
+    // anything else is a change: say so, and never resolve, so no "saved!" follows
+    return () => { if (!navigator.userActivation || navigator.userActivation.isActive) toast("👻 Ghosts can look, but not touch."); return new Promise(() => {}); };
+  } });
+}
+function ghostHome() {                                    // a free spot over the rug
+  const taken = ghostsAll().map(([gid]) => (state.ghostpos || {})[gid]).filter(Boolean);
+  for (let i = 0; i < 20; i++) { const x = 60 + Math.random() * 120, y = 246 + Math.random() * 4; if (!taken.some(p => Math.abs(p.x - x) < 16 && Math.abs(p.y - y) < 12)) return { x: Math.round(x), y: Math.round(y) }; }
+  return { x: 120, y: 280 };
+}
+function ghostBeat() {
+  if (!GHOST || !store || document.visibilityState !== "visible") return;
+  const p = (state.ghostpos || {})[GHOST];
+  store.setGhostPos(GHOST, { ...(p && p.x ? { x: p.x, y: p.y } : ghostHome()), at: now() }).catch(() => {});
+}
+setInterval(ghostBeat, GH_BEAT);
+document.addEventListener("visibilitychange", ghostBeat);
+function enterGhost(gid) {
+  if (!store) return setTimeout(() => enterGhost(gid), 60);
+  GHOST = gid; lsSet("squad-ghost", gid);
+  me = viewAs();
+  if (!realStore) realStore = store;
+  store = ghostStore(realStore);
+  document.body.classList.add("gh-mode");
+  ghostBeat();
+  go("hall");
+}
+function leaveGhost(msg) {
+  GHOST = ""; try { localStorage.removeItem("squad-ghost"); } catch (e) {}
+  me = "";
+  if (realStore) { store = realStore; realStore = null; }
+  document.body.classList.remove("gh-mode");
+  go("start");
+  if (msg) toast(msg);
+}
+function renderGhostBar() {
+  const g = GHOST && ghostOf(GHOST);
+  $("ghBar").hidden = !g;
+  if (g) put($("ghBarTxt"), `${ghImg(g.color)} <b>${esc(g.name)}</b> · visiting as a ghost`);
+}
 const lastSkill = () => { const v = lsGet("squad-skill"); return SK[v] ? v : "reading"; };
 async function commit(id, from, to, skill) {
   to = Math.min(to, from + MAX_SITTING);
@@ -1301,7 +1451,9 @@ function go(name) {
   for (const s of SCREENS) $(s).classList.toggle("on", s === name);
   document.body.classList.toggle("has-nav", !!NAV_SCREENS[name]);
   document.querySelectorAll("[data-nav]").forEach(b => b.classList.toggle("on", b.dataset.nav === NAV_SCREENS[name]));
-  if (me && $("navMe")) $("navMe").innerHTML = img(A.chars[me], "");
+  if (me && $("navMe")) $("navMe").innerHTML = GHOST && ghostOf(GHOST) ? ghImg(ghostOf(GHOST).color) : img(A.chars[me], "");
+  renderGhostBar();
+  $("signOut").textContent = GHOST ? "Leave as a ghost (password next time)" : "Forget me on this phone (ask PIN next time)";
   const h = name === "start" ? "" : name;
   // some previews (sandboxed frames) forbid changing the address; the app works without it
   try { if (location.hash.slice(1) !== h) history.replaceState(null, "", h ? "#" + h : location.pathname); } catch (e) {}
@@ -1315,7 +1467,7 @@ const onScreen = () => (document.querySelector(".screen.on") || {}).id;
 
 // ---------------- start / sign-in / setup ----------------
 let picked = "", newGoal = DEFAULT_GOAL, profGoal = DEFAULT_GOAL;
-function showStep(id) { for (const s of ["stPick", "stPin", "stSetup"]) $(s).classList.toggle("on", s === id); if (id === "stPick") renderTiles(); }
+function showStep(id) { for (const s of ["stPick", "stPin", "stSetup", "stGhost"]) $(s).classList.toggle("on", s === id); if (id === "stPick") renderTiles(); }
 const lockSvg = '<svg class="lock" width="14" height="16" viewBox="0 0 7 8" shape-rendering="crispEdges" aria-label="has a profile"><rect x="1" y="0" width="5" height="1" fill="#2E2622"/><rect x="1" y="0" width="1" height="4" fill="#2E2622"/><rect x="5" y="0" width="1" height="4" fill="#2E2622"/><rect x="0" y="3" width="7" height="5" fill="#2E2622"/><rect x="1" y="4" width="5" height="3" fill="#F6D772"/><rect x="3" y="5" width="1" height="1" fill="#2E2622"/></svg>';
 const trusted = () => { try { return JSON.parse(localStorage.getItem("squad-trusted") || "[]"); } catch (e) { return []; } };
 const setTrusted = list => { try { localStorage.setItem("squad-trusted", JSON.stringify([...new Set(list)])); } catch (e) {} };
@@ -1352,6 +1504,55 @@ async function tryPin() {
   if (!/^\d{4}$/.test(pin)) { $("pinErr").textContent = "Type the 4 digits."; return; }
   if (prof.pin !== "demo" && prof.pin !== await hashPin(picked, pin)) { $("pinErr").textContent = "That's not the right PIN."; $("pinIn").value = ""; return; }
   signIn(picked);
+}
+let ghMode = "new", ghPick = "";
+function openGhostStep() {
+  if (!loaded) return toast("Connecting… one second.");
+  for (const f of ["ghName", "ghPw"]) $(f).value = "";
+  ghPick = ""; $("ghErr").textContent = "";
+  ghTab(ghostsAll().length >= GH_MAX ? "back" : "new");
+  showStep("stGhost"); setTimeout(() => $("ghName").focus(), 50);
+}
+function ghTab(m) {
+  ghMode = m;
+  document.querySelectorAll("[data-ghtab]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.ghtab === m)));
+  const full = ghostsAll().length >= GH_MAX;
+  $("ghColF").hidden = m !== "new";
+  $("ghNameHint").textContent = m === "new" ? (full ? "The ghost room is full (10 of 10)." : "Friends type this exact name to send you a note.") : "The name you picked.";
+  $("ghPwHint").textContent = m === "new" ? "At least 4 characters. Only you know it." : "Your ghost password.";
+  $("ghGo").textContent = m === "new" ? "FLOAT IN ▶" : "WELCOME BACK ▶";
+  $("ghErr").textContent = "";
+  renderGhostCols();
+}
+function renderGhostCols() {
+  const used = new Set(ghostsAll().map(([, g]) => g.color));
+  if (used.has(ghPick)) ghPick = "";
+  $("ghCols").innerHTML = GH_HUES.map(h => `<button type="button" class="gh-col" data-hue="${h}" aria-pressed="${h === ghPick}" aria-label="${used.has(h) ? "taken" : "colour"}" ${used.has(h) ? "disabled" : ""}>${ghImg(h)}</button>`).join("");
+}
+async function ghostGo() {
+  if (!loaded || !store) return toast("Connecting… one second.");
+  const err = m => { $("ghErr").textContent = m; };
+  const name = $("ghName").value.trim().replace(/\s+/g, " "), key = ghKey(name), pw = $("ghPw").value;
+  if (ghMode === "back") {
+    const gid = findGhost(name);
+    if (!gid) return err("No ghost with that name.");
+    if (ghostOf(gid).pin !== await hashPin("ghost:" + key, pw)) { $("ghPw").value = ""; return err("That's not the right password."); }
+    return enterGhost(gid);
+  }
+  if (ghostsAll().length >= GH_MAX) return err("The ghost room is full (10 of 10).");
+  if (name.length < 2) return err("Pick a name (2 to 14 letters).");
+  if (PEOPLE.some(p => p.name.toLowerCase() === key)) return err("That's one of the six! Pick another name.");
+  if (findGhost(name)) return err("That name is taken. Back already? Tap I'M BACK.");
+  if (pw.length < 4) return err("The password needs at least 4 characters.");
+  if (!ghPick) return err("Pick your colour.");
+  $("ghGo").disabled = true;
+  const gid = "g" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  let ok = false;
+  try { ok = await store.addGhost(gid, { name, key, color: ghPick, pin: await hashPin("ghost:" + key, pw), at: now() }); }
+  catch (e) { $("ghGo").disabled = false; return err("Couldn't reach the server — is your VPN on?"); }
+  $("ghGo").disabled = false;
+  if (!ok) { renderGhostCols(); return err("Someone just took that name or colour. Try again."); }
+  enterGhost(gid);
 }
 async function finishSetup() {
   const p1 = $("newPin").value.trim(), p2 = $("newPin2").value.trim();
@@ -1648,6 +1849,16 @@ const weekNo = (id, ws) => Math.round(daysBetween(weekStart(firstDay(id)), ws) /
 const ieltsRound = v => { const f = Math.floor(v), r = v - f; return r < 0.25 ? f : r < 0.75 ? f + 0.5 : f + 1; };
 const bandTxt = v => v == null || v === "" ? "—" : (+v).toFixed(1).replace(".0", "") ;
 let meRange = "all";
+function renderMeGhosts() {
+  const box = $("meGhosts");
+  if (me !== "zinat" || GHOST) { box.hidden = true; return; }
+  box.hidden = false;
+  const t = now(), list = ghostsAll().sort((a, b) => (a[1].at || 0) - (b[1].at || 0));
+  const seen = gid => { const p = (state.ghostpos || {})[gid]; if (!p || !p.at) return "not seen yet"; const m = Math.round((t - p.at) / 60000); return m < 3 ? "in the hall now" : m < 60 ? `seen ${m} min ago` : m < 1440 ? `seen ${Math.round(m / 60)} h ago` : `seen ${Math.round(m / 1440)} d ago`; };
+  put(box, `<div class="mx-hd"><h2>Ghost guests</h2><span class="gl-sm">${list.length} / ${GH_MAX}</span></div>`
+    + (list.length ? `<div class="gh-list">${list.map(([gid, g]) => `<div class="gh-row">${ghImg(g.color, g.name)}<div><b>${esc(g.name)}</b><small>${seen(gid)}</small></div><button type="button" data-ghdel="${gid}">Let go</button></div>`).join("")}</div>`
+      : `<span class="gl-sm">No ghosts yet. Friends can float in from the little ghost on the start screen.</span>`));
+}
 function renderMe() {
   const t = now(), today = dayKey(t), cur = weekStart(today), exam = examOf(me), m = state.main[me] || {};
   const first = firstDay(me), weeks = roadWeeks(me), wn = weekNo(me, cur);
@@ -2048,7 +2259,7 @@ function renderHome() {
   put($("hmGoal"), goal);
   // climb: gold steps toward the Friday Rooftop
   const cw = climbWeek(t), ts = cw.steps.find(x => x.today);
-  const clSub = cw.friday ? (cw.cup === "gold" ? "Friday Rooftop is ON 🍕" + (cw.ws === CUP_START ? "" : " · gold cup") : cw.cup === "silver" && cw.ws !== CUP_START ? "Quiet Friday · silver cup" : "Quiet Friday · new climb tomorrow") : `${cw.empty} empty spot${cw.empty === 1 ? "" : "s"} · ${cw.onTrack ? "on track for the roof" : cw.possible ? "lanterns can save it" : "no party this week"}${ts ? ` · today ${ts.lit}/6 done` : ""}`;
+  const clSub = cw.friday ? (cw.cup === "gold" ? "Friday Rooftop is ON 🍕 · gold cup" : cw.cup === "silver" ? "Quiet Friday · silver cup" : "Quiet Friday · new climb tomorrow") : `${cw.empty} empty spot${cw.empty === 1 ? "" : "s"} · ${cw.onTrack ? "on track for the roof" : cw.possible ? "lanterns can save it" : "no party this week"}${ts ? ` · today ${ts.lit}/6 done` : ""}`;
   put($("hmClimb"), `${pixIcon(ICONS.climb, 3)}<span style="flex:1;display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">The Climb · together</b><small style="font-size:12px;font-weight:800;color:var(--muted)">${clSub}</small></span>${lanternsLeft(me, cw.ws, t) ? LANTERN.replace('class="lan-ico"', 'class="lan-ico" style="width:16px;height:22px"') : ""}<b class="pixel" style="font-size:18px">›</b>`);
   const s = state.sessions[me] || {};
   $("homeGo").textContent = ["studying", "paused"].includes(s.state) ? "BACK TO TABLE ▶" : "START ▶";
@@ -2149,8 +2360,7 @@ function squadCups(t = now()) {
   const today = dayKey(t), key = today + "|" + dataVer;
   if (cupCache.key === key) return cupCache.list;
   const list = [{ first: true, ws: CUP_START }];
-  // the first cup IS the first week (week of CUP_START): that week adds nothing more; earned cups start the week after
-  for (let ws = addDays(CUP_START, 7); addDays(ws, 6) <= today; ws = addDays(ws, 7)) {        // weeks whose Friday has come
+  for (let ws = CUP_START; addDays(ws, 6) <= today; ws = addDays(ws, 7)) {        // weeks whose Friday has come
     const cw = climbWeek(t, ws);
     if (cw.cup) list.push({ ws, kind: cw.cup, empty: cw.empty, plan: partyPlan(ws) });
   }
@@ -2265,7 +2475,7 @@ function renderRace() {
   });
   svg += "</svg>";
   let h = svg;
-  h += `<div class="cl-sign ${lit ? "on" : ""}" style="left:50%;top:${Y(28)}"><b>FRIDAY ROOFTOP</b><small>${lit ? esc(partyPlan(ws)) + " · it's ON 🍕" : c.friday ? (c.cup === "silver" && c.ws !== CUP_START ? "quiet tonight · silver cup" : "quiet tonight") : c.possible ? esc(partyPlan(ws)) : "quiet this week"}</small></div>`;
+  h += `<div class="cl-sign ${lit ? "on" : ""}" style="left:50%;top:${Y(28)}"><b>FRIDAY ROOFTOP</b><small>${lit ? esc(partyPlan(ws)) + " · it's ON 🍕" : c.friday ? (c.cup === "silver" ? "quiet tonight · silver cup" : "quiet tonight") : c.possible ? esc(partyPlan(ws)) : "quiet this week"}</small></div>`;
   // ---- people ----
   // the party: the six of us standing in one row behind the long table
   if (lit) {
@@ -2301,12 +2511,12 @@ function renderRace() {
   const sp = n => `${n} empty spot${n === 1 ? "" : "s"}`;
   const todayLine = todayStep ? `Today: ${todayStep.lit} of 6 reached their goal${todayStep.gold ? " · step lit ✓" : ""}. ` : "";
   let st;
-  if (c.friday && c.cup === "gold") st = `<h3>It's ON tonight! Friday Rooftop 🍕</h3><p>${sp(c.empty)} this week. The roof is open for all six of us, and ${c.ws === CUP_START ? "the first cup stands for this week" : "a gold cup is on the shelf"}.</p>${bulbs}`;
-  else if (c.friday && c.cup === "silver") st = `<h3>A quiet Friday${c.ws === CUP_START ? "" : " · silver cup"}</h3><p>${sp(c.empty)} this week. No party tonight${c.ws === CUP_START ? ", but the first cup stands for this week" : ", but a silver cup is on the shelf"}. A new climb starts tomorrow.</p>${bulbs}`;
+  if (c.friday && c.cup === "gold") st = `<h3>It's ON tonight! Friday Rooftop 🍕</h3><p>${sp(c.empty)} this week. The roof is open for all six of us, and a gold cup is on the shelf.</p>${bulbs}`;
+  else if (c.friday && c.cup === "silver") st = `<h3>A quiet Friday · silver cup</h3><p>${sp(c.empty)} this week. No party tonight, but a silver cup is on the shelf. A new climb starts tomorrow.</p>${bulbs}`;
   else if (c.friday) st = `<h3>A quiet Friday</h3><p>${sp(c.empty)} this week. No cup this time. A new climb starts tomorrow.</p>${bulbs}`;
-  else if (c.onTrack) st = `<h3>On track for the Friday Rooftop</h3><p>${todayLine}${sp(c.empty)} so far. ${c.ws === CUP_START ? `Up to ${PARTY_MAX} → party. Cups start next week.` : `Up to ${PARTY_MAX} → party + gold cup · ${PARTY_MAX + 1}–${SILVER_MAX} → silver cup.`}</p>${bulbs}`;
+  else if (c.onTrack) st = `<h3>On track for the Friday Rooftop</h3><p>${todayLine}${sp(c.empty)} so far. Up to ${PARTY_MAX} → party + gold cup · ${PARTY_MAX + 1}–${SILVER_MAX} → silver cup.</p>${bulbs}`;
   else if (c.possible) st = `<h3>${sp(c.empty)} · lanterns can still save the party</h3><p>${todayLine}Light a friend's unlit lantern to bring it back to ${PARTY_MAX} or fewer.</p>${bulbs}`;
-  else st = `<h3>${sp(c.empty)} · no party this week</h3><p>${todayLine}${c.silverPossible && c.ws !== CUP_START ? `Keep it at ${SILVER_MAX} or fewer for a silver cup.` : "Keep climbing: a new week starts Saturday."}</p>${bulbs}`;
+  else st = `<h3>${sp(c.empty)} · no party this week</h3><p>${todayLine}${c.silverPossible ? `Keep it at ${SILVER_MAX} or fewer for a silver cup.` : "Keep climbing: a new week starts Saturday."}</p>${bulbs}`;
   const nCups = squadCups(t).length;
   st += `<p style="display:flex;align-items:center;gap:8px">${CUP_ICON().replace('class="cup-ico"', 'class="cup-ico" style="width:16px;height:22px"')} ${nCups} cup${nCups === 1 ? "" : "s"} on the library shelf</p>`;
   put($("clStatus"), st);
@@ -2335,10 +2545,11 @@ const NOTE_MAX = 140, SHOUT_MAX = 40, SHOUTS_PER_DAY = 20, WRITING_FRESH = 3 * M
 const PILE = [[13, 0], [19, 0], [25, 0], [16, -5], [22, -5], [31, 0], [19, -10]];
 const seen = new Set(), flying = new Set();
 let notesReady = false;
-const notesFor = id => Object.entries((state.notes || {})[id] || {}).map(([k, v]) => ({ id: k, ...v })).filter(n => n && n.from && BY[n.from]).sort((a, b) => a.at - b.at);
+const notesFor = id => Object.entries((state.notes || {})[id] || {}).map(([k, v]) => ({ id: k, ...v })).filter(n => n && n.from && (BY[n.from] || (n.ghost && n.name))).sort((a, b) => a.at - b.at);
 const pileCount = id => notesFor(id).filter(n => !flying.has(n.id)).length;
 function onData(first) {
   dataVer++;
+  if (GHOST && booted && !ghostOf(GHOST)) setTimeout(() => leaveGhost("Zinat let this ghost go. Thanks for visiting! 👻"), 0);
   try { saveLocal(); } catch (e) {}
   const all = [];
   for (const [to, list] of Object.entries(state.notes || {})) for (const [id, n] of Object.entries(list || {})) all.push({ id, to, ...n });
@@ -2346,7 +2557,7 @@ function onData(first) {
   for (const n of all) {
     if (seen.has(n.id)) continue;
     seen.add(n.id);
-    if (onScreen() === "hall" && BY[n.from] && BY[n.to]) throwBall(n);
+    if (onScreen() === "hall" && (BY[n.from] || ghostSpot(n.from)) && (BY[n.to] || ghostSpot(n.to))) throwBall(n);
   }
 }
 let pruned = false;
@@ -2369,8 +2580,10 @@ function throwBall(n) {
   render();
   const fx = $("fx"); if (!fx) { flying.delete(n.id); return; }
   const X = v => (v / A.W * 100) + "%", Y = v => (v / A.H * 100) + "%";
-  const si = seatIdx(n.from), x0 = A.SEATS[si], y0 = A.TABLE_TOP - 56;
-  const end = pileSpot(n.to, Math.max(0, pileCount(n.to)));
+  const gf = !BY[n.from] && ghostSpot(n.from), gt = !BY[n.to] && ghostSpot(n.to);
+  const x0 = gf ? gf.x : A.SEATS[seatIdx(n.from)], y0 = gf ? gf.y - 10 : A.TABLE_TOP - 56;
+  // a note to a ghost lands on its body and sticks there
+  const end = gt ? { x: gt.x + [-3, 4, 1][Math.min(2, pileCount(n.to))], y: gt.y - 7 } : pileSpot(n.to, Math.max(0, pileCount(n.to)));
   const cr = document.createElement("img");
   cr.className = "px"; cr.src = A.crumple; cr.alt = "";
   Object.assign(cr.style, { position: "absolute", left: X(x0 - 5.5), top: Y(y0 - 3), width: X(11), height: Y(6) });
@@ -2396,9 +2609,11 @@ function throwBall(n) {
 // ---- composer ----
 let noteTo = "", replyId = "";
 function openComposer(preset, replyNoteId) {
-  noteTo = preset && preset !== me && state.profiles[preset] ? preset : "";
+  noteTo = preset && preset !== inbox() && (state.profiles[preset] || ghostOf(preset)) ? preset : "";
   replyId = replyNoteId || "";
-  $("noteText").value = ""; updateNoteMeta();
+  $("noteText").value = "";
+  $("ghTo").value = ghostOf(noteTo) ? ghostOf(noteTo).name : ""; ghToDot();
+  updateNoteMeta();
   renderToList();
   $("composer").classList.add("on");
   store.setWriting(me, { at: now() }).catch(() => {});
@@ -2409,17 +2624,24 @@ function closeComposer() {
   store.setWriting(me, null).catch(() => {});
 }
 function renderToList() {
-  $("toList").innerHTML = PEOPLE.filter(p => p.id !== me).map(p => {
+  $("toList").innerHTML = PEOPLE.filter(p => GHOST || p.id !== me).map(p => {
     const ok = !!state.profiles[p.id];
     return `<button type="button" class="av" data-to="${p.id}" aria-pressed="${p.id === noteTo}" ${ok ? "" : "disabled title='Not in the app yet'"}>${img(A.chars[p.id])}<span>${ok ? p.name : "not here"}</span></button>`;
   }).join("");
 }
+function ghToDot() {
+  const g = ghostOf(noteTo);
+  $("ghToDot").hidden = !g;
+  if (g) { $("ghToDot").style.background = g.color; $("ghToDot").title = g.name; }
+}
+const ghostNotesLeft = () => { const c = (ghostOf(GHOST) || {}).sent; return GH_NOTES_DAY - (c && c.day === dayKey(now()) ? c.n : 0); };
 function updateNoteMeta() {
   const v = $("noteText").value, bad = NON_ENGLISH.test(v);
   $("noteCount").textContent = `${v.length} / ${NOTE_MAX}`;
-  $("noteHint").textContent = bad ? "English letters only, please 🙂" : (noteTo ? `To ${BY[noteTo].name}` : "Pick who it's for");
+  const left = GHOST ? ghostNotesLeft() : 1;
+  $("noteHint").textContent = bad ? "English letters only, please 🙂" : left <= 0 ? "That's 5 notes today. Float back tomorrow!" : (noteTo ? `To ${nameOf(noteTo)}${GHOST ? ` · ${left} left today` : ""}` : "Pick who it's for");
   $("noteHint").style.color = bad ? "#C0392B" : "";
-  $("noteSend").disabled = !noteTo || !v.trim() || bad;
+  $("noteSend").disabled = !noteTo || !v.trim() || bad || left <= 0;
 }
 let sending = false;
 async function sendNote() {
@@ -2428,28 +2650,37 @@ async function sendNote() {
   sending = true; $("noteSend").disabled = true;
   const to = noteTo;
   try {
+    let val = { from: me, text, at: now() };
+    if (GHOST) {
+      const g = ghostOf(GHOST);
+      if (!g || !(await store.ghostSent(GHOST, dayKey(now())))) { sending = false; toast("That's 5 notes today. Float back tomorrow!"); return updateNoteMeta(); }
+      val = { from: GHOST, ghost: true, name: g.name, color: g.color, text, at: now() };
+    }
     $("composer").classList.remove("on");
-    await store.pushNote(to, { from: me, text, at: now() });
+    await store.pushNote(to, val);
     store.setWriting(me, null).catch(() => {});
-    if (replyId) { const rid = replyId; replyId = ""; await store.removeNote(me, rid).catch(() => {}); }
+    if (replyId) { const rid = replyId; replyId = ""; await store.removeNote(inbox(), rid).catch(() => {}); }
   } catch (e) { toast("Couldn't send — check your VPN."); $("composer").classList.add("on"); }
   sending = false; updateNoteMeta();
 }
 // ---- reader ----
 let rdIdx = 0;
 function openReader() {
-  if (!notesFor(me).length) return toast("No notes on your desk yet.");
+  if (!notesFor(inbox()).length) return toast("No notes on your desk yet.");
   rdIdx = 0; renderReader(); $("reader").classList.add("on");
 }
 function renderReader() {
-  const list = notesFor(me);
+  const list = notesFor(inbox());
   if (!list.length) { $("reader").classList.remove("on"); return; }
   rdIdx = Math.max(0, Math.min(rdIdx, list.length - 1));
   const n = list[rdIdx];
   const when = new Date(n.at + 3.5 * HOUR).toISOString();
   const day = dayKey(n.at) === dayKey(now()) ? "today" : fmtDate(dayKey(n.at), { day: "numeric", month: "short" });
-  $("rdFrom").innerHTML = `${img(A.chars[n.from], BY[n.from].name)}<div><b style="font-size:17px">From ${esc(BY[n.from].name)}</b><small>${day} · ${when.slice(11, 16)}</small></div>`;
+  const gs = !BY[n.from], gNow = gs ? ghostOf(n.from) : null, sName = gs ? (gNow || n).name : BY[n.from].name;
+  $("rdFrom").innerHTML = `${gs ? ghImg((gNow || n).color, sName) : img(A.chars[n.from], sName)}<div><b style="font-size:17px">From ${esc(sName)}${gs ? " 👻" : ""}</b><small>${day} · ${when.slice(11, 16)}</small></div>`;
   $("rdMsg").textContent = n.text;
+  $("rdSign").innerHTML = gs ? `— ${esc(sName)} <i class="gh-dot" style="background:${esc((gNow || n).color)}"></i>` : "";
+  $("rdBack").disabled = gs && !gNow;
   $("rdPos").textContent = `Note ${rdIdx + 1} of ${list.length}`;
   $("rdPrev").disabled = rdIdx === 0; $("rdNext").disabled = rdIdx >= list.length - 1;
   $("rdBack").dataset.to = n.from; $("rdToss").dataset.id = n.id;
@@ -2505,6 +2736,48 @@ async function postShout() {
   catch (e) { toast("Couldn't post — check your VPN."); }
   renderBoardModal();
 }
+// a ghost dropped on the rug slips under it: only its eyes peek out
+const RUG = A.RUG_AT || [52, 253, 136, 40];
+const underRug = p => p.x > RUG[0] + 5 && p.x < RUG[0] + RUG[2] - 5 && p.y > RUG[1] + 9 && p.y < RUG[1] + RUG[3] + 4;
+// unread notes stick to the ghost's body
+const GH_STUCK = ["left:-22%;top:44%", "left:72%;top:30%", "left:30%;top:62%"];
+const ghostSpot = gid => { const p = (state.ghostpos || {})[gid]; return p && now() - p.at < GH_FRESH ? p : null; };
+// ghosts in the hall: only those whose phone checked in the last few minutes
+function ghostLayer(t, X, Y) {
+  let h = "";
+  for (const [gid, g] of ghostsAll()) {
+    const p = (state.ghostpos || {})[gid];
+    if (!p || !(t - p.at < GH_FRESH)) continue;
+    const mine = gid === GHOST, under = underRug(p), n = Math.min(3, pileCount(gid));
+    let balls = "";
+    for (let k = 0; k < n; k++) balls += `<img class="gh-ball px" src="${A.ball}" alt="" style="${GH_STUCK[k]}">`;
+    h += `<div class="hall-gh${mine ? " mine" : ""}${under ? " under" : ""}" data-gh="${gid}" style="left:${X(p.x)};top:${Y(p.y)};width:${X(12)}" title="${esc(g.name)}${mine ? " · drag me" : ""}"><div class="gh-fl"><img class="gh-body px" src="${ghSrc(g.color)}" alt="${esc(g.name)}">${under ? "" : balls}</div><b>${esc(g.name)}</b></div>`;
+  }
+  return h;
+}
+// a ghost moves itself with a finger; everyone else sees where it lands
+(function ghostDrag() {
+  let el = null, pos = null;
+  const scenePt = e => { const r = $("scene").getBoundingClientRect(); return { x: Math.max(8, Math.min(A.W - 8, (e.clientX - r.left) / r.width * A.W)), y: Math.max(40, Math.min(A.H - 2, (e.clientY - r.top) / r.height * A.H + 9)) }; };
+  document.addEventListener("pointerdown", e => {
+    const g = e.target.closest(".hall-gh.mine"); if (!g || !GHOST) return;
+    el = g; ghDragging = true; el.classList.add("drag"); e.preventDefault();
+    try { el.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  document.addEventListener("pointermove", e => {
+    if (!el) return;
+    pos = scenePt(e);
+    el.style.left = (pos.x / A.W * 100) + "%"; el.style.top = (pos.y / A.H * 100) + "%";
+  });
+  const end = () => {
+    if (!el) return;
+    el.classList.remove("drag"); el = null; ghDragging = false;
+    if (pos) { const v = { x: Math.round(pos.x), y: Math.round(pos.y), at: now() }; (state.ghostpos ||= {})[GHOST] = v; store.setGhostPos(GHOST, v).catch(() => {}); pos = null; }
+    $("ghLayer")._h = ""; render();
+  };
+  document.addEventListener("pointerup", end);
+  document.addEventListener("pointercancel", end);
+})();
 // ---------------- render: hall ----------------
 function renderHall() {
   const t = now(), key = dayKey(t), seated = seatedIds();
@@ -2583,14 +2856,15 @@ function renderHall() {
     }
     const c0 = pileSpot(pp.id, 1);
     if (n > 7) h += `<span class="over7" style="left:${X(c0.x)};top:${Y(c0.y - 18)}">+${n - 7}</span>`;
-    if (pp.id === me) h += `<button type="button" class="pilebtn" data-act="read" aria-label="Read your ${n} note${n === 1 ? "" : "s"}" style="left:${X(c0.x)};top:${Y(c0.y - 4)};width:${X(22)};height:${Y(18)}"></button>`;
+    if (pp.id === me && !GHOST) h += `<button type="button" class="pilebtn" data-act="read" aria-label="Read your ${n} note${n === 1 ? "" : "s"}" style="left:${X(c0.x)};top:${Y(c0.y - 4)};width:${X(22)};height:${Y(18)}"></button>`;
   });
   // LED board
   const ln = boardNow(t);
   h += `<button type="button" class="board ${ln.cls}${ln.clock ? " clock" : ""}" data-act="board" aria-label="Room board: ${esc(ln.text)}. Tap to see today's board." style="left:${X(70)};top:${Y(3)};width:${X(100)};height:${Y(21)}"><span>${esc(ln.text)}</span></button>`;
   put($("sceneArt"), h);
   $("seatChip").textContent = `${seated.length}/6 seated`;
-  const mine = pileCount(me);
+  const mine = pileCount(inbox());
+  if (!ghDragging) put($("ghLayer"), ghostLayer(t, X, Y));
   $("notesBtn").innerHTML = `✉ My notes ${mine ? `<span class="badge">${mine}</span>` : ""}`;
   put($("noteBtns"), `<button type="button" class="scobj" data-act="write" aria-label="Write a note" style="left:${X(8)};top:${Y(251)};width:${X(29)};height:${Y(38)}">${WRITE_DESK}</button><span class="scplate" style="left:${X(22.5)};top:${Y(293)}">WRITE</span>`
     + `<button type="button" class="scobj${mine ? " mail" : ""}" data-act="read" aria-label="My notes${mine ? ": " + mine + " waiting" : ""}" style="left:${X(198)};top:${Y(251)};width:${X(29)};height:${Y(38)}">${MAILBOX(mine)}</button><span class="scplate" style="left:${X(212.5)};top:${Y(293)}">MAIL${mine ? ` · ${mine}` : ""}</span>`);
@@ -2622,7 +2896,7 @@ function renderInner() {
   if (s === "home") renderHome();
   if (s === "race") renderRace();
   if (s === "hall") renderHall();
-  if (s === "me") safeRender("meBody", renderMe);
+  if (s === "me") { safeRender("meBody", renderMe); renderMeGhosts(); }
   if (s === "road") safeRender("ryBody", renderRoad);
   if (s === "wkd" && wdWs) safeRender("wdBody", renderWkd);
   if (s === "tests") safeRender("txBody", renderTests);
@@ -2636,6 +2910,27 @@ $("lgLamp").innerHTML = DESK_LAMP(true).replace('class="dlamp-ico"', 'class="dla
 $("lgS").src = A.lamps.streak10; $("lgG").src = A.lamps.goal10; $("lgC").src = A.lamps.crown1;
 $("tiles").addEventListener("click", e => { const b = e.target.closest(".tile"); if (b) pickPerson(b.dataset.id); });
 $("pinGo").addEventListener("click", tryPin);
+$("ghDoor").innerHTML = ghImg("#8FA3B8", "");
+$("ghToIco").innerHTML = ghImg("#8FA3B8", "");
+$("ghDoor").addEventListener("click", openGhostStep);
+document.querySelectorAll("[data-ghtab]").forEach(b => b.addEventListener("click", () => ghTab(b.dataset.ghtab)));
+$("ghCols").addEventListener("click", e => { const b = e.target.closest("[data-hue]"); if (!b || b.disabled) return; ghPick = b.dataset.hue; renderGhostCols(); });
+$("ghGo").addEventListener("click", ghostGo);
+$("ghPw").addEventListener("keydown", e => { if (e.key === "Enter") ghostGo(); });
+$("ghBack").addEventListener("click", () => showStep("stPick"));
+$("ghLeave").addEventListener("click", () => leaveGhost());
+$("ghTo").addEventListener("input", () => {
+  const gid = findGhost($("ghTo").value);
+  if (gid && gid !== GHOST) noteTo = gid; else if (ghostOf(noteTo) || noteTo === GHOST) noteTo = "";
+  ghToDot(); renderToList(); updateNoteMeta();
+});
+$("meGhosts").addEventListener("click", async e => {
+  const b = e.target.closest("[data-ghdel]"); if (!b || me !== "zinat" || GHOST) return;
+  if (!b.classList.contains("armed")) { b.classList.add("armed"); b.textContent = "Sure?"; setTimeout(() => { b.classList.remove("armed"); b.textContent = "Let go"; }, 3000); return; }
+  const g = ghostOf(b.dataset.ghdel);
+  try { await store.removeGhost(b.dataset.ghdel); toast(`${g ? g.name : "The ghost"} floated away.`); } catch (err) { toast("Couldn't reach the server — is your VPN on?"); }
+  $("meGhosts")._h = ""; render();
+});
 $("pinIn").addEventListener("input", () => { if ($("pinIn").value.length === 4) tryPin(); });
 $("pinIn").addEventListener("keydown", e => { if (e.key === "Enter") tryPin(); });
 $("pinBack").addEventListener("click", () => showStep("stPick"));
@@ -2772,7 +3067,7 @@ $("ptDays").addEventListener("click", e => { const b = e.target.closest("[data-p
 $("ptSave").addEventListener("click", savePlan);
 $("ptDel").addEventListener("click", delPlan);
 $("profRemind").addEventListener("click", async () => { if ($("profTime").value) await store.setProfile(me, { studyTime: $("profTime").value }); addReminder(); });
-$("signOut").addEventListener("click", () => { setTrusted(trusted().filter(x => x !== me)); localStorage.removeItem("squad-me"); me = ""; go("start"); });
+$("signOut").addEventListener("click", () => { if (GHOST) return leaveGhost(); setTrusted(trusted().filter(x => x !== me)); localStorage.removeItem("squad-me"); me = ""; go("start"); });
 $("noteBtns").addEventListener("click", e => {
   const act = e.target.closest("[data-act]")?.dataset.act;
   if (act === "read") openReader();
@@ -2786,13 +3081,13 @@ $("sceneArt").addEventListener("click", e => {
 });
 $("writeBtn").addEventListener("click", () => openComposer("", ""));
 $("notesBtn").addEventListener("click", openReader);
-$("toList").addEventListener("click", e => { const b = e.target.closest("[data-to]"); if (!b || b.disabled) return; noteTo = b.dataset.to; renderToList(); updateNoteMeta(); });
+$("toList").addEventListener("click", e => { const b = e.target.closest("[data-to]"); if (!b || b.disabled) return; noteTo = b.dataset.to; $("ghTo").value = ""; ghToDot(); renderToList(); updateNoteMeta(); });
 $("noteText").addEventListener("input", updateNoteMeta);
 $("noteCancel").addEventListener("click", closeComposer);
 $("noteSend").addEventListener("click", sendNote);
 $("rdPrev").addEventListener("click", () => { rdIdx--; renderReader(); });
 $("rdNext").addEventListener("click", () => { rdIdx++; renderReader(); });
-$("rdToss").addEventListener("click", async e => { const id = e.currentTarget.dataset.id; try { await store.removeNote(me, id); } catch (err) { return toast("Couldn't toss — check your VPN."); } renderReader(); render(); });
+$("rdToss").addEventListener("click", async e => { const id = e.currentTarget.dataset.id; try { await store.removeNote(inbox(), id); } catch (err) { return toast("Couldn't toss — check your VPN."); } renderReader(); render(); });
 $("rdBack").addEventListener("click", e => { const to = e.currentTarget.dataset.to, id = $("rdToss").dataset.id; $("reader").classList.remove("on"); openComposer(to, id); });
 $("shoutIn").addEventListener("input", updateShoutMeta);
 $("shoutIn").addEventListener("keydown", e => { if (e.key === "Enter") postShout(); });
@@ -2816,7 +3111,7 @@ setInterval(() => { if (store && me && $("composer").classList.contains("on")) s
 
 // ---------------- update check ----------------
 // Bump APP_VERSION and version.json together whenever new files are uploaded.
-const APP_VERSION = "2026.11.11-1";
+const APP_VERSION = "2026.11.11-3";
 async function checkUpdate() {
   if (!/^https?:/.test(location.protocol)) return;
   try {
@@ -2835,6 +3130,10 @@ setTimeout(checkUpdate, 3000);
 let booted = false;
 function boot2() {
   if (booted) return; booted = true;
+  if (GHOST) {
+    if (ghostOf(GHOST) && viewAs()) return enterGhost(GHOST);
+    GHOST = ""; try { localStorage.removeItem("squad-ghost"); } catch (e) {}
+  }
   if (me && !state.profiles[me]) { localStorage.removeItem("squad-me"); me = ""; }
   // migrate: whoever was signed in on this phone before becomes trusted
   if (me) setTrusted([...trusted(), me]);
