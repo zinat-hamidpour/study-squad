@@ -39,6 +39,22 @@ the climb (together) · notes + board · render: hall · events · update check 
 5. New data under `squad/` must also be added to the `state = {...}` defaults in **both** `makeFirebaseStore()` and
    `makeDemoStore()`, and to the demo seed if the feature needs data to show.
 
+## Design system
+
+- **Pixel art everywhere.** Fonts: Pixelify Sans (titles, numbers, buttons) + Nunito (body text).
+  Colours: `--ink #2E2622`, `--cream #F6EBDD`, `--card #FBF3E8`, `--lav #C9B6F2`, `--yellow #F6D772`, `--green #6CCB7E`;
+  skills: Listening `#7FB3E6`, Reading `#6CCB7E`, Writing `#F2A3AE`, Speaking `#F6D772`, Vocab `#C9B6F2`, Grammar `#F0A65A`.
+  Cards: 2.5px ink border, 18px radius. Buttons: ink border + a 3–5px ink shadow under them.
+- **Icons are pixel art, never emoji or a vector icon font.** Use `pi("name", size)` in rendered HTML and
+  `<i data-pi="name"></i>` in static HTML; draw a new icon as a row grid in `ICONS` (section *pixel icons*, colours from `PIX`).
+  A tick inside a CSS box uses `var(--pi-check)`. Plain-text messages (toasts, hints) use words, no emoji;
+  ✓ may appear as a text character there. `npm test` fails if an emoji shows up in `index.html`.
+- **Tabs:** top-level switch = `.mx-mtab` (open tab lavender and raised); second level = `.mx-sub` (underlined);
+  small filters = `.mx-tabs` (lavender when on). Never two tab bars that look the same.
+- **Where things go on ME:** PLAN = what I decide (MAIN GOAL, WEEKLY PLAN). PROGRESS = what happened (this week,
+  time, road, practice tests + MY BANDS). Rarely used things live behind ⚙ (Settings).
+- Charts: darker steps of the skill colours (`SC_COL`), checked for colour-blind safety; labels in ink.
+
 ## Conventions
 
 - Time: Tehran (UTC+3:30); the day flips at **04:00** (`dayKey`, `SHIFT`). The week starts **Saturday** (`weekStart`).

@@ -1,3 +1,14 @@
+# Study Squad 2026.11.11-11 · Pixel icons everywhere
+
+1. Every icon in the app is now pixel art, like the rest of the app: no more phone emoji.
+   New pixel icons: pencil, settings gear, close ✕, tick, notepad, lock, finish flag, bell, light bulb, envelope,
+   calendar (PLAN), chart (PROGRESS), download, star, pizza, party hat, lantern, ghost.
+2. Messages at the bottom of the screen (toasts) use words only.
+3. CLAUDE.md has a new "Design system" section (colours, fonts, icons, tabs, where things go on ME).
+   The tests now fail if an emoji icon comes back.
+
+---
+
 # Study Squad 2026.11.11-10 · ME: clearer tabs, MY BANDS, weekly tests + to-do
 
 1. ME has two tabs: **🗓 PLAN** (what I'm going to do) and **📈 PROGRESS** (what I've done). The open tab is lavender

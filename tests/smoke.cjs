@@ -21,6 +21,11 @@ function staticChecks() {
   const assetsV = (html.match(/<script src="assets\.js\?v=([^"]+)"/) || [])[1];
   ok(appV && appV === fileV, `APP_VERSION (${appV}) = version.json (${fileV})`);
   ok(appV && appV === assetsV, `assets.js?v= (${assetsV}) = APP_VERSION (${appV})`);
+  console.log("design system");
+  // every icon is pixel art (pi() / pixIcon()); emoji are only allowed inside sample messages written by people
+  const emoji = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{2B50}\u{2B06}\u{2B07}]/u, allowed = /[✓✕✎★]|text: "/;
+  const bad = html.split("\n").map((l, i) => [i + 1, l]).filter(([, l]) => emoji.test(l.replace(/[✓✕]/g, "")) && !/text: "/.test(l));
+  ok(bad.length === 0, `no emoji icons in index.html${bad.length ? " → lines " + bad.map(b => b[0]).join(", ") : ""}`);
 }
 
 // ---- helpers ----

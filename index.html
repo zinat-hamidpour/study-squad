@@ -189,7 +189,11 @@ header.bar h1{margin:0;font-size:22px}
 .pager{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:800}
 .pager button{border:0;background:none;font-weight:800;font-size:13px;padding:8px}
 .pager button:disabled{opacity:.3}
-.xbtn{position:absolute;top:10px;right:10px;width:40px;height:40px;border:2px solid var(--ink);border-radius:10px;background:#fff;font-weight:800}
+.xbtn{position:absolute;top:10px;right:10px;width:40px;height:40px;border:2px solid var(--ink);border-radius:10px;background:#fff;font-weight:800;display:grid;place-items:center}
+/* pixel icons (pi()); every icon in the app is pixel art */
+.pi{display:inline-flex;vertical-align:-.15em;margin-right:5px;line-height:0}.pi svg{display:block}
+.xbtn .pi,.mx-gear .pi,.ck .pi,.del .pi,.hm-ok .pi,.hm-tick .pi{margin:0}
+.mx-gear{display:grid;place-items:center}
 .bhist{display:flex;flex-direction:column;gap:6px;max-height:40dvh;overflow:auto;background:#0E0F0C;border:3px solid #3A2A20;border-radius:6px;padding:10px}
 .bhist div{font:700 12px/1.3 'Pixelify Sans',monospace;text-transform:uppercase;display:flex;gap:8px}
 .bhist .ev{color:#7CFF6B}.bhist .sh{color:#FFB23F}.bhist time{color:#7A7A70;flex:0 0 auto}
@@ -418,7 +422,7 @@ em.u{font:800 9px Nunito,system-ui,sans-serif;color:var(--muted);font-style:norm
 .tx-lg{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:11px;font-weight:800;color:#c9bed8}
 .tx-lg span{display:flex;align-items:center;gap:4px}
 .tx-lg i{width:10px;height:18px;border-radius:3px;border:1.5px solid #110d1a;background:#6CCB7E;position:relative;display:inline-block}
-.tx-lg i.p0{opacity:.28}.tx-lg i.p2:after{content:"✓";position:absolute;inset:0;font:900 9px/16px Nunito,system-ui,sans-serif;text-align:center;color:#2E2622}
+.tx-lg i.p0{opacity:.28}.tx-lg i.p2:after{content:"";background:var(--pi-check) center/55% no-repeat;position:absolute;inset:0;font:900 9px/16px Nunito,system-ui,sans-serif;text-align:center;color:#2E2622}
 .tx-lg .ring{padding:2px;border-radius:5px;box-shadow:0 0 0 2px #6CCB7E;display:flex;gap:2px}
 .tx-lg.tx-light{color:var(--muted)}.tx-lg.tx-light i{border-color:var(--ink)}
 .tx-slot{border:2px dashed #FFE07A;border-radius:12px;padding:12px;color:#FFE07A;font:700 13px 'Pixelify Sans',monospace;letter-spacing:1px;display:flex;justify-content:space-between;background:none;width:100%;text-align:left}
@@ -430,7 +434,7 @@ em.u{font:800 9px Nunito,system-ui,sans-serif;color:var(--muted);font-style:norm
 .tx-sk{display:flex;flex-direction:column;align-items:center;gap:3px}.tx-sk small{color:#c9bed8;font:700 10px 'Pixelify Sans',monospace}
 .tx-box{display:flex;gap:2px;padding:3px;border:2px solid #110d1a;border-radius:7px;background:#2A2438}
 .tx-box i{width:9px;height:20px;border-radius:3px;border:1.5px solid #110d1a;position:relative}
-.tx-box i.p0{opacity:.28}.tx-box i.p2:after{content:"✓";position:absolute;inset:0;font:900 9px/17px Nunito,system-ui,sans-serif;text-align:center;color:#2E2622}
+.tx-box i.p0{opacity:.28}.tx-box i.p2:after{content:"";background:var(--pi-check) center/55% no-repeat;position:absolute;inset:0;font:900 9px/17px Nunito,system-ui,sans-serif;text-align:center;color:#2E2622}
 .tx-box.off{opacity:.25}
 .tx-skrow{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--ink);border-radius:12px;padding:8px}
 .tx-skrow .lbl{width:84px;font-size:13px;font-weight:900;display:flex;align-items:center;gap:5px;flex:0 0 auto}.tx-skrow .lbl i{width:12px;height:12px;border-radius:3px;border:2px solid var(--ink)}
@@ -438,7 +442,7 @@ em.u{font:800 9px Nunito,system-ui,sans-serif;color:var(--muted);font-style:norm
 .tx-seg{display:flex;gap:5px;flex:1}
 .tx-seg button{flex:1;height:38px;border:2px solid var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 11px 'Pixelify Sans',monospace;position:relative;padding:0}
 .tx-seg button.p0{opacity:.35}
-.tx-seg button.p2:after{content:"✓";position:absolute;top:-7px;right:-6px;width:15px;height:15px;border-radius:50%;background:#fff;border:2px solid var(--ink);font:900 9px/11px Nunito,system-ui,sans-serif;text-align:center}
+.tx-seg button.p2:after{content:"";background:#fff var(--pi-check) center/62% no-repeat;position:absolute;top:-7px;right:-6px;width:15px;height:15px;border-radius:50%;background:#fff;border:2px solid var(--ink);font:900 9px/11px Nunito,system-ui,sans-serif;text-align:center}
 .tx-tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
 .tx-tabs button{border:2px solid var(--ink);border-radius:10px;padding:7px 10px;font:700 12px 'Pixelify Sans',monospace;background:#fff;white-space:nowrap}
 .tx-tabs button.on{background:var(--ink);color:#FFE07A}
@@ -495,7 +499,7 @@ em.u{font:800 9px Nunito,system-ui,sans-serif;color:var(--muted);font-style:norm
 .gl-empty{font-size:13px;font-weight:700;color:var(--muted);text-align:center;padding:6px 0}
 .gl-tix{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
 .gl-tix i{height:26px;border:2px solid var(--ink);border-radius:5px;background:#FBF6EE;position:relative}
-.gl-tix i.d{background:var(--green)}.gl-tix i.d:after{content:"✓";position:absolute;inset:0;font:900 11px/22px Nunito;text-align:center}
+.gl-tix i.d{background:var(--green)}.gl-tix i.d:after{content:"";background:var(--pi-check) center/55% no-repeat;position:absolute;inset:0;font:900 11px/22px Nunito;text-align:center}
 .gl-tix i.n{border-style:dashed;border-color:#BFAF9F;background:transparent}
 .gl-st{display:flex;align-items:center;gap:10px}
 .gl-st button{width:44px;height:44px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;font-size:22px;font-weight:900;flex:0 0 auto}
@@ -805,7 +809,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
   <div id="clStatus" class="card sec cl-card"></div>
   <div id="clLantern" class="card sec cl-card"></div>
   <div class="card sec cl-card">
-    <div class="row-h"><h2>Friday plan</h2><button id="clPlanEd" class="gl-b2" type="button">✎ edit</button></div>
+    <div class="row-h"><h2>Friday plan</h2><button id="clPlanEd" class="gl-b2" type="button"><i data-pi="pencil"></i>edit</button></div>
     <div id="clPlanView" class="cl-plan"></div>
     <div id="clPlanForm" class="cl-planf" hidden><input id="clPlanIn" maxlength="40" placeholder="pizza + movie at Milad's" autocomplete="off"><button id="clPlanSave" class="gl-b2" type="button">Save</button></div>
   </div>
@@ -813,7 +817,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <p>At 4 AM we all stand on the same step. Reach your own goal for the day → you climb that day's step.</p>
     <p>Didn't reach it? At 4 AM a <b>faint, unlit lantern</b> takes your place on that step and you move up with everyone.</p>
     <p>A step lights up when at least 3 of us climbed it.</p>
-    <p>Study <b>double</b> your goal one day → you earn a lantern 🏮 (it hangs at your seat in the study hall). Hang it on a friend's unlit lantern from the last 2 days to light it. Each person can get one lantern a week.</p>
+    <p>Study <b>double</b> your goal one day → you earn a lantern <i data-pi="lantern"></i>(it hangs at your seat in the study hall). Hang it on a friend's unlit lantern from the last 2 days to light it. Each person can get one lantern a week.</p>
     <p>On Friday we count the unlit lanterns nobody lit: <b>3 or fewer</b> → Friday Rooftop for all of us + a gold cup on the shelf. <b>4 to 6</b> → a silver cup. More → no cup.</p>
   </details>
 </section>
@@ -826,7 +830,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <span id="seatChip" class="chip" style="margin-left:auto"></span>
   </header>
   <div id="scene" class="scene"><div id="sceneArt" style="position:absolute;inset:0"></div><div id="noteBtns" style="position:absolute;inset:0;pointer-events:none"></div><div id="ghLayer" style="position:absolute;inset:0;pointer-events:none"></div><div id="fx" style="position:absolute;inset:0;pointer-events:none"></div></div>
-  <div class="notebar" hidden><button id="writeBtn" type="button">✎ Write a note</button><button id="notesBtn" type="button"></button></div>
+  <div class="notebar" hidden><button id="writeBtn" type="button"><i data-pi="pencil"></i>Write a note</button><button id="notesBtn" type="button"></button></div>
   <div class="legend" style="justify-content:flex-start">
     <span><i id="lgLamp" style="display:inline-block;width:14px;height:17px"></i>Lamp on = goal done</span>
     <span><img id="lgGhost" class="px" alt="" style="width:13px;height:18px"> Spirit = late, seat waits</span>
@@ -847,7 +851,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 
 <!-- ============ PROFILE / GOALS ============ -->
 <section id="me" class="screen">
-  <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings">⚙</button></header>
+  <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings"><i data-pi="gear" data-sz="2.5"></i></button></header>
   <div id="meTabs"></div>
   <div id="mePlan" class="mx-body">
     <div class="mx-sub" role="tablist"><button type="button" data-gtab="main">MAIN GOAL</button><button type="button" data-gtab="week">WEEKLY PLAN</button></div>
@@ -881,7 +885,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <div class="field">
       <label for="profTime">Usual study time</label>
       <input id="profTime" class="inp" type="time">
-      <button id="profRemind" class="btn2" type="button" style="align-self:flex-start">🔔 Add a daily reminder to my calendar</button>
+      <button id="profRemind" class="btn2" type="button" style="align-self:flex-start"><i data-pi="bell"></i>Add a daily reminder to my calendar</button>
     </div>
     <button id="profSave" class="big pixel" type="button" style="width:100%">SAVE</button>
   </div>
@@ -900,7 +904,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="skillSheet" class="ovl" role="dialog" aria-modal="true" aria-label="What are you studying?">
   <div class="dim" data-close="skillSheet"></div>
   <div class="sheet" style="background:#FBF3E8">
-    <button class="xbtn" type="button" data-close="skillSheet" aria-label="Close">✕</button>
+    <button class="xbtn" type="button" data-close="skillSheet" aria-label="Close"><i data-pi="close"></i></button>
     <b id="skTitle" class="pixel" style="font-size:18px">WHAT ARE YOU STUDYING?</b>
     <div id="skGrid" class="sk-grid"></div>
   </div>
@@ -908,7 +912,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="addTest" class="ovl" role="dialog" aria-modal="true" aria-label="Add a test">
   <div class="dim" data-close="addTest"></div>
   <div class="sheet gl-sheet">
-    <button class="xbtn" type="button" data-close="addTest" aria-label="Close">✕</button>
+    <button class="xbtn" type="button" data-close="addTest" aria-label="Close"><i data-pi="close"></i></button>
     <b class="pixel" style="font-size:18px">ADD A TEST</b>
     <div class="gl-sel2">
       <label><small>Cambridge book</small><b id="atBookV">17 ▾</b><select id="atBook" aria-label="Cambridge book"></select></label>
@@ -923,7 +927,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="logTest" class="ovl" role="dialog" aria-modal="true" aria-label="Log a test">
   <div class="dim" data-close="logTest"></div>
   <div class="sheet gl-sheet">
-    <button class="xbtn" type="button" data-close="logTest" aria-label="Close">✕</button>
+    <button class="xbtn" type="button" data-close="logTest" aria-label="Close"><i data-pi="close"></i></button>
     <b id="ltTitle" class="pixel" style="font-size:18px;padding-right:44px">CAMBRIDGE 17 · TEST 1</b>
     <span id="ltSub" class="gl-sm" style="margin-top:-6px"></span>
     <div id="ltTabs" class="tx-tabs"></div>
@@ -939,7 +943,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="resSheet" class="ovl" role="dialog" aria-modal="true" aria-label="Mock result">
   <div class="dim" data-close="resSheet"></div>
   <div class="sheet gl-sheet">
-    <button class="xbtn" type="button" data-close="resSheet" aria-label="Close">✕</button>
+    <button class="xbtn" type="button" data-close="resSheet" aria-label="Close"><i data-pi="close"></i></button>
     <b class="pixel" style="font-size:18px">MOCK RESULT</b>
     <span class="gl-sm" id="rsSub" style="margin-top:-6px"></span>
     <div id="rsGrid" class="mx-rs"></div>
@@ -950,7 +954,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="mockSheet" class="ovl" role="dialog" aria-modal="true" aria-label="Mock exam">
   <div class="dim" data-close="mockSheet"></div>
   <div class="sheet gl-sheet">
-    <button class="xbtn" type="button" data-close="mockSheet" aria-label="Close">✕</button>
+    <button class="xbtn" type="button" data-close="mockSheet" aria-label="Close"><i data-pi="close"></i></button>
     <b id="mkTitle" class="pixel" style="font-size:18px">ADD A MOCK EXAM</b>
     <div class="gl-row"><b style="font-size:14px">Institute</b><span class="gl-sm">who runs the mock</span></div>
     <input id="mkInst" class="gl-inp" maxlength="40" placeholder="e.g. Safir" autocomplete="off">
@@ -966,7 +970,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="planSheet" class="ovl" role="dialog" aria-modal="true" aria-label="Plan a test">
   <div class="dim" data-close="planSheet"></div>
   <div class="sheet gl-sheet">
-    <button class="xbtn" type="button" data-close="planSheet" aria-label="Close">✕</button>
+    <button class="xbtn" type="button" data-close="planSheet" aria-label="Close"><i data-pi="close"></i></button>
     <b id="ptTitle" class="pixel" style="font-size:18px">PLAN A TEST</b>
     <div class="gl-sel2">
       <label><small>Cambridge book</small><b id="ptBookV">17 ▾</b><select id="ptBook" aria-label="Cambridge book"></select></label>
@@ -992,7 +996,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="reader" class="ovl" role="dialog" aria-modal="true" aria-label="Your notes">
   <div class="dim" data-close="reader"></div>
   <div class="sheet crumpled">
-    <button class="xbtn" type="button" data-close="reader" aria-label="Close">✕</button>
+    <button class="xbtn" type="button" data-close="reader" aria-label="Close"><i data-pi="close"></i></button>
     <div id="rdFrom" class="from"></div>
     <div id="rdMsg" class="msg"></div>
     <div id="rdSign" class="gh-sign"></div>
@@ -1003,7 +1007,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="cupsModal" class="ovl" role="dialog" aria-modal="true" aria-label="Squad cups">
   <div class="dim" data-close="cupsModal"></div>
   <div class="sheet" style="background:#FBF3E8">
-    <button class="xbtn" type="button" data-close="cupsModal" aria-label="Close">✕</button>
+    <button class="xbtn" type="button" data-close="cupsModal" aria-label="Close"><i data-pi="close"></i></button>
     <b class="pixel" style="font-size:18px">SQUAD CUPS</b>
     <span class="muted" style="font-size:12px;font-weight:700;margin-top:-6px">Gold: a week with 3 empty spots or fewer (Friday Rooftop). Silver: 4 to 6. They live on the bottom shelf of the study hall.</span>
     <div id="cupList" class="cup-list"></div>
@@ -1012,7 +1016,7 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="boardModal" class="ovl" role="dialog" aria-modal="true" aria-label="Room board">
   <div class="dim" data-close="boardModal"></div>
   <div class="sheet" style="background:#FBF3E8">
-    <button class="xbtn" type="button" data-close="boardModal" aria-label="Close">✕</button>
+    <button class="xbtn" type="button" data-close="boardModal" aria-label="Close"><i data-pi="close"></i></button>
     <b class="pixel" style="font-size:18px">ROOM BOARD · TODAY</b>
     <span class="muted" style="font-size:12px;font-weight:700;margin-top:-6px">Shows the clock, your chat, and when the leading pair changes.</span>
     <div id="bHist" class="bhist"></div>
@@ -1024,10 +1028,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.11-10"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.11-11"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.11-10";
+const APP_VERSION = "2026.11.11-11";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1376,7 +1380,7 @@ function ghostStore(s) {
     if (typeof t[k] !== "function") return t[k];
     if (GH_SILENT.has(k)) return () => Promise.resolve(null);
     // anything else is a change: say so, and never resolve, so no "saved!" follows
-    return () => { if (!navigator.userActivation || navigator.userActivation.isActive) toast("👻 Ghosts can look, but not touch."); return new Promise(() => {}); };
+    return () => { if (!navigator.userActivation || navigator.userActivation.isActive) toast("Ghosts can look, but not touch."); return new Promise(() => {}); };
   } });
 }
 function ghostHome() {                                    // a free spot over the rug
@@ -1462,7 +1466,7 @@ async function stopIt() {
   await store.setSession(me, { state: "off" });
   logSeg(s, seg, t);
   const today = dayKey(now()), left = goalOf(me) * MIN - dayMs(me, today);
-  toast(left <= 0 ? `${fmtLong(total)} saved · lamp on 💚` : `${fmtLong(total)} saved · ${fmtLong(left)} to today's goal`);
+  toast(left <= 0 ? `${fmtLong(total)} saved · lamp on` : `${fmtLong(total)} saved · ${fmtLong(left)} to today's goal`);
   render();
 }
 // skill picker sheet: "start" = sit down with it, "switch" = change while seated
@@ -1699,7 +1703,7 @@ const TSK = { L: ["Listening", "#7FB3E6"], R: ["Reading", "#6CCB7E"], W: ["Writi
 // skill squares; with a test key they also show progress: faint = not done, full = done, ✓ = analysed
 const skp = (on, key) => { const tr = key ? lastTry(((state.tests[me] || {})[key])) : null;
   return `<span class="gl-skp">${"LRWS".split("").map(k => { const a = partsOf(tr, k), st = !key ? 1 : a.every(v => v === 2) ? 2 : a.every(v => v >= 1) ? 1 : 0;
-    return `<span class="${on.includes(k) ? "on" : ""}" style="${on.includes(k) ? `background:${TSK[k][1]};opacity:${st ? 1 : .45}` : ""}">${st === 2 && on.includes(k) ? "✓" : k}</span>`; }).join("")}</span>`; };
+    return `<span class="${on.includes(k) ? "on" : ""}" style="${on.includes(k) ? `background:${TSK[k][1]};opacity:${st ? 1 : .45}` : ""}">${st === 2 && on.includes(k) ? pi("check", 1.2) : k}</span>`; }).join("")}</span>`; };
 let gTab = "week", gMain = null, gWs = null, gWeek = null, gSel = null;
 
 function initGoals(tab) {
@@ -1747,7 +1751,7 @@ function renderGoalMain() {
     const past = m.date && m.date < today, dl = m.date ? daysBetween(today, m.date) : null;
     const tile = m.date ? `<span class="d ${past ? "past" : ""}"><b>${fmtDate(m.date, { day: "numeric" })}</b><small>${fmtDate(m.date, { month: "short" }).toUpperCase()}</small></span>` : `<span class="d tbc"><b>?</b><small>TBC</small></span>`;
     const when = !m.date ? "booked, date not known yet" : past ? (m.result && m.result.overall != null ? `done · band ${bandTxt(m.result.overall)}` : "done · add result") : dl === 0 ? "today!" : `in ${dl} day${dl === 1 ? "" : "s"}`;
-    return `<button type="button" class="gl-mock" data-mock="${esc(m.mid)}">${tile}<span class="t"><b>${esc(m.institute)}</b><span class="gl-sm">${m.place ? esc(m.place) + " · " : ""}${when}</span></span><span class="gl-sm">✎</span></button>`;
+    return `<button type="button" class="gl-mock" data-mock="${esc(m.mid)}">${tile}<span class="t"><b>${esc(m.institute)}</b><span class="gl-sm">${m.place ? esc(m.place) + " · " : ""}${when}</span></span><span class="gl-sm">${pi("pencil")}</span></button>`;
   };
   put($("glMain"), `
   <div class="gl-card"><div class="gl-row"><h2>The road to your exam</h2><span class="gl-sm">${left != null && left >= 0 ? `${left} days` : ""}</span></div>${roadLine(exam, today)}</div>
@@ -1786,15 +1790,15 @@ function nextWeekBtn(cur) {
   const nx = addDays(cur, 7), p = planOf(me, nx), dow = dowOf(dayKey(now()));
   const range = `${fmtDate(nx, { day: "numeric" })} – ${fmtDate(addDays(nx, 6), { day: "numeric", month: "short" })}`;
   return p && p.savedAt
-    ? `<button type="button" class="mx-plan" data-gact="wk+"><span><b>NEXT WEEK PLANNED ✓</b><br><small>${range} · ${fmtGoal(weekGoal(me, nx))}</small></span><span class="go">EDIT ›</span></button>`
+    ? `<button type="button" class="mx-plan" data-gact="wk+"><span><b>NEXT WEEK PLANNED</b> ${pi("check", 1.4)}<br><small>${range} · ${fmtGoal(weekGoal(me, nx))}</small></span><span class="go">EDIT ›</span></button>`
     : `<button type="button" class="mx-plan ${dow >= 5 ? "glow" : ""}" data-gact="wk+"><span><b>PLAN NEXT WEEK</b><br><small>due Friday · ${range}</small></span><span class="go">PLAN ›</span></button>`;
 }
 // a small to-do list for the week: saved as soon as you add or tick, no SAVE needed
 const todosOf = (id, ws) => Object.entries(((planOf(id, ws) || {}).todo) || {}).filter(([, x]) => x && x.text).sort((a, b) => (a[1].at || 0) - (b[1].at || 0));
 function todoCard(past) {
   const list = todosOf(me, gWs), done = list.filter(([, x]) => x.done).length;
-  const rows = list.map(([k, x]) => `<div class="td-it ${x.done ? "done" : ""}"><button type="button" class="ck" data-tdo="${esc(k)}" ${past ? "disabled" : ""} aria-label="${x.done ? "Not done" : "Done"}">${x.done ? "✓" : ""}</button><span>${esc(x.text)}</span>${past ? "" : `<button type="button" class="del" data-tdel="${esc(k)}" aria-label="Delete">✕</button>`}</div>`).join("");
-  return `<div class="gl-card"><div class="gl-row"><h2>${past ? "☑ " : `<span class="gl-step">4</span>`}To-do this week</h2><span class="gl-sm">${list.length ? `${done} / ${list.length} done` : "optional"}</span></div>
+  const rows = list.map(([k, x]) => `<div class="td-it ${x.done ? "done" : ""}"><button type="button" class="ck" data-tdo="${esc(k)}" ${past ? "disabled" : ""} aria-label="${x.done ? "Not done" : "Done"}">${x.done ? pi("check", 1.8) : ""}</button><span>${esc(x.text)}</span>${past ? "" : `<button type="button" class="del" data-tdel="${esc(k)}" aria-label="Delete">${pi("close", 1.6)}</button>`}</div>`).join("");
+  return `<div class="gl-card"><div class="gl-row"><h2>${past ? pi("check") : `<span class="gl-step">4</span>`}To-do this week</h2><span class="gl-sm">${list.length ? `${done} / ${list.length} done` : "optional"}</span></div>
     ${list.length ? `<div class="td-list">${rows}</div>` : past ? `<div class="gl-empty">No to-do that week.</div>` : ""}
     ${past ? "" : `<div class="td-add"><input id="tdIn" maxlength="80" placeholder="e.g. learn 30 words on crime" autocomplete="off"><button type="button" class="gl-b2" data-tadd>+ Add</button></div><span class="gl-sm">Saved right away. Tick when done.</span>`}</div>`;
 }
@@ -1821,7 +1825,7 @@ function renderGoalWeek() {
   const testDays = new Set(tests.map(x => x.day).filter(Boolean));
   const vals = DOW.map(effDay), max = Math.max(60, ...vals), total = vals.reduce((a, b) => a + b, 0);
   const dis = past ? "disabled" : "";
-  const stair = DOW.map((d, i) => `<button type="button" class="gl-sd ${gSel === d ? "sel" : ""} ${addDays(gWs, i) === today ? "today" : ""}" data-gday="${d}" ${dis} aria-label="${DOW_NAME[i]} ${fmtMin(vals[i])}"><span class="tm">${testDays.has(d) ? "📝" : ""}</span><span>${fmtShort(vals[i])}</span><span class="col ${gWeek.days[d] ? "own" : ""}" style="height:${Math.max(12, vals[i] / max * 86)}px"></span><b>${d.toUpperCase()}</b></button>`).join("");
+  const stair = DOW.map((d, i) => `<button type="button" class="gl-sd ${gSel === d ? "sel" : ""} ${addDays(gWs, i) === today ? "today" : ""}" data-gday="${d}" ${dis} aria-label="${DOW_NAME[i]} ${fmtMin(vals[i])}"><span class="tm">${testDays.has(d) ? pi("note", 1.4) : ""}</span><span>${fmtShort(vals[i])}</span><span class="col ${gWeek.days[d] ? "own" : ""}" style="height:${Math.max(12, vals[i] / max * 86)}px"></span><b>${d.toUpperCase()}</b></button>`).join("");
   let ed = "";
   if (gSel && !past) {
     const i = DOW.indexOf(gSel), own = !!gWeek.days[gSel], fl = floorOf(gSel);
@@ -1833,19 +1837,19 @@ function renderGoalWeek() {
   const avg = (state.main[me] || {}).avgMin;
   put($("glWeek"), `
   <div class="gl-wsel"><button type="button" data-gact="wk-" aria-label="Previous week" ${gWs <= first ? "disabled" : ""}>‹</button><b>${range}</b><button type="button" data-gact="wk+" aria-label="Next week" ${gWs >= addDays(cur, 7) ? "disabled" : ""}>›</button></div>
-  ${past ? `<div class="gl-ro">This week is over · read only</div>` : gWs === cur ? `<div class="gl-lock">${locked ? "🔒 saved · goals can only go up this week" : "🔒 after saving: goals can only go up"}</div>` : `<div class="gl-lock">Next week · filled in from your main goal · change it freely, then SAVE</div>`}
+  ${past ? `<div class="gl-ro">This week is over · read only</div>` : gWs === cur ? `<div class="gl-lock">${pi("lock", 1.6)}${locked ? "saved · goals can only go up this week" : "after saving: goals can only go up"}</div>` : `<div class="gl-lock">Next week · filled in from your main goal · change it freely, then SAVE</div>`}
   ${gWs === cur ? nextWeekBtn(cur) : ""}
   <div class="gl-card"><div class="gl-row"><h2>${past ? "" : `<span class="gl-step">1</span>`}Daily goal</h2><span class="gl-sm">${avg ? "average: " + fmtShort(avg) : ""}</span></div>
     <div class="gl-st"><button type="button" data-gact="daily-" aria-label="Less" ${past || gWeek.daily <= floorOf(null) ? "disabled" : ""}>−</button><output>${fmtGoal(gWeek.daily)}</output><button type="button" data-gact="daily+" aria-label="More" ${past || gWeek.daily >= 480 ? "disabled" : ""}>+</button></div></div>
   <div class="gl-card"><div class="gl-row"><h2>${past ? "" : `<span class="gl-step">2</span>`}Each day</h2><span class="gl-sm">${past ? "" : "tap a day"}</span></div>
     <div class="gl-stair">${stair}</div>${ed}
-    <div class="gl-leg"><span><i style="background:#BFE8C6"></i>daily goal</span><span><i style="background:#F9C9A8"></i>own goal</span><span>📝 test planned</span></div>
+    <div class="gl-leg"><span><i style="background:#BFE8C6"></i>daily goal</span><span><i style="background:#F9C9A8"></i>own goal</span><span>${pi("note", 1.4)}test planned</span></div>
     <div class="gl-sum"><span>Week total</span><b>${fmtGoal(total)}</b></div></div>
-  <div class="gl-card"><div class="gl-row"><h2>${past ? "📝 " : `<span class="gl-step">3</span>`}Tests this week</h2>${past || !tests.length ? "" : `<button type="button" class="gl-b2" data-gact="plantest">+ Plan a test</button>`}</div>
-    ${!tests.length && !past ? `<button type="button" class="gl-pick" data-gact="plantest"><span>+ CHOOSE THIS WEEK'S TEST</span><span>📝</span></button><span class="gl-sm">It goes straight into PRACTICE TESTS, ready to log.</span>` : ""}
-    ${tests.length ? tests.map(x => `<div class="gl-pt" data-tgo="${esc(x.k)}" role="button" tabindex="0" aria-label="Open C${x.book} T${x.test} in practice tests"><span><b>C${x.book} · T${x.test}</b><span class="gl-sm">${x.day ? DOW_NAME[DOW.indexOf(x.day)].slice(0, 3) : "any day"} · log it ›</span></span>${skp(x.skills || [], x.k)}${past ? "" : `<button type="button" class="gl-ped" data-ptest="${esc(x.k)}" aria-label="Edit plan">✎</button>`}</div>`).join("") : (past ? `<div class="gl-empty">No test planned that week.</div>` : "")}
+  <div class="gl-card"><div class="gl-row"><h2>${past ? pi("note") : `<span class="gl-step">3</span>`}Tests this week</h2>${past || !tests.length ? "" : `<button type="button" class="gl-b2" data-gact="plantest">+ Plan a test</button>`}</div>
+    ${!tests.length && !past ? `<button type="button" class="gl-pick" data-gact="plantest"><span>+ CHOOSE THIS WEEK'S TEST</span>${pi("note", 2.5)}</button><span class="gl-sm">It goes straight into PRACTICE TESTS, ready to log.</span>` : ""}
+    ${tests.length ? tests.map(x => `<div class="gl-pt" data-tgo="${esc(x.k)}" role="button" tabindex="0" aria-label="Open C${x.book} T${x.test} in practice tests"><span><b>C${x.book} · T${x.test}</b><span class="gl-sm">${x.day ? DOW_NAME[DOW.indexOf(x.day)].slice(0, 3) : "any day"} · log it ›</span></span>${skp(x.skills || [], x.k)}${past ? "" : `<button type="button" class="gl-ped" data-ptest="${esc(x.k)}" aria-label="Edit plan">${pi("pencil")}</button>`}</div>`).join("") : (past ? `<div class="gl-empty">No test planned that week.</div>` : "")}
     <span class="gl-sm">Only the skills you pick count as this week's test work.</span>
-    ${tests.length ? `<button type="button" class="gl-b2" data-gact="logtests" style="align-self:flex-start">📝 Log them in PRACTICE TESTS ›</button>` : ""}</div>
+    ${tests.length ? `<button type="button" class="gl-b2" data-gact="logtests" style="align-self:flex-start">${pi("note")}Log them in PRACTICE TESTS ›</button>` : ""}</div>
   ${todoCard(past)}
   ${past ? "" : `<button type="button" class="gl-save" data-gact="saveweek">SAVE ${gWs > cur ? "NEXT WEEK" : "MY WEEK"}</button>`}`);
 }
@@ -2069,7 +2073,7 @@ function renderMeData() {
   const t = now(), today = dayKey(t);
   const rows = editableDays(t).map(k => {
     const ms = ((state.days[k] || {})[me]) || 0, nm = `${DOW[dowOf(k)].toUpperCase()} ${fmtDate(k, { day: "numeric", month: "short" })}`;
-    if (dxEdit === k) return `<div class="dx-row" data-dxrow="${k}"><b>${DOW[dowOf(k)].toUpperCase()} ${+k.slice(8)}</b><input id="dxH" type="number" inputmode="numeric" min="0" max="12" value="${esc(dxH)}" aria-label="hours">h<input id="dxM" type="number" inputmode="numeric" min="0" max="59" step="5" value="${esc(dxM)}" aria-label="minutes">m<button type="button" class="dx-b" data-dxsave="${k}">Save</button><button type="button" class="dx-b" data-dxcancel aria-label="Cancel">✕</button></div>`;
+    if (dxEdit === k) return `<div class="dx-row" data-dxrow="${k}"><b>${DOW[dowOf(k)].toUpperCase()} ${+k.slice(8)}</b><input id="dxH" type="number" inputmode="numeric" min="0" max="12" value="${esc(dxH)}" aria-label="hours">h<input id="dxM" type="number" inputmode="numeric" min="0" max="59" step="5" value="${esc(dxM)}" aria-label="minutes">m<button type="button" class="dx-b" data-dxsave="${k}">Save</button><button type="button" class="dx-b" data-dxcancel aria-label="Cancel">${pi("close", 1.6)}</button></div>`;
     return `<div class="dx-row"><b>${nm}${k === today ? " · today" : ""}</b><span>${fmtFix(dayMs(me, k, t))}</span><button type="button" class="dx-b" data-dxedit="${k}">edit</button></div>`;
   }).join("");
   const mine = wipeList(today, me);
@@ -2087,7 +2091,7 @@ function renderMeData() {
     else if (!dxClean) h += `<span class="gl-sm">${all.days} day${all.days === 1 ? "" : "s"} · ${all.entries} study entr${all.entries === 1 ? "y" : "ies"} · ${all.logs} log line${all.logs === 1 ? "" : "s"}, for everyone, dated before ${when}.</span><button type="button" class="dx-b red" data-dxclean style="align-self:flex-start">Clear history before 7 Nov…</button>`;
     else h += `<div class="dx-box"><span>This deletes, for <b>everyone</b>, all study time, skills and log lines dated before ${when}:<br>${all.days} day${all.days === 1 ? "" : "s"} · ${all.entries} study entr${all.entries === 1 ? "y" : "ies"} · ${all.logs} log line${all.logs === 1 ? "" : "s"}. Goals, plans, tests, mocks, notes and cups stay. It can't be undone.</span>
        <span>1. Export a backup first: Firebase console › Realtime Database › ⋮ › Export JSON. You can also download one here:</span>
-       <button type="button" class="dx-b" data-dxbackup style="align-self:flex-start">⬇ Download backup (JSON)</button>
+       <button type="button" class="dx-b" data-dxbackup style="align-self:flex-start">${pi("download")}Download backup (JSON)</button>
        <label><input type="checkbox" id="dxBacked" ${dxBacked ? "checked" : ""}> 2. I have a backup</label>
        <div class="dx-ok"><button type="button" class="dx-b fill" data-dxcleango ${dxBacked ? "" : "disabled"}>Delete for everyone</button><button type="button" class="dx-b" data-dxcleanno>Cancel</button></div></div>`;
   }
@@ -2116,7 +2120,7 @@ function renderMe() {
     const pts = P.map((q, i) => `<div class="pt ${q.cls}" style="left:${q.x}%"><span class="bd ${q.tg ? "tg" : ""}">${q.bd}</span><span class="fl"></span><small style="${keep[i] ? "" : "visibility:hidden"}">${q.lb}</small></div>`).join("");
     hero = `<div class="t1"><b>${Math.ceil(left / 7)} week${Math.ceil(left / 7) === 1 ? "" : "s"}</b><small>to IELTS · ${fmtDate(exam, { weekday: "short", day: "numeric", month: "short" })}</small></div>
       <div class="mx-jr"><div class="ln"><i style="width:${pos(today)}%"></i></div>${pts}<span class="you" style="left:${pos(today)}%"></span></div>`;
-  } else hero = `<div class="t1"><b>${exam ? "Exam done 🎉" : "No exam date"}</b><small>${exam ? "set your next one" : "set it to see your road"}</small></div><button type="button" class="mx-setx" data-mact="main">SET YOUR EXAM DATE ›</button>`;
+  } else hero = `<div class="t1"><b>${exam ? `Exam done ${pi("party", 3)}` : "No exam date"}</b><small>${exam ? "set your next one" : "set it to see your road"}</small></div><button type="button" class="mx-setx" data-mact="main">SET YOUR EXAM DATE ›</button>`;
   // KPIs
   const tot = totalMs(me) + runningPart(state.sessions[me], today, t);
   let need = 0, hit = 0, nd = 0;
@@ -2141,7 +2145,7 @@ function renderMe() {
     const bar = fut ? `<div class="bar f"></div>` : `<div class="bar">${SKX.filter(x => sp.o[x.id] > 0).map(x => `<i style="width:${sp.o[x.id] / peekMax * 100}%;background:${x.col}"></i>`).join("")}</div>`;
     return `<div class="r ${w === cur ? "now" : ""}"><div class="d" ${fut ? 'style="color:#8d84a0"' : ""}>WEEK ${weekNo(me, w)}<small>${w === cur ? "this week" : fmtDate(w, { day: "numeric", month: "short" })}</small></div>${bar}<div class="h" ${fut ? 'style="color:#5c5470"' : ""}>${fut ? "—" : fmtLong(sp.tot)}</div></div>`;
   }).join("");
-  const tabs = `<div class="mx-mtab" role="tablist"><button type="button" role="tab" data-mtab="plan" class="${meTab === "plan" ? "on" : ""}" aria-selected="${meTab === "plan"}">🗓 PLAN</button><button type="button" role="tab" data-mtab="prog" class="${meTab === "prog" ? "on" : ""}" aria-selected="${meTab === "prog"}">📈 PROGRESS</button></div>`;
+  const tabs = `<div class="mx-mtab" role="tablist"><button type="button" role="tab" data-mtab="plan" class="${meTab === "plan" ? "on" : ""}" aria-selected="${meTab === "plan"}">${pi("calendar")}PLAN</button><button type="button" role="tab" data-mtab="prog" class="${meTab === "prog" ? "on" : ""}" aria-selected="${meTab === "prog"}">${pi("chart")}PROGRESS</button></div>`;
   put($("meTabs"), tabs);
   $("mePlan").hidden = meTab !== "plan"; $("meBody").hidden = meTab === "plan";
   // PLAN = MAIN GOAL | WEEKLY PLAN, edited right here
@@ -2159,7 +2163,7 @@ function renderMe() {
   <div class="mx-blk"><div class="mx-hd"><h2>Where your time went</h2><span class="mx-tabs"><button type="button" data-mrange="all" class="${meRange === "all" ? "on" : ""}">ALL</button><button type="button" data-mrange="week" class="${meRange === "week" ? "on" : ""}">WEEK</button></span></div>
     <div class="mx-sbar" data-mact="wkd">${sbar}</div><div class="mx-slist" data-mact="wkd">${slist}</div></div>
   <button type="button" class="mx-peek" data-mact="road"><div class="ttl"><b>MY ROAD</b><small>${weeks.length} weeks · ${fmtDate(weeks[0], { day: "numeric", month: "short" })} → ${exam && exam >= today ? fmtDate(exam, { day: "numeric", month: "short" }) : "…"}</small></div>${peek}<div class="fade"></div><div class="cta"><span>SEE ALL ${weeks.length} WEEKS ›</span></div></button>
-  <div class="mx-tcard"><div class="top sc-card"><div class="mx-hd"><h2>📝 Practice tests</h2><span class="gl-sm">${testsDone(me)} of ${m.testsTarget || 20} done</span></div>
+  <div class="mx-tcard"><div class="top sc-card"><div class="mx-hd"><h2>${pi("note")}Practice tests</h2><span class="gl-sm">${testsDone(me)} of ${m.testsTarget || 20} done</span></div>
     <div class="tx-how"><span><b>1</b>do a Cambridge test</span><span><b>2</b>tick the parts you did</span><span><b>3</b>add your score</span></div>
     ${bandsBlock(me)}</div>
     <div class="mx-stub"><button type="button" data-mact="addtest"><span class="pl">+</span>ADD A TEST</button><button type="button" data-mact="alltests"><span class="cnt">ALL TESTS<small>see every test</small></span><span>›</span></button></div></div>`);
@@ -2215,7 +2219,7 @@ function bandsBlock(id) {
 }
 function scoreChart(id) {
   const pts = scoreGroups(scorePoints(id), scRange);
-  if (!pts.length) return `<div class="gl-empty">No scores yet. Open a test in PRACTICE TESTS, tap <b>✎ add score</b>, and your bands show here. Mock results count too.</div>`;
+  if (!pts.length) return `<div class="gl-empty">No scores yet. Open a test in PRACTICE TESTS, tap <b>${pi("pencil")}add score</b>, and your bands show here. Mock results count too.</div>`;
   const W = 320, H = 170, L = 28, R = 30, T = 10, B = 24, keys = ["L", "R", "W", "S", "O"];
   const all = pts.flatMap(p => keys.map(k => p.b[k]).filter(v => v != null));
   const lo = Math.max(0, Math.floor(Math.min(...all) - 0.5)), hi = Math.min(9, Math.max(lo + 2, Math.ceil(Math.max(...all) + 0.5)));
@@ -2273,10 +2277,10 @@ function renderRoad() {
       const info = r ? ["L", "R", "W", "S"].map(k => `${k} ${bandTxt(r[k])}`).join(" · ") + ` · <b style="margin:0;color:#FFE07A">${bandTxt(r.overall)}</b>` : `${esc(m.institute)}${m.place ? " · " + esc(m.place) : ""}${past ? " · tap to add bands" : ""}`;
       rows += `<button type="button" class="mx-mfl" ${past ? `data-mres="${esc(m.mid)}"` : "disabled"}><span class="pole"></span><span><b>MOCK · ${fmtDate(m.date, { day: "numeric", month: "short" }).toUpperCase()}</b><small>${info}</small></span></button>`;
     });
-    while (cum >= mile * 100 * HOUR) { rows += `<div class="mx-mile">★ ${mile * 100} HOURS ★</div>`; mile++; }
+    while (cum >= mile * 100 * HOUR) { rows += `<div class="mx-mile">${pi("star")}${mile * 100} HOURS ${pi("star")}</div>`; mile++; }
   }
   ms.filter(m => !m.date).forEach(m => { rows += `<button type="button" class="mx-mfl tbc" disabled><span class="pole"></span><span><b>MOCK · TBC</b><small>${esc(m.institute)} · date not known yet</small></span></button>`; });
-  rows += exam && left >= 0 ? `<div class="mx-exam">🏁 EXAM DAY · ${fmtDate(exam, { day: "numeric", month: "short" }).toUpperCase()}</div>` : `<button type="button" class="mx-exam" data-mact="main" style="display:block">SET YOUR EXAM DATE ›</button>`;
+  rows += exam && left >= 0 ? `<div class="mx-exam">${pi("flag")}EXAM DAY · ${fmtDate(exam, { day: "numeric", month: "short" }).toUpperCase()}</div>` : `<button type="button" class="mx-exam" data-mact="main" style="display:block">SET YOUR EXAM DATE ›</button>`;
   put($("ryBody"), `<div class="mx-stats"><div><b>${left != null && left >= 0 ? Math.ceil(left / 7) : "—"}</b><small>weeks left</small></div><div><b>${Math.floor((totalMs(me) + runningPart(state.sessions[me], today, t)) / HOUR)}h</b><small>studied</small></div><div><b>${hShort(weekGoal(me, cur) * MIN)}</b><small>this week's goal</small></div></div>
     <div class="mx-leg">${SKX.map(x => `<span><i style="background:${x.col}"></i>${x.name}</span>`).join("")}</div>
     <div class="mx-dark">${rows}</div>`);
@@ -2298,7 +2302,7 @@ function renderWkd() {
   const logRows = logs.map(l => { const k = SK[l.skill] || UNTAG; return `<div class="mx-log"><i style="background:${k.col}"></i><span class="t"><b>${l.note ? esc(l.note) : k.name}</b><span class="gl-sm">${DOW[dowOf(l.day)].toUpperCase()} · ${k.name}</span></span><em>${hShort(l.ms)}</em></div>`; }).join("");
   put($("wdBody"), `<div class="gl-card"><div class="gl-row"><h2>Day by day</h2><span class="pixel" style="font-size:16px">${fmtLong(x.tot)}</span></div><div class="mx-cols">${cols}</div></div>
     <div class="gl-card"><div class="gl-row"><h2>Where the time went</h2><span class="gl-sm">goal ${fmtGoal(weekGoal(me, wdWs))}</span></div>${bars}</div>
-    ${x.tot && miss ? `<div class="mx-tip">💡 No ${SK[miss].name} ${past ? "that" : "yet this"} week.</div>` : ""}
+    ${x.tot && miss ? `<div class="mx-tip">${pi("bulb")}No ${SK[miss].name} ${past ? "that" : "yet this"} week.</div>` : ""}
     <div class="gl-card"><h2>What I studied</h2>${logRows || `<div class="gl-empty">Nothing logged ${past ? "that" : "yet this"} week.</div>`}</div>`);
 }
 // mock result sheet
@@ -2352,24 +2356,24 @@ function renderTests() {
     const mm = /^c(\d+)t(\d+)$/.exec(k) || [], b = (t && t.book) || (x && x.book) || mm[1], tt = (t && t.test) || (x && x.test) || mm[2];
     const when = x && x.ws === cur ? `planned · ${x.day ? DOW_NAME[DOW.indexOf(x.day)].slice(0, 3) : "this week"}` : x && !tr ? `planned · week of ${fmtDate(x.ws, { day: "numeric", month: "short" })}` : `${n > 1 ? ordinal(n) + " try · " : ""}${tr && tr.date ? fmtDate(tr.date, { day: "numeric", month: "short" }) : ""}`;
     const isDone = t && testIsDone(me, k, t), open = txOpen.has(k);
-    const head = `<button type="button" class="tx-tc ${x && x.ws === cur ? "pl" : ""}" data-topen="${esc(k)}" aria-expanded="${open}"><span class="nm"><b>C${b}·T${tt}</b><small>${when}</small></span>${"LRWS".split("").map(s2 => tBox(s2, partsOf(tr, s2), ch && ch.length && !ch.includes(s2))).join("")}<span class="dn">${isDone ? "✓" : `<span style="color:#c9bed8;font-size:13px">${open ? "▴" : "▾"}</span>`}</span></button>`;
+    const head = `<button type="button" class="tx-tc ${x && x.ws === cur ? "pl" : ""}" data-topen="${esc(k)}" aria-expanded="${open}"><span class="nm"><b>C${b}·T${tt}</b><small>${when}</small></span>${"LRWS".split("").map(s2 => tBox(s2, partsOf(tr, s2), ch && ch.length && !ch.includes(s2))).join("")}<span class="dn">${isDone ? pi("check", 1.6) : `<span style="color:#c9bed8;font-size:13px">${open ? "▴" : "▾"}</span>`}</span></button>`;
     if (!open) return head;
     return `<div class="tx-open">${head}<div class="tx-in">${segRows(k, tr, ch)}
-      <div class="gl-row"><span class="tx-tip">${ch && ch.length < 4 ? `Planned: ${ch.map(c => TSK[c][0]).join(" + ")}` : "Tap a part: once = done, again = analysed ✓"}</span><button type="button" class="tx-more" data-tmore="${esc(k)}">✎ add score · re-take ›</button></div></div></div>`;
+      <div class="gl-row"><span class="tx-tip">${ch && ch.length < 4 ? `Planned: ${ch.map(c => TSK[c][0]).join(" + ")}` : "Tap a part: once = done, again = analysed ✓"}</span><button type="button" class="tx-more" data-tmore="${esc(k)}">${pi("pencil")}add score · re-take ›</button></div></div></div>`;
   };
-  let list = `<button type="button" class="tx-slot" data-tact="add"><span>+ ADD A TEST</span><span>📝</span></button>`;
+  let list = `<button type="button" class="tx-slot" data-tact="add"><span>+ ADD A TEST</span>${pi("note", 2.5)}</button>`;
   thisWeek.forEach(x => { list += card(x.k, mine[x.k], x); });
   const rest = new Set([...Object.keys(mine).filter(k => mine[k] && mine[k].tries), ...Object.keys(all)].filter(k => !thisWeek.some(x => x.k === k)));
   const date = k => String((lastTry(mine[k]) || {}).date || (all[k] && all[k].ws) || "");
   [...rest].sort((a, b) => date(b).localeCompare(date(a))).forEach(k => { list += card(k, mine[k], all[k]); });
   const shown = thisWeek.length + rest.size, half = Math.floor(target / 2);
-  if (shown >= half && half > 0 && done >= half) list += `<div class="mx-mile">★ ${half} TESTS ★</div>`;
+  if (shown >= half && half > 0 && done >= half) list += `<div class="mx-mile">${pi("star")}${half} TESTS ${pi("star")}</div>`;
   for (let n = shown + 1, i = 0; n <= target; n++, i++) {
     list += `<div class="tx-slot f" style="opacity:${Math.max(0.14, 0.8 - i * 0.12)}"><span>TEST ${n}</span><span></span></div>`;
-    if (n === half && n < target) list += `<div class="mx-mile">★ ${half} TESTS ★</div>`;
+    if (n === half && n < target) list += `<div class="mx-mile">${pi("star")}${half} TESTS ${pi("star")}</div>`;
   }
-  list += `<div class="mx-exam">🏁 EXAM DAY · TEST ${target}</div>`;
-  put($("txBody"), `<div class="mx-blk sc-card"><div class="tx-how"><span><b>1</b>do a Cambridge test</span><span><b>2</b>tick the parts you did</span><span><b>3</b>✎ add your score</span></div>${bandsBlock(me)}</div>
+  list += `<div class="mx-exam">${pi("flag")}EXAM DAY · TEST ${target}</div>`;
+  put($("txBody"), `<div class="mx-blk sc-card"><div class="tx-how"><span><b>1</b>do a Cambridge test</span><span><b>2</b>tick the parts you did</span><span><b>3</b>${pi("pencil", 1.5)}add your score</span></div>${bandsBlock(me)}</div>
     <div class="mx-stats"><div><b>${done}/${target}</b><small>tests done</small></div><div><b>${thisWeek.length}</b><small>planned this week</small></div><div><b>${retakes(me)}</b><small>re-takes</small></div></div>
     <div class="mx-dark" style="gap:10px"><div class="tx-lg"><span><i class="p0"></i>not done</span><span><i></i>done</span><span><i class="p2"></i>analysed</span><span><span class="ring"><i class="p2"></i><i class="p2"></i></span>whole skill done + analysed</span></div>${list}</div>`);
 }
@@ -2498,7 +2502,7 @@ function lobbyHtml(t) {
       else if (done >= goalOf(p.id) * MIN) note = `done for today ✓ ${fmtLong(done)}`;
       else {
         note = done > 0 ? `${fmtLong(done)} so far today` : "not started today";
-        if (pr.studyTime) { when = pr.studyTime; if (done === 0 && nowHM > pr.studyTime) note = "running late 👀"; }
+        if (pr.studyTime) { when = pr.studyTime; if (done === 0 && nowHM > pr.studyTime) note = "running late"; }
         else note += " · no time set";
       }
       return `<div class="later">${img(A.chars[p.id])}<b>${p.name}${p.id === me ? " (you)" : ""}</b><em>${note}</em>${when ? `<span class="when">${when}</span>` : ""}</div>`;
@@ -2508,13 +2512,34 @@ function lobbyHtml(t) {
 }
 
 // ---------------- pixel icons ----------------
-const PIX = { K: "#2E2622", Y: "#F6D772", L: "#C9B6F2", C: "#FBF3E8", G: "#6CCB7E", B: "#9C6B4A", R: "#E4574F", W: "#FFFFFF", S: "#B8A898", T: "#5FB8B0" };
+const PIX = { K: "#2E2622", Y: "#F6D772", L: "#C9B6F2", C: "#FBF3E8", G: "#6CCB7E", B: "#9C6B4A", R: "#E4574F", W: "#FFFFFF", S: "#B8A898", T: "#5FB8B0", O: "#F0A65A", P: "#F2A3AE", D: "#7FB3E6" };
 const ICONS = {
   home: ["....KK....", "...KYYK...", "..KYYYYK..", ".KYYYYYYK.", "KKKKKKKKKK", ".KCCCCCCK.", ".KCKKCCCK.", ".KCKBCCCK.", ".KCKBCCCK.", ".KKKKKKKKK"],
   climb: [".......KKK", ".......KYK", "....KKKKYK", "....KYYYYK", ".KKKKYYYYK", ".KYYYYYYYK", "KKKYYYYYYK", "KYYYYYYYYK", "KKKKKKKKKK"],
   mic: ["...KKKK...", "..KSWSSK..", "..KSSSSK..", "..KSSSSK..", "..KSSSSK..", ".K.KKKK.K.", ".K......K.", "..KK..KK..", "....KK....", "...KKKK..."],
   table: ["....YY....", "...YYYY...", "....KK....", "....KK....", "KKKKKKKKKK", "KBBBBBBBBK", "KKKKKKKKKK", ".K......K.", ".K......K.", ".K......K."],
+  // small UI icons (design rule: every icon is pixel art, never an emoji)
+  pencil: [".....KK.", "....KPPK", "...KYKKK", "..KYYYK.", ".KYYYK..", "KCYYK...", "KKCK....", "KK......"],
+  gear: ["....KKK....", "..K.KSK.K..", ".KSKSSSKSK.", "..KSSSSSK..", "KKSSSKSSSKK", "KSSSK.KSSSK", "KKSSSKSSSKK", "..KSSSSSK..", ".KSKSSSKSK.", "..K.KSK.K..", "....KKK...."],
+  close: ["KK...KK", "KKK.KKK", ".KKKKK.", "..KKK..", ".KKKKK.", "KKK.KKK", "KK...KK"],
+  check: ["......KK", ".....KKK", "K...KKK.", "KK.KKK..", "KKKKK...", ".KKK....", "..K....."],
+  note: ["KKKKKKKK", "KWWWWWWK", "KWKKKKWK", "KWWWWWWK", "KWKKKKWK", "KWWWWWWK", "KWKKWWWK", "KWWWWWWK", "KKKKKKKK"],
+  lock: ["..KKKK..", ".K....K.", ".K....K.", "KKKKKKKK", "KYYYYYYK", "KYYKKYYK", "KYYKKYYK", "KYYYYYYK", "KKKKKKKK"],
+  flag: ["KKKKKKK.", "KWKWKWK.", "KKWKWKK.", "KWKWKWK.", "KKKKKKK.", "K.......", "K.......", "K.......", "K......."],
+  bell: ["...KK...", "..KYYK..", ".KYYYYK.", ".KYYYYK.", ".KYYYYK.", "KYYYYYYK", "KKKKKKKK", "...KK..."],
+  bulb: ["..KKK..", ".KYYYK.", "KYYWYYK", "KYYYYYK", "KYYYYYK", ".KYYYK.", "..KSK..", "..KSK..", "..KKK.."],
+  mail: ["KKKKKKKKK", "KKWWWWWKK", "KWKWWWKWK", "KWWKWKWWK", "KWWWKWWWK", "KWWWWWWWK", "KKKKKKKKK"],
+  calendar: [".K.....K.", "KKKKKKKKK", "KRRRRRRRK", "KKKKKKKKK", "KWWWWWWWK", "KWKWKWKWK", "KWWWWWWWK", "KWKWKWWWK", "KKKKKKKKK"],
+  chart: ["K.......", "K.....GG", "K.....GG", "K..YY.GG", "K..YY.GG", "KLLYY.GG", "KLLYY.GG", "KKKKKKKK"],
+  download: ["..KKK..", "..KGK..", "..KGK..", "KKKGKKK", ".KGGGK.", "..KGK..", "...K...", "KKKKKKK"],
+  star: ["...K...", "..KYK..", "KKKYKKK", "KYYYYYK", ".KYYYK.", ".KYKYK.", "KK...KK"],
+  pizza: ["KKKKKKKK", "KOOOOOOK", "KYRYYRK.", ".KYYYYK.", ".KYRYK..", "..KYYK..", "..KYK...", "...K...."],
+  party: ["Y..R...L", "..K...T.", ".KYK.G..", "KYRYK...", "KYYYYK.R", "KRYYRYK.", "KYYYYYYK", "KKKKKKKK"],
+  lantern: ["...KK...", "..KKKK..", ".KKKKKK.", "KOYYYYOK", "KOYWWYOK", "KOYYYYOK", ".KKKKKK.", "..KKKK.."],
+  ghost: ["..KKKK..", ".KWWWWK.", "KWWWWWWK", "KWKWWKWK", "KWWWWWWK", "KWWWWWWK", "KWKWWKWK", "KK.KK.KK"],
 };
+// an icon inside text or a button: pi("note"), pi("close", 2.5)
+const pi = (name, sz = 2) => ICONS[name] ? `<span class="pi">${pixIcon(ICONS[name], sz)}</span>` : "";
 function pixIcon(rows, sz) {
   const w = rows[0].length, h = rows.length; let r = "";
   rows.forEach((row, y) => [...row].forEach((c, x) => { if (PIX[c]) r += `<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${PIX[c]}"/>`; }));
@@ -2552,7 +2577,7 @@ function renderHome() {
     const st = pr && pr.studyTime, late = !on && !ok && st && nowHM > st && done === 0;
     const cls = !pr ? "off none" : on ? "on" : "off" + (late ? " late" : "");
     const label = on ? `<i></i>${fmtHM(done)}` : (pr ? (ok ? fmtHM(done) : (st || "—")) : "—");
-    return `<span class="hm-p ${cls}${ok ? " done" : ""}" title="${pp.name}">${ok ? '<span class="hm-ok">✓</span>' : ""}${img(A.chars[id], pp.name)}<span class="hm-t">${label}</span></span>`;
+    return `<span class="hm-p ${cls}${ok ? " done" : ""}" title="${pp.name}">${ok ? '<span class="hm-ok">${pi("check", 1.2)}</span>' : ""}${img(A.chars[id], pp.name)}<span class="hm-t">${label}</span></span>`;
   }).join("");
   put($("hmSquad"), `<span class="hm-row"><h2>The squad today</h2><small>${seated.length} at the table</small></span><span class="hm-sq">${tiles}</span>
     <span class="hm-leg"><span><i style="background:var(--lav)"></i>studying · time today</span><span><i style="background:#FBF6EE;border-color:#BFAF9F"></i>starts at</span><span><i style="background:#FDE3E6;border-color:#E58A96"></i>late</span><span><i style="background:var(--yellow)"></i>goal done</span></span>`);
@@ -2561,10 +2586,10 @@ function renderHome() {
   const wkDone = days.reduce((a, k) => a + (k <= today ? dayMs(me, k, t) : 0), 0);
   const cols = days.map((k, i) => {
     const d = k <= today ? dayMs(me, k, t) : 0, kg = goalOf(me, k) * MIN, met = d >= kg;
-    return `<span class="hm-wd"><span class="hm-tick">${met ? "✓" : ""}</span><span class="hm-c ${k === today ? "today" : ""}" style="height:44px"><i style="height:${Math.min(100, d / kg * 100)}%"></i></span><b class="${k === today ? "t" : ""}">${["SA", "SU", "MO", "TU", "WE", "TH", "FR"][i]}</b></span>`;
+    return `<span class="hm-wd"><span class="hm-tick">${met ? pi("check", 1.3) : ""}</span><span class="hm-c ${k === today ? "today" : ""}" style="height:44px"><i style="height:${Math.min(100, d / kg * 100)}%"></i></span><b class="${k === today ? "t" : ""}">${["SA", "SU", "MO", "TU", "WE", "TH", "FR"][i]}</b></span>`;
   }).join("");
   put($("hmWeek"), `<span class="hm-row"><h2>My week</h2><small>${fmtLong(wkDone)} of ${fmtGoal(wg)}</small></span><span class="hm-wk">${cols}</span>
-    <span class="hm-row"><b style="font-size:13px">Today ${fmtLong(td)} / ${fmtGoal(g)}</b><small>${td >= gMs ? "goal done ✓" : fmtLong(gMs - td) + " to go"}</small></span><span class="hm-prog"><div style="width:${Math.min(100, td / gMs * 100)}%"></div></span>${(() => { const pt = Object.keys(((planOf(me, ws) || {}).tests) || {}); if (!pt.length) return ""; const dn = pt.filter(k => testIsDone(me, k, (state.tests[me] || {})[k])).length; return `<span class="hm-row"><b style="font-size:13px">📝 Tests this week</b><small>${dn} of ${pt.length} done</small></span>`; })()}`);
+    <span class="hm-row"><b style="font-size:13px">Today ${fmtLong(td)} / ${fmtGoal(g)}</b><small>${td >= gMs ? "goal done ✓" : fmtLong(gMs - td) + " to go"}</small></span><span class="hm-prog"><div style="width:${Math.min(100, td / gMs * 100)}%"></div></span>${(() => { const pt = Object.keys(((planOf(me, ws) || {}).tests) || {}); if (!pt.length) return ""; const dn = pt.filter(k => testIsDone(me, k, (state.tests[me] || {})[k])).length; return `<span class="hm-row"><b style="font-size:13px">${pi("note")}Tests this week</b><small>${dn} of ${pt.length} done</small></span>`; })()}`);
   // next goal: the next mock (teal flag) if it comes before the exam, otherwise the exam (red flag)
   const exam = examOf(me), left = exam ? daysBetween(today, exam) : null;
   const nextMock = mocksOf(me).find(m => m.date && m.date >= today && (!exam || m.date <= exam));
@@ -2576,12 +2601,12 @@ function renderHome() {
     goal = `<span class="hm-goal"><span class="hm-flag mock"></span><span style="flex:1;min-width:0"><b style="font-size:15px">${ml === 0 ? "Mock exam today!" : `Mock in ${ml} day${ml === 1 ? "" : "s"}`}</b><br>${sub(esc(nextMock.institute) + " · " + fmtDate(nextMock.date, { day: "numeric", month: "short" }))}</span>${exam && left >= 0 ? wkBox(Math.ceil(left / 7)) : ""}</span>`;
   } else if (exam && left >= 0) {
     goal = `<span class="hm-goal"><span class="hm-flag"></span><span style="flex:1"><b style="font-size:15px">${left === 0 ? "IELTS is today!" : `IELTS in ${left} days`}</b><br>${sub(fmtDate(exam, { weekday: "short", day: "numeric", month: "short", year: "numeric" }))}</span>${wkBox(Math.ceil(left / 7))}</span>`;
-  } else if (exam) goal = `<span class="hm-goal"><span class="hm-flag"></span><span><b style="font-size:15px">Exam done 🎉</b><br>${sub("Set your next date ›")}</span></span>`;
+  } else if (exam) goal = `<span class="hm-goal"><span class="hm-flag"></span><span><b style="font-size:15px">Exam done ${pi("party")}</b><br>${sub("Set your next date ›")}</span></span>`;
   else goal = `<span class="hm-goal"><span class="hm-flag"></span><span><b style="font-size:15px">Set your exam date ›</b><br>${sub("see the countdown here")}</span></span>`;
   put($("hmGoal"), goal);
   // climb: gold steps toward the Friday Rooftop
   const cw = climbWeek(t), ts = cw.steps.find(x => x.today);
-  const clSub = cw.friday ? (cw.cup === "gold" ? "Friday Rooftop is ON 🍕" + (cw.ws === CUP_START ? "" : " · gold cup") : cw.cup === "silver" && cw.ws !== CUP_START ? "Quiet Friday · silver cup" : "Quiet Friday · new climb tomorrow") : `${cw.empty} empty spot${cw.empty === 1 ? "" : "s"} · ${cw.onTrack ? "on track for the roof" : cw.possible ? "lanterns can save it" : "no party this week"}${ts ? ` · today ${ts.lit}/6 done` : ""}`;
+  const clSub = cw.friday ? (cw.cup === "gold" ? `Friday Rooftop is ON ${pi("pizza")}` + (cw.ws === CUP_START ? "" : " · gold cup") : cw.cup === "silver" && cw.ws !== CUP_START ? "Quiet Friday · silver cup" : "Quiet Friday · new climb tomorrow") : `${cw.empty} empty spot${cw.empty === 1 ? "" : "s"} · ${cw.onTrack ? "on track for the roof" : cw.possible ? "lanterns can save it" : "no party this week"}${ts ? ` · today ${ts.lit}/6 done` : ""}`;
   put($("hmClimb"), `${pixIcon(ICONS.climb, 3)}<span style="flex:1;display:flex;flex-direction:column;gap:2px"><b style="font-size:15px">The Climb · together</b><small style="font-size:12px;font-weight:800;color:var(--muted)">${clSub}</small></span>${lanternsLeft(me, cw.ws, t) ? LANTERN.replace('class="lan-ico"', 'class="lan-ico" style="width:16px;height:22px"') : ""}<b class="pixel" style="font-size:18px">›</b>`);
   const s = state.sessions[me] || {};
   $("homeGo").textContent = ["studying", "paused"].includes(s.state) ? "BACK TO TABLE ▶" : "START ▶";
@@ -2710,7 +2735,7 @@ async function giveLantern(id, k) {
   if (lanternsLeft(me, ws) < 1) return toast("You don't have a lantern right now.");
   const ok = await store.giveLantern(ws, id, { from: me, day: k, at: now() }).catch(showErr);
   lanPick = null;
-  toast(ok ? `🏮 You lit ${BY[id].name}'s ${DOW_NAME[dowOf(k)]}.` : `${BY[id].name} already got a lantern this week.`);
+  toast(ok ? `You lit ${BY[id].name}'s ${DOW_NAME[dowOf(k)]}.` : `${BY[id].name} already got a lantern this week.`);
   render();
 }
 function renderCups() {
@@ -2800,13 +2825,13 @@ function renderRace() {
   });
   svg += "</svg>";
   let h = svg;
-  h += `<div class="cl-sign ${lit ? "on" : ""}" style="left:50%;top:${Y(28)}"><b>FRIDAY ROOFTOP</b><small>${lit ? esc(partyPlan(ws)) + " · it's ON 🍕" : c.friday ? (c.cup === "silver" && c.ws !== CUP_START ? "quiet tonight · silver cup" : "quiet tonight") : c.possible ? esc(partyPlan(ws)) : "quiet this week"}</small></div>`;
+  h += `<div class="cl-sign ${lit ? "on" : ""}" style="left:50%;top:${Y(28)}"><b>FRIDAY ROOFTOP</b><small>${lit ? esc(partyPlan(ws)) + ` · it's ON ${pi("pizza", 1.5)}` : c.friday ? (c.cup === "silver" && c.ws !== CUP_START ? "quiet tonight · silver cup" : "quiet tonight") : c.possible ? esc(partyPlan(ws)) : "quiet this week"}</small></div>`;
   // ---- people ----
   // the party: the six of us standing in one row behind the long table
   if (lit) {
     PEOPLE.forEach((pp, j) => { h += `<img class="px cl-guest" src="${A.chars[pp.id]}" alt="${nm(pp.id)}" title="${nm(pp.id)}" style="left:${X(65 + j * 26 - 13)};top:${Y(119 - (j % 2) * 2)};width:${X(26)}">`; });
     h += `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="left:0;top:0;width:100%;height:100%" aria-hidden="true"><defs><filter id="clg2" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="2.4"/></filter></defs>${tbl.replace(/#clg\)/g, "#clg2)")}</svg>`;
-    h += `<span class="cl-bubble" style="left:${X(party ? 168 : 128)};top:${Y(party ? 103 : 112)}">${party ? "🍕 one more slice" : "see you Friday!"}</span>`;
+    h += `<span class="cl-bubble" style="left:${X(party ? 168 : 128)};top:${Y(party ? 103 : 112)}">${party ? `${pi("pizza", 1.5)}one more slice` : "see you Friday!"}</span>`;
   }
   // on the stairs: at 4 AM everyone stands on the same step; reaching today's goal = climbing today's step
   if (!party) PEOPLE.forEach((pp, j) => {
@@ -2836,7 +2861,7 @@ function renderRace() {
   const sp = n => `${n} empty spot${n === 1 ? "" : "s"}`;
   const todayLine = todayStep ? `Today: ${todayStep.lit} of 6 reached their goal${todayStep.gold ? " · step lit ✓" : ""}. ` : "";
   let st;
-  if (c.friday && c.cup === "gold") st = `<h3>It's ON tonight! Friday Rooftop 🍕</h3><p>${sp(c.empty)} this week. The roof is open for all six of us, and ${c.ws === CUP_START ? "the first cup stands for this week" : "a gold cup is on the shelf"}.</p>${bulbs}`;
+  if (c.friday && c.cup === "gold") st = `<h3>It's ON tonight! Friday Rooftop ${pi("pizza")}</h3><p>${sp(c.empty)} this week. The roof is open for all six of us, and ${c.ws === CUP_START ? "the first cup stands for this week" : "a gold cup is on the shelf"}.</p>${bulbs}`;
   else if (c.friday && c.cup === "silver") st = `<h3>A quiet Friday${c.ws === CUP_START ? "" : " · silver cup"}</h3><p>${sp(c.empty)} this week. No party tonight${c.ws === CUP_START ? ", but the first cup stands for this week" : ", but a silver cup is on the shelf"}. A new climb starts tomorrow.</p>${bulbs}`;
   else if (c.friday) st = `<h3>A quiet Friday</h3><p>${sp(c.empty)} this week. No cup this time. A new climb starts tomorrow.</p>${bulbs}`;
   else if (c.onTrack) st = `<h3>On track for the Friday Rooftop</h3><p>${todayLine}${sp(c.empty)} so far. ${c.ws === CUP_START ? `Up to ${PARTY_MAX} → party. Cups start next week.` : `Up to ${PARTY_MAX} → party + gold cup · ${PARTY_MAX + 1}–${SILVER_MAX} → silver cup.`}</p>${bulbs}`;
@@ -2846,13 +2871,13 @@ function renderRace() {
   st += `<p style="display:flex;align-items:center;gap:8px">${CUP_ICON().replace('class="cup-ico"', 'class="cup-ico" style="width:16px;height:22px"')} ${nCups} cup${nCups === 1 ? "" : "s"} on the library shelf</p>`;
   put($("clStatus"), st);
   // --- lantern card ---
-  const given = Object.entries(lanternsIn(ws)).map(([to, l]) => `<p>🏮 ${esc(BY[l.from] ? BY[l.from].name : "?")} lit ${to === me ? "your" : esc(BY[to].name) + "'s"} ${DOW_NAME[dowOf(l.day)]}.</p>`).join("");
+  const given = Object.entries(lanternsIn(ws)).map(([to, l]) => `<p>${pi("lantern")}${esc(BY[l.from] ? BY[l.from].name : "?")} lit ${to === me ? "your" : esc(BY[to].name) + "'s"} ${DOW_NAME[dowOf(l.day)]}.</p>`).join("");
   let lc;
   if (mine) {
     const sel = lanPick && pickable.has(lanPick) ? lanPick.split("|") : null;
     lc = `<div class="row">${LANTERN}<h3>You have ${mine > 1 ? mine + " lanterns" : "a lantern"}</h3></div>`;
     if (!targets.length) lc += `<p>Nobody has a missed day in the last ${LAN_BACK} days. It stays at your seat in the study hall until someone needs it.</p>`;
-    else if (sel) lc += `<p>Light <b>${BY[sel[0]].name}'s ${DOW_NAME[dowOf(sel[1])]}</b>? Your lantern hangs on their spot and lights it up. It can't be undone.</p><div class="cl-ok"><button type="button" class="gl-save" data-lgive="${esc(lanPick)}" style="width:auto;padding:8px 18px">🏮 Light it</button><button type="button" class="gl-b2" data-lcancel>Cancel</button></div>`;
+    else if (sel) lc += `<p>Light <b>${BY[sel[0]].name}'s ${DOW_NAME[dowOf(sel[1])]}</b>? Your lantern hangs on their spot and lights it up. It can't be undone.</p><div class="cl-ok"><button type="button" class="gl-save" data-lgive="${esc(lanPick)}" style="width:auto;padding:8px 18px">${pi("lantern")}Light it</button><button type="button" class="gl-b2" data-lcancel>Cancel</button></div>`;
     else lc += `<p>Hang it on a friend's dark spot (last ${LAN_BACK} days). Tap the blinking spot on the stairs or pick here:</p><div class="cl-give">${targets.map(x => `<button type="button" data-lan="${x.id}|${x.k}">${img(A.chars[x.id])}${BY[x.id].name} · ${DOW_NAME[dowOf(x.k)].slice(0, 3)}</button>`).join("")}</div>`;
   } else {
     const g2 = 2 * goalOf(me) * MIN, td = dayMs(me, c.today, t);
@@ -2874,7 +2899,7 @@ const notesFor = id => Object.entries((state.notes || {})[id] || {}).map(([k, v]
 const pileCount = id => notesFor(id).filter(n => !flying.has(n.id)).length;
 function onData(first) {
   dataVer++;
-  if (GHOST && booted && !ghostOf(GHOST)) setTimeout(() => leaveGhost("Zinat let this ghost go. Thanks for visiting! 👻"), 0);
+  if (GHOST && booted && !ghostOf(GHOST)) setTimeout(() => leaveGhost("Zinat let this ghost go. Thanks for visiting!"), 0);
   try { saveLocal(); } catch (e) {}
   const all = [];
   for (const [to, list] of Object.entries(state.notes || {})) for (const [id, n] of Object.entries(list || {})) all.push({ id, to, ...n });
@@ -2964,7 +2989,7 @@ function updateNoteMeta() {
   const v = $("noteText").value, bad = NON_ENGLISH.test(v);
   $("noteCount").textContent = `${v.length} / ${NOTE_MAX}`;
   const left = GHOST ? ghostNotesLeft() : 1;
-  $("noteHint").textContent = bad ? "English letters only, please 🙂" : left <= 0 ? "That's 5 notes today. Float back tomorrow!" : (noteTo ? `To ${nameOf(noteTo)}${GHOST ? ` · ${left} left today` : ""}` : "Pick who it's for");
+  $("noteHint").textContent = bad ? "English letters only, please." : left <= 0 ? "That's 5 notes today. Float back tomorrow!" : (noteTo ? `To ${nameOf(noteTo)}${GHOST ? ` · ${left} left today` : ""}` : "Pick who it's for");
   $("noteHint").style.color = bad ? "#C0392B" : "";
   $("noteSend").disabled = !noteTo || !v.trim() || bad || left <= 0;
 }
@@ -3002,7 +3027,7 @@ function renderReader() {
   const when = new Date(n.at + 3.5 * HOUR).toISOString();
   const day = dayKey(n.at) === dayKey(now()) ? "today" : fmtDate(dayKey(n.at), { day: "numeric", month: "short" });
   const gs = !BY[n.from], gNow = gs ? ghostOf(n.from) : null, sName = gs ? (gNow || n).name : BY[n.from].name;
-  $("rdFrom").innerHTML = `${gs ? ghImg((gNow || n).color, sName) : img(A.chars[n.from], sName)}<div><b style="font-size:17px">From ${esc(sName)}${gs ? " 👻" : ""}</b><small>${day} · ${when.slice(11, 16)}</small></div>`;
+  $("rdFrom").innerHTML = `${gs ? ghImg((gNow || n).color, sName) : img(A.chars[n.from], sName)}<div><b style="font-size:17px">From ${esc(sName)}${gs ? " " + pi("ghost", 1.6) : ""}</b><small>${day} · ${when.slice(11, 16)}</small></div>`;
   $("rdMsg").textContent = n.text;
   $("rdSign").innerHTML = gs ? `— ${esc(sName)} <i class="gh-dot" style="background:${esc((gNow || n).color)}"></i>` : "";
   $("rdBack").disabled = gs && !gNow;
@@ -3041,7 +3066,7 @@ function checkLeadChange(t) {
 }
 function renderBoardModal() {
   const t = now(), items = boardItems(t);
-  $("bHist").innerHTML = items.length ? items.map(b => `<div class="${b.kind === "shout" ? "sh" : "ev"}"><time>${new Date(b.at + 3.5 * HOUR).toISOString().slice(11, 16)}</time><span>${b.kind === "shout" ? esc((BY[b.who] || {}).name || "?") + ": " : b.kind === "fix" ? "✎ " : "★ "}${esc(b.text)}</span></div>`).join("")
+  $("bHist").innerHTML = items.length ? items.map(b => `<div class="${b.kind === "shout" ? "sh" : "ev"}"><time>${new Date(b.at + 3.5 * HOUR).toISOString().slice(11, 16)}</time><span>${b.kind === "shout" ? esc((BY[b.who] || {}).name || "?") + ": " : b.kind === "fix" ? pi("pencil", 1.5) : pi("star", 1.5)}${esc(b.text)}</span></div>`).join("")
     : `<div class="ev"><span>Nothing yet today.</span></div>`;
   updateShoutMeta();
 }
@@ -3049,7 +3074,7 @@ const myShoutsToday = () => boardItems(now()).filter(b => b.kind === "shout" && 
 function updateShoutMeta() {
   const v = $("shoutIn").value, bad = NON_ENGLISH.test(v), left = SHOUTS_PER_DAY - myShoutsToday();
   $("shoutCount").textContent = `${v.length} / ${SHOUT_MAX}`;
-  $("shoutHint").textContent = bad ? "English letters only, please 🙂" : left > 0 ? "English · stays up until someone writes" : "That's enough board time for today!";
+  $("shoutHint").textContent = bad ? "English letters only, please." : left > 0 ? "English · stays up until someone writes" : "That's enough board time for today!";
   $("shoutHint").style.color = bad ? "#C0392B" : "";
   $("shoutGo").disabled = bad || !v.trim() || left <= 0;
 }
@@ -3190,7 +3215,7 @@ function renderHall() {
   $("seatChip").textContent = `${seated.length}/6 seated`;
   const mine = pileCount(inbox());
   if (!ghDragging) put($("ghLayer"), ghostLayer(t, X, Y));
-  $("notesBtn").innerHTML = `✉ My notes ${mine ? `<span class="badge">${mine}</span>` : ""}`;
+  $("notesBtn").innerHTML = `${pi("mail")}My notes ${mine ? `<span class="badge">${mine}</span>` : ""}`;
   put($("noteBtns"), `<button type="button" class="scobj" data-act="write" aria-label="Write a note" style="left:${X(8)};top:${Y(251)};width:${X(29)};height:${Y(38)}">${WRITE_DESK}</button><span class="scplate" style="left:${X(22.5)};top:${Y(293)}">WRITE</span>`
     + `<button type="button" class="scobj${mine ? " mail" : ""}" data-act="read" aria-label="My notes${mine ? ": " + mine + " waiting" : ""}" style="left:${X(198)};top:${Y(251)};width:${X(29)};height:${Y(38)}">${MAILBOX(mine)}</button><span class="scplate" style="left:${X(212.5)};top:${Y(293)}">MAIL${mine ? ` · ${mine}` : ""}</span>`);
 
@@ -3230,6 +3255,9 @@ function renderInner() {
 }
 
 // ---------------- events ----------------
+// static HTML asks for an icon with <i data-pi="name">; the tick inside CSS boxes comes from --pi-check
+document.querySelectorAll("[data-pi]").forEach(el => { el.outerHTML = pi(el.dataset.pi, +el.dataset.sz || 2); });
+document.documentElement.style.setProperty("--pi-check", `url("data:image/svg+xml,${encodeURIComponent(pixIcon(ICONS.check, 1).replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" '))}")`);
 document.querySelectorAll(".spark").forEach(s => s.innerHTML = '<svg width="14" height="14" viewBox="0 0 7 7" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="0" width="1" height="7" fill="#E7B83C"/><rect x="0" y="3" width="7" height="1" fill="#E7B83C"/><rect x="2" y="2" width="3" height="3" fill="#F6D772"/></svg>');
 $("lgGhost").src = A.ghosts.zinat;
 $("lgLamp").innerHTML = DESK_LAMP(true).replace('class="dlamp-ico"', 'class="dlamp-ico" style="width:14px;height:17px;display:block"');
