@@ -121,7 +121,8 @@ async function writesUnderRules(browser, base) {
 (async () => {
   staticChecks();
   const srv = await serve(), base = `http://localhost:${srv.address().port}`;
-  const browser = await chromium.launch();
+  // CI uses the Google Chrome that GitHub's Ubuntu runner already has (PW_CHANNEL=chrome): no browser download
+  const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
   try {
     await screensEveryDay(browser, base);
     await lanternGift(browser, base);
