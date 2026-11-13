@@ -115,6 +115,14 @@ async function writesUnderRules(browser, base) {
   await page.click("#ghCols [data-hue]:not([disabled])"); await page.click("#ghGo"); await page.clock.runFor(1500);
   const ghosts = await page.evaluate(() => Object.values((window.__FAKE_DB__.squad || {}).ghosts || {}).map(g => g.name));
   ok(ghosts.includes("Mahsa"), "a new ghost is saved");
+  // a ghost may write on the room board (its own line, signed with its name)
+  await page.evaluate(() => document.querySelector('[data-act="board"]')?.click()); await page.clock.runFor(300);
+  await page.fill("#shoutIn", "hello from a ghost"); await page.click("#shoutGo"); await page.clock.runFor(600);
+  const shout = await page.evaluate(() => Object.values((window.__FAKE_DB__.squad || {}).board || {}).find(b => b.kind === "shout"));
+  const gids = await page.evaluate(() => Object.keys((window.__FAKE_DB__.squad || {}).ghosts || {}));
+  ok(shout && shout.text === "hello from a ghost" && gids.includes(shout.who), "a ghost can write on the board, as itself");
+  ok(/Mahsa: hello from a ghost/.test(await page.$eval("#bHist", x => x.textContent)), "the board shows the ghost's name");
+  await page.evaluate(() => document.querySelector('#boardModal [data-close]')?.click()); await page.clock.runFor(300);
   await nav(page, "me"); await page.click("#meGear"); await page.clock.runFor(400);
   ok(await page.$eval("#meData", b => b.hidden), "a ghost can't edit or reset study data");
   ok((await denied(page)).length === 0, `no refused writes (ghost)${(await denied(page)).length ? " → " + (await denied(page)).join(", ") : ""}`);
@@ -305,6 +313,23 @@ async function mePlanning(browser, base) {
   await finish(page, "planning");
 }
 
+async function ghostBehindShelf(browser, base) {
+  console.log("a ghost dropped on the bottom shelf hides behind the thing there (fake Firebase)");
+  const prof = { goal: 150 }, at = Date.parse(DAYS.Wednesday);
+  const db = { squad: { profiles: { zinat: prof, milad: prof, niloufar: prof, arian: prof, farzad: prof, shaghayegh: prof },
+    ghosts: { g1: { name: "Mahsa", key: "mahsa", color: "#5E9EFF", at }, g2: { name: "Sara", key: "sara", color: "#FF6F91", at } },
+    ghostpos: { g1: { x: 121, y: 122, at }, g2: { x: 120, y: 280, at } } } };   // g1 on the first cup, g2 on the floor
+  const page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "zinat", db });
+  await pickMe(page, "zinat"); await nav(page, "hall");
+  const r = await page.evaluate(() => {
+    const g1 = document.querySelector('.hall-gh[data-gh="g1"]'), g2 = document.querySelector('.hall-gh[data-gh="g2"]');
+    return { behind: g1 && g1.classList.contains("behind"), front: g1 && g1.nextElementSibling && g1.nextElementSibling.classList.contains("cup"), g2: g2 && !g2.classList.contains("behind") };
+  });
+  ok(r.behind && r.front, "Mahsa on the first cup: behind it, the cup is drawn in front");
+  ok(r.g2, "Sara on the floor: not behind anything");
+  await finish(page, "shelf");
+}
+
 (async () => {
   staticChecks();
   const srv = await serve(), base = `http://localhost:${srv.address().port}`;
@@ -318,6 +343,7 @@ async function mePlanning(browser, base) {
     await backLeavesApp(browser, base);
     await fixMyData(browser, base);
     await mePlanning(browser, base);
+    await ghostBehindShelf(browser, base);
   } catch (e) { ok(false, "test crashed: " + e.message); }
   await browser.close(); srv.close();
   console.log(failed ? `\n${failed} check(s) FAILED` : "\nall checks passed");

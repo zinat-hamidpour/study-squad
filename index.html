@@ -618,6 +618,8 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 .hall-gh.under .gh-body{opacity:1}
 .hall-gh.under b{display:none}
 .hall-gh.under.mine b{display:block;opacity:.75}
+.hall-gh.behind b{display:none}.hall-gh.behind.mine b{display:block;opacity:.75}
+.hall-gh.behind .gh-fl{animation:ghostpeek 4.2s ease-in-out infinite}
 @keyframes ghostpeek{0%,82%,100%{transform:translateY(0)}88%{transform:translateY(18%)}94%{transform:translateY(-6%)}}
 .hall-gh b{margin-top:-1px;font:700 clamp(5px,1.5vw,7px)/1 Nunito,system-ui,sans-serif;color:#fff;white-space:nowrap;text-shadow:0 0 2px #2E2622,0 0 2px #2E2622,0 0 1px #2E2622;letter-spacing:.02em}
 .hall-gh.mine{pointer-events:auto;touch-action:none;cursor:grab}
@@ -1049,10 +1051,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.11-12"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.13-1"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.11-12";
+const APP_VERSION = "2026.11.13-1";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1391,11 +1393,12 @@ const inbox = () => GHOST || me;                         // whose notes this pho
 const nameOf = id => BY[id] ? BY[id].name : (ghostOf(id) || {}).name || "a ghost";
 // ghosts look through Zinat's eyes (or the first profile, in an empty demo)
 const viewAs = () => state.profiles.zinat ? "zinat" : ((PEOPLE.find(p => state.profiles[p.id]) || {}).id || "");
-// a read-only store: ghosts may only send notes, toss their own notes, and move themselves
+// a read-only store: ghosts may only send notes, toss their own notes, write on the board, and move themselves
 const GH_SILENT = new Set(["setWriting", "closeIfStale", "setBoard", "removeBoard"]);
 function ghostStore(s) {
   return new Proxy(s, { get(t, k) {
     if (k === "pushNote") return (to, val) => val && val.from === GHOST ? t.pushNote(to, val) : new Promise(() => {});
+    if (k === "pushBoard") return val => val && val.kind === "shout" && val.who === GHOST ? t.pushBoard(val) : new Promise(() => {});
     if (k === "removeNote") return (to, id) => to === GHOST ? t.removeNote(to, id) : new Promise(() => {});
     if (k === "ghostSent" || k === "setGhostPos") return (gid, v) => gid === GHOST ? t[k](gid, v) : Promise.resolve(false);
     if (typeof t[k] !== "function") return t[k];
@@ -3069,7 +3072,7 @@ function boardNow(t) {
   const latest = items[0];
   if (latest && (latest.kind === "lead" || latest.kind === "fix") && t - latest.at < LEAD_SHOW) return { cls: "ev", text: latest.text };
   const chat = items.find(b => b.kind === "shout");
-  if (chat) return { cls: "sh", text: `${(BY[chat.who] || {}).name || "?"}: ${chat.text}` };
+  if (chat) return { cls: "sh", text: `${nameOf(chat.who)}: ${chat.text}` };
   const hm = new Date(t + 3.5 * HOUR).toISOString().slice(11, 16);
   return { cls: "ev", clock: true, text: hm };
 }
@@ -3087,11 +3090,11 @@ function checkLeadChange(t) {
 }
 function renderBoardModal() {
   const t = now(), items = boardItems(t);
-  $("bHist").innerHTML = items.length ? items.map(b => `<div class="${b.kind === "shout" ? "sh" : "ev"}"><time>${new Date(b.at + 3.5 * HOUR).toISOString().slice(11, 16)}</time><span>${b.kind === "shout" ? esc((BY[b.who] || {}).name || "?") + ": " : b.kind === "fix" ? pi("pencil", 1.5) : pi("star", 1.5)}${esc(b.text)}</span></div>`).join("")
-    : `<div class="ev"><span>Nothing yet today.</span></div>`;
+  put($("bHist"), items.length ? items.map(b => `<div class="${b.kind === "shout" ? "sh" : "ev"}"><time>${new Date(b.at + 3.5 * HOUR).toISOString().slice(11, 16)}</time><span>${b.kind === "shout" ? (ghostOf(b.who) ? pi("ghost", 1.3) : "") + esc(nameOf(b.who)) + ": " : b.kind === "fix" ? pi("pencil", 1.5) : pi("star", 1.5)}${esc(b.text)}</span></div>`).join("")
+    : `<div class="ev"><span>Nothing yet today.</span></div>`);
   updateShoutMeta();
 }
-const myShoutsToday = () => boardItems(now()).filter(b => b.kind === "shout" && b.who === me).length;
+const myShoutsToday = () => boardItems(now()).filter(b => b.kind === "shout" && b.who === (GHOST || me)).length;
 function updateShoutMeta() {
   const v = $("shoutIn").value, bad = NON_ENGLISH.test(v), left = SHOUTS_PER_DAY - myShoutsToday();
   $("shoutCount").textContent = `${v.length} / ${SHOUT_MAX}`;
@@ -3103,7 +3106,7 @@ async function postShout() {
   const v = $("shoutIn").value.trim();
   if (!v || v.length > SHOUT_MAX || NON_ENGLISH.test(v) || myShoutsToday() >= SHOUTS_PER_DAY) return updateShoutMeta();
   $("shoutGo").disabled = true;
-  try { await store.pushBoard({ kind: "shout", who: me, text: v, at: now() }); $("shoutIn").value = ""; toast("Posted on the board!"); }
+  try { await store.pushBoard({ kind: "shout", who: GHOST || me, text: v, at: now() }); $("shoutIn").value = ""; toast("Posted on the board!"); }
   catch (e) { toast("Couldn't post — check your VPN."); }
   renderBoardModal();
 }
@@ -3116,13 +3119,17 @@ const ghostSpot = gid => { const p = (state.ghostpos || {})[gid]; return p && no
 // ghosts in the hall: only those whose phone checked in the last few minutes
 function ghostLayer(t, X, Y) {
   let h = "";
+  const shelf = shelfItems(t).items;
   for (const [gid, g] of ghostsAll()) {
-    const p = (state.ghostpos || {})[gid];
+    let p = (state.ghostpos || {})[gid];
     if (!p || !(t - p.at < GH_FRESH)) continue;
-    const mine = gid === GHOST, under = underRug(p), n = Math.min(3, pileCount(gid));
+    const hide = shelfSpot(p, shelf);
+    if (hide) p = { ...p, x: hide.x + hide.w / 2, y: hide.y + 7 };   // only the head and eyes peek over it
+    const mine = gid === GHOST, under = !hide && underRug(p), n = Math.min(3, pileCount(gid));
     let balls = "";
     for (let k = 0; k < n; k++) balls += `<img class="gh-ball px" src="${A.ball}" alt="" style="${GH_STUCK[k]}">`;
-    h += `<div class="hall-gh${mine ? " mine" : ""}${under ? " under" : ""}" data-gh="${gid}" style="left:${X(p.x)};top:${Y(p.y)};width:${X(12)}" title="${esc(g.name)}${mine ? " · drag me" : ""}"><div class="gh-fl"><img class="gh-body px" src="${ghSrc(g.color)}" alt="${esc(g.name)}">${under ? "" : balls}</div><b>${esc(g.name)}</b></div>`;
+    h += `<div class="hall-gh${mine ? " mine" : ""}${under ? " under" : ""}${hide ? " behind" : ""}" data-gh="${gid}" style="left:${X(p.x)};top:${Y(p.y)};width:${X(12)}" title="${esc(g.name)}${mine ? " · drag me" : ""}"><div class="gh-fl"><img class="gh-body px" src="${ghSrc(g.color)}" alt="${esc(g.name)}">${under || hide ? "" : balls}</div><b>${esc(g.name)}</b></div>`;
+    if (hide) h += shelfHtml(hide, X, Y);
   }
   return h;
 }
@@ -3149,6 +3156,23 @@ function ghostLayer(t, X, Y) {
   document.addEventListener("pointerup", end);
   document.addEventListener("pointercancel", end);
 })();
+// the bottom shelf of the bookcase: the first cup in the middle, then cups (or small things waiting for one)
+function shelfItems(t) {
+  const cups = squadCups(t), COMP = [[17, 84], [87, 155.4], [157.8, 223]], SLOTS = [];
+  [COMP[0], COMP[2]].forEach(([a, b]) => { for (let n = 0; n < 4; n++) SLOTS.push(a + 9 + n * ((b - a - 18) / 3)); });
+  SLOTS.push(95, 147.4);
+  const items = [{ cls: "cup first", title: "The first cup · for friendship &amp; companionship", x: 121 - 7, y: 108.5, w: 14, h: 18, art: CUP_ICON() }];
+  const rest = cups.slice(1), show = rest.length > SLOTS.length ? rest.slice(-(SLOTS.length - 1)) : rest, fresh = weekStart(dayKey(t));
+  SLOTS.forEach((x, n) => {
+    const cp = show[n];
+    items.push(cp ? { cls: "cup" + (cp.ws === fresh ? " new" : ""), title: `Week of ${fmtDate(cp.ws, { day: "numeric", month: "short" })}`, x: x - 6, y: 109.5, w: 12, h: 16, art: CUP_ICON(cp.kind) }
+                  : { cls: "cup", title: `${SHELF_THINGS[n][0]} · waiting for a cup`, x: x - 5.5, y: 111, w: 11, h: 14.7, art: THING(n) });
+  });
+  return { cups, COMP, SLOTS, items, more: rest.length - show.length };
+}
+const shelfHtml = (it, X, Y) => `<span class="${it.cls}" title="${it.title}" style="left:${X(it.x)};top:${Y(it.y)};width:${X(it.w)};height:${Y(it.h)}">${it.art}</span>`;
+// a ghost dropped on something on the bottom shelf hides behind it (feet = where it was dropped)
+const shelfSpot = (p, items) => items.find(it => p.x > it.x - 1.5 && p.x < it.x + it.w + 1.5 && p.y > it.y + 2 && p.y < it.y + it.h + 9);
 // ---------------- render: hall ----------------
 function renderHall() {
   const t = now(), key = dayKey(t), seated = seatedIds();
@@ -3158,23 +3182,14 @@ function renderHall() {
   // the bottom shelf of the bookcase holds the squad's cups, one for every week the rooftop opened.
   // The first cup stands in the middle under its plaque; the others replace small things, left to right.
   {
-    const cups = squadCups(t), COMP = [[17, 84], [87, 155.4], [157.8, 223]], SLOTS = [];
-    [COMP[0], COMP[2]].forEach(([a, b]) => { for (let n = 0; n < 4; n++) SLOTS.push(a + 9 + n * ((b - a - 18) / 3)); });
-    SLOTS.push(95, 147.4);
+    const { cups, COMP, SLOTS, items, more } = shelfItems(t);
     let sv = `<svg viewBox="0 0 ${A.W} ${A.H}" preserveAspectRatio="none" style="position:absolute;left:0;top:0;width:100%;height:100%" aria-hidden="true">`;
     COMP.forEach(([a, b]) => { sv += `<rect x="${a}" y="97.6" width="${b - a}" height="29.2" fill="#4E3220"/><rect x="${a}" y="97.6" width="${b - a}" height="3" fill="#3A2416"/><rect x="${a}" y="124.6" width="${b - a}" height="2" fill="#7A5434"/>`; });
     sv += `<rect x="102" y="99.6" width="38" height="9.4" fill="#C9A24C" stroke="#2E2622" stroke-width=".7"/><rect x="103" y="100.6" width="36" height="1" fill="#E9CB78"/>`;
     sv += "</svg>";
     h += sv;
     h += `<span class="cup-plq" style="left:${X(121)};top:${Y(104.3)}">FOR FRIENDSHIP<br>&amp; COMPANIONSHIP</span>`;
-    h += `<span class="cup first" title="The first cup · for friendship &amp; companionship" style="left:${X(121 - 7)};top:${Y(108.5)};width:${X(14)};height:${Y(18)}">${CUP_ICON()}</span>`;
-    const rest = cups.slice(1), show = rest.length > SLOTS.length ? rest.slice(-(SLOTS.length - 1)) : rest, more = rest.length - show.length;
-    const fresh = weekStart(key);
-    SLOTS.forEach((x, n) => {
-      const cp = show[n];
-      if (cp) h += `<span class="cup${cp.ws === fresh ? " new" : ""}" title="Week of ${fmtDate(cp.ws, { day: "numeric", month: "short" })}" style="left:${X(x - 6)};top:${Y(109.5)};width:${X(12)};height:${Y(16)}">${CUP_ICON(cp.kind)}</span>`;
-      else h += `<span class="cup" title="${SHELF_THINGS[n][0]} · waiting for a cup" style="left:${X(x - 5.5)};top:${Y(111)};width:${X(11)};height:${Y(14.7)}">${THING(n)}</span>`;
-    });
+    h += items.map(it => shelfHtml(it, X, Y)).join("");
     if (more) h += `<span class="over7" style="left:${X(SLOTS[0])};top:${Y(103)}">+${more}</span>`;
     h += `<button type="button" class="cupbtn" data-act="cups" aria-label="Squad cups: ${cups.length}. Tap to see them." style="left:${X(17)};top:${Y(97.6)};width:${X(206)};height:${Y(29)}"></button>`;
   }
@@ -3273,6 +3288,7 @@ function renderInner() {
   if (s === "wkd" && wdWs) safeRender("wdBody", renderWkd);
   if (s === "tests") safeRender("txBody", renderTests);
   if (s === "start" && $("stPick").classList.contains("on")) renderTiles();
+  if ($("boardModal").classList.contains("on")) renderBoardModal();   // new lines show while the board is open
 }
 
 // ---------------- events ----------------
