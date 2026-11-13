@@ -1,3 +1,14 @@
+# Study Squad 2026.11.13-1 · Ghosts on the board and the shelf · Arian's mole
+
+1. **Ghosts can write on the room board** (above the study hall). Their line is signed with their name and a
+   little ghost. Same limits as everyone: English, 40 letters, 20 a day.
+2. **A ghost can hide behind things on the bottom shelf** of the bookcase: drag yourself onto a cup, the plant,
+   the clock… and you slip behind it, with only your head and eyes peeking over the top.
+3. **Arian has a mole** next to his moustache, on his right cheek (both his normal and his ghost picture).
+4. Fix: the board now shows new lines while it is open.
+
+---
+
 # Study Squad 2026.11.11-12 · New app icon + opening animation
 
 1. **New app icon** (the pixel note ball on purple) in every size: 180 (iPhone), 192, 512 and 1024.
