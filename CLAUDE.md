@@ -30,8 +30,12 @@ the climb (together) · notes + board · render: hall · events · update check 
    `npm test` checks this.
 2. **Database writes must target `squad/<section>/<key>` or deeper.** The live rules refuse writes to `squad` or to a
    whole section (e.g. a transaction on `squad/ghosts`). New sections need no rule change.
+   Every phone signs in with Firebase **Anonymous Auth** (`signInAnonymously`) before it touches the database.
    Rules (Firebase console → Realtime Database → Rules):
-   `{"rules":{"squad":{".read":true,"$section":{"$key":{".write":true}}}}}`
+   `{"rules":{"squad":{".read":"auth != null","$section":{"$key":{".write":"auth != null"}}}}}`
+   **Publish rules only after the auth version is live on all phones** (a phone still on the old version can't sign
+   in, so it would lose all access). Anonymous sign-in must be enabled in Firebase console → Authentication.
+   `tests/fake-firebase/` enforces these rules (no reads or writes without a signed-in user).
 3. **Change files in place; never replace them wholesale** with copies made elsewhere. Files built from an old copy
    silently undid a merged fix once. Always start from the latest `main`.
 4. Anything `index.html` needs at startup from `assets.js` must have a fallback (`A.x || {}`): a missing asset must

@@ -1,3 +1,14 @@
+# Study Squad 2026.11.14-1 · Safer database: every phone signs in first
+
+1. **The app now signs in to Firebase before it reads or writes anything** (anonymous sign-in: no name, no
+   password, nothing to type). Nobody sees a difference, but it lets us lock the database to the app only.
+2. If sign-in fails (usually no VPN), the app says "Can't sign in — is your VPN on?" and tries again every 5 seconds.
+3. Zinat, after this version is on **every** phone: turn on Anonymous sign-in (Firebase console → Authentication →
+   Sign-in method) if it is not on yet, then publish the new rules from CLAUDE.md rule 2.
+4. Tests: the fake database now refuses reads and writes without a signed-in user, like the new rules.
+
+---
+
 # Study Squad 2026.11.13-1 · Ghosts on the board and the shelf · Arian's mole
 
 1. **Ghosts can write on the room board** (above the study hall). Their line is signed with their name and a
