@@ -1,3 +1,11 @@
+# Study Squad 2026.11.16-4 · The Crime book lives in the hall's bookcase
+
+1. The Crime book is now a **real book in the bookcase** of the study hall: second row, first from the left, with a
+   small "NEW · CRIME" tag. Tap it → Read or DOWNLOAD PDF. Every new week adds the next book beside it.
+2. The separate shelf card under the hall scene is gone.
+
+---
+
 # Study Squad 2026.11.16-3 · Books live only on the shelf
 
 1. The Speaking Corner no longer has a "Read the book" button. **A book opens only from the shelf in the study hall**:
