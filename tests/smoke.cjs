@@ -59,8 +59,9 @@ function serve() {
   return new Promise(res => srv.listen(0, () => res(srv)));
 }
 
-async function openPage(browser, base, { mode, when, me, db, authFail, authCode }) {
-  const ctx = await browser.newContext({ viewport: { width: 400, height: 860 } });
+async function openPage(browser, base, { mode, when, me, db, authFail, authCode, mic, micBlocked }) {
+  const ctx = await browser.newContext({ viewport: { width: 400, height: 860 }, permissions: mic ? ["microphone"] : [] });
+  if (micBlocked) await ctx.addInitScript(() => { navigator.mediaDevices.getUserMedia = () => Promise.reject(Object.assign(new Error("Permission denied"), { name: "NotAllowedError" })); });
   if (mode === "db") {
     await ctx.route(/firebase-app\.js/, r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(FAKE, "firebase-app.js"), "utf8") }));
     await ctx.route(/firebase-database\.js/, r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(FAKE, "firebase-database.js"), "utf8") }));
@@ -372,12 +373,12 @@ async function anonAuth(browser, base) {
 async function speakingCorner(browser, base) {
   console.log("speaking corner: hub, shelf → book reader + PDF (demo data)");
   const IN_WEEK = "2026-11-16T10:00:00+03:30";
-  let page = await openPage(browser, base, { mode: "demo", when: IN_WEEK, me: "niloufar" });
-  await pickMe(page, "niloufar"); await nav(page, "speak"); await page.clock.runFor(600);
+  let page = await openPage(browser, base, { mode: "demo", when: IN_WEEK, me: "farzad" });   // no speaking data in the demo
+  await pickMe(page, "farzad"); await nav(page, "speak"); await page.clock.runFor(600);
   const hub = await page.$eval("#spBody", x => x.textContent);
   ok(/CASE FILE #01/.test(hub) && /CRIME/.test(hub) && /0\/6/.test(hub), "hub: case file #01 · CRIME · 0/6");
   ok(await page.$eval("#spWeek", x => !x.hidden && x.textContent === "Week 1"), "hub: Week 1 pill");
-  ok(await page.$$eval("#spBody .sp-row", x => x.length) === 3 && await page.$$eval("#spBody .sp-row.cur", x => x.length) === 1, "hub: Part 1/2/3, Part 1 is current");
+  ok(await page.$$eval("#spBody .sp-row", x => x.length) === 4 && await page.$$eval("#spBody .sp-row.cur", x => x.length) === 1, "hub: Part 1/2/3 + Listen back, Part 1 is current");
   ok(await page.$$eval("#spBody [data-book]", x => x.length) === 0, "hub: no book button (books live only on the study hall shelf)");
   ok(await page.$$eval("#spBody .sp-test", x => x.length) === 3, "hub: 3 word-test tiles");
   ok(await page.$$eval("#spBody .sp-avs img.off", x => x.length) === 6, "hub: 6 greyed avatars (nobody closed the case yet)");
@@ -408,11 +409,73 @@ async function speakingCorner(browser, base) {
   await finish(page, "no week");
 }
 
+async function speakingRecorder(browser, base) {
+  console.log("speaking recorder: Part 1, send, listen back (fake Firebase with the voices rule, fake microphone)");
+  const prof = { goal: 150 }, WHEN = "2026-11-16T10:00:00+03:30";
+  const db = { squad: { profiles: { zinat: prof, milad: prof, niloufar: prof, arian: prof, farzad: prof, shaghayegh: prof } } };
+  let page = await openPage(browser, base, { mode: "db", when: WHEN, me: "arian", db, mic: true });
+  const until = async (fn, label) => { for (let i = 0; i < 60; i++) { if (await page.evaluate(fn)) return true; await page.clock.runFor(50); await page.waitForTimeout(50); } ok(false, "timed out: " + label); return false; };
+  const screen = () => page.evaluate(() => document.querySelector(".screen.on").id);
+  await pickMe(page, "arian"); await nav(page, "speak"); await page.clock.runFor(600);
+  ok(await page.$$eval("#spBody .stage img", x => x.length) >= 3, "hub: the stage with Arian at the mic");
+  await page.click('#spBody [data-sp="p1"]'); await until(() => document.querySelector("#sp1.on"), "Part 1 opens");
+  ok(await page.$$eval("#sp1 .sp-segs i", x => x.length) === 6 && /QUESTION 1 OF 6/.test(await page.$eval("#sp1Body", x => x.textContent)), "Part 1: 6 progress segments, QUESTION 1 OF 6");
+  ok(await page.$$eval("#sp1Stage .onair", x => x.length) === 0, "the ON AIR sign is off before recording");
+  // question 1: 24 seconds, stopped by hand
+  await page.click('[data-p1="rec"]'); await until(() => document.querySelector('[data-p1="stop"]'), "recording starts");
+  ok(await page.$$eval("#sp1Stage .onair", x => x.length) === 1 && /recording/.test(await page.$eval("#sp1Body .lab", x => x.textContent)), "recording: ON AIR lights up, the card says recording");
+  await page.clock.runFor(24000);
+  ok(await page.$eval("#spTime", x => x.textContent) === "0:24", "the timer counts (0:24)");
+  await page.click('[data-p1="stop"]'); await until(() => document.querySelector('[data-p1="next"]'), "the take is saved");
+  ok(/0:24/.test(await page.$eval("#sp1Body .sp-ans", x => x.textContent)), "Your answer · 0:24, with play");
+  await page.click('[data-p1="next"]'); await page.clock.runFor(200);
+  // question 2: left running, stops by itself at 0:40
+  await page.click('[data-p1="rec"]'); await until(() => document.querySelector('[data-p1="stop"]'), "recording 2 starts");
+  await page.clock.runFor(41000); await until(() => document.querySelector('[data-p1="next"]'), "auto-stop at 0:40");
+  ok(/0:40/.test(await page.$eval("#sp1Body .sp-ans", x => x.textContent)), "recording stops by itself at 0:40");
+  await page.click('[data-p1="next"]'); await page.clock.runFor(200);
+  for (let i = 0; i < 4; i++) { await page.click('[data-p1="skip"]'); await page.clock.runFor(200); }
+  const sum = await page.$eval("#sp1Body", x => x.textContent);
+  ok(/2 \/ 6 ANSWERED/.test(sum) && /1m 04s of English · average 32 sec/.test(sum), "summary: 2 / 6 answered · 1m 04s · average 32 sec");
+  ok((await page.evaluate(() => window.__READS__ || [])).length === 0, "nothing sent yet, no voice downloaded");
+  await page.click('[data-p1="send"]'); await until(() => document.querySelector("#splb.on"), "sent → listen back");
+  const D = await page.evaluate(() => window.__FAKE_DB__);
+  const voices = Object.values(((D.voices || {})["week-01"] || {}).arian || {}), answers = Object.values((((D.squad.speaking || {})["week-01"] || {}).answers || {}).arian || {});
+  ok(voices.length === 2 && voices.every(v => v.data && /^audio\//.test(v.mime) && v.dur > 0), `2 voices saved under voices/week-01/arian (${voices.map(v => v.mime + " " + v.dur + "s").join(", ")})`);
+  ok(answers.length === 2 && answers.every(a => a.part === 1 && a.sent && !a.data), "2 answer cards under squad/speaking (no audio in them)");
+  ok(D.squad.speaking["week-01"].progress.arian.p1 && D.squad.speaking.weeks["week-01"].end === "2026-11-21", "Part 1 stamped; the week's end is saved for the clean-up");
+  ok((await denied(page)).length === 0, `no refused writes (voices)${(await denied(page)).length ? " → " + (await denied(page)).join(", ") : ""}`);
+  ok(/Part 1 sent · case file 1\/6 stamped/.test(await page.$eval("#splbBody", x => x.textContent)) && /CASE 1\/6/.test(await page.$eval("#splbCase", x => x.textContent)), "listen back: Part 1 sent · case file 1/6 stamped");
+  ok(await page.$$eval("#splbBody [data-save]", x => x.length) === 2, "your 2 answers, each with save my voice");
+  ok((await page.evaluate(() => window.__READS__ || [])).length === 0, "the lists load without downloading audio");
+  await page.click('#splbBody [data-play^="v:"]'); await page.clock.runFor(300); await page.waitForTimeout(200);
+  ok((await page.evaluate(() => window.__READS__ || [])).some(p => p.startsWith("voices/week-01/arian/")), "play fetches that one voice");
+  await page.evaluate(() => history.back()); await page.clock.runFor(400);
+  ok(await screen() === "speak" && /voice sent/.test(await page.$eval("#spBody", x => x.textContent)), "Back → speaking corner; Part 1 shows voice sent");
+  await finish(page, "recorder");
+  // a blocked microphone says so
+  page = await openPage(browser, base, { mode: "demo", when: WHEN, me: "arian", micBlocked: true });
+  await pickMe(page, "arian"); await nav(page, "speak"); await page.clock.runFor(600);
+  await page.click('#spBody [data-sp="p1"]'); await page.clock.runFor(300); await page.waitForTimeout(200);
+  await page.click('[data-p1="rec"]'); await page.clock.runFor(300); await page.waitForTimeout(200);
+  ok(/microphone is blocked/.test(await page.$eval("#sp1Body", x => x.textContent)), "mic permission denied → a clear message");
+  await finish(page, "mic blocked");
+  // demo: Milad's and Niloufar's Part 1 are in the squad's answers
+  page = await openPage(browser, base, { mode: "demo", when: WHEN, me: "farzad" });
+  await pickMe(page, "farzad"); await nav(page, "speak"); await page.clock.runFor(600);
+  await page.click('#spBody [data-sp="lb"]'); await page.clock.runFor(400);
+  const rows = await page.$$eval("#splbBody .sp-ans b", x => x.map(b => b.textContent));
+  ok(rows.length === 2 && /Milad · Part 1/.test(rows[0]) && /Niloufar · Part 1/.test(rows[1]), `squad's answers, newest first (${rows.join(" | ")})`);
+  await finish(page, "listen back");
+}
+
 (async () => {
   staticChecks();
   const srv = await serve(), base = `http://localhost:${srv.address().port}`;
   // CI uses the Google Chrome that GitHub's Ubuntu runner already has (PW_CHANNEL=chrome): no browser download
-  const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL } : {});
+  // a fake microphone (a beep) that needs no permission prompt, for the speaking recorder
+  const args = ["--use-fake-device-for-media-stream", "--use-fake-ui-for-media-stream"];
+  const browser = await chromium.launch(process.env.PW_CHANNEL ? { channel: process.env.PW_CHANNEL, args } : { args });
   try {
     await screensEveryDay(browser, base);
     await lanternGift(browser, base);
@@ -424,6 +487,7 @@ async function speakingCorner(browser, base) {
     await ghostBehindShelf(browser, base);
     await anonAuth(browser, base);
     await speakingCorner(browser, base);
+    await speakingRecorder(browser, base);
   } catch (e) { ok(false, "test crashed: " + e.message); }
   await browser.close(); srv.close();
   console.log(failed ? `\n${failed} check(s) FAILED` : "\nall checks passed");
