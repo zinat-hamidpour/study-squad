@@ -256,9 +256,66 @@ body.has-nav .dockfix{bottom:calc(84px + env(safe-area-inset-bottom));background
 .hm-flag.mock:after{border-left-color:var(--teal)}
 .hm-nums{margin-left:auto;display:flex;gap:6px}.hm-nums div{border:2px solid var(--ink);border-radius:10px;padding:3px 8px;text-align:center;background:#fff}.hm-nums b{display:block;font:700 15px 'Pixelify Sans',monospace}.hm-nums small{font-size:9px;font-weight:800;color:var(--muted)}
 .hm-start{height:62px;width:300px;align-self:center;font-size:23px;margin-top:2px;white-space:nowrap}
-.sp-soon{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:40px 18px}
-.sp-soon b{font:700 22px 'Pixelify Sans',monospace}
 #speak{padding:0 18px}
+/* speaking corner: hub, book reader, shelf */
+#speak header.bar{padding-left:0;padding-right:0}
+.sp-body{display:flex;flex-direction:column;gap:10px;padding-bottom:12px}
+.sp-msg{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:40px 10px;font-weight:700}
+.sp-case{position:relative;margin-top:16px;background:#E9D3A8;border:2.5px solid var(--ink);border-radius:0 18px 18px 18px;box-shadow:0 4px 0 var(--ink);padding:14px 16px 16px}
+.sp-case .tab{position:absolute;left:-2.5px;top:-20px;height:20px;padding:3px 12px 0;background:#E9D3A8;border:2.5px solid var(--ink);border-bottom:none;border-radius:8px 8px 0 0;font:700 11px 'Pixelify Sans',monospace;letter-spacing:1px}
+.sp-case .row{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.sp-case small{display:block;font-size:11px;font-weight:800;color:#6B5640;letter-spacing:.06em}
+.sp-case h2{margin:2px 0 0;font:700 30px 'Pixelify Sans',monospace;letter-spacing:2px}
+.sp-case .n{text-align:right;font:700 24px 'Pixelify Sans',monospace;line-height:1}
+.sp-case .n small{letter-spacing:0;margin-top:3px}
+.sp-pbar{margin-top:12px;height:16px;border:2.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden}
+.sp-pbar i{display:block;height:100%;background:#E0504A;border-right:2.5px solid var(--ink)}
+.sp-pbar i.z{border-right:none}
+.sp-h{font-size:15px;font-weight:800;margin:8px 0 -2px}
+.sp-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:2.5px solid var(--ink);border-radius:18px;padding:11px 14px}
+.sp-row b{display:block;font-size:15px;font-weight:800}
+.sp-row small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+.sp-row .go{margin-left:auto;font:700 14px 'Pixelify Sans',monospace;letter-spacing:1px;white-space:nowrap}
+.sp-row.cur{background:var(--lav-soft);box-shadow:0 4px 0 var(--ink)}
+.sp-row.book{background:#FFF1CF;box-shadow:0 4px 0 var(--ink)}
+.sp-num{flex:none;width:34px;height:34px;border:2.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font:700 15px 'Pixelify Sans',monospace;background:#fff}
+.sp-num.done{background:var(--green)}
+.sp-row.next{opacity:.75}
+.sp-tests{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sp-test{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:2.5px solid var(--ink);border-radius:16px;padding:10px 4px}
+.sp-test.pass{background:#E3F5E6}
+.sp-test .bd{font:700 13px 'Pixelify Sans',monospace;border:2px solid var(--ink);border-radius:6px;padding:1px 6px}
+.sp-test b{font-size:15px;font-weight:800}
+.sp-test small{font-size:11px;font-weight:800;color:var(--muted);text-align:center}
+.sp-closed{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.sp-avs{display:flex;gap:4px}
+.sp-avs img{width:30px;height:auto}
+.sp-avs img.off{filter:grayscale(1);opacity:.35}
+.sp-note{font-size:12px;font-weight:700;color:var(--muted);text-align:center}
+.bk-view{position:fixed;inset:0;z-index:20;display:none;flex-direction:column;background:var(--cream)}
+.bk-view.on{display:flex}
+.bk-bar{display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;border-bottom:2.5px solid var(--ink)}
+.bk-bar h1{font-size:17px;margin:0;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bk-dl{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border:2px solid var(--ink);border-radius:12px;background:var(--lav);box-shadow:0 3px 0 var(--ink);font:700 13px 'Pixelify Sans',monospace;letter-spacing:1px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.bk-view iframe{flex:1;width:100%;border:0;background:#EFE4D3}
+.shelf-card{margin:12px 18px 0;padding:12px 14px 14px}
+.shelf-card .row-h small{font-size:12px}
+.shelf{margin-top:10px;position:relative;display:flex;align-items:flex-end;gap:6px;height:130px;padding:12px 10px 0;background:#5A3A26;border:2.5px solid var(--ink);border-radius:10px;overflow-x:auto;box-shadow:inset 0 -10px 0 #3A2416}
+.spine{position:relative;flex:none;width:34px;height:104px;margin-bottom:10px;border:2px solid var(--ink);border-radius:3px;background:#E9D3A8;display:flex;align-items:center;justify-content:center;padding:0}
+.spine span{margin-top:8px;writing-mode:vertical-rl;transform:rotate(180deg);font:700 10px 'Pixelify Sans',monospace;letter-spacing:1px;white-space:nowrap;color:var(--ink)}
+.spine:before{content:"";position:absolute;left:3px;right:3px;top:7px;height:3px;background:var(--ink);opacity:.5}
+.spine.red{background:#B3372F;box-shadow:0 0 0 2px var(--yellow)}
+.spine.red span{color:#F6E7C9}
+.spine.blank{width:26px;height:80px;background:repeating-linear-gradient(135deg,#6E4A31 0 4px,#7E5A3E 4px 8px);border-color:#3A2416;pointer-events:none}
+.spine.blank:before{display:none}
+.spine .new{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--yellow);border:1.5px solid var(--ink);border-radius:4px;font:700 8px 'Pixelify Sans',monospace;padding:0 3px;letter-spacing:.5px}
+.sh-top{display:flex;gap:14px;align-items:flex-start;padding-right:40px}
+.sh-cover{flex:none;width:78px;height:104px;background:#7A1F1B;color:#F6E7C9;border:2.5px solid var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:8px 6px;font:700 9px 'Pixelify Sans',monospace;letter-spacing:.5px}
+.sh-cover b{font-size:14px;border-top:2px solid #F6E7C9;border-bottom:2px solid #F6E7C9;padding:2px 0;text-align:center;overflow:hidden;text-overflow:ellipsis}
+.sh-acts{display:flex;gap:10px}
+.sh-acts>*{flex:1;height:50px;display:flex;align-items:center;justify-content:center;gap:6px;border:2.5px solid var(--ink);border-radius:12px;font:700 15px 'Pixelify Sans',monospace;letter-spacing:1px;color:var(--ink);text-decoration:none;box-shadow:0 4px 0 var(--ink)}
+.sh-acts button{background:#fff}
+.sh-acts a{background:var(--lav)}
 .err-bar{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top) + 8px);z-index:99;background:#B3372F;color:#fff;border:2px solid #2E2622;border-radius:10px;padding:8px 10px;font:700 12px/1.35 Nunito,sans-serif}
 /* ===== phase 2: skills + lamps ===== */
 .sk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -863,13 +920,14 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <span><img class="px" id="lgG" alt="" width="22">Own goal</span>
     <span><img class="px" id="lgC" alt="" width="18">Leading pair</span>
   </div>
+  <div id="shelfCard" class="card shelf-card" hidden></div>
   <div class="dock"><div id="skRow" class="sk-row"></div><div id="timer" class="timer"></div></div>
 </section>
 
-<!-- ============ SPEAK (coming soon) ============ -->
+<!-- ============ SPEAKING CORNER ============ -->
 <section id="speak" class="screen">
-  <header class="bar" style="padding-left:0;padding-right:0"><h1 class="pixel">SPEAKING CORNER</h1></header>
-  <div class="sp-soon"><span id="spIco"></span><b>COMING SOON</b><span class="muted" style="font-size:14px;font-weight:700">Weekly topics, recordings and word tests<br>will live here.</span></div>
+  <header class="bar"><h1 class="pixel">SPEAKING CORNER</h1><span id="spWeek" class="chip" style="margin-left:auto" hidden></span></header>
+  <div id="spBody" class="sp-body"></div>
 </section>
 
 <!-- ============ PROFILE / GOALS ============ -->
@@ -1048,13 +1106,28 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
     <div class="meta"><span id="shoutHint">English · 40 letters</span><span id="shoutCount">0 / 40</span></div>
   </div>
 </div>
+<div id="bookView" class="bk-view" role="dialog" aria-modal="true" aria-label="Book">
+  <div class="bk-bar">
+    <button class="back" type="button" data-close="bookView" aria-label="Close the book"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <h1 id="bkTitle" class="pixel"></h1>
+    <a id="bkPdf" class="bk-dl" href="#" download><i data-pi="download"></i>PDF</a>
+  </div>
+  <iframe id="bkFrame" title="Book" src="about:blank"></iframe>
+</div>
+<div id="shelfSheet" class="ovl" role="dialog" aria-modal="true" aria-label="Book on the shelf">
+  <div class="dim" data-close="shelfSheet"></div>
+  <div class="sheet" style="background:#FBF3E8">
+    <button class="xbtn" type="button" data-close="shelfSheet" aria-label="Close"><i data-pi="close"></i></button>
+    <div id="shBody" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+</div>
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.14-1"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.16-1"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.14-1";
+const APP_VERSION = "2026.11.16-1";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1097,7 +1170,7 @@ async function hashPin(id, pin) {
 }
 
 // ---------------- data store ----------------
-let state = { sessions: {}, days: {}, profiles: {}, notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {}, ghosts: {}, ghostpos: {} };
+let state = { sessions: {}, days: {}, profiles: {}, notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {}, ghosts: {}, ghostpos: {}, speaking: {} };
 let offset = 0, loaded = false;
 const now = () => Date.now() + offset;
 let store;
@@ -1120,7 +1193,7 @@ async function makeFirebaseStore() {
   F.onValue(F.ref(db, "squad"), s => {
     clearTimeout(slow);
     const v = s.val() || {};
-    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {}, notes: v.notes || {}, board: v.board || {}, writing: v.writing || {}, skills: v.skills || {}, log: v.log || {}, main: v.main || {}, mocks: v.mocks || {}, plans: v.plans || {}, tests: v.tests || {}, lanterns: v.lanterns || {}, party: v.party || {}, ghosts: v.ghosts || {}, ghostpos: v.ghostpos || {} };
+    state = { sessions: v.sessions || {}, days: v.days || {}, profiles: v.profiles || {}, notes: v.notes || {}, board: v.board || {}, writing: v.writing || {}, skills: v.skills || {}, log: v.log || {}, main: v.main || {}, mocks: v.mocks || {}, plans: v.plans || {}, tests: v.tests || {}, lanterns: v.lanterns || {}, party: v.party || {}, ghosts: v.ghosts || {}, ghostpos: v.ghostpos || {}, speaking: v.speaking || {} };
     mergeLocal();
     const first = !loaded; loaded = true;
     onData(first);
@@ -1227,7 +1300,7 @@ function makeDemoStore() {
       niloufar: { state: "paused", accum: 18 * MIN, pausedAt: t - 5 * MIN },
     } };
   }
-  state = { notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {}, ghosts: {}, ghostpos: {}, ...saved }; loaded = true;
+  state = { notes: {}, board: {}, writing: {}, skills: {}, log: {}, main: {}, mocks: {}, plans: {}, tests: {}, lanterns: {}, party: {}, ghosts: {}, ghostpos: {}, speaking: {}, ...saved }; loaded = true;
   const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} onData(false); render(); };
   onData(true);
   setTimeout(boot2, 0);
@@ -1573,7 +1646,7 @@ const onScreen = () => (document.querySelector(".screen.on") || {}).id;
 //   depth 0 = HOME (or the start screen's first step) · 1 = any inner page · 2 = a sheet/modal open on top.
 // Back closes the sheet first, then returns to HOME, then leaves the app. In-app buttons that go "down"
 // (✕, ‹ back, nav to HOME) step the history back too, so it never piles up and HOME is always one Back from leaving.
-const OVLS = ["composer", "reader", "boardModal", "cupsModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"];
+const OVLS = ["bookView", "shelfSheet", "composer", "reader", "boardModal", "cupsModal", "skillSheet", "mockSheet", "planSheet", "resSheet", "addTest", "logTest"];
 const ovlOpen = () => OVLS.some(id => $(id).classList.contains("on"));
 function closeOverlays() {
   if ($("composer").classList.contains("on")) closeComposer();
@@ -2568,6 +2641,7 @@ const ICONS = {
   pizza: ["KKKKKKKK", "KOOOOOOK", "KYRYYRK.", ".KYYYYK.", ".KYRYK..", "..KYYK..", "..KYK...", "...K...."],
   party: ["Y..R...L", "..K...T.", ".KYK.G..", "KYRYK...", "KYYYYK.R", "KRYYRYK.", "KYYYYYYK", "KKKKKKKK"],
   lantern: ["...KK...", "..KKKK..", ".KKKKKK.", "KOYYYYOK", "KOYWWYOK", "KOYYYYOK", ".KKKKKK.", "..KKKK.."],
+  book: ["KKKKKKK..", "KRRRRRKK.", "KRYYYRKWK", "KRRRRRKWK", "KRYYYRKWK", "KRRRRRKWK", "KRRRRRKWK", "KRRRRRKWK", "KKKKKKKWK", ".KWWWWWWK", "..KKKKKKK"],
   ghost: ["..KKKK..", ".KWWWWK.", "KWWWWWWK", "KWKWWKWK", "KWWWWWWK", "KWWWWWWK", "KWKWWKWK", "KK.KK.KK"],
 };
 // an icon inside text or a button: pi("note"), pi("close", 2.5)
@@ -3181,6 +3255,125 @@ function shelfItems(t) {
 const shelfHtml = (it, X, Y) => `<span class="${it.cls}" title="${it.title}" style="left:${X(it.x)};top:${Y(it.y)};width:${X(it.w)};height:${Y(it.h)}">${it.art}</span>`;
 // a ghost dropped on something on the bottom shelf hides behind it (feet = where it was dropped)
 const shelfSpot = (p, items) => items.find(it => p.x > it.x - 1.5 && p.x < it.x + it.w + 1.5 && p.y > it.y + 2 && p.y < it.y + it.h + 9);
+// ---------------- speaking corner: weeks, hub, book reader, shelf ----------------
+// Every week is one JSON file in content/weeks/, listed in content/weeks/index.json (build_book.py keeps that list).
+// Its book was built next to it: books/<id>.html (the flip-book) and books/<id>.pdf.
+const WEEKS = { list: null, err: "", loading: null };
+const getJson = async url => { const r = await fetch(url, { cache: "no-cache" }); if (!r.ok) throw new Error(url + " · " + r.status); return r.json(); };
+function loadWeeks() {
+  if (WEEKS.loading) return WEEKS.loading;
+  WEEKS.err = "";
+  WEEKS.loading = (async () => {
+    try {
+      const files = await getJson("content/weeks/index.json");
+      const all = await Promise.all((Array.isArray(files) ? files : []).map(f => getJson("content/weeks/" + f).catch(e => { console.error(e); return null; })));
+      WEEKS.list = all.filter(w => w && w.id && w.start && w.end).sort((a, b) => a.start.localeCompare(b.start));
+    } catch (e) { console.error(e); WEEKS.err = (e && e.message) || String(e); }
+    WEEKS.loading = null;
+    render();
+  })();
+  return WEEKS.loading;
+}
+// the active week is the one whose start–end holds today (Tehran, the day flips at 04:00)
+const activeWeek = (key = dayKey(now())) => (WEEKS.list || []).find(w => w.start <= key && key <= w.end) || null;
+// weeks that have started: they stand on the shelf and stay readable for good
+const shelfWeeks = (key = dayKey(now())) => (WEEKS.list || []).filter(w => w.start <= key);
+const spWeekNo = w => +String(w.id).replace(/\D/g, "") || 0;
+const bookUrl = (w, ext) => `books/${encodeURIComponent(w.id)}.${ext}`;
+const pdfName = w => `Study-Squad-${w.id}-${String(w.topic).replace(/[^A-Za-z0-9]+/g, "-")}.pdf`;
+const weekDates = w => `${fmtDate(w.start, { day: "numeric" })}–${fmtDate(w.end, { day: "numeric", month: "short" })}`;
+// the case file has 6 stamps; slices 2–6 write squad/speaking/<week>/progress/<member>
+const STAMPS = ["p1", "p2", "p3", "easy", "medium", "strong"];
+const spProg = (w, id) => ((((state.speaking || {})[w.id] || {}).progress || {})[id]) || {};
+const passed = v => typeof v === "number" ? v >= 7 : !!v;
+const stampsOf = (w, id) => STAMPS.filter(k => passed(spProg(w, id)[k])).length;
+const closedBy = w => PEOPLE.filter(p => spProg(w, p.id).closedAt).map(p => p.id);
+const avatars = (ids, size = 30) => PEOPLE.map(p => `<img class="px${ids.includes(p.id) ? "" : " off"}" src="${(A.chars || {})[p.id] || ""}" alt="${p.name}${ids.includes(p.id) ? " closed it" : ""}" title="${p.name}" style="width:${size}px">`).join("");
+
+function renderSpeak() {
+  const w = activeWeek();
+  $("spWeek").hidden = !w;
+  if (w) $("spWeek").textContent = `Week ${spWeekNo(w)}`;
+  if (!WEEKS.list) {
+    if (!WEEKS.loading && !WEEKS.err) loadWeeks();
+    return put($("spBody"), WEEKS.err
+      ? `<div class="sp-msg">${pi("mic", 6)}<span>Couldn't load this week's case.<br><span class="muted">Is your VPN on?</span></span><button type="button" class="btn2" data-sp="retry">Try again</button></div>`
+      : `<div class="sp-msg">${pi("mic", 6)}<span class="muted">Opening the case file…</span></div>`);
+  }
+  if (!w) {
+    const past = shelfWeeks().at(-1);
+    return put($("spBody"), `<div class="sp-msg">${pi("mic", 6)}<b class="pixel" style="font-size:20px">NO CASE THIS WEEK</b><span class="muted">The next case file isn't out yet.</span>${past ? `<button type="button" class="btn2" data-book="${esc(past.id)}">${pi("book")} Read the ${esc(past.topic)} book</button>` : ""}</div>`);
+  }
+  const p = spProg(w, me), n = stampsOf(w, me), parts = [
+    { k: "p1", t: "Part 1 · 6 quick questions", sub: `${(w.part1 || []).length || 6} questions · 20–30 sec each` },
+    { k: "p2", t: "Part 2 · cue card", sub: "1 min to prepare · 2 min to talk" },
+    { k: "p3", t: "Part 3 · discussion", sub: `pick 3 of ${(w.part3 || []).length || 8} · 30–45 sec each` },
+  ];
+  const cur = parts.find(x => !p[x.k]);
+  let h = `<div class="sp-case"><span class="tab">CASE FILE #${esc(w.caseNo || "")}</span>
+    <div class="row"><div><small>THIS WEEK'S CASE</small><h2>${esc(String(w.topic).toUpperCase())}</h2></div>
+    <div class="n">${n}/6<small>to close the case</small></div></div>
+    <div class="sp-pbar"><i class="${n ? "" : "z"}" style="width:${n / 6 * 100}%"></i></div></div>`;
+  h += `<button type="button" class="sp-row book" data-book="${esc(w.id)}">${pi("book", 3)}<div><b>Read the ${esc(w.topic)} book</b><small>${(w.words || []).length} words · models · open any time</small></div><span class="go">OPEN ›</span></button>`;
+  h += `<div class="sp-h">Speak</div>`;
+  parts.forEach((x, i) => {
+    const done = !!p[x.k], isCur = x === cur;
+    h += `<button type="button" class="sp-row${isCur ? " cur" : done ? "" : " next"}" data-sp="part">
+      <span class="sp-num${done ? " done" : ""}">${done ? pi("check", 2.5) : i + 1}</span>
+      <div><b>${x.t}</b><small>${done ? "voice sent" : x.sub}</small></div>${isCur ? `<span class="go">GO ›</span>` : ""}</button>`;
+  });
+  h += `<div class="sp-h">Word tests</div><div class="sp-tests">`;
+  const LV = { 1: "var(--green)", 2: "var(--lav)", 3: "var(--yellow)" }, NM = { easy: "Easy", medium: "Medium", strong: "Strong" };
+  (w.levels || []).forEach(l => {
+    const best = p[l.test];
+    h += `<button type="button" class="sp-test${passed(best) ? " pass" : ""}" data-sp="test" aria-label="${NM[l.test] || l.test} test, ${esc(l.name)}">
+      <span class="bd" style="background:${LV[l.n] || "#fff"}">${esc(l.band)}</span><b>${NM[l.test] || esc(l.test)}</b>
+      <small>${typeof best === "number" ? `best ${best}/10` : "pass = 7/10"}<br>${esc(l.name)}</small></button>`;
+  });
+  h += `</div><div class="sp-closed"><span class="sp-h" style="margin:0">Case closed by</span><span class="sp-avs">${avatars(closedBy(w))}</span></div>`;
+  h += `<span class="sp-note">${esc(fmtDate(w.start, { weekday: "short", day: "numeric", month: "short" }))} – ${esc(fmtDate(w.end, { weekday: "short", day: "numeric", month: "short" }))} · the book stays on the shelf in the study hall</span>`;
+  put($("spBody"), h);
+}
+
+function openBook(id) {
+  const w = (WEEKS.list || []).find(x => x.id === id); if (!w) return;
+  closeOverlays();
+  $("bkTitle").textContent = `${String(w.topic).toUpperCase()} · CASE FILE #${w.caseNo || ""}`;
+  $("bkPdf").href = bookUrl(w, "pdf"); $("bkPdf").setAttribute("download", pdfName(w));
+  const src = bookUrl(w, "html");
+  if (!$("bkFrame").src.endsWith(src)) $("bkFrame").src = src;
+  $("bookView").classList.add("on");
+  // arrow keys turn the pages once the book has the focus
+  setTimeout(() => { try { $("bkFrame").contentWindow.focus(); } catch (e) {} }, 300);
+}
+
+function renderShelf() {
+  const card = $("shelfCard"), key = dayKey(now());
+  if (!WEEKS.list) { card.hidden = true; if (!WEEKS.loading && !WEEKS.err) loadWeeks(); return; }
+  const weeks = shelfWeeks(key);
+  card.hidden = !weeks.length;
+  if (!weeks.length) return;
+  const act = activeWeek(key);
+  let h = `<div class="row-h"><b style="font-size:15px">The squad shelf</b><small>tap a book</small></div><div class="shelf">`;
+  weeks.forEach(w => {
+    const red = closedBy(w).includes(me);
+    h += `<button type="button" class="spine${red ? " red" : ""}" data-shelf="${esc(w.id)}" aria-label="${esc(w.topic)}, week ${spWeekNo(w)}${red ? ", closed by you" : ""}">${w === act ? `<i class="new">NEW</i>` : ""}<span>${esc(String(w.topic).toUpperCase())} · WK ${spWeekNo(w)}</span></button>`;
+  });
+  for (let i = weeks.length; i < 8; i++) h += `<i class="spine blank" aria-hidden="true"></i>`;
+  put(card, h + "</div>");
+}
+function openShelf(id) {
+  const w = (WEEKS.list || []).find(x => x.id === id); if (!w) return;
+  const by = closedBy(w), tests = Object.values(w.tests || {}).reduce((a, t) => a + (t || []).length, 0);
+  put($("shBody"), `<div class="sh-top"><div class="sh-cover" aria-hidden="true"><span>CASE #${esc(w.caseNo || "")}</span><b>${esc(String(w.topic).toUpperCase())}</b><span>WEEK ${spWeekNo(w)} · SPEAKING</span></div>
+    <div style="display:flex;flex-direction:column;gap:4px;min-width:0"><b class="pixel" style="font-size:22px">${esc(String(w.topic).toUpperCase())}</b>
+    <b style="font-size:14px">Week ${spWeekNo(w)} · ${esc(weekDates(w))}</b>
+    <span class="muted" style="font-size:12px;font-weight:700">${(w.words || []).length} words · ${(w.levels || []).length} levels · Part 1–3 models · ${tests}-question word tests</span></div></div>
+    <div class="sp-closed" style="margin:0"><span class="sp-avs">${avatars(by, 28)}</span><span class="muted" style="font-size:12px;font-weight:800">${by.length ? "closed it" : "nobody has closed it yet"}</span></div>
+    <div class="sh-acts"><button type="button" data-book="${esc(w.id)}">${pi("book", 2)}Read</button><a href="${bookUrl(w, "pdf")}" download="${esc(pdfName(w))}">${pi("download", 2)}DOWNLOAD PDF</a></div>`);
+  $("shelfSheet").classList.add("on");
+}
+
 // ---------------- render: hall ----------------
 function renderHall() {
   const t = now(), key = dayKey(t), seated = seatedIds();
@@ -3289,7 +3482,8 @@ function renderInner() {
   if (!me || !state.profiles[me]) { if (s === "start" && $("stPick").classList.contains("on")) renderTiles(); return; }
   if (s === "home") renderHome();
   if (s === "race") renderRace();
-  if (s === "hall") renderHall();
+  if (s === "hall") { renderHall(); safeRender("shelfCard", renderShelf); }
+  if (s === "speak") safeRender("spBody", renderSpeak);
   if (s === "me") safeRender("meBody", renderMe);
   if (s === "profile") { renderMeData(); renderMeGhosts(); }
   if (s === "road") safeRender("ryBody", renderRoad);
@@ -3376,7 +3570,6 @@ $("hmWeek").addEventListener("click", () => openGoals("week"));
 $("hmGoal").addEventListener("click", () => openGoals("main"));
 $("hmClimb").addEventListener("click", () => go("race"));
 document.querySelectorAll("[data-ico]").forEach(el => { el.innerHTML = pixIcon(ICONS[el.dataset.ico], el.dataset.ico === "table" ? 3.6 : 2.6); });
-$("spIco").innerHTML = pixIcon(ICONS.mic, 8);
 document.querySelector(".nav-in").addEventListener("click", e => { const b = e.target.closest("[data-nav]"); if (!b) return; try { go(b.dataset.nav); } catch (err) { showErr(err); } });
 $("raceBack").addEventListener("click", () => go("home"));
 $("race").addEventListener("click", e => {
@@ -3510,6 +3703,16 @@ $("sceneArt").addEventListener("click", e => {
   if (act === "board") { renderBoardModal(); $("boardModal").classList.add("on"); }
   if (act === "cups") { renderCups(); $("cupsModal").classList.add("on"); }
 });
+$("speak").addEventListener("click", e => {
+  const b = e.target.closest("[data-book]"); if (b) return openBook(b.dataset.book);
+  const d = e.target.closest("[data-sp]")?.dataset.sp;
+  if (d === "retry") return loadWeeks();
+  if (d === "part") return toast("Recording arrives in the next update. Read the book first!");
+  if (d === "test") return toast("Word tests arrive soon. The words are in the book.");
+});
+$("shelfCard").addEventListener("click", e => { const b = e.target.closest("[data-shelf]"); if (b) openShelf(b.dataset.shelf); });
+$("shelfSheet").addEventListener("click", e => { const b = e.target.closest("[data-book]"); if (b) openBook(b.dataset.book); });
+$("bookView").addEventListener("click", e => { if (e.target.closest('[data-close="bookView"]')) $("bookView").classList.remove("on"); });
 $("writeBtn").addEventListener("click", () => openComposer("", ""));
 $("notesBtn").addEventListener("click", openReader);
 $("toList").addEventListener("click", e => { const b = e.target.closest("[data-to]"); if (!b || b.disabled) return; noteTo = b.dataset.to; $("ghTo").value = ""; ghToDot(); renderToList(); updateNoteMeta(); });
@@ -3570,6 +3773,7 @@ function boot2() {
   if (me && !state.profiles[me]) { localStorage.removeItem("squad-me"); me = ""; }
   // migrate: whoever was signed in on this phone before becomes trusted
   if (me) setTrusted([...trusted(), me]);
+  loadWeeks();
   setTrusted(trusted().filter(id => state.profiles[id]));
   go("start");
 }

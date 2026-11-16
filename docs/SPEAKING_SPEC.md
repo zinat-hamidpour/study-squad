@@ -185,8 +185,8 @@ For each slice:
 
 ## 9. Weekly content workflow
 1. Zinat prepares the new week’s JSON with Claude (chat) and adds it to `content/weeks/`.
-2. Run `python3 tools/book/build_book.py content/weeks/<file>.json books/` to build the HTML and PDF.
-3. Commit both and open a PR titled `content: week-NN <topic>`.
+2. Run `python3 tools/book/build_book.py content/weeks/<file>.json books/` to build the HTML and PDF (it also updates `content/weeks/index.json`).
+3. Commit all three and open a PR titled `content: week-NN <topic>`.
 
 ## 10. Out of scope (v1)
 AI feedback or band estimates, transcripts, a live word race, push notifications, an admin UI for content.

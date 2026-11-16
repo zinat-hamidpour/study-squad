@@ -1,3 +1,18 @@
+# Study Squad 2026.11.16-1 · Speaking Corner, part 1: the case file, the book and the shelf
+
+1. **SPEAK is no longer "coming soon".** It shows this week's case file (Week 1 · CRIME, 0/6 to close the case),
+   the three speaking parts, the three word tests and who has closed the case. Recording and tests come in the next
+   updates: for now their buttons say so.
+2. **Read the book any time**: "Read the Crime book" opens the flip-book full screen. Swipe page by page; the PDF
+   button on top downloads it. Back closes the book.
+3. **The squad shelf** sits under the study hall: one book per week, NEW on this week's. Tap it to see what's inside,
+   read it or download the PDF.
+4. Weeks come from `content/weeks/` (listed in `content/weeks/index.json`, which `tools/book/build_book.py` now
+   writes). A new week = a new JSON file + its book, no code change.
+5. Tests: every week file is listed and has its book; hub, reader, PDF, shelf and Back are checked.
+
+---
+
 # Study Squad 2026.11.14-1 · Safer database: every phone signs in first
 
 1. **The app now signs in to Firebase before it reads or writes anything** (anonymous sign-in: no name, no
