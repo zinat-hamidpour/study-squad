@@ -1124,10 +1124,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.16-1"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.16-2"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.16-1";
+const APP_VERSION = "2026.11.16-2";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1175,6 +1175,14 @@ let offset = 0, loaded = false;
 const now = () => Date.now() + offset;
 let store;
 
+// say why sign-in failed: only a network error means "VPN"; the others are a Firebase console setting
+function signInMsg(e) {
+  const code = String((e && (e.code || e.message)) || "unknown").replace(/^Firebase: |[()]/g, "");
+  if (/network-request-failed|timeout/.test(code)) return "Can't sign in — is your VPN on?";
+  if (/configuration-not-found|operation-not-allowed|admin-restricted-operation/.test(code)) return `Anonymous sign-in is off in Firebase (Authentication → Sign-in method). Tell Zinat · ${code}`;
+  if (/api-key|referer|referrer|unauthorized-domain|app-not-authorized/.test(code)) return `Firebase refuses this app's key or address. Tell Zinat · ${code}`;
+  return `Can't sign in · ${code}`;
+}
 async function makeFirebaseStore() {
   const base = "https://www.gstatic.com/firebasejs/10.12.2/";
   const { initializeApp } = await import(base + "firebase-app.js");
@@ -1185,7 +1193,7 @@ async function makeFirebaseStore() {
   const auth = getAuth(app);
   for (;;) {
     try { await signInAnonymously(auth); break; }
-    catch (e) { console.error(e); toast("Can't sign in — is your VPN on?"); await new Promise(r => setTimeout(r, 5000)); }
+    catch (e) { console.error(e); toast(signInMsg(e)); await new Promise(r => setTimeout(r, 5000)); }
   }
   const db = F.getDatabase(app);
   F.onValue(F.ref(db, ".info/serverTimeOffset"), s => { offset = s.val() || 0; });
