@@ -14,13 +14,16 @@ The owner (Zinat) is learning Git and Claude Code: explain each Git step in one 
 | `assets.js` | `window.ASSETS` = pixel art as base64 PNGs + layout numbers | **Never read it.** Lines are huge base64. Grep key names only: `grep -o 'ASSETS\.[a-zA-Z]*' assets.js` |
 | `version.json` | `{"version": "..."}`, polled by phones to show the "new version" banner | |
 | `CHANGES.md` | release notes, newest on top | |
+| `content/weeks/` | Speaking Corner weeks: one `week-NN-<topic>.json` each + `index.json` (the list the app loads). Fields: `SCHEMA.md` | Add a week with `python3 tools/book/build_book.py content/weeks/<file>.json books/` (writes the book and the list) |
+| `books/` | `<weekId>.html` (flip-book, shown in an iframe) + `<weekId>.pdf` | Built by `tools/book/build_book.py`; never edit by hand |
+| `docs/SPEAKING_SPEC.md` | Speaking Corner spec, built in slices (§8) | `docs/mockups/` = the UI references |
 | `tests/smoke.cjs` | smoke tests (headless Chromium) | `npm test` |
 | `tests/fake-firebase/` | in-memory Firebase that enforces the live rules | |
 
 Section headers inside `index.html` (grep these: `grep -n -- '-------- \|======== ' index.html`):
 data store · time math · session actions · ghost guests · routing · start / sign-in / setup · profile ·
 MY GOALS · ME, MY ROAD · PRACTICE TESTS · daily reminder · pixel icons · render: home ·
-the climb (together) · notes + board · render: hall · events · update check · boot.
+the climb (together) · notes + board · speaking corner · render: hall · events · update check · boot.
 
 ## Rules that broke production before (do not repeat)
 

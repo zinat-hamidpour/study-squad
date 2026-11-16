@@ -1,6 +1,8 @@
 # Week content schema
 
 One file per week: `content/weeks/week-NN-<topic>.json`. Adding a week = adding a file + building its book. No code change.
+The app loads the weeks listed in `content/weeks/index.json`; the build command below rewrites that list from the `week-*.json` files.
+Weeks must not overlap: the active week is the one whose `start`–`end` holds today.
 
 | Field | Type | Notes |
 |---|---|---|
@@ -23,4 +25,4 @@ One file per week: `content/weeks/week-NN-<topic>.json`. Adding a week = adding 
 
 **Text markup:** in `model` strings, `**word**` = this week’s vocabulary (render highlighted); `\n\n` = new paragraph.
 
-**Book:** `python3 tools/book/build_book.py content/weeks/<file>.json books/` → `books/<id>.html` + `<id>.pdf`.
+**Book:** `python3 tools/book/build_book.py content/weeks/<file>.json books/` → `books/<id>.html` + `<id>.pdf`, and refreshes `content/weeks/index.json`.

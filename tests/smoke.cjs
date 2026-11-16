@@ -8,7 +8,7 @@ const http = require("http"), fs = require("fs"), path = require("path");
 
 const ROOT = path.join(__dirname, "..");
 const FAKE = path.join(__dirname, "fake-firebase");
-const TYPES = { ".html": "text/html", ".js": "text/javascript", ".json": "application/json", ".png": "image/png" };
+const TYPES = { ".html": "text/html", ".js": "text/javascript", ".json": "application/json", ".png": "image/png", ".pdf": "application/pdf" };
 let failed = 0;
 const ok = (cond, msg) => { console.log(`${cond ? "  ✓" : "  ✗"} ${msg}`); if (!cond) failed++; };
 
@@ -30,6 +30,19 @@ function staticChecks() {
   const emoji = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{2B50}\u{2B06}\u{2B07}]/u, allowed = /[✓✕✎★]|text: "/;
   const bad = html.split("\n").map((l, i) => [i + 1, l]).filter(([, l]) => emoji.test(l.replace(/[✓✕]/g, "")) && !/text: "/.test(l));
   ok(bad.length === 0, `no emoji icons in index.html${bad.length ? " → lines " + bad.map(b => b[0]).join(", ") : ""}`);
+  console.log("speaking weeks");
+  // the app finds the weeks through content/weeks/index.json: every week file must be listed and have its book
+  const WD = path.join(ROOT, "content", "weeks");
+  const files = fs.readdirSync(WD).filter(f => /^week-.*\.json$/.test(f)).sort();
+  const index = JSON.parse(fs.readFileSync(path.join(WD, "index.json"), "utf8"));
+  ok(JSON.stringify([...index].sort()) === JSON.stringify(files), `content/weeks/index.json lists every week file (${files.join(", ")})`);
+  const weeks = files.map(f => JSON.parse(fs.readFileSync(path.join(WD, f), "utf8")));
+  for (const w of weeks) {
+    ok(/^week-\d+$/.test(w.id) && /^\d{4}-\d{2}-\d{2}$/.test(w.start) && /^\d{4}-\d{2}-\d{2}$/.test(w.end) && w.start <= w.end, `${w.id}: id, start and end are valid`);
+    ok(fs.existsSync(path.join(ROOT, "books", w.id + ".html")) && fs.existsSync(path.join(ROOT, "books", w.id + ".pdf")), `${w.id}: books/${w.id}.html and .pdf are built`);
+  }
+  const ws = [...weeks].sort((a, b) => a.start.localeCompare(b.start));
+  ok(ws.every((w, i) => !i || ws[i - 1].end < w.start), "weeks don't overlap (only one active week a day)");
 }
 
 // ---- helpers ----
@@ -350,6 +363,49 @@ async function anonAuth(browser, base) {
   await finish(page, "auth");
 }
 
+async function speakingCorner(browser, base) {
+  console.log("speaking corner: hub, book reader, shelf + PDF (demo data)");
+  const IN_WEEK = "2026-11-16T10:00:00+03:30";
+  let page = await openPage(browser, base, { mode: "demo", when: IN_WEEK, me: "niloufar" });
+  await pickMe(page, "niloufar"); await nav(page, "speak"); await page.clock.runFor(600);
+  const hub = await page.$eval("#spBody", x => x.textContent);
+  ok(/CASE FILE #01/.test(hub) && /CRIME/.test(hub) && /0\/6/.test(hub), "hub: case file #01 · CRIME · 0/6");
+  ok(await page.$eval("#spWeek", x => !x.hidden && x.textContent === "Week 1"), "hub: Week 1 pill");
+  ok(await page.$$eval("#spBody .sp-row", x => x.length) === 4 && await page.$$eval("#spBody .sp-row.cur", x => x.length) === 1, "hub: book row + Part 1/2/3, Part 1 is current");
+  ok(await page.$$eval("#spBody .sp-test", x => x.length) === 3, "hub: 3 word-test tiles");
+  ok(await page.$$eval("#spBody .sp-avs img.off", x => x.length) === 6, "hub: 6 greyed avatars (nobody closed the case yet)");
+  // the book opens over the hub; Back closes it and stays in the corner
+  await page.click("#spBody [data-book]"); await page.clock.runFor(800);
+  const bk = await page.evaluate(() => ({ on: document.getElementById("bookView").classList.contains("on"), src: document.getElementById("bkFrame").src, pdf: document.getElementById("bkPdf").getAttribute("href"), dl: document.getElementById("bkPdf").hasAttribute("download") }));
+  ok(bk.on && bk.src.endsWith("/books/week-01.html"), `the book opens in the reader (${bk.src.replace(base, "")})`);
+  ok(bk.pdf === "books/week-01.pdf" && bk.dl, "the reader has a PDF download link");
+  const pages = await page.frameLocator("#bkFrame").locator(".page").count();
+  ok(pages > 10, `the book's pages are inside the reader (${pages})`);
+  const pdf = await page.request.get(base + "/books/week-01.pdf");
+  ok(pdf.ok() && (await pdf.body()).slice(0, 4).toString() === "%PDF", "books/week-01.pdf downloads as a PDF");
+  await page.evaluate(() => history.back()); await page.clock.runFor(400);
+  ok(await page.evaluate(() => document.querySelector(".screen.on").id === "speak" && !document.getElementById("bookView").classList.contains("on")), "Back closes the book and stays in the speaking corner");
+  // the shelf in the study hall
+  await nav(page, "hall");
+  ok(await page.$$eval("#shelfCard [data-shelf]", x => x.length) === 1 && await page.$$eval("#shelfCard .new", x => x.length) === 1, "hall: one spine on the shelf, tagged NEW");
+  await page.click("#shelfCard [data-shelf]"); await page.clock.runFor(300);
+  const sh = await page.$eval("#shBody", x => x.textContent);
+  ok(/CRIME/.test(sh) && /Week 1 · 15–21 Nov/.test(sh) && /47 words · 3 levels · Part 1–3 models · 30-question word tests/.test(sh), "shelf sheet: title, week, dates and contents");
+  ok(await page.$eval('#shBody a[download]', a => a.getAttribute("href")) === "books/week-01.pdf", "shelf sheet: DOWNLOAD PDF");
+  await page.click("#shBody [data-book]"); await page.clock.runFor(400);
+  ok(await page.evaluate(() => document.getElementById("bookView").classList.contains("on") && !document.getElementById("shelfSheet").classList.contains("on")), "shelf sheet: Read opens the book");
+  await page.evaluate(() => history.back()); await page.clock.runFor(400);
+  ok(await page.evaluate(() => document.querySelector(".screen.on").id) === "hall", "Back from the book → the study hall");
+  await finish(page, "speaking");
+  // before the first week: no case, and no book on the shelf yet
+  page = await openPage(browser, base, { mode: "demo", when: DAYS.Wednesday, me: "niloufar" });
+  await pickMe(page, "niloufar"); await nav(page, "speak"); await page.clock.runFor(600);
+  ok(/NO CASE THIS WEEK/.test(await page.$eval("#spBody", x => x.textContent)), "11 Nov (before week 1): NO CASE THIS WEEK");
+  await nav(page, "hall");
+  ok(await page.$eval("#shelfCard", x => x.hidden), "11 Nov: the shelf waits for the first book");
+  await finish(page, "no week");
+}
+
 (async () => {
   staticChecks();
   const srv = await serve(), base = `http://localhost:${srv.address().port}`;
@@ -365,6 +421,7 @@ async function anonAuth(browser, base) {
     await mePlanning(browser, base);
     await ghostBehindShelf(browser, base);
     await anonAuth(browser, base);
+    await speakingCorner(browser, base);
   } catch (e) { ok(false, "test crashed: " + e.message); }
   await browser.close(); srv.close();
   console.log(failed ? `\n${failed} check(s) FAILED` : "\nall checks passed");

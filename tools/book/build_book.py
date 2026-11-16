@@ -242,6 +242,11 @@ def main():
     html_path = outdir / f"{d['id']}.html"
     html_path.write_text(render(d), encoding="utf-8")
     print("wrote", html_path)
+    # the app finds the weeks through this list (a static site can't list a folder)
+    index = src.parent / "index.json"
+    weeks = sorted(f.name for f in src.parent.glob("week-*.json"))
+    index.write_text(json.dumps(weeks, indent=1) + "\n", encoding="utf-8")
+    print("wrote", index, "·", len(weeks), "week(s)")
     chrome = shutil.which("google-chrome") or shutil.which("chromium") or shutil.which("chromium-browser")
     if chrome:
         pdf = outdir / f"{d['id']}.pdf"
