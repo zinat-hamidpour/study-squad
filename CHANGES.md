@@ -1,3 +1,11 @@
+# Study Squad 2026.11.16-3 · Books live only on the shelf
+
+1. The Speaking Corner no longer has a "Read the book" button. **A book opens only from the shelf in the study hall**:
+   tap its spine, then Read (or DOWNLOAD PDF).
+2. Messages in the Speaking Corner now point to the shelf.
+
+---
+
 # Study Squad 2026.11.16-2 · Sign-in says what is really wrong
 
 1. If the app can't sign in, it now says **why**. Only a network problem shows "is your VPN on?". If Anonymous

@@ -41,7 +41,7 @@ Active week = the JSON whose `start`–`end` contains today (Asia/Tehran). Past 
 ### 3.1 Speaking Corner (hub)
 - Header “SPEAKING CORNER” and a “Week N” pill.
 - Case file card: “CASE FILE #01 · THIS WEEK’S CASE · CRIME”, `n/6 to close the case`, red progress bar.
-- New row at the top: **“Read the Crime book”** with a pixel book icon. It opens the reader (3.8).
+- **No book button in the hall.** Books open only from the shelf in the Study Hall (3.8).
 - **Speak**: Part 1 / Part 2 / Part 3 rows. Each row is done (green check, “voice sent · 2 friends reacted”), current (lavender, GO ›) or upcoming.
 - **Word tests**: 3 tiles.
   - Easy 5.5–6 · The Scene
@@ -112,7 +112,7 @@ Active week = the JSON whose `start`–`end` contains today (Asia/Tehran). Past 
 - Header “WEEK 1 · CRIME”.
 - Case file card with the red “CASE CLOSED · ALL 6 DONE” stamp and confetti. Show it once.
 - Stats: parts recorded · words right (sum of best scores, /30) · total speaking time.
-- Card: “The Crime book is stamped and on the shelf.”
+- Card: “The Crime book is stamped and on the shelf.” (the book itself opens only from the shelf)
 - Buttons: “See it on the shelf” / “DOWNLOAD PDF”.
 
 ### 3.8 Book reader + Study Hall shelf

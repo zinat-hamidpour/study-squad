@@ -277,7 +277,6 @@ body.has-nav .dockfix{bottom:calc(84px + env(safe-area-inset-bottom));background
 .sp-row small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
 .sp-row .go{margin-left:auto;font:700 14px 'Pixelify Sans',monospace;letter-spacing:1px;white-space:nowrap}
 .sp-row.cur{background:var(--lav-soft);box-shadow:0 4px 0 var(--ink)}
-.sp-row.book{background:#FFF1CF;box-shadow:0 4px 0 var(--ink)}
 .sp-num{flex:none;width:34px;height:34px;border:2.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font:700 15px 'Pixelify Sans',monospace;background:#fff}
 .sp-num.done{background:var(--green)}
 .sp-row.next{opacity:.75}
@@ -1124,10 +1123,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.16-2"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.16-3"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.16-2";
+const APP_VERSION = "2026.11.16-3";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -3310,7 +3309,7 @@ function renderSpeak() {
   }
   if (!w) {
     const past = shelfWeeks().at(-1);
-    return put($("spBody"), `<div class="sp-msg">${pi("mic", 6)}<b class="pixel" style="font-size:20px">NO CASE THIS WEEK</b><span class="muted">The next case file isn't out yet.</span>${past ? `<button type="button" class="btn2" data-book="${esc(past.id)}">${pi("book")} Read the ${esc(past.topic)} book</button>` : ""}</div>`);
+    return put($("spBody"), `<div class="sp-msg">${pi("mic", 6)}<b class="pixel" style="font-size:20px">NO CASE THIS WEEK</b><span class="muted">The next case file isn't out yet.${past ? `<br>Past books are on the shelf in the study hall.` : ""}</span></div>`);
   }
   const p = spProg(w, me), n = stampsOf(w, me), parts = [
     { k: "p1", t: "Part 1 · 6 quick questions", sub: `${(w.part1 || []).length || 6} questions · 20–30 sec each` },
@@ -3322,7 +3321,6 @@ function renderSpeak() {
     <div class="row"><div><small>THIS WEEK'S CASE</small><h2>${esc(String(w.topic).toUpperCase())}</h2></div>
     <div class="n">${n}/6<small>to close the case</small></div></div>
     <div class="sp-pbar"><i class="${n ? "" : "z"}" style="width:${n / 6 * 100}%"></i></div></div>`;
-  h += `<button type="button" class="sp-row book" data-book="${esc(w.id)}">${pi("book", 3)}<div><b>Read the ${esc(w.topic)} book</b><small>${(w.words || []).length} words · models · open any time</small></div><span class="go">OPEN ›</span></button>`;
   h += `<div class="sp-h">Speak</div>`;
   parts.forEach((x, i) => {
     const done = !!p[x.k], isCur = x === cur;
@@ -3715,8 +3713,8 @@ $("speak").addEventListener("click", e => {
   const b = e.target.closest("[data-book]"); if (b) return openBook(b.dataset.book);
   const d = e.target.closest("[data-sp]")?.dataset.sp;
   if (d === "retry") return loadWeeks();
-  if (d === "part") return toast("Recording arrives in the next update. Read the book first!");
-  if (d === "test") return toast("Word tests arrive soon. The words are in the book.");
+  if (d === "part") return toast("Recording arrives in the next update. Read the book on the study hall shelf first!");
+  if (d === "test") return toast("Word tests arrive soon. The words are in the book on the study hall shelf.");
 });
 $("shelfCard").addEventListener("click", e => { const b = e.target.closest("[data-shelf]"); if (b) openShelf(b.dataset.shelf); });
 $("shelfSheet").addEventListener("click", e => { const b = e.target.closest("[data-book]"); if (b) openBook(b.dataset.book); });
