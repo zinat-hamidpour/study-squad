@@ -370,36 +370,32 @@ async function anonAuth(browser, base) {
 }
 
 async function speakingCorner(browser, base) {
-  console.log("speaking corner: hub, book reader, shelf + PDF (demo data)");
+  console.log("speaking corner: hub, shelf → book reader + PDF (demo data)");
   const IN_WEEK = "2026-11-16T10:00:00+03:30";
   let page = await openPage(browser, base, { mode: "demo", when: IN_WEEK, me: "niloufar" });
   await pickMe(page, "niloufar"); await nav(page, "speak"); await page.clock.runFor(600);
   const hub = await page.$eval("#spBody", x => x.textContent);
   ok(/CASE FILE #01/.test(hub) && /CRIME/.test(hub) && /0\/6/.test(hub), "hub: case file #01 · CRIME · 0/6");
   ok(await page.$eval("#spWeek", x => !x.hidden && x.textContent === "Week 1"), "hub: Week 1 pill");
-  ok(await page.$$eval("#spBody .sp-row", x => x.length) === 4 && await page.$$eval("#spBody .sp-row.cur", x => x.length) === 1, "hub: book row + Part 1/2/3, Part 1 is current");
+  ok(await page.$$eval("#spBody .sp-row", x => x.length) === 3 && await page.$$eval("#spBody .sp-row.cur", x => x.length) === 1, "hub: Part 1/2/3, Part 1 is current");
+  ok(await page.$$eval("#spBody [data-book]", x => x.length) === 0, "hub: no book button (books live only on the study hall shelf)");
   ok(await page.$$eval("#spBody .sp-test", x => x.length) === 3, "hub: 3 word-test tiles");
   ok(await page.$$eval("#spBody .sp-avs img.off", x => x.length) === 6, "hub: 6 greyed avatars (nobody closed the case yet)");
-  // the book opens over the hub; Back closes it and stays in the corner
-  await page.click("#spBody [data-book]"); await page.clock.runFor(800);
-  const bk = await page.evaluate(() => ({ on: document.getElementById("bookView").classList.contains("on"), src: document.getElementById("bkFrame").src, pdf: document.getElementById("bkPdf").getAttribute("href"), dl: document.getElementById("bkPdf").hasAttribute("download") }));
-  ok(bk.on && bk.src.endsWith("/books/week-01.html"), `the book opens in the reader (${bk.src.replace(base, "")})`);
-  ok(bk.pdf === "books/week-01.pdf" && bk.dl, "the reader has a PDF download link");
-  const pages = await page.frameLocator("#bkFrame").locator(".page").count();
-  ok(pages > 10, `the book's pages are inside the reader (${pages})`);
-  const pdf = await page.request.get(base + "/books/week-01.pdf");
-  ok(pdf.ok() && (await pdf.body()).slice(0, 4).toString() === "%PDF", "books/week-01.pdf downloads as a PDF");
-  await page.evaluate(() => history.back()); await page.clock.runFor(400);
-  ok(await page.evaluate(() => document.querySelector(".screen.on").id === "speak" && !document.getElementById("bookView").classList.contains("on")), "Back closes the book and stays in the speaking corner");
-  // the shelf in the study hall
+  // the shelf in the study hall is the only way into a book
   await nav(page, "hall");
   ok(await page.$$eval("#shelfCard [data-shelf]", x => x.length) === 1 && await page.$$eval("#shelfCard .new", x => x.length) === 1, "hall: one spine on the shelf, tagged NEW");
   await page.click("#shelfCard [data-shelf]"); await page.clock.runFor(300);
   const sh = await page.$eval("#shBody", x => x.textContent);
   ok(/CRIME/.test(sh) && /Week 1 · 15–21 Nov/.test(sh) && /47 words · 3 levels · Part 1–3 models · 30-question word tests/.test(sh), "shelf sheet: title, week, dates and contents");
   ok(await page.$eval('#shBody a[download]', a => a.getAttribute("href")) === "books/week-01.pdf", "shelf sheet: DOWNLOAD PDF");
-  await page.click("#shBody [data-book]"); await page.clock.runFor(400);
-  ok(await page.evaluate(() => document.getElementById("bookView").classList.contains("on") && !document.getElementById("shelfSheet").classList.contains("on")), "shelf sheet: Read opens the book");
+  await page.click("#shBody [data-book]"); await page.clock.runFor(800);
+  const bk = await page.evaluate(() => ({ on: document.getElementById("bookView").classList.contains("on"), sheet: document.getElementById("shelfSheet").classList.contains("on"), src: document.getElementById("bkFrame").src, pdf: document.getElementById("bkPdf").getAttribute("href"), dl: document.getElementById("bkPdf").hasAttribute("download") }));
+  ok(bk.on && !bk.sheet && bk.src.endsWith("/books/week-01.html"), `shelf sheet: Read opens the book in the reader (${bk.src.replace(base, "")})`);
+  ok(bk.pdf === "books/week-01.pdf" && bk.dl, "the reader has a PDF download link");
+  const pages = await page.frameLocator("#bkFrame").locator(".page").count();
+  ok(pages > 10, `the book's pages are inside the reader (${pages})`);
+  const pdf = await page.request.get(base + "/books/week-01.pdf");
+  ok(pdf.ok() && (await pdf.body()).slice(0, 4).toString() === "%PDF", "books/week-01.pdf downloads as a PDF");
   await page.evaluate(() => history.back()); await page.clock.runFor(400);
   ok(await page.evaluate(() => document.querySelector(".screen.on").id) === "hall", "Back from the book → the study hall");
   await finish(page, "speaking");
