@@ -51,7 +51,7 @@ Active week = the JSON whose `start`–`end` contains today (Asia/Tehran). Past 
 - “Case closed by”: 6 avatars, greyed until that member closes the case.
 
 ### 3.2 Part 1: quick questions (6)
-- Stage illustration shrinks to a compact strip (max ~120px) during questions, so the question and the mic stay above the fold.
+- **Keep the stage illustration exactly as in the mockups** (curtains, ON AIR sign, board, speech bubble, avatar at the mic) on every Part 1/2/3 screen, the same size as in `mock-speaking-final.png`. Do not shrink it into a strip.
 - Show 6 progress segments.
 - Question card: “QUESTION 2 OF 6 · answer in 20–30 sec”, then the optional `tip` and the `chips`.
 - Mic button. While recording, show:
