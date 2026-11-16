@@ -31,20 +31,56 @@ def chunks(seq, n):
     return [seq[i:i + n] for i in range(0, len(seq), n)]
 
 
+# Pixel fingerprint emblem (case-file mark). X = gold, o = shadow.
+EMBLEM = [
+    "......XXXXXX......",
+    "....XX......XX....",
+    "...X..XXXXXX..X...",
+    "..X..X......X..X..",
+    "..X.X..XXXX..X.X..",
+    ".X..X.X....X.X..X.",
+    ".X.X..X.XX.X..X.X.",
+    ".X.X.X..X..X.X..X.",
+    ".X.X.X.X.X.X.X.X..",
+    ".X.X.X.X.X.X.X.X.X",
+    "...X.X.X.X..X.X.X.",
+    "..X..X.X..X.X..X..",
+    "..X.X..X..X..X....",
+    "....X.X..X..X..X..",
+    "...X..X.X..X..X...",
+    ".....X..X.X..X....",
+    "........X.........",
+]
+
+
+def pixel_svg(grid, color="#F6D772"):
+    h, w = len(grid), len(grid[0])
+    rects = "".join(f'<rect x="{x}" y="{y}" width="1" height="1"/>'
+                    for y, row in enumerate(grid) for x, c in enumerate(row) if c == "X")
+    shadow = "".join(f'<rect x="{x+0.25}" y="{y+0.25}" width="1" height="1"/>'
+                     for y, row in enumerate(grid) for x, c in enumerate(row) if c == "X")
+    return (f'<svg viewBox="-1 -1 {w+2} {h+2}" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">'
+            f'<g fill="#5A1512">{shadow}</g><g fill="{color}">{rects}</g></svg>')
+
+
 def build(d):
     topic = d["topic"].upper()
     case = d.get("caseNo", d["id"].split("-")[-1])
     levels = {l["n"]: l for l in d["levels"]}
     pages = []  # (kind, level|None, inner_html)
 
-    # Cover
+    # Cover: pixel book in the app's style (red cover, gold frame, pixel emblem)
+    wk = d["id"].split("-")[-1].lstrip("0") or "1"
     pages.append(("cover", None, f"""
-      <div class="cover-top">CASE FILE #{case}</div>
-      <div class="cover-title">{esc(topic)}</div>
-      <div class="cover-sub">Speaking · {esc(d['start'])} → {esc(d['end'])}</div>
-      <div class="cover-line">{esc(d.get('tagline',''))}</div>
-      <div class="cover-levels">{''.join(f'<span style="background:{LEVEL_COLORS[n]}">{n} · {esc(l["name"])}<small>band {esc(l["band"])}</small></span>' for n,l in levels.items())}</div>
-      <div class="cover-foot">STUDY SQUAD · LIBRARY</div>"""))
+      <div class="cv-frame">
+        <div class="cv-top"><span>CASE FILE #{case}</span><span>WEEK {wk}</span></div>
+        <div class="cv-emblem">{pixel_svg(EMBLEM)}</div>
+        <div class="cv-title">{esc(topic)}</div>
+        <div class="cv-sub">SPEAKING · {esc(d['start'])} → {esc(d['end'])}</div>
+        <div class="cv-line">{esc(d.get('tagline',''))}</div>
+        <div class="cv-levels">{''.join(f'<span><i style="background:{LEVEL_COLORS[n]}"></i>{n} {esc(l["name"].upper())}</span>' for n,l in levels.items())}</div>
+        <div class="cv-foot">STUDY SQUAD · LIBRARY</div>
+      </div>"""))
 
     # How to read
     lv = "".join(f"""<div class="howlv"><b style="background:{LEVEL_COLORS[n]}">{n}</b>
@@ -143,15 +179,18 @@ h3{font-size:1.02em;margin:1em 0 .35em}
 p{margin:.35em 0}
 .lead{color:var(--muted)}
 mark{background:linear-gradient(transparent 55%,#F6D772 55%);color:inherit;font-weight:600;padding:0 1px}
-.cover{background:#7A1F1B;color:#F6E7C9;display:flex;flex-direction:column;justify-content:space-between}
-.cover-top{font-size:.85em;opacity:.8}
-.cover-title{font-size:3.6em;font-weight:700;letter-spacing:.12em;border-top:3px solid #F6E7C9;border-bottom:3px solid #F6E7C9;padding:.15em 0;margin-top:30%}
-.cover-sub{font-size:.9em;opacity:.85;margin-top:.6em}
-.cover-line{font-style:italic;opacity:.9;margin-top:1.5em;font-size:1.05em;line-height:1.4}
-.cover-levels{display:flex;flex-direction:column;gap:6px;margin-top:auto;margin-bottom:1.2em}
-.cover-levels span{color:var(--ink);border:2px solid var(--ink);border-radius:8px;padding:5px 9px;font-weight:700;display:flex;justify-content:space-between}
-.cover-levels small{font-weight:500}
-.cover-foot{font-size:.7em;opacity:.7}
+.cover{background:#A8322B;padding:5%;border-radius:4px 14px 14px 4px;box-shadow:0 6px 0 var(--ink), inset 14px 0 0 #7E211C, inset 16px 0 0 #5A1512}
+.cv-frame{position:relative;height:100%;margin-left:7%;border:3px solid #F6D772;outline:3px solid #7E211C;outline-offset:-9px;padding:9% 9% 7%;display:flex;flex-direction:column;align-items:center;text-align:center;color:#F6D772;background:repeating-linear-gradient(0deg,transparent 0 6px,rgba(0,0,0,.05) 6px 7px)}
+.cv-frame,.cv-frame *{font-family:'Pixelify Sans','DejaVu Sans Mono',monospace}
+.cv-top{width:100%;display:flex;justify-content:space-between;font-size:.72em;letter-spacing:.14em;opacity:.9}
+.cv-emblem{width:42%;margin:13% 0 5%}
+.cv-emblem svg{width:100%;display:block}
+.cv-title{font-size:3.1em;font-weight:700;letter-spacing:.14em;line-height:1;text-shadow:3px 3px 0 #5A1512}
+.cv-sub{font-size:.74em;letter-spacing:.12em;margin-top:.9em;color:#F6EBDD;opacity:.85}
+.cv-line{font-family:Nunito,Inter,sans-serif!important;font-style:italic;color:#F6EBDD;opacity:.9;font-size:.92em;line-height:1.4;margin-top:1.4em;max-width:90%}
+.cv-levels{margin-top:auto;display:flex;flex-direction:column;gap:5px;align-items:flex-start;font-size:.72em;letter-spacing:.1em;color:#F6EBDD}
+.cv-levels i{display:inline-block;width:.9em;height:.9em;border:2px solid #2E2622;margin-right:.6em;vertical-align:-1px}
+.cv-foot{margin-top:1.2em;font-size:.62em;letter-spacing:.2em;opacity:.75}
 .howlv{display:flex;gap:10px;align-items:flex-start;margin:.55em 0}
 .howlv b{flex:0 0 28px;height:28px;border:2px solid var(--ink);border-radius:8px;display:grid;place-items:center}
 .howlv span{color:var(--muted);font-size:.93em}
@@ -200,7 +239,7 @@ mark{background:linear-gradient(transparent 55%,#F6D772 55%);color:inherit;font-
   @page{size:A5;margin:0}
   html,body{background:none}
   .book{display:block;padding:0;height:auto;overflow:visible}
-  .page{width:148mm;height:210mm;max-height:none;aspect-ratio:auto;overflow:hidden;border:none;border-radius:0;box-shadow:none;page-break-after:always;font-size:10.8pt}
+  .page{width:148mm;height:210mm;max-height:none;aspect-ratio:auto;overflow:hidden;border:none;padding:7% 8% 9%;border-radius:0;box-shadow:none;page-break-after:always;font-size:10.8pt}
   .nav{display:none}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
