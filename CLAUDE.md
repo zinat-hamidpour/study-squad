@@ -23,7 +23,7 @@ The owner (Zinat) is learning Git and Claude Code: explain each Git step in one 
 Section headers inside `index.html` (grep these: `grep -n -- '-------- \|======== ' index.html`):
 data store · time math · session actions · ghost guests · routing · start / sign-in / setup · profile ·
 MY GOALS · ME, MY ROAD · PRACTICE TESTS · daily reminder · pixel icons · render: home ·
-the climb (together) · notes + board · speaking corner · render: hall · events · update check · boot.
+the climb (together) · notes + board · speaking corner · speaking: stage, recorder, Part 1, listen back · render: hall · events · update check · boot.
 
 ## Rules that broke production before (do not repeat)
 
@@ -31,11 +31,13 @@ the climb (together) · notes + board · speaking corner · render: hall · even
    `const APP_VERSION` (top of the module in `index.html`), `version.json`, and `<script src="assets.js?v=...">`.
    Format `YYYY.MM.DD-N`. If they differ, phones run a new `index.html` with an old cached `assets.js` → white page.
    `npm test` checks this.
-2. **Database writes must target `squad/<section>/<key>` or deeper.** The live rules refuse writes to `squad` or to a
-   whole section (e.g. a transaction on `squad/ghosts`). New sections need no rule change.
+2. **Database writes must target `squad/<section>/<key>` or deeper**, or `voices/<week>/<member>/<clip>` (speaking
+   voices: audio lives outside `squad/` so lists load without it). The live rules refuse writes to `squad` or to a
+   whole section (e.g. a transaction on `squad/ghosts`). New sections under `squad/` need no rule change.
    Every phone signs in with Firebase **Anonymous Auth** (`signInAnonymously`) before it touches the database.
-   Rules (Firebase console → Realtime Database → Rules):
-   `{"rules":{"squad":{".read":"auth != null","$section":{"$key":{".write":"auth != null"}}}}}`
+   Rules (Firebase console → Realtime Database → Rules), with `voices` added for the speaking recorder:
+   `{"rules":{"squad":{".read":"auth != null","$section":{"$key":{".write":"auth != null"}}},"voices":{"$week":{".read":"auth != null",".write":"auth != null && !newData.exists()","$member":{"$clip":{".write":"auth != null"}}}}}}`
+   (a whole `voices/<week>` may only be deleted: that is the 2-week clean-up). Export a JSON backup before any rule change.
    **Publish rules only after the auth version is live on all phones** (a phone still on the old version can't sign
    in, so it would lose all access). Anonymous sign-in must be enabled in Firebase console → Authentication.
    `tests/fake-firebase/` enforces these rules (no reads or writes without a signed-in user).

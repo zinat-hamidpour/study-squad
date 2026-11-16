@@ -1,3 +1,19 @@
+# Study Squad 2026.11.16-4 · Speaking Corner, part 2: record Part 1 and listen back
+
+1. **The stage**: the Speaking Corner opens on the stage with you at the mic. While you record, the ON AIR sign
+   lights up.
+2. **Part 1 · 6 quick questions**: tap the mic and answer out loud. A timer, a live waveform and a bar with the
+   sweet spot (0:20–0:30) show while you talk; it stops by itself at 0:40. Listen to your answer, Redo it, or Skip
+   a question. The first tap asks for the microphone; if it's blocked, the app tells you how to allow it.
+3. After the last question: **6 / 6 ANSWERED** with your total and average time, play each answer, "Redo one",
+   then **SEND TO SQUAD**. Sending stamps your case file (1/6). Unsent answers stay on your phone even if you close
+   the app.
+4. **Listen back**: your answers (with "save my voice" to keep a file) and the squad's answers, newest first.
+   Voices download only when you press play. Voices are kept for 2 weeks after the week ends.
+5. Zinat: the voices need a **new database rule**: see CLAUDE.md rule 2. Publish it **before** merging this.
+
+---
+
 # Study Squad 2026.11.16-3 · Books live only on the shelf
 
 1. The Speaking Corner no longer has a "Read the book" button. **A book opens only from the shelf in the study hall**:

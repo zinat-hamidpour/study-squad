@@ -256,7 +256,69 @@ body.has-nav .dockfix{bottom:calc(84px + env(safe-area-inset-bottom));background
 .hm-flag.mock:after{border-left-color:var(--teal)}
 .hm-nums{margin-left:auto;display:flex;gap:6px}.hm-nums div{border:2px solid var(--ink);border-radius:10px;padding:3px 8px;text-align:center;background:#fff}.hm-nums b{display:block;font:700 15px 'Pixelify Sans',monospace}.hm-nums small{font-size:9px;font-weight:800;color:var(--muted)}
 .hm-start{height:62px;width:300px;align-self:center;font-size:23px;margin-top:2px;white-space:nowrap}
-#speak{padding:0 18px}
+#speak,#sp1,#splb{padding:0 18px}
+/* speaking: the stage (assets.js stage + mic layer + lit ON AIR sign), Part 1 recorder, listen back */
+#sp1 header.bar,#splb header.bar{padding-left:0;padding-right:0}
+.stage{margin:0 -18px;border-top:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);background:#1E1A2E;overflow:hidden}
+.stage-art{position:relative;width:100%;aspect-ratio:240/150}
+.stage-art img{position:absolute}
+.stage-art .onair{filter:drop-shadow(0 0 3px #E0504A) drop-shadow(0 0 6px rgba(224,80,74,.6))}
+.stage.strip{aspect-ratio:240/90;max-height:150px}        /* rows 12–102: ON AIR sign down to the mic */
+.stage.strip .stage-art{margin-top:-5%}
+.sp-cpill{display:flex;align-items:center;gap:6px;background:#E9D3A8;border:2px solid var(--ink);border-radius:10px;padding:5px 8px;font:700 11px 'Pixelify Sans',monospace;letter-spacing:.5px;white-space:nowrap}
+.sp-cpill span{display:flex;gap:2px}
+.sp-cpill i{width:8px;height:10px;border:1.5px solid var(--ink);border-radius:2px;background:#fff}
+.sp-cpill i.on{background:#E0504A}
+.sp-segs{display:flex;gap:6px;margin-top:12px}
+.sp-segs i{flex:1;height:9px;border:2px solid var(--ink);border-radius:999px;background:#fff}
+.sp-segs i.done{background:var(--green)}
+.sp-segs i.skip{background:#D9CCBE}
+.sp-segs i.cur{background:var(--ink)}
+.sp-q{background:#FFFDF4;border:2.5px solid var(--ink);border-radius:6px;box-shadow:0 5px 0 var(--ink);padding:14px 16px 16px}
+.sp-q .lab{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.04em}
+.sp-q .lab .rec{color:#E0504A}
+.sp-q .lab .rec:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#E0504A;margin-right:5px;vertical-align:0}
+.sp-q h2{margin:8px 0 0;font-size:20px;line-height:1.3;font-weight:800}
+.sp-tip{display:flex;gap:8px;align-items:flex-start;background:var(--lav-soft);border:2px solid var(--ink);border-radius:12px;padding:8px 12px;font-size:13px;font-weight:800}
+.sp-chips{display:flex;flex-wrap:wrap;gap:6px}
+.sp-chips span{background:#fff;border:2px solid var(--ink);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:800}
+.sp-ctl{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:6px;min-height:96px}
+.sp-rb{width:58px;height:58px;border:2.5px solid var(--ink);border-radius:50%;background:#fff;font-size:13px;font-weight:800;padding:0}
+.sp-rb[hidden]{display:block;visibility:hidden}
+.sp-mic{width:86px;height:86px;border:3px solid var(--ink);border-radius:50%;background:#fff;box-shadow:0 5px 0 var(--ink);display:grid;place-items:center;padding:0}
+.sp-mic i{width:30px;height:30px;border-radius:50%;background:#E0504A;border:2.5px solid var(--ink)}
+.sp-mic.stop{background:#E0504A}
+.sp-mic.stop i{width:28px;height:28px;border-radius:5px;background:#fff}
+.sp-time{min-width:58px;font:700 28px 'Pixelify Sans',monospace}
+.sp-hint{text-align:center;font-size:13px;font-weight:800;color:var(--muted)}
+.sp-wave{display:flex;align-items:center;justify-content:center;gap:3px;height:44px}
+.sp-wave i{width:4px;height:6px;background:var(--ink);border-radius:1px}
+.sp-sweet{position:relative;height:12px;border:2.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden}
+.sp-sweet b{position:absolute;top:0;bottom:0;background:rgba(108,203,126,.28);border-left:2px dashed var(--green);border-right:2px dashed var(--green)}
+.sp-sweet i{position:absolute;left:0;top:0;bottom:0;background:var(--green)}
+.sp-sweet-l{display:flex;justify-content:space-between;font-size:11px;font-weight:800;color:var(--muted);margin-top:4px}
+.sp-err{background:#FDE3E6;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;font-size:13px;font-weight:800}
+.sp-play{flex:none;width:40px;height:40px;border:2.5px solid var(--ink);border-radius:50%;background:var(--yellow);display:grid;place-items:center;padding:0 0 0 3px}
+.sp-play.on{padding:0}
+.sp-play.on{background:#fff}
+.sp-ans{display:flex;align-items:center;gap:12px;text-align:left;width:100%;background:#fff;border:2.5px solid var(--ink);border-radius:16px;padding:10px 12px}
+.sp-ans>div{flex:1;min-width:0}
+.sp-ans b{display:block;font-size:14px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-ans small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+.sp-ans .d{font:700 14px 'Pixelify Sans',monospace;white-space:nowrap}
+.sp-ans.skip{background:#F4ECE2;border-style:dashed}
+.sp-ans.pick{background:var(--lav-soft)}
+.sp-ans .av{width:40px;height:auto;flex:none;border:none;background:none;padding:0}
+.sp-sum{background:#FFFDF4;border:2.5px solid var(--ink);border-radius:6px;box-shadow:0 5px 0 var(--ink);padding:14px;text-align:center;transform:rotate(-.6deg)}
+.sp-sum b{display:block;font:700 26px 'Pixelify Sans',monospace;letter-spacing:2px}
+.sp-sum span{font-size:13px;font-weight:800;color:var(--muted)}
+.sp-acts{display:flex;gap:10px}
+.sp-acts .btn2{flex:none;height:54px;padding:0 18px}
+.sp-acts .big{flex:1;width:auto;height:54px;font-size:18px;box-shadow:0 4px 0 var(--ink)}
+.sp-acts .big:disabled{opacity:.5}
+.sp-banner{display:flex;align-items:center;gap:8px;background:var(--ink);color:#FFF8EC;border-radius:12px;padding:10px 14px;font-size:13px;font-weight:800}
+.sp-mine{background:#FFFDF4;border:2.5px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 var(--ink);padding:12px;display:flex;flex-direction:column;gap:8px}
+.sp-save{flex:none;width:40px;height:40px;border:2px solid var(--ink);border-radius:10px;background:#fff;display:grid;place-items:center;padding:0}
 /* speaking corner: hub, book reader, shelf */
 #speak header.bar{padding-left:0;padding-right:0}
 .sp-body{display:flex;flex-direction:column;gap:10px;padding-bottom:12px}
@@ -929,6 +991,17 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
   <div id="spBody" class="sp-body"></div>
 </section>
 
+<!-- ============ SPEAKING: PART 1 + LISTEN BACK ============ -->
+<section id="sp1" class="screen">
+  <header class="bar"><button id="sp1Back" class="back" type="button" aria-label="Back to the speaking corner"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><h1 id="sp1Title" class="pixel">PART 1</h1><span id="sp1Case" class="sp-cpill" style="margin-left:auto"></span></header>
+  <div id="sp1Stage" class="stage strip"></div>
+  <div id="sp1Body" class="sp-body"></div>
+</section>
+<section id="splb" class="screen">
+  <header class="bar"><button id="splbBack" class="back" type="button" aria-label="Back to the speaking corner"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2622" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><h1 class="pixel">LISTEN BACK</h1><span id="splbCase" class="sp-cpill" style="margin-left:auto"></span></header>
+  <div id="splbBody" class="sp-body" style="padding-top:4px"></div>
+</section>
+
 <!-- ============ PROFILE / GOALS ============ -->
 <section id="me" class="screen">
   <header class="bar"><span class="mx-me" id="meSpr"></span><div style="flex:1;min-width:0"><h1 class="pixel">ME</h1><span class="gl-sm" id="meSub"></span></div><button id="meGear" class="mx-gear" type="button" aria-label="Settings"><i data-pi="gear" data-sz="2"></i></button></header>
@@ -1123,10 +1196,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.16-3"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.16-4"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.16-3";
+const APP_VERSION = "2026.11.16-4";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1250,7 +1323,19 @@ async function makeFirebaseStore() {
     removeGhost: gid => F.update(F.ref(db, "squad"), { [`ghosts/${gid}`]: null, [`ghostpos/${gid}`]: null, [`notes/${gid}`]: null }),
     // several fixes in one go (edit a day, start fresh, clean-up): keys are "section/key/..." under squad/
     patch: obj => F.update(F.ref(db, "squad"), patchPaths(obj)),
+    // a voice lives outside squad/ (lists stay light); one multi-path write saves the voices and their cards together
+    sendVoices: obj => F.update(F.ref(db), rootPaths(obj)),
+    // audio is only fetched when play is pressed
+    getVoice: async (w, m, c) => (await F.get(F.ref(db, `voices/${w}/${m}/${c}`))).val(),
   };
+}
+// a write from the root: squad/<section>/<key>… or voices/<week>/<member>/<clip>…, nothing shallower
+function rootPaths(obj) {
+  for (const p of Object.keys(obj)) {
+    const ps = p.split("/").filter(Boolean);
+    if (!((ps[0] === "squad" && ps.length >= 3) || (ps[0] === "voices" && ps.length >= 4))) throw new Error("refused path: " + p);
+  }
+  return obj;
 }
 // the live rules refuse a write to a whole section: every path must be "section/key" or deeper
 function patchPaths(obj) {
@@ -1259,7 +1344,8 @@ function patchPaths(obj) {
 }
 function makeDemoStore() {
   $("demo").hidden = false;
-  const KEY = "squad-demo-v11";
+  const KEY = "squad-demo-v12";
+  const VOICES = {};                                  // demo voices stay in memory only
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!saved) {
@@ -1301,7 +1387,14 @@ function makeDemoStore() {
     if (dowOf(today) >= 2) { const k = addDays(ws0, 0); days[k].niloufar = 380 * MIN; }
     if (dowOf(today) >= 2 && dowOf(today) <= 3) lanterns[ws0] = { farzad: { from: "niloufar", day: addDays(ws0, 1), at: t - 3 * HOUR } };
     const party = { [ws0]: { text: "pizza + movie at Milad's", by: "milad", at: t } };
-    saved = { lanterns, party, tests, mocks, plans, main: {}, skills: skillsSeed, days, profiles, notes, board, writing: {}, sessions: {
+    // speaking corner: Milad and Niloufar already sent Part 1 of week 1 (their voices play a soft demo tone)
+    const speaking = { "week-01": { answers: {}, progress: {} } };
+    [["milad", 5 * HOUR, [24, 28, 31, 26, 22, 37]], ["niloufar", 26 * HOUR, [21, 30, 27, 25, 29, 33]]].forEach(([id, ago, durs]) => {
+      const at = t - ago, send = "demo" + id, a = (speaking["week-01"].answers[id] = {});
+      durs.forEach((d, i) => { a[`${send}-p1-${i + 1}`] = { part: 1, qId: `p1-${i + 1}`, dur: d, at, sent: true, send }; });
+      speaking["week-01"].progress[id] = { p1: at };
+    });
+    saved = { speaking, lanterns, party, tests, mocks, plans, main: {}, skills: skillsSeed, days, profiles, notes, board, writing: {}, sessions: {
       milad: { state: "studying", startedAt: t - 42 * MIN, accum: 0, skill: "listening" },
       farzad: { state: "studying", startedAt: t - 27 * MIN, accum: 0, skill: "reading" },
       niloufar: { state: "paused", accum: 18 * MIN, pausedAt: t - 5 * MIN },
@@ -1342,6 +1435,16 @@ function makeDemoStore() {
     ghostSent: async (gid, day) => { const g = state.ghosts[gid]; if (!g) return false; const c = g.sent; if (c && c.day === day && c.n >= GH_NOTES_DAY) return false; g.sent = c && c.day === day ? { day, n: c.n + 1 } : { day, n: 1 }; persist(); return true; },
     setGhostPos: async (gid, val) => { state.ghostpos[gid] = val; persist(); },
     removeGhost: async gid => { delete state.ghosts[gid]; delete state.ghostpos[gid]; delete state.notes[gid]; persist(); },
+    sendVoices: async obj => {
+      for (const [p, v] of Object.entries(rootPaths(obj))) {
+        if (p.startsWith("voices/")) { VOICES[p] = v; continue; }
+        const ps = p.split("/").slice(1); let o = state;
+        ps.slice(0, -1).forEach(k => { if (typeof o[k] !== "object" || o[k] == null) o[k] = {}; o = o[k]; });
+        if (v == null) delete o[ps.at(-1)]; else o[ps.at(-1)] = JSON.parse(JSON.stringify(v));
+      }
+      persist();
+    },
+    getVoice: async (w, m, c) => VOICES[`voices/${w}/${m}/${c}`] || (((((state.speaking || {})[w] || {}).answers || {})[m] || {})[c] ? demoTone() : null),
     patch: async obj => {
       for (const [p, v] of Object.entries(patchPaths(obj))) {
         const ps = p.split("/"); let o = state;
@@ -1490,6 +1593,7 @@ function ghostStore(s) {
     if (k === "removeNote") return (to, id) => to === GHOST ? t.removeNote(to, id) : new Promise(() => {});
     if (k === "ghostSent" || k === "setGhostPos") return (gid, v) => gid === GHOST ? t[k](gid, v) : Promise.resolve(false);
     if (typeof t[k] !== "function") return t[k];
+    if (k === "getVoice") return t[k];                     // guests may listen to the squad's voices
     if (GH_SILENT.has(k)) return () => Promise.resolve(null);
     // anything else is a change: say so, and never resolve, so no "saved!" follows
     return () => { if (!navigator.userActivation || navigator.userActivation.isActive) toast("Ghosts can look, but not touch."); return new Promise(() => {}); };
@@ -1628,12 +1732,16 @@ let toastT;
 function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("on"), 3400); }
 
 // ---------------- routing ----------------
-const SCREENS = ["start", "home", "race", "hall", "speak", "me", "road", "wkd", "tests", "profile", "goals"];
+const SCREENS = ["start", "home", "race", "hall", "speak", "sp1", "splb", "me", "road", "wkd", "tests", "profile", "goals"];
+// inner pages whose Back goes to another inner page instead of HOME
+const BACK_TO = { sp1: "speak", splb: "speak" };
 const NAV_SCREENS = { home: "home", race: "race", hall: "hall", speak: "speak", me: "me", road: "me", wkd: "me", tests: "me", profile: "me", goals: "me" };
 function go(name) {
   if (name === "goals") { name = "me"; meTab = "plan"; }   // MY GOALS lives inside ME › PLAN now
   if (name !== "start" && !(me && state.profiles[me])) name = "start";
   closeOverlays();
+  if (name !== "sp1") recRelease();
+  if (name !== "splb") LB.banner = "";   // leaving the recorder: stop any take and let go of the microphone
   for (const s of SCREENS) $(s).classList.toggle("on", s === name);
   document.body.classList.toggle("has-nav", !!NAV_SCREENS[name]);
   document.querySelectorAll("[data-nav]").forEach(b => b.classList.toggle("on", b.dataset.nav === NAV_SCREENS[name]));
@@ -1680,7 +1788,7 @@ window.addEventListener("popstate", () => {
   const at = histDepth();
   if (ovlOpen() && wantDepth() > at) closeOverlays();
   if (!atRoot() && wantDepth() > at) {
-    if (onScreen() === "start") showStep("stPick"); else go("home");
+    if (onScreen() === "start") showStep("stPick"); else go(BACK_TO[onScreen()] || "home");
   }
   syncHistory();
 });
@@ -2648,6 +2756,8 @@ const ICONS = {
   pizza: ["KKKKKKKK", "KOOOOOOK", "KYRYYRK.", ".KYYYYK.", ".KYRYK..", "..KYYK..", "..KYK...", "...K...."],
   party: ["Y..R...L", "..K...T.", ".KYK.G..", "KYRYK...", "KYYYYK.R", "KRYYRYK.", "KYYYYYYK", "KKKKKKKK"],
   lantern: ["...KK...", "..KKKK..", ".KKKKKK.", "KOYYYYOK", "KOYWWYOK", "KOYYYYOK", ".KKKKKK.", "..KKKK.."],
+  play: ["K....", "KK...", "KKK..", "KKKK.", "KKKKK", "KKKK.", "KKK..", "KK...", "K...."],
+  halt: ["KKKKKK", "KKKKKK", "KKKKKK", "KKKKKK", "KKKKKK", "KKKKKK"],
   book: ["KKKKKKK..", "KRRRRRKK.", "KRYYYRKWK", "KRRRRRKWK", "KRYYYRKWK", "KRRRRRKWK", "KRRRRRKWK", "KRRRRRKWK", "KKKKKKKWK", ".KWWWWWWK", "..KKKKKKK"],
   ghost: ["..KKKK..", ".KWWWWK.", "KWWWWWWK", "KWKWWKWK", "KWWWWWWK", "KWWWWWWK", "KWKWWKWK", "KK.KK.KK"],
 };
@@ -3317,17 +3427,20 @@ function renderSpeak() {
     { k: "p3", t: "Part 3 · discussion", sub: `pick 3 of ${(w.part3 || []).length || 8} · 30–45 sec each` },
   ];
   const cur = parts.find(x => !p[x.k]);
-  let h = `<div class="sp-case"><span class="tab">CASE FILE #${esc(w.caseNo || "")}</span>
+  let h = `<div class="stage">${stageHtml(me, false)}</div>`;
+  h += `<div class="sp-case"><span class="tab">CASE FILE #${esc(w.caseNo || "")}</span>
     <div class="row"><div><small>THIS WEEK'S CASE</small><h2>${esc(String(w.topic).toUpperCase())}</h2></div>
     <div class="n">${n}/6<small>to close the case</small></div></div>
     <div class="sp-pbar"><i class="${n ? "" : "z"}" style="width:${n / 6 * 100}%"></i></div></div>`;
   h += `<div class="sp-h">Speak</div>`;
   parts.forEach((x, i) => {
     const done = !!p[x.k], isCur = x === cur;
-    h += `<button type="button" class="sp-row${isCur ? " cur" : done ? "" : " next"}" data-sp="part">
+    h += `<button type="button" class="sp-row${isCur ? " cur" : done ? "" : " next"}" data-sp="${x.k === "p1" ? "p1" : "part"}">
       <span class="sp-num${done ? " done" : ""}">${done ? pi("check", 2.5) : i + 1}</span>
-      <div><b>${x.t}</b><small>${done ? "voice sent" : x.sub}</small></div>${isCur ? `<span class="go">GO ›</span>` : ""}</button>`;
+      <div><b>${x.t}</b><small>${done ? "voice sent · tap to listen back" : x.sub}</small></div>${isCur ? `<span class="go">GO ›</span>` : ""}</button>`;
   });
+  const voices = answerGroups(w).filter(g => g.m !== me).length;
+  h += `<button type="button" class="sp-row" data-sp="lb">${pi("play", 3)}<div><b>Listen back</b><small>${voices ? `${voices} voice${voices === 1 ? "" : "s"} from the squad this week` : "the squad's voices land here"}</small></div><span class="go">›</span></button>`;
   h += `<div class="sp-h">Word tests</div><div class="sp-tests">`;
   const LV = { 1: "var(--green)", 2: "var(--lav)", 3: "var(--yellow)" }, NM = { easy: "Easy", medium: "Medium", strong: "Strong" };
   (w.levels || []).forEach(l => {
@@ -3378,6 +3491,320 @@ function openShelf(id) {
     <div class="sp-closed" style="margin:0"><span class="sp-avs">${avatars(by, 28)}</span><span class="muted" style="font-size:12px;font-weight:800">${by.length ? "closed it" : "nobody has closed it yet"}</span></div>
     <div class="sh-acts"><button type="button" data-book="${esc(w.id)}">${pi("book", 2)}Read</button><a href="${bookUrl(w, "pdf")}" download="${esc(pdfName(w))}">${pi("download", 2)}DOWNLOAD PDF</a></div>`);
   $("shelfSheet").classList.add("on");
+}
+
+// ---------------- speaking: stage, recorder, Part 1, listen back ----------------
+// The stage is assets.js art (240×150): the stage, the member's picture at the mic, the mic layer on top.
+// The ON AIR sign (A.onair, at 97,15) lights up only while recording.
+function stageHtml(id, live) {
+  if (!A.stage) return "";
+  const X = v => (v / 240 * 100) + "%", Y = v => (v / 150 * 100) + "%", ch = (A.chars || {})[id];
+  return `<div class="stage-art"><img class="px" src="${A.stage}" alt="The speaking stage" style="left:0;top:0;width:100%;height:100%">`
+    + (live && A.onair ? `<img class="px onair" src="${A.onair}" alt="On air" style="left:${X(97)};top:${Y(15)};width:${X(47)};height:${Y(15)}">` : "")
+    + (ch ? `<img class="px" src="${ch}" alt="" style="left:${X(102)};top:${Y(60)};width:${X(36)};height:${Y(46)}">` : "")
+    + (A.mic ? `<img class="px" src="${A.mic}" alt="" style="left:0;top:0;width:100%;height:100%">` : "") + "</div>";
+}
+const casePill = (w, id) => `<span>${STAMPS.map(k => `<i class="${passed(spProg(w, id)[k]) ? "on" : ""}"></i>`).join("")}</span>CASE ${stampsOf(w, id)}/6`;
+const fmtSec = sec => { const s = Math.round(sec || 0); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
+const fmtMS = sec => { const s = Math.round(sec || 0); return `${Math.floor(s / 60)}m ${String(s % 60).padStart(2, "0")}s`; };
+const weekById = id => (WEEKS.list || []).find(w => w.id === id) || null;
+
+// unsent answers live in IndexedDB on this phone, so a reload or a closed app doesn't lose them
+const IDB = (() => {
+  let dbp = null;
+  const open = () => dbp ||= new Promise((res, rej) => { const r = indexedDB.open("squad-voice", 1); r.onupgradeneeded = () => r.result.createObjectStore("drafts"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+  const run = (mode, fn) => open().then(db => new Promise((res, rej) => { const tx = db.transaction("drafts", mode), q = fn(tx.objectStore("drafts")); tx.oncomplete = () => res(q.result); tx.onerror = () => rej(tx.error); }));
+  return { get: k => run("readonly", st => st.get(k)).catch(() => null), put: (k, v) => run("readwrite", st => st.put(v, k)).catch(() => {}), del: k => run("readwrite", st => st.delete(k)).catch(() => {}) };
+})();
+
+// a tiny WAV: silence unlocks audio on iPhone inside the tap; the demo uses a soft tone as everyone's voice
+function wavB64(sec, hz, vol) {
+  const rate = 8000, n = Math.round(rate * sec), b = new Uint8Array(44 + n), v = new DataView(b.buffer);
+  const str = (o, s) => [...s].forEach((c, i) => { b[o + i] = c.charCodeAt(0); });
+  str(0, "RIFF"); v.setUint32(4, 36 + n, true); str(8, "WAVEfmt "); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, rate, true); v.setUint32(28, rate, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true); str(36, "data"); v.setUint32(40, n, true);
+  for (let i = 0; i < n; i++) b[44 + i] = 128 + Math.round(vol * 127 * Math.sin(2 * Math.PI * hz * i / rate) * Math.min(1, i / 400, (n - i) / 400));
+  let s = ""; for (let i = 0; i < b.length; i++) s += String.fromCharCode(b[i]);
+  return btoa(s);
+}
+const demoTone = () => ({ data: wavB64(1.2, 440, 0.25), mime: "audio/wav", dur: 1.2, at: 0 });
+const blobB64 = blob => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(",")[1] || ""); r.onerror = () => rej(r.error); r.readAsDataURL(blob); });
+const b64Url = (data, mime) => { const bin = atob(data), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return URL.createObjectURL(new Blob([u], { type: mime })); };
+
+// ---- recorder: MediaRecorder, mono, 24 kbps; webm/opus where it exists, mp4 on iPhone ----
+const PART1_MAX = 40e3, CLIP_MAX = 130;          // ms per Part 1 answer · longest clip accepted (2:10), in seconds
+const REC = { stream: null, mr: null, on: false, t0: 0, max: 0, tick: 0, raf: 0, ctx: null, src: null, an: null };
+function recMime() {
+  if (!window.MediaRecorder || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) return null;
+  const ok = m => { try { return MediaRecorder.isTypeSupported(m); } catch (e) { return false; } };
+  return ["audio/webm;codecs=opus", "audio/mp4", "audio/webm", "audio/ogg;codecs=opus"].find(ok) || "";
+}
+// the microphone is asked for only here, i.e. on the first tap of the mic
+async function recStart(maxMs, onDone) {
+  const mime = recMime();
+  if (mime === null) throw Object.assign(new Error("no MediaRecorder"), { name: "NotSupportedError" });
+  if (!REC.stream || !REC.stream.getAudioTracks().some(t => t.readyState === "live"))
+    REC.stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+  const mr = new MediaRecorder(REC.stream, { ...(mime ? { mimeType: mime } : {}), audioBitsPerSecond: 24000 }), chunks = [];
+  mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+  mr.onstop = async () => {
+    if (REC.mr === mr) { REC.on = false; REC.mr = null; stopMeters(); }
+    if (mr._cancel) return onDone(null);
+    const dur = Math.round(Math.min(mr._stopAt - mr._t0, maxMs) / 100) / 10;
+    if (dur > CLIP_MAX) return onDone(null, "That answer is too long (over 2:10).");
+    const type = mr.mimeType || mime || "audio/mp4", blob = new Blob(chunks, { type });
+    if (!blob.size) return onDone(null, "The recording came out empty. Please try again.");
+    onDone({ data: await blobB64(blob), mime: type.split(";")[0], dur, at: now() });
+  };
+  mr._t0 = Date.now();
+  REC.mr = mr; REC.on = true; REC.t0 = mr._t0; REC.max = maxMs;
+  mr.start();
+  startMeters();
+}
+function recStop(cancel) {
+  const mr = REC.mr; if (!mr || mr.state === "inactive") return;
+  mr._cancel = !!cancel; mr._stopAt = Date.now();
+  REC.on = false; stopMeters();
+  mr.stop();
+}
+function recRelease() {
+  recStop(true); stopMeters();
+  if (REC.stream) REC.stream.getTracks().forEach(t => t.stop());
+  REC.stream = null;
+  playStop();
+}
+function startMeters() {
+  stopMeters();
+  try {
+    REC.ctx ||= new (window.AudioContext || window.webkitAudioContext)();
+    if (REC.ctx.resume) REC.ctx.resume();
+    REC.src = REC.ctx.createMediaStreamSource(REC.stream); REC.an = REC.ctx.createAnalyser(); REC.an.fftSize = 512; REC.src.connect(REC.an);
+  } catch (e) { REC.an = null; }
+  const buf = REC.an ? new Uint8Array(REC.an.fftSize) : null;
+  const draw = () => {
+    const bars = document.querySelectorAll("#spWave i");
+    if (buf && bars.length) {
+      REC.an.getByteTimeDomainData(buf);
+      const step = Math.floor(buf.length / bars.length);
+      bars.forEach((b, i) => { let m = 0; for (let k = i * step; k < (i + 1) * step; k++) m = Math.max(m, Math.abs(buf[k] - 128)); b.style.height = Math.round(Math.max(6, Math.min(44, m / 128 * 110))) + "px"; });
+    }
+    REC.raf = requestAnimationFrame(draw);
+  };
+  draw();
+  REC.tick = setInterval(recTick, 200); recTick();
+}
+function stopMeters() {
+  cancelAnimationFrame(REC.raf); clearInterval(REC.tick); REC.raf = REC.tick = 0;
+  if (REC.src) { try { REC.src.disconnect(); } catch (e) {} REC.src = null; }
+}
+function recTick() {
+  if (!REC.on) return;
+  const ms = Date.now() - REC.t0;
+  if ($("spTime")) $("spTime").textContent = fmtSec(Math.floor(ms / 1000));
+  if ($("spSweetI")) $("spSweetI").style.width = Math.min(100, ms / REC.max * 100) + "%";
+  if (ms >= REC.max) { recStop(false); toast("Time's up: 0:40. Listen back, or record it again."); }
+}
+function micErr(e) {
+  const n = e && e.name;
+  if (n === "NotAllowedError" || n === "SecurityError") return "<b>The microphone is blocked.</b><br>Allow it for this site in your browser's site settings (Microphone), then tap the mic again.";
+  if (n === "NotFoundError") return "<b>No microphone found</b> on this device.";
+  if (n === "NotSupportedError") return "<b>This browser can't record.</b><br>On iPhone use Safari; on Android use Chrome.";
+  return `<b>Couldn't start the microphone.</b><br>${esc((e && e.message) || n || e)}`;
+}
+
+// ---- player: one audio element; voices are fetched only when play is pressed ----
+const PLAY = { el: null, key: "", urls: [], done: null };
+const SILENT = "data:audio/wav;base64," + wavB64(0.05, 0, 0);
+function playStop() {
+  if (PLAY.el) PLAY.el.pause();
+  if (PLAY.done) PLAY.done(false);
+  PLAY.urls.forEach(u => URL.revokeObjectURL(u)); PLAY.urls = []; PLAY.key = ""; PLAY.done = null;
+}
+const playBtn = (key, off) => `<button type="button" class="sp-play${PLAY.key === key ? " on" : ""}" data-play="${esc(key)}" aria-label="${PLAY.key === key ? "Stop" : "Play"}"${off ? " disabled" : ""}>${pi(PLAY.key === key ? "halt" : "play", 2.5)}</button>`;
+async function playClips(key, loaders) {
+  if (PLAY.key === key) { playStop(); return render(); }
+  playStop(); PLAY.key = key;
+  const el = PLAY.el ||= new Audio();
+  el.src = SILENT; el.play().catch(() => {});              // inside the tap: lets iPhone play what comes after the download
+  render();
+  for (let i = 0; i < loaders.length && PLAY.key === key; i++) {
+    let v = null;
+    try { v = await loaders[i](); } catch (e) { toast("Couldn't load the voice — is your VPN on?"); break; }
+    if (PLAY.key !== key) return;
+    if (!v || !v.data) { LB.expired.add(key); toast("This voice has expired (voices are kept 2 weeks)."); break; }
+    const url = b64Url(v.data, v.mime); PLAY.urls.push(url);
+    el.src = url;
+    const ok = await new Promise(res => { PLAY.done = res; el.onended = () => res(true); el.onerror = () => res(false); el.play().catch(() => res(false)); });
+    if (PLAY.key !== key) return;
+    if (!ok) { toast(`This phone can't play that voice (${v.mime}).`); break; }
+  }
+  if (PLAY.key === key) { playStop(); render(); }
+}
+
+// ---- Part 1: 6 quick questions ----
+let P1 = null;   // { w, key, idx, clips: {qId: {data, mime, dur, at}}, skipped: {qId: 1}, view: "q" | "sum", pick, rec, err, sending }
+async function openPart1(w) {
+  if (GHOST) return toast("Ghosts can listen, not record.");
+  const key = `${w.id}:${me}:p1`, d = await IDB.get(key);
+  P1 = { idx: 0, clips: {}, skipped: {}, view: "q", ...(d || {}), w: w.id, key, pick: false, rec: false, err: "", sending: false };
+  go("sp1");
+}
+const p1Save = () => { if (P1) IDB.put(P1.key, { idx: P1.idx, clips: P1.clips, skipped: P1.skipped, view: P1.view }); };
+const p1Note = d => d < 15 ? "a bit short · aim for 20–30 sec" : d > 32 ? "a bit long · aim for 20–30 sec" : "right in the sweet spot";
+function renderSp1() {
+  const w = P1 && weekById(P1.w);
+  if (!w) { put($("sp1Stage"), ""); return put($("sp1Body"), `<div class="sp-msg"><span class="muted">Open Part 1 from the speaking corner.</span></div>`); }
+  put($("sp1Case"), casePill(w, me));
+  put($("sp1Stage"), stageHtml(me, P1.rec));
+  if (P1.view === "sum") { $("sp1Title").textContent = "PART 1 · DONE"; return put($("sp1Body"), p1SumHtml(w)); }
+  $("sp1Title").textContent = "PART 1";
+  const qs = w.part1 || [], n = qs.length, i = Math.min(P1.idx, n - 1), q = qs[i], clip = P1.clips[q.id];
+  let h = `<div class="sp-segs">${qs.map((x, k) => `<i class="${k === i ? "cur" : P1.clips[x.id] ? "done" : P1.skipped[x.id] ? "skip" : ""}"></i>`).join("")}</div>`;
+  h += `<div class="sp-q"><div class="lab"><span>QUESTION ${i + 1} OF ${n}</span>${P1.rec ? `<span class="rec">recording</span>` : `<span>answer in 20–30 sec</span>`}</div><h2>${esc(q.q)}</h2></div>`;
+  if (P1.rec) {
+    h += `<div id="spWave" class="sp-wave">${"<i></i>".repeat(28)}</div>
+      <div class="sp-ctl"><button type="button" class="sp-rb" data-p1="redo">Redo</button><button type="button" class="sp-mic stop" data-p1="stop" aria-label="Stop recording"><i></i></button><span id="spTime" class="sp-time pixel">0:00</span></div>
+      <div><div class="sp-sweet"><b style="left:50%;width:25%"></b><i id="spSweetI" style="width:0"></i></div><div class="sp-sweet-l"><span>0:00</span><span>sweet spot 0:20–0:30</span><span>0:40</span></div></div>`;
+    return put($("sp1Body"), h);
+  }
+  if (q.tip) h += `<div class="sp-tip">${pi("bulb", 2)}<span>${esc(q.tip)}</span></div>`;
+  if ((q.chips || []).length) h += `<div class="sp-chips">${q.chips.map(c => `<span>${esc(c)}</span>`).join("")}</div>`;
+  if (P1.err) h += `<div class="sp-err">${P1.err}</div>`;
+  if (clip) {
+    h += `<div class="sp-ans">${playBtn("d:" + q.id)}<div><b>Your answer</b><small>${p1Note(clip.dur)}</small></div><span class="d">${fmtSec(clip.dur)}</span></div>`;
+    h += `<div class="sp-acts"><button type="button" class="btn2" data-p1="rec">Redo</button><button type="button" class="big pixel" data-p1="next">${p1NextIdx(w) < 0 ? "SEE ALL ›" : "NEXT ›"}</button></div>`;
+  } else {
+    h += `<div class="sp-ctl"><button type="button" class="sp-rb" hidden tabindex="-1"></button><button type="button" class="sp-mic" data-p1="rec" aria-label="Record your answer"><i></i></button><button type="button" class="sp-rb" data-p1="skip">Skip</button></div><div class="sp-hint">Tap the mic and answer out loud</div>`;
+  }
+  put($("sp1Body"), h);
+}
+// the next question still waiting for an answer (after a redo-one, straight back to the list)
+const p1NextIdx = w => (w.part1 || []).findIndex((x, k) => k > P1.idx && !P1.clips[x.id] && !P1.skipped[x.id]);
+function p1SumHtml(w) {
+  const qs = w.part1 || [], got = qs.filter(q => P1.clips[q.id]), tot = got.reduce((a, q) => a + P1.clips[q.id].dur, 0);
+  let h = `<div class="sp-sum" style="margin-top:12px"><b>${got.length} / ${qs.length} ANSWERED</b><span>${got.length ? `${fmtMS(tot)} of English · average ${Math.round(tot / got.length)} sec` : "Record at least one answer to send"}</span></div>`;
+  if (P1.pick) h += `<div class="sp-tip">Tap the answer you want to record again.</div>`;
+  qs.forEach((q, k) => {
+    const c = P1.clips[q.id];
+    if (P1.pick || !c) h += `<button type="button" class="sp-ans${c ? " pick" : " skip"}" data-p1="go:${k}"><span class="sp-num">${k + 1}</span><div><b>${esc(q.short)}</b><small>${c ? "tap to record again" : "skipped · tap to answer"}</small></div>${c ? `<span class="d">${fmtSec(c.dur)}</span>` : ""}</button>`;
+    else h += `<div class="sp-ans">${playBtn("d:" + q.id)}<div><b>${k + 1}. ${esc(q.short)}</b></div><span class="d">${fmtSec(c.dur)}</span></div>`;
+  });
+  h += `<span class="sp-note">Sending shares your voices with the squad. Voices are kept for 2 weeks after the week ends.</span>`;
+  h += `<div class="sp-acts"><button type="button" class="btn2" data-p1="pick">${P1.pick ? "Done" : "Redo one"}</button><button type="button" class="big pixel" data-p1="send"${got.length && !P1.sending ? "" : " disabled"}>${P1.sending ? "SENDING…" : "SEND TO SQUAD ▶"}</button></div>`;
+  return h;
+}
+async function p1Act(a) {
+  const w = P1 && weekById(P1.w); if (!w) return;
+  const qs = w.part1 || [], q = qs[Math.min(P1.idx, qs.length - 1)];
+  if (a === "rec" || a === "redo") {
+    if (a === "redo") recStop(true);                       // drop this take and start again
+    playStop(); P1.err = "";
+    const p = P1;
+    try { await recStart(PART1_MAX, (clip, why) => p1Got(p, q.id, clip, why)); P1.rec = true; }
+    catch (e) { console.error(e); P1.rec = false; P1.err = micErr(e); }
+    return render();
+  }
+  if (a === "stop") return recStop(false);
+  if (a === "skip") { P1.skipped[q.id] = 1; return p1Next(w); }
+  if (a === "next") return p1Next(w);
+  if (a === "pick") { P1.pick = !P1.pick; return render(); }
+  if (a === "send") return p1Send(w);
+  if (a.startsWith("go:")) { playStop(); P1.idx = +a.slice(3); P1.view = "q"; P1.pick = false; p1Save(); window.scrollTo(0, 0); return render(); }
+}
+function p1Got(p, qId, clip, why) {
+  if (P1 !== p) return;
+  if (!clip) { if (!REC.on) { P1.rec = false; render(); } if (why) toast(why); return; }
+  P1.rec = false; P1.clips[qId] = clip; delete P1.skipped[qId];
+  p1Save(); render();
+}
+function p1Next(w) {
+  playStop();
+  const j = p1NextIdx(w);
+  if (j < 0) P1.view = "sum"; else P1.idx = j;
+  p1Save(); window.scrollTo(0, 0); render();
+}
+async function p1Send(w) {
+  if (P1.sending) return;
+  const qs = (w.part1 || []).filter(q => P1.clips[q.id]); if (!qs.length) return;
+  playStop(); P1.sending = true; render();
+  const send = Date.now().toString(36), at = now(), paths = {}, was = stampsOf(w, me), had = passed(spProg(w, me).p1);
+  qs.forEach(q => {
+    const c = P1.clips[q.id], cid = `${send}-${q.id}`;
+    paths[`voices/${w.id}/${me}/${cid}`] = { data: c.data, mime: c.mime, dur: c.dur, at: c.at };
+    paths[`squad/speaking/${w.id}/answers/${me}/${cid}`] = { part: 1, qId: q.id, dur: c.dur, at, sent: true, send };
+  });
+  paths[`squad/speaking/${w.id}/progress/${me}/p1`] = at;
+  paths[`squad/speaking/weeks/${w.id}/end`] = w.end;          // for the 2-week voice clean-up (slice 6)
+  try { await store.sendVoices(paths); }
+  catch (e) {
+    console.error(e); P1.sending = false; render();
+    return toast(/PERMISSION_DENIED/i.test(String((e && (e.code || e.message)) || e))
+      ? "The database refused the voices: the new rules aren't published yet. Tell Zinat. Your answers stay on this phone."
+      : "Couldn't send — is your VPN on? Your answers stay on this phone.");
+  }
+  await IDB.del(P1.key); P1 = null;
+  LB.banner = `✓ Part 1 sent · case file ${was + (had ? 0 : 1)}/6 stamped`;
+  go("splb");
+}
+
+// ---- listen back: your answers + the squad's, newest first (play only for now) ----
+const LB = { banner: "", expired: new Set() };
+// one row per member per send: Part 1 plays its answers one after another
+function answerGroups(w) {
+  const all = ((state.speaking || {})[w.id] || {}).answers || {}, out = {};
+  for (const [m, list] of Object.entries(all)) for (const [cid, a] of Object.entries(list || {})) {
+    if (!a || !a.sent || !BY[m]) continue;
+    const k = `${m}|${a.part}|${a.send || cid}`, g = (out[k] ||= { key: k, m, part: a.part, at: 0, dur: 0, clips: [] });
+    g.clips.push({ cid, ...a }); g.dur += a.dur || 0; g.at = Math.max(g.at, a.at || 0);
+  }
+  return Object.values(out).map(g => { g.clips.sort((a, b) => String(a.qId).localeCompare(String(b.qId), undefined, { numeric: true })); return g; }).sort((a, b) => b.at - a.at);
+}
+const whenTxt = at => {
+  const t = now(), k = dayKey(at), hm = new Date(at + 3.5 * HOUR).toISOString().slice(11, 16);
+  return k === dayKey(t) ? `today ${hm}` : k === addDays(dayKey(t), -1) ? `yesterday ${hm}` : fmtDate(k, { weekday: "short", day: "numeric", month: "short" });
+};
+function renderSplb() {
+  const w = activeWeek();
+  if (!w) { put($("splbCase"), ""); return put($("splbBody"), `<div class="sp-msg">${pi("mic", 6)}<b class="pixel" style="font-size:20px">NO CASE THIS WEEK</b></div>`); }
+  put($("splbCase"), casePill(w, me));
+  const groups = answerGroups(w), mineToo = !GHOST, mine = groups.filter(g => mineToo && g.m === me), others = groups.filter(g => !(mineToo && g.m === me));
+  const short = id => ((w.part1 || []).find(q => q.id === id) || {}).short || id;
+  let h = LB.banner ? `<div class="sp-banner">${esc(LB.banner)}</div>` : "";
+  if (mineToo) {
+    if (mine.length) mine.forEach(g => {
+      h += `<div class="sp-mine"><b style="font-size:15px">Your Part ${g.part} · ${fmtSec(g.dur)}</b>`
+        + g.clips.map(c => `<div class="sp-ans">${playBtn(`v:${me}:${c.cid}`)}<div><b>${esc(short(c.qId))}</b></div><span class="d">${fmtSec(c.dur)}</span><button type="button" class="sp-save" data-save="${esc(c.cid)}" aria-label="Save my voice">${pi("download", 2)}</button></div>`).join("")
+        + `<span class="sp-note" style="text-align:left">${pi("download", 1.5)} saves your voice as a file on this phone.</span></div>`;
+    });
+    else h += `<div class="sp-mine"><b style="font-size:15px">You haven't sent a voice yet.</b><button type="button" class="big pixel" data-lb="p1" style="width:auto;height:52px;font-size:18px">RECORD PART 1 ▶</button></div>`;
+  }
+  h += `<div class="sp-h">The squad's answers</div>`;
+  if (!others.length) h += `<span class="sp-note" style="text-align:left">Nobody else has sent a voice yet this week.</span>`;
+  others.forEach(g => {
+    const exp = LB.expired.has(g.key);
+    h += `<div class="sp-ans"><img class="px av" src="${(A.chars || {})[g.m] || ""}" alt="">${playBtn(g.key, exp)}<div><b>${esc(BY[g.m].name)} · Part ${g.part} · ${fmtSec(g.dur)}</b><small>${exp ? "voice expired · feedback kept" : `${esc(whenTxt(g.at))}${g.clips.length > 1 ? ` · ${g.clips.length} answers` : ""}`}</small></div></div>`;
+  });
+  h += `<span class="sp-note">Voices are kept for 2 weeks after the week ends.</span>`;
+  put($("splbBody"), h);
+}
+function playKey(key) {
+  if (key.startsWith("d:")) { const c = P1 && P1.clips[key.slice(2)]; return c && playClips(key, [async () => c]); }
+  const w = activeWeek(); if (!w) return;
+  if (key.startsWith("v:")) { const [, m, cid] = key.split(":"); return playClips(key, [() => store.getVoice(w.id, m, cid)]); }
+  const g = answerGroups(w).find(x => x.key === key);
+  if (g) playClips(key, g.clips.map(c => () => store.getVoice(w.id, g.m, c.cid)));
+}
+// "save my voice": your own clip as a file
+async function saveVoice(cid) {
+  const w = activeWeek(); if (!w) return;
+  let v = null;
+  try { v = await store.getVoice(w.id, me, cid); } catch (e) { return toast("Couldn't load the voice — is your VPN on?"); }
+  if (!v || !v.data) return toast("This voice has expired (voices are kept 2 weeks).");
+  const ext = /mp4|m4a|aac/.test(v.mime) ? "m4a" : /ogg/.test(v.mime) ? "ogg" : /wav/.test(v.mime) ? "wav" : "webm";
+  const a = document.createElement("a");
+  a.href = b64Url(v.data, v.mime); a.download = `study-squad-${w.id}-${cid.split("-").slice(1).join("-")}.${ext}`;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
 }
 
 // ---------------- render: hall ----------------
@@ -3490,6 +3917,8 @@ function renderInner() {
   if (s === "race") renderRace();
   if (s === "hall") { renderHall(); safeRender("shelfCard", renderShelf); }
   if (s === "speak") safeRender("spBody", renderSpeak);
+  if (s === "sp1") safeRender("sp1Body", renderSp1);
+  if (s === "splb") safeRender("splbBody", renderSplb);
   if (s === "me") safeRender("meBody", renderMe);
   if (s === "profile") { renderMeData(); renderMeGhosts(); }
   if (s === "road") safeRender("ryBody", renderRoad);
@@ -3713,8 +4142,21 @@ $("speak").addEventListener("click", e => {
   const b = e.target.closest("[data-book]"); if (b) return openBook(b.dataset.book);
   const d = e.target.closest("[data-sp]")?.dataset.sp;
   if (d === "retry") return loadWeeks();
+  if (d === "p1") { const w = activeWeek(); if (!w) return; return (GHOST || spProg(w, me).p1) ? go("splb") : openPart1(w).catch(showErr); }
+  if (d === "lb") return go("splb");
   if (d === "part") return toast("Recording arrives in the next update. Read the book on the study hall shelf first!");
   if (d === "test") return toast("Word tests arrive soon. The words are in the book on the study hall shelf.");
+});
+$("sp1Back").addEventListener("click", () => go("speak"));
+$("splbBack").addEventListener("click", () => go("speak"));
+$("sp1").addEventListener("click", e => {
+  const pb = e.target.closest("[data-play]"); if (pb) return playKey(pb.dataset.play);
+  const b = e.target.closest("[data-p1]"); if (b && !b.disabled) p1Act(b.dataset.p1).catch(showErr);
+});
+$("splb").addEventListener("click", e => {
+  const pb = e.target.closest("[data-play]"); if (pb && !pb.disabled) return playKey(pb.dataset.play);
+  const sv = e.target.closest("[data-save]"); if (sv) return saveVoice(sv.dataset.save);
+  if (e.target.closest('[data-lb="p1"]')) { const w = activeWeek(); if (w) openPart1(w).catch(showErr); }
 });
 $("shelfCard").addEventListener("click", e => { const b = e.target.closest("[data-shelf]"); if (b) openShelf(b.dataset.shelf); });
 $("shelfSheet").addEventListener("click", e => { const b = e.target.closest("[data-book]"); if (b) openBook(b.dataset.book); });

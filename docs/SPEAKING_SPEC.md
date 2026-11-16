@@ -144,7 +144,7 @@ Active week = the JSON whose `start`–`end` contains today (Asia/Tehran). Past 
 voices/{weekId}/{memberId}/{clipId}: { data, mime, dur, at }
 
 squad/speaking/weeks/{weekId}: { end }
-squad/speaking/{weekId}/answers/{memberId}/{clipId}: { part: 1|2|3, qId, dur, at, sent: bool }
+squad/speaking/{weekId}/answers/{memberId}/{clipId}: { part: 1|2|3, qId, dur, at, sent: bool, send }   (send = one id per send: Part 1's answers play as one row)
 squad/speaking/{weekId}/progress/{memberId}: { p1, p2, p3, easy, medium, strong, closedAt }
 squad/speaking/{weekId}/reactions/{memberId_clipId}/{fromMemberId}: "clap" | "flame" | "bulb" | "laugh"
 squad/speaking/{weekId}/feedback/{memberId_clipId}/{fromMemberId}: { well, upgrade, at }
