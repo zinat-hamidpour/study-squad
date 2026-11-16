@@ -59,7 +59,7 @@ function serve() {
   return new Promise(res => srv.listen(0, () => res(srv)));
 }
 
-async function openPage(browser, base, { mode, when, me, db, authFail }) {
+async function openPage(browser, base, { mode, when, me, db, authFail, authCode }) {
   const ctx = await browser.newContext({ viewport: { width: 400, height: 860 } });
   if (mode === "db") {
     await ctx.route(/firebase-app\.js/, r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(FAKE, "firebase-app.js"), "utf8") }));
@@ -67,6 +67,7 @@ async function openPage(browser, base, { mode, when, me, db, authFail }) {
     await ctx.route(/firebase-auth\.js/, r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(FAKE, "firebase-auth.js"), "utf8") }));
     await ctx.addInitScript(s => { window.__FAKE_DB__ = JSON.parse(s); }, JSON.stringify(db || {}));
     if (authFail) await ctx.addInitScript(n => { window.__FAKE_AUTH_FAIL__ = n; }, authFail);
+    if (authCode) await ctx.addInitScript(c => { window.__FAKE_AUTH_CODE__ = c; }, authCode);
   } else {
     await ctx.route(/gstatic\.com|firebaseio|firebasedatabase|googleapis/, r => r.abort());
   }
@@ -361,6 +362,11 @@ async function anonAuth(browser, base) {
   ok(await page.evaluate(() => document.querySelector("#home.on") !== null), "after sign-in the squad loads and Zinat gets in");
   const d = await denied(page); ok(d.length === 0, `no refused reads or writes (auth)${d.length ? " → " + d.join(", ") : ""}`);
   await finish(page, "auth");
+  // Authentication not set up in the Firebase console: say so, don't blame the VPN
+  const p2 = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "zinat", db, authFail: 1, authCode: "auth/configuration-not-found" });
+  const msg = await p2.$eval("#toast", x => x.textContent);
+  ok(/Anonymous sign-in is off in Firebase/.test(msg) && /configuration-not-found/.test(msg) && !/VPN/.test(msg), `a console problem names itself, not the VPN (${msg})`);
+  await finish(p2, "auth setting");
 }
 
 async function speakingCorner(browser, base) {

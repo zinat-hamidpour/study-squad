@@ -1,3 +1,10 @@
+# Study Squad 2026.11.16-2 · Sign-in says what is really wrong
+
+1. If the app can't sign in, it now says **why**. Only a network problem shows "is your VPN on?". If Anonymous
+   sign-in is off in the Firebase console, it says so (with the error code), so nobody hunts for a VPN problem.
+
+---
+
 # Study Squad 2026.11.16-1 · Speaking Corner, part 1: the case file, the book and the shelf
 
 1. **SPEAK is no longer "coming soon".** It shows this week's case file (Week 1 · CRIME, 0/6 to close the case),
