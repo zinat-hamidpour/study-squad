@@ -1,0 +1,336 @@
+{
+  "id": "week-01",
+  "topic": "Crime",
+  "caseNo": "01",
+  "start": "2026-11-15",
+  "end": "2026-11-21",
+  "tagline": "Every case starts with a scene, moves to a verdict, and ends with a defence.",
+
+  "levels": [
+    { "n": 1, "name": "The Scene",   "band": "5.5–6", "test": "easy",   "goal": "Name what happened, clearly and correctly." },
+    { "n": 2, "name": "The Verdict", "band": "6.5–7", "test": "medium", "goal": "Talk about punishment and causes with natural collocations." },
+    { "n": 3, "name": "The Defence", "band": "7.5–8", "test": "strong", "goal": "Argue with nuance: idioms, precise terms, hedging." }
+  ],
+
+  "map": [
+    { "group": "Petty crime",       "items": ["shoplifting", "pickpocketing", "vandalism", "trespassing"] },
+    { "group": "Property crime",    "items": ["burglary", "robbery", "car theft", "arson"] },
+    { "group": "Violent crime",     "items": ["assault", "mugging", "kidnapping", "murder", "manslaughter"] },
+    { "group": "Cybercrime",        "items": ["identity theft", "online scams", "hacking", "ransomware"] },
+    { "group": "White-collar crime","items": ["fraud", "embezzlement", "bribery", "corruption"] },
+    { "group": "Organised crime",   "items": ["drug smuggling", "drug trafficking", "people trafficking", "extortion"] }
+  ],
+
+  "words": [
+    { "level": 1, "w": "commit a crime", "pos": "collocation", "def": "do something illegal", "ex": "Most people who commit a crime never expect to be caught.", "note": "commit — never “do” or “make” a crime" },
+    { "level": 1, "w": "petty crime", "pos": "noun", "def": "a minor crime, such as shoplifting or pickpocketing", "ex": "There’s some petty crime in the bazaar, but it’s generally safe." },
+    { "level": 1, "w": "shoplifting / shoplifter", "pos": "noun", "def": "stealing goods from a shop", "ex": "The shop installed cameras after a wave of shoplifting." },
+    { "level": 1, "w": "pickpocketing / pickpocket", "pos": "noun", "def": "stealing from someone’s pocket or bag", "ex": "Keep your bag in front of you — pickpockets love the metro." },
+    { "level": 1, "w": "vandalism / vandal", "pos": "noun", "def": "damaging public or private property on purpose", "ex": "Graffiti on bus stops is a common form of vandalism.", "stress": "VAN-dal-ism" },
+    { "level": 1, "w": "burglary / burglar", "pos": "noun", "def": "breaking into a building, usually a home, to steal", "ex": "Our neighbours were burgled while they were on holiday.", "note": "burglary = a building, often empty" },
+    { "level": 1, "w": "robbery / robber", "pos": "noun", "def": "taking something from a person or place using force or threats", "ex": "Two men on a motorbike carried out the robbery in seconds.", "note": "you rob a person or a bank; you steal a thing" },
+    { "level": 1, "w": "theft / thief", "pos": "noun", "def": "the general word for stealing", "ex": "Car theft has fallen thanks to better alarms." },
+    { "level": 1, "w": "fraud / fraudster", "pos": "noun", "def": "tricking people in order to get money", "ex": "The fraudster pretended to be calling from the bank." },
+    { "level": 1, "w": "drink-driving / drunk driver", "pos": "noun", "def": "driving after drinking alcohol", "ex": "He lost his licence for drink-driving.", "note": "UK: drink-driving · US: drunk driving" },
+    { "level": 1, "w": "witness", "pos": "noun / verb", "def": "a person who sees a crime happen; to see it", "ex": "Several people witnessed the robbery." },
+    { "level": 1, "w": "arrest", "pos": "verb / noun", "def": "when the police take someone to the station because they may have committed a crime", "ex": "He was arrested for shoplifting." },
+    { "level": 1, "w": "report a crime", "pos": "collocation", "def": "tell the police that a crime has happened", "ex": "We reported the theft the next morning." },
+    { "level": 1, "w": "law enforcement", "pos": "noun", "def": "the police and other agencies that make people obey the law", "ex": "My cousin works in law enforcement." },
+    { "level": 1, "w": "the crime rate", "pos": "noun", "def": "how much crime there is in a place", "ex": "The crime rate in our area is quite low." },
+    { "level": 1, "w": "criminal record", "pos": "noun", "def": "an official record of the crimes a person has committed", "ex": "It’s hard to find work with a criminal record." },
+
+    { "level": 2, "w": "act as a deterrent", "pos": "collocation", "def": "make people afraid to do something because of the possible punishment", "ex": "CCTV cameras act as a deterrent to thieves.", "stress": "de-TER-rent" },
+    { "level": 2, "w": "deter someone from doing something", "pos": "verb", "def": "make someone decide not to do something", "ex": "Tough fines deter people from drink-driving.", "stress": "de-TER" },
+    { "level": 2, "w": "be tough on crime / be soft on crime", "pos": "phrase", "def": "punish crime strictly / not strictly enough", "ex": "Every politician promises to be tough on crime." },
+    { "level": 2, "w": "harsh sentence / lenient sentence", "pos": "collocation", "def": "a very strict punishment / a light one", "ex": "Many felt the sentence was far too lenient.", "stress": "LEE-ni-ent" },
+    { "level": 2, "w": "serve a sentence / serve time", "pos": "collocation", "def": "spend time in prison as a punishment", "ex": "He served a ten-year sentence for fraud." },
+    { "level": 2, "w": "be convicted of", "pos": "verb", "def": "be officially found guilty by a court", "ex": "She was convicted of fraud and sentenced to three years.", "note": "accused = said to have done it · convicted = proven" },
+    { "level": 2, "w": "non-custodial sentence", "pos": "noun", "def": "a punishment that does not involve prison, e.g. community service or probation", "ex": "First-time offenders often get a non-custodial sentence." },
+    { "level": 2, "w": "community service", "pos": "noun", "def": "unpaid work for the community as a punishment", "ex": "She was ordered to do 200 hours of community service." },
+    { "level": 2, "w": "reoffend", "pos": "verb", "def": "commit a crime again after being punished", "ex": "Without job training, many ex-prisoners reoffend within a year.", "stress": "re-of-FEND" },
+    { "level": 2, "w": "turn to crime", "pos": "phrasal", "def": "start committing crimes, often because of difficult circumstances", "ex": "Poverty is one reason why young people turn to crime." },
+    { "level": 2, "w": "reintegrate into society", "pos": "verb", "def": "return to normal life after prison", "ex": "Ex-prisoners need support to reintegrate into society." },
+    { "level": 2, "w": "get away with something", "pos": "phrasal", "def": "do something wrong and not be caught or punished", "ex": "With cameras everywhere, it’s hard to get away with street crime." },
+    { "level": 2, "w": "identity theft", "pos": "noun", "def": "using someone else’s personal details, usually to get money", "ex": "Someone opened a credit card in my name — classic identity theft." },
+    { "level": 2, "w": "cybercrime / online scam", "pos": "noun", "def": "crime committed using the internet", "ex": "Online scams have become part of daily life." },
+    { "level": 2, "w": "CCTV footage", "pos": "noun", "def": "video recorded by security cameras", "ex": "Police identified the robbers from CCTV footage." },
+    { "level": 2, "w": "organised crime", "pos": "noun", "def": "crime planned and carried out by large criminal groups", "ex": "Organised crime controls much of the drug trade." },
+
+    { "level": 3, "w": "be caught red-handed", "pos": "idiom", "def": "be caught in the act of doing something wrong", "ex": "He was caught red-handed taking money from the till." },
+    { "level": 3, "w": "go straight / keep your nose clean", "pos": "idiom", "def": "stop committing crime and obey the law", "ex": "After two years behind bars, he decided to go straight." },
+    { "level": 3, "w": "do time / be behind bars", "pos": "idiom", "def": "be in prison", "ex": "He’s doing time for drink-driving." },
+    { "level": 3, "w": "zero tolerance", "pos": "noun", "def": "a policy of punishing every offence, however small", "ex": "The city introduced zero tolerance for littering." },
+    { "level": 3, "w": "the full weight of the law", "pos": "idiom", "def": "the most severe punishment possible", "ex": "Traffickers should face the full weight of the law." },
+    { "level": 3, "w": "the letter of the law", "pos": "idiom", "def": "the exact words of a law, with no flexibility", "ex": "He broke the letter of the law, but not its spirit." },
+    { "level": 3, "w": "a hardened criminal", "pos": "noun", "def": "someone with a long, settled habit of crime", "ex": "Prison can turn a first-time offender into a hardened criminal." },
+    { "level": 3, "w": "be led astray", "pos": "idiom", "def": "be influenced by others to behave badly", "ex": "He was a good kid who was led astray by older boys." },
+    { "level": 3, "w": "a young offender", "pos": "noun", "def": "a young person who has committed a crime (formal: juvenile delinquent)", "ex": "Young offenders need guidance more than punishment." },
+    { "level": 3, "w": "white-collar crime", "pos": "noun", "def": "non-violent crime by professionals, e.g. fraud or embezzlement", "ex": "White-collar crime is rarely punished as harshly as street crime." },
+    { "level": 3, "w": "embezzlement", "pos": "noun", "def": "secretly stealing money from the organisation you work for", "ex": "The accountant was jailed for embezzlement.", "stress": "em-BEZ-zle-ment" },
+    { "level": 3, "w": "manslaughter (vs murder)", "pos": "noun", "def": "killing someone without intending to; murder is planned", "ex": "The careless driver was convicted of manslaughter, not murder." },
+    { "level": 3, "w": "be released on bail / be kept in custody", "pos": "collocation", "def": "be freed before trial after paying money / be kept in prison before trial", "ex": "He was released on bail until his trial." },
+    { "level": 3, "w": "the root causes of crime", "pos": "collocation", "def": "the deep reasons behind crime, such as poverty or unemployment", "ex": "Prisons don’t address the root causes of crime." },
+    { "level": 3, "w": "It’s not black and white", "pos": "hedge", "def": "the issue is complicated; there is no simple answer", "ex": "It’s not black and white — it depends on the crime." }
+  ],
+
+  "glossary": [
+    { "w": "trial", "def": "the process of judging a case in court" },
+    { "w": "judge / jury", "def": "the official who decides a case / members of the public who decide the verdict" },
+    { "w": "verdict", "def": "the final decision: guilty or not guilty" },
+    { "w": "defendant (the accused)", "def": "the person said to have broken the law" },
+    { "w": "prosecution", "def": "the lawyers who try to prove the defendant is guilty" },
+    { "w": "evidence", "def": "information or objects that prove a crime (uncountable)" },
+    { "w": "guilty / innocent", "def": "responsible for the crime / not responsible" },
+    { "w": "probation", "def": "release under conditions, e.g. good behaviour or an electronic tag" },
+    { "w": "statement", "def": "what you officially tell the police" },
+    { "w": "barrister / solicitor", "def": "(UK) lawyer in higher courts / lawyer who prepares legal documents" },
+    { "w": "bribery / corruption", "def": "giving money to influence officials / dishonest behaviour by people in power" },
+    { "w": "extortion", "def": "getting money through threats" },
+    { "w": "smuggling / trafficking", "def": "moving goods illegally across borders / moving drugs or people illegally for profit" },
+    { "w": "arson", "def": "deliberately setting fire to property" },
+    { "w": "assault / mugging", "def": "physically attacking someone / attacking and robbing someone in public" },
+    { "w": "kidnapping", "def": "taking someone by force and keeping them" }
+  ],
+
+  "mistakes": [
+    { "wrong": "He did a crime.", "right": "He committed a crime.", "why": "Crime takes commit." },
+    { "wrong": "My phone was robbed.", "right": "My phone was stolen. / I was robbed.", "why": "Steal a thing; rob a person or place." },
+    { "wrong": "There was a robbery in our empty flat.", "right": "Our flat was burgled.", "why": "Burglary = breaking into a building; robbery involves force against a person." },
+    { "wrong": "The police is investigating.", "right": "The police are investigating.", "why": "Police is always plural." },
+    { "wrong": "They found an evidence.", "right": "They found some evidence / a piece of evidence.", "why": "Evidence is uncountable." },
+    { "wrong": "He was accused, so he went to prison.", "right": "He was convicted, so he went to prison.", "why": "Accused = suspected; convicted = proven guilty." },
+    { "wrong": "Punishments should deterrent people.", "right": "Punishments should deter people. / act as a deterrent.", "why": "Deter is the verb; deterrent is the noun." },
+    { "wrong": "DE-ter-rent · le-NI-ent · RE-offend", "right": "de-TER-rent · LEE-ni-ent · re-of-FEND", "why": "Word stress changes how fluent you sound." }
+  ],
+
+  "structure": {
+    "steps": ["Answer", "Reason", "Example", "Other side", "Back to you"],
+    "note": "Part 3 answers of 30–45 seconds follow this shape. You don’t need all five every time — but never stop after step 1."
+  },
+
+  "openers": [
+    "It’s not black and white.",
+    "I’m in two minds about this.",
+    "It depends on which crimes we’re talking about.",
+    "To some extent, yes.",
+    "I’d actually argue the opposite.",
+    "It’s a double-edged sword.",
+    "That said, …",
+    "The irony is that …"
+  ],
+
+  "part1": [
+    {
+      "id": "p1-1", "short": "Is your neighbourhood safe?",
+      "q": "Is your neighbourhood generally safe, in your opinion?",
+      "chips": ["petty crime", "the crime rate", "pickpocketing"],
+      "model": {
+        "6": "Yes, I think my neighbourhood is quite safe. There is some **petty crime**, like **pickpocketing** in the bazaar, but I usually feel safe walking at night.",
+        "7": "On the whole, yes. It’s a quiet residential area, so serious crime is rare. The main problem is **petty crime** — a neighbour had his phone snatched last year — but **the crime rate** is low compared to the city centre.",
+        "8": "Generally speaking, yes — though “safe” is relative. Violent crime is almost unheard of, but **petty theft** is a different story; phone-snatching by motorbike has become a bit of a local plague. So I feel safe, just not careless."
+      }
+    },
+    {
+      "id": "p1-2", "short": "Seeing a petty crime",
+      "q": "What would you do if you saw someone committing a petty crime?",
+      "tip": "It’s hypothetical — use would: “I’d probably…”, “I wouldn’t…”",
+      "chips": ["witness", "report it to the police", "petty crime"],
+      "model": {
+        "6": "I would probably call the police. I wouldn’t try to stop the person myself, because it could be dangerous.",
+        "7": "I’d probably try to be a good **witness** rather than a hero — notice what the person looked like and **report it to the police**. Stepping in myself could easily make things worse.",
+        "8": "Honestly, I’d like to think I’d intervene, but realistically I’d hold back and be a useful **witness** — get a description, maybe a photo, and **report it** straight away. A stolen wallet isn’t worth getting hurt for."
+      }
+    },
+    {
+      "id": "p1-3", "short": "Worried about drink-driving?",
+      "q": "Do you think people in your area are worried about drunk driving?",
+      "chips": ["drink-driving", "speeding", "reckless drivers"],
+      "model": {
+        "6": "Not really. **Drink-driving** is not very common here, so people worry more about fast driving and accidents.",
+        "7": "Not that much, to be honest. **Drink-driving** isn’t a big issue in my area, partly for cultural reasons. People are far more worried about speeding and drivers using their phones.",
+        "8": "It’s not really on people’s radar. **Drink-driving** is relatively rare where I live, so the anxiety is directed elsewhere — reckless motorbikes and drivers glued to their phones are the real menace on our roads."
+      }
+    },
+    {
+      "id": "p1-4", "short": "Law enforcement",
+      "q": "Do you know anyone who works in law enforcement?",
+      "chips": ["law enforcement", "CCTV footage", "detective"],
+      "model": {
+        "6": "Yes, my cousin is a police officer. He says his job is hard but interesting.",
+        "7": "Yes, actually — a cousin of mine works in **law enforcement**. He’s in the traffic police, so it’s less dramatic than it sounds; it’s mostly accidents and fines rather than chasing criminals.",
+        "8": "I do, as it happens. A family friend is a detective, and what struck me is how unglamorous it is compared to crime dramas — mostly paperwork, **CCTV footage** and waiting, rather than car chases."
+      }
+    },
+    {
+      "id": "p1-5", "short": "Online scams", "added": true,
+      "q": "Are online scams common where you live?",
+      "chips": ["online scam", "fraudster", "cybercrime"],
+      "model": {
+        "6": "Yes, they are quite common. Many people get fake messages that ask for their bank card number.",
+        "7": "Very common, unfortunately. Almost everyone I know has received a fake text pretending to be from a bank. **Cybercrime** is growing because it’s cheap and the **fraudsters** are hard to catch.",
+        "8": "Sadly, yes — **online scams** have pretty much become part of daily life. My mother nearly fell for a fake parcel-delivery link last month. What makes it insidious is that **fraudsters** can operate from anywhere and rarely leave a trace."
+      }
+    },
+    {
+      "id": "p1-6", "short": "Crime films", "added": true,
+      "q": "Do you enjoy crime films or TV series?",
+      "chips": ["evidence", "commit a crime", "turn to crime"],
+      "model": {
+        "6": "Yes, I like crime series. I enjoy trying to guess who the criminal is before the end.",
+        "7": "I do, especially detective series. I like the puzzle element — piecing together the **evidence** and working out who **committed the crime** before the detective does.",
+        "8": "I’m hooked on them, to be honest. A good crime drama is less about the crime than about motive — why an ordinary person **turns to crime**. That psychological side interests me more than the twist at the end."
+      }
+    }
+  ],
+
+  "part2": {
+    "id": "p2",
+    "cue": "Describe a crime you have heard about.",
+    "points": ["what the crime was", "where and when it happened", "how you found out about it"],
+    "explain": "and explain how it affected you or others.",
+    "steps": ["Setting", "Event", "Reaction", "Impact"],
+    "plan": ["Vali-Asr, last winter", "motorbike phone snatch", "police, CCTV", "changed habits"],
+    "phrases": ["All of a sudden…", "It was reported to the police", "As for how it affected…", "What struck me most was…"],
+    "model": {
+      "6": "I’d like to talk about a crime that happened to my friend’s sister last winter. It was a **robbery** on Vali-Asr Street in Tehran, in the evening. She was walking home and talking on her phone. Suddenly, two men on a motorbike came very close, and one of them took the phone from her hand. Then they drove away very fast. She was shocked, but luckily she was not hurt.\n\nI found out about it the same night, because my friend called me and told me the whole story. The next day they went to the police station and **reported the crime**. The police said this kind of crime is very common, and that it is difficult to catch the **robbers**.\n\nThis crime affected me a lot. Now I am more careful when I use my phone in the street. I don’t walk and talk on the phone near the road anymore. I think many people in my city changed their habits because of crimes like this.",
+      "7": "The crime I’d like to describe is a phone **robbery** that happened to a close friend’s sister last winter, on Vali-Asr Street in Tehran — one of the busiest streets in the city, which made it even more shocking.\n\nIt was early evening and she was walking home while chatting on her phone. All of a sudden, a motorbike with two men on it pulled up beside her, and the passenger snatched the phone right out of her hand. The whole thing took about three seconds. She wasn’t physically hurt, but she was badly shaken.\n\nI heard about it that same night, when my friend called me, still quite upset. The next morning they **reported it to the police**, who were sympathetic but honest: this kind of **petty crime** is so widespread that unless there’s clear **CCTV footage**, the chances of catching the culprits are slim.\n\nAs for how it affected people, it changed our habits more than anything. My friend’s sister stopped using her phone on the street altogether, and I became much more aware of my surroundings. It also made me wonder whether stronger policing would **act as a deterrent**, or whether the real problem is young people with no jobs **turning to crime**.",
+      "8": "I’d like to talk about something that happened to a friend’s sister last winter — a motorbike phone-snatching on Vali-Asr Street. It’s a fairly common crime in Tehran, but hearing it from someone close made it feel very different from reading about it.\n\nIt happened at around six in the evening, right in the rush hour. She was walking home, phone pressed to her ear, when a motorbike mounted the pavement behind her. Before she’d even registered the noise, the passenger had snatched the phone and they’d disappeared into the traffic. Nobody around her had time to react.\n\nI found out that night, when my friend rang me, half furious and half relieved that her sister hadn’t been dragged along the ground, which apparently happens. They **filed a report** the next day, and the officer was candid: unless there’s **CCTV footage** of the number plate, cases like this rarely go anywhere — most snatchers simply **get away with it**.\n\nWhat struck me most was the impact. Materially, it was just a phone. But it took her weeks to feel comfortable on that street again, and it quietly rewired the rest of us — none of my friends takes a call on the pavement now. And it left me with a question I still can’t settle: whether these crimes call for being **tougher on crime**, or whether the answer lies in **the root causes** — unemployment, and young men with very few options **turning to crime**."
+    }
+  },
+
+  "part3": [
+    {
+      "id": "p3-1", "short": "Do strict punishments deter?",
+      "q": "Do you think strict punishments act as a deterrent to serious crimes like murder or drug trafficking? Why or why not?",
+      "chips": ["act as a deterrent", "harsh sentences", "the full weight of the law"],
+      "model": {
+        "6": "I think strict punishments help a little, but not completely. Some people are afraid of going to prison, so they don’t **commit crimes**. But people who commit very serious crimes often don’t think about the punishment.",
+        "7": "To some extent, yes. **Harsh sentences** probably **act as a deterrent** for people who plan carefully, like drug traffickers, because they calculate the risk. But many murders happen in a moment of anger, and in that situation nobody thinks about the law. So I’d say the chance of getting caught matters more than how severe the punishment is.",
+        "8": "**It’s not black and white.** For calculated crimes like drug trafficking, the threat of **the full weight of the law** may well shift the risk calculation. But criminologists generally find that what really **deters** people is the likelihood of being caught, not the severity of the sentence. And crimes of passion are, almost by definition, not rational — so no punishment, however harsh, is likely to prevent them."
+      }
+    },
+    {
+      "id": "p3-2", "short": "Communities reducing crime",
+      "q": "How can communities work together to reduce crime rates?",
+      "chips": ["reduce the crime rate", "report", "turn to crime"],
+      "model": {
+        "6": "Neighbours can get to know each other and watch the street. They can also tell the police when they see something strange. Communities can also organise activities for young people.",
+        "7": "I think the key is social connection. In areas where neighbours know each other, people notice strangers and **report** suspicious activity quickly. Local councils can also set up youth clubs and sports programmes, which keep teenagers busy and reduce the chance that they **turn to crime**.",
+        "8": "Mostly by doing what the police can’t — being present. Neighbourhood watch schemes, well-lit streets and simply knowing who lives next door make a place far less attractive to criminals. Beyond that, investing in young people through mentoring, sport and apprenticeships tackles **the root causes of crime**, rather than just reacting to it."
+      }
+    },
+    {
+      "id": "p3-3", "short": "Lenient sentences & reoffending",
+      "q": "Do you think lenient sentences for petty crimes encourage reoffending? Why?",
+      "chips": ["lenient sentence", "reoffend", "non-custodial sentence"],
+      "model": {
+        "6": "Maybe sometimes. If the punishment is very small, some people may do the same crime again. But prison is not always a good idea for small crimes.",
+        "7": "Not necessarily. You could argue that **lenient sentences** send the message that crime pays, but sending petty offenders to prison often makes things worse — they mix with serious criminals and are more likely to **reoffend** when they’re released. **Community service** can be a better option.",
+        "8": "**I’d actually argue the opposite.** Being **soft on crime** isn’t the issue so much as being smart about it. Prison is often a school for crime — a young shoplifter can come out a **hardened criminal**. **Non-custodial sentences** keep people connected to work and family, which is exactly what makes them less likely to **reoffend**."
+      }
+    },
+    {
+      "id": "p3-4", "short": "Technology vs crime",
+      "q": "How effective do you think technology is in preventing or solving crimes?",
+      "chips": ["CCTV footage", "get away with", "cybercrime"],
+      "model": {
+        "6": "I think it is very helpful. **CCTV** cameras help the police find criminals, and people are afraid to commit crimes when there are cameras.",
+        "7": "It’s become extremely effective, especially for solving crimes. **CCTV footage**, digital fingerprints and phone data make it much easier to identify suspects, and cameras can also **act as a deterrent**. However, technology has also created new crimes, like **identity theft** and online scams.",
+        "8": "**It’s a double-edged sword.** On the one hand, **CCTV**, facial recognition and digital forensics have transformed investigations — it’s far harder to **get away with** a street crime than it was twenty years ago. On the other hand, the same technology has opened up entirely new territory, and **cybercrime** tends to stay one step ahead of law enforcement. There’s also a privacy cost we don’t discuss enough."
+      }
+    },
+    {
+      "id": "p3-5", "short": "Crime in the future",
+      "q": "How do you think crimes in the future will differ from those today?",
+      "chips": ["cybercrime", "identity theft", "online scams"],
+      "model": {
+        "6": "I think there will be more crime on the internet and less crime in the street. For example, people will steal money from bank accounts, not from pockets.",
+        "7": "I expect **cybercrime** to keep growing while traditional street crime falls. As more of our lives move online, criminals will focus on **identity theft**, scams and hacking. AI might also make fraud more convincing, for example with fake voices.",
+        "8": "I suspect crime will become increasingly invisible. The pickpocket is being replaced by the scammer who never leaves his bedroom — and with AI-generated voices, **fraud** is becoming disturbingly persuasive. **The irony is that** as our streets get safer, our digital lives may become the most dangerous neighbourhood we have."
+      }
+    },
+    {
+      "id": "p3-6", "short": "Can ex-prisoners reintegrate?",
+      "q": "Do you believe criminals who serve time can successfully reintegrate back into society? Why or why not?",
+      "chips": ["criminal record", "reintegrate into society", "go straight"],
+      "model": {
+        "6": "Yes, I think they can, but it is difficult. Many companies don’t want to hire someone with a **criminal record**. They need help to find a job.",
+        "7": "Yes, as long as they get the right support. The biggest obstacle is a **criminal record**, which makes it very hard to find work. Without a job, people are much more likely to **reoffend**, so training and support after release are essential for them to **reintegrate into society**.",
+        "8": "I believe many can, but the system often sets them up to fail. Someone leaves prison wanting to **go straight**, then discovers that a **criminal record** closes almost every door. If we want fewer repeat offenders, we have to offer a realistic path back — education inside prison, employers willing to give second chances — otherwise we’re just recycling people back into crime."
+      }
+    },
+    {
+      "id": "p3-7", "short": "Prison for young offenders?", "added": true,
+      "q": "Should young offenders be sent to prison?",
+      "chips": ["young offender", "be led astray", "community service"],
+      "model": {
+        "6": "I don’t think so. Young people can make mistakes, and prison can make them worse. **Community service** is a better punishment for them.",
+        "7": "In most cases, no. Teenagers who **commit a crime** have often been **led astray** by older friends. Prison exposes them to serious criminals, so they’re likely to **reoffend**. A **non-custodial sentence**, like community service, teaches responsibility without destroying their future.",
+        "8": "Only as a last resort. A **young offender** needs to understand that they’ve slipped up, but locking them up risks turning a mistake into a career — they come out with new contacts and a **criminal record**. Short of serious violence, community service or probation seems far more likely to help them **keep their nose clean** in the long run."
+      }
+    },
+    {
+      "id": "p3-8", "short": "Is crime lower than before?", "added": true,
+      "q": "Is the crime rate lower nowadays than in the past?",
+      "chips": ["the crime rate", "burglary", "cybercrime"],
+      "model": {
+        "6": "I think some crimes are lower, like **burglary**, because houses have better security. But crime on the internet is higher now.",
+        "7": "**It depends on which crimes we’re talking about.** Property crimes like **burglary** have fallen in many cities because of better home security and **CCTV**. But **cybercrime** has grown enormously, so overall it’s hard to say that crime is lower.",
+        "8": "**I’m in two minds about it.** Statistically, many traditional crimes such as burglary and car theft have dropped sharply. But I’m not sure the numbers tell the whole story — online **fraud** is massively under-reported, so crime may not have fallen so much as moved somewhere harder to measure."
+      }
+    }
+  ],
+
+  "tests": {
+    "easy": [
+      { "type": "gap", "prompt": "Someone who steals from a shop is a ______.", "options": ["pickpocket", "shoplifter", "burglar", "vandal"], "answer": 1, "explain": "Shoplifter = shop. A pickpocket steals from pockets and bags." },
+      { "type": "gap", "prompt": "Young people who spray paint on bus stops are guilty of ______.", "options": ["vandalism", "fraud", "burglary", "robbery"], "answer": 0, "explain": "Damaging property on purpose = vandalism." },
+      { "type": "gap", "prompt": "While we were on holiday, someone broke into our flat — it was a ______.", "options": ["robbery", "burglary", "pickpocketing", "fraud"], "answer": 1, "explain": "Breaking into a building (often empty) = burglary." },
+      { "type": "gap", "prompt": "My phone was ______ on the metro.", "options": ["robbed", "stolen", "stole", "burgled"], "answer": 1, "explain": "You steal a thing; you rob a person or place." },
+      { "type": "gap", "prompt": "She saw the whole thing, so the police asked her to be a ______.", "options": ["judge", "suspect", "witness", "victim"], "answer": 2, "explain": "A witness is someone who saw what happened." },
+      { "type": "gap", "prompt": "He lost his licence for ______ — he was three times over the limit.", "options": ["shoplifting", "drink-driving", "vandalism", "pickpocketing"], "answer": 1, "explain": "Over the (alcohol) limit = drink-driving." },
+      { "type": "gap", "prompt": "The police ______ the man outside the bank.", "options": ["arrested", "convicted", "sentenced", "committed"], "answer": 0, "explain": "The police arrest; a court convicts and sentences." },
+      { "type": "gap", "prompt": "Most people who ______ a crime never expect to be caught.", "options": ["do", "make", "commit", "take"], "answer": 2, "explain": "The fixed collocation is commit a crime." },
+      { "type": "gap", "prompt": "______ in our city has fallen by 10% this year.", "options": ["The crime rate", "The criminal record", "The crime scene", "The crime film"], "answer": 0, "explain": "The crime rate = how much crime there is." },
+      { "type": "gap", "prompt": "It’s hard to get a job if you have a ______.", "options": ["crime rate", "criminal record", "law enforcement", "witness"], "answer": 1, "explain": "A criminal record lists the crimes you were convicted of." }
+    ],
+    "medium": [
+      { "type": "gap", "prompt": "Without job training, many ex-prisoners ______ within a year.", "options": ["turn to crime", "reoffend", "act as a deterrent", "rehabilitation"], "answer": 1, "explain": "reoffend = commit a crime again after being punished. ‘Rehabilitation’ is a noun — the sentence needs a verb." },
+      { "type": "gap", "prompt": "Many people believe CCTV cameras ______ to thieves.", "options": ["act as a deterrent", "turn to crime", "serve time", "reoffend"], "answer": 0, "explain": "Something that stops people committing crime acts as a deterrent." },
+      { "type": "gap", "prompt": "Just a small fine for such a serious offence? That’s a very ______ sentence.", "options": ["harsh", "lenient", "tough", "heavy"], "answer": 1, "explain": "Lenient = lighter than expected. Harsh is the opposite." },
+      { "type": "gap", "prompt": "Politicians often promise to be ______ on crime before an election.", "options": ["hard", "tough", "strong", "heavy"], "answer": 1, "explain": "The fixed phrase is be tough on crime (opposite: soft on crime)." },
+      { "type": "gap", "prompt": "Instead of prison, she was ordered to do 200 hours of ______.", "options": ["community service", "custody", "probation officer", "law enforcement"], "answer": 0, "explain": "Community service is a non-custodial sentence." },
+      { "type": "gap", "prompt": "Poverty is one reason why some young people ______.", "options": ["turn to crime", "go straight", "serve time", "get released"], "answer": 0, "explain": "turn to crime = start committing crimes." },
+      { "type": "gap", "prompt": "Someone opened a credit card in my name — I’m a victim of ______.", "options": ["vandalism", "identity theft", "burglary", "manslaughter"], "answer": 1, "explain": "Using your personal details = identity theft." },
+      { "type": "gap", "prompt": "He was ______ of fraud and sentenced to three years.", "options": ["arrested", "convicted", "accused", "committed"], "answer": 1, "explain": "Convicted = found guilty by a court. Accused only means suspected." },
+      { "type": "gap", "prompt": "The police identified the robbers from ______.", "options": ["CCTV footage", "the crime rate", "a criminal record", "community service"], "answer": 0, "explain": "CCTV footage = video from security cameras." },
+      { "type": "gap", "prompt": "Former prisoners need support to ______ into society.", "options": ["reintegrate", "reoffend", "deter", "convict"], "answer": 0, "explain": "reintegrate into society = return to normal life." }
+    ],
+    "strong": [
+      { "type": "gap", "prompt": "He was caught ______ taking money from the till.", "options": ["red-faced", "red-handed", "black-handed", "red-eyed"], "answer": 1, "explain": "caught red-handed = caught in the act." },
+      { "type": "gap", "prompt": "After five years behind bars, he decided to ______ and found a job.", "options": ["go straight", "go ahead", "turn to crime", "do time"], "answer": 0, "explain": "go straight = stop committing crime." },
+      { "type": "gap", "prompt": "The school has a ______ policy on bullying: even one incident means suspension.", "options": ["zero tolerance", "lenient", "letter of the law", "soft"], "answer": 0, "explain": "Zero tolerance = every offence is punished, however small." },
+      { "type": "gap", "prompt": "Stealing bread to feed your children breaks ______, but perhaps not its spirit.", "options": ["the letter of the law", "the full weight of the law", "law enforcement", "the rule of thumb"], "answer": 0, "explain": "The letter of the law = its exact words, with no flexibility." },
+      { "type": "gap", "prompt": "She killed a cyclist by driving carelessly. She didn’t intend to, so she was convicted of ______, not murder.", "options": ["manslaughter", "assault", "arson", "extortion"], "answer": 0, "explain": "Manslaughter = killing without intent. Murder is planned." },
+      { "type": "gap", "prompt": "The accountant had been quietly moving company money into his own account for years — a classic case of ______.", "options": ["embezzlement", "extortion", "smuggling", "vandalism"], "answer": 0, "explain": "Embezzlement = stealing from the organisation you work for." },
+      { "type": "gap", "prompt": "Fraud, embezzlement and insider trading are examples of ______ crime.", "options": ["white-collar", "blue-collar", "petty", "violent"], "answer": 0, "explain": "White-collar crime = non-violent crime by professionals." },
+      { "type": "gap", "prompt": "Critics argue that prison can turn a first-time offender into a ______ criminal.", "options": ["hard", "hardened", "harsh", "heavy"], "answer": 1, "explain": "A hardened criminal has a long, settled habit of crime." },
+      { "type": "gap", "prompt": "He was a good kid, but he was ______ by older boys in the neighbourhood.", "options": ["led astray", "caught red-handed", "kept in custody", "let off"], "answer": 0, "explain": "be led astray = be influenced by others to behave badly." },
+      { "type": "gap", "prompt": "While waiting for his trial, he was released on ______.", "options": ["bail", "custody", "probation", "verdict"], "answer": 0, "explain": "Released on bail = freed before trial after paying money." }
+    ]
+  },
+
+  "selfCheck": {
+    "p1": ["Did I use would in Q2?", "Did I give a reason, not just yes/no?"],
+    "p2": ["Did I use the past simple + past continuous?", "deTERrent / LEEnient stress?"],
+    "p3": ["Did I give the other side?", "Did I use a new opener?"]
+  },
+
+  "sourceNotes": [
+    "Source PDF and DOCX are the same handout; both say “7 questions” in Part 3 but list 6 — two were added here (p3-7, p3-8), built on the handout’s own phrase sections.",
+    "Part 1 had 4 questions; p1-5 and p1-6 were added to reach 6.",
+    "Fixed typos: Extorsion → Extortion; “It’s not back and white” → black and white.",
+    "Exercise 3 in the handout is missing the blank for “act as a deterrent”; its content is covered in the Medium test instead.",
+    "Courtroom and serious-crime terms moved to a recognise-only glossary: useful for reading, rarely needed in Speaking."
+  ]
+}
