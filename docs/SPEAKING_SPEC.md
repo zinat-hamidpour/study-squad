@@ -118,9 +118,10 @@ Active week = the JSON whose `start`–`end` contains today (Asia/Tehran). Past 
 ### 3.8 Book reader + Study Hall shelf
 - **Reader**: a full-screen route that shows `books/<weekId>.html` in an iframe, with the app’s back button on top. It already swipes page by page on phones and supports arrow keys. Do not rebuild the book as components.
 - **Download**: a link to `books/<weekId>.pdf` with the `download` attribute.
-- **Shelf** (inside the existing Study Hall): one spine per week that has a JSON file, labelled with the topic and the week.
-  - Red spine = closed by me. Normal spine = open. Tag “NEW” on the current week.
-  - Tapping a spine opens a sheet: cover colour, title, week and dates, the line “47 words · 3 levels · Part 1–3 models · 30-question word tests”, avatars that closed it, and the buttons “Read” / “DOWNLOAD PDF”.
+- **Bookcase** (the painted bookcase in the Study Hall scene, no separate shelf card):
+  - Every week that has started turns one painted book into a **real** book in the **second row, from the left** (Week 1 = Crime is the first). When the left compartment is full, the next books continue in the middle and right compartments of the same row.
+  - A real book: red cloth, gold bands, gold mark. The current week has a small yellow tag above it: “NEW · CRIME”.
+  - Tapping the book (or its tag) opens a sheet: cover, title, week and dates, the line “47 words · 3 levels · Part 1–3 models · 30-question word tests”, avatars that closed it, and the buttons “Read” / “DOWNLOAD PDF”.
 
 ## 4. Recording (the risky part: build and test this first)
 - `MediaRecorder` with mimeType detection: prefer `audio/webm;codecs=opus`, fall back to `audio/mp4` (iOS Safari). Store the mime with each clip.

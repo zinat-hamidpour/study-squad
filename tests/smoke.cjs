@@ -370,7 +370,7 @@ async function anonAuth(browser, base) {
 }
 
 async function speakingCorner(browser, base) {
-  console.log("speaking corner: hub, shelf → book reader + PDF (demo data)");
+  console.log("speaking corner: hub, bookcase book → book reader + PDF (demo data)");
   const IN_WEEK = "2026-11-16T10:00:00+03:30";
   let page = await openPage(browser, base, { mode: "demo", when: IN_WEEK, me: "niloufar" });
   await pickMe(page, "niloufar"); await nav(page, "speak"); await page.clock.runFor(600);
@@ -383,8 +383,9 @@ async function speakingCorner(browser, base) {
   ok(await page.$$eval("#spBody .sp-avs img.off", x => x.length) === 6, "hub: 6 greyed avatars (nobody closed the case yet)");
   // the shelf in the study hall is the only way into a book
   await nav(page, "hall");
-  ok(await page.$$eval("#shelfCard [data-shelf]", x => x.length) === 1 && await page.$$eval("#shelfCard .new", x => x.length) === 1, "hall: one spine on the shelf, tagged NEW");
-  await page.click("#shelfCard [data-shelf]"); await page.clock.runFor(300);
+  ok(await page.$$eval("#sceneArt .case-book", x => x.length) === 1 && await page.$$eval("#sceneArt .case-new", x => x.length) === 1, "hall: the Crime book is real in the bookcase (2nd row, first from the left), tagged NEW");
+  ok(await page.$$eval("#shelfCard", x => x.length) === 0, "hall: no separate shelf card under the scene");
+  await page.click("#sceneArt .case-book"); await page.clock.runFor(300);
   const sh = await page.$eval("#shBody", x => x.textContent);
   ok(/CRIME/.test(sh) && /Week 1 · 15–21 Nov/.test(sh) && /47 words · 3 levels · Part 1–3 models · 30-question word tests/.test(sh), "shelf sheet: title, week, dates and contents");
   ok(await page.$eval('#shBody a[download]', a => a.getAttribute("href")) === "books/week-01.pdf", "shelf sheet: DOWNLOAD PDF");
@@ -404,7 +405,7 @@ async function speakingCorner(browser, base) {
   await pickMe(page, "niloufar"); await nav(page, "speak"); await page.clock.runFor(600);
   ok(/NO CASE THIS WEEK/.test(await page.$eval("#spBody", x => x.textContent)), "11 Nov (before week 1): NO CASE THIS WEEK");
   await nav(page, "hall");
-  ok(await page.$eval("#shelfCard", x => x.hidden), "11 Nov: the shelf waits for the first book");
+  ok(await page.$$eval("#sceneArt .case-book", x => x.length) === 0, "11 Nov: no real book in the bookcase yet");
   await finish(page, "no week");
 }
 
