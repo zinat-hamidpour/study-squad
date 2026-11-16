@@ -46,12 +46,14 @@ function serve() {
   return new Promise(res => srv.listen(0, () => res(srv)));
 }
 
-async function openPage(browser, base, { mode, when, me, db }) {
+async function openPage(browser, base, { mode, when, me, db, authFail }) {
   const ctx = await browser.newContext({ viewport: { width: 400, height: 860 } });
   if (mode === "db") {
     await ctx.route(/firebase-app\.js/, r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(FAKE, "firebase-app.js"), "utf8") }));
     await ctx.route(/firebase-database\.js/, r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(FAKE, "firebase-database.js"), "utf8") }));
+    await ctx.route(/firebase-auth\.js/, r => r.fulfill({ contentType: "text/javascript", body: fs.readFileSync(path.join(FAKE, "firebase-auth.js"), "utf8") }));
     await ctx.addInitScript(s => { window.__FAKE_DB__ = JSON.parse(s); }, JSON.stringify(db || {}));
+    if (authFail) await ctx.addInitScript(n => { window.__FAKE_AUTH_FAIL__ = n; }, authFail);
   } else {
     await ctx.route(/gstatic\.com|firebaseio|firebasedatabase|googleapis/, r => r.abort());
   }
@@ -330,6 +332,24 @@ async function ghostBehindShelf(browser, base) {
   await finish(page, "shelf");
 }
 
+async function anonAuth(browser, base) {
+  console.log("anonymous sign-in before any database access (fake Firebase)");
+  const fs_ = fs.readFileSync(path.join(FAKE, "firebase-database.js"), "utf8");
+  ok(/auth != null/.test(fs_), "the fake database enforces the auth rules");
+  const prof = { goal: 150 };
+  const db = { squad: { profiles: { zinat: prof, milad: prof, niloufar: prof, arian: prof, farzad: prof, shaghayegh: prof } } };
+  // sign-in fails twice (no VPN), then works: the app retries every 5 s and then loads the squad
+  const page = await openPage(browser, base, { mode: "db", when: DAYS.Wednesday, me: "zinat", db, authFail: 2 });
+  ok(/Can't sign in/.test(await page.$eval("#toast", x => x.textContent)), "a failed sign-in shows the VPN hint");
+  ok(await page.evaluate(() => !window.__FAKE_AUTH__.currentUser), "not signed in yet: nothing loaded");
+  await page.clock.runFor(11000);
+  ok(await page.evaluate(() => window.__FAKE_AUTH__.tries) === 3 && await page.evaluate(() => !!window.__FAKE_AUTH__.currentUser), "retried every 5 s, signed in on the 3rd try");
+  await pickMe(page, "zinat"); await nav(page, "home");
+  ok(await page.evaluate(() => document.querySelector("#home.on") !== null), "after sign-in the squad loads and Zinat gets in");
+  const d = await denied(page); ok(d.length === 0, `no refused reads or writes (auth)${d.length ? " → " + d.join(", ") : ""}`);
+  await finish(page, "auth");
+}
+
 (async () => {
   staticChecks();
   const srv = await serve(), base = `http://localhost:${srv.address().port}`;
@@ -344,6 +364,7 @@ async function ghostBehindShelf(browser, base) {
     await fixMyData(browser, base);
     await mePlanning(browser, base);
     await ghostBehindShelf(browser, base);
+    await anonAuth(browser, base);
   } catch (e) { ok(false, "test crashed: " + e.message); }
   await browser.close(); srv.close();
   console.log(failed ? `\n${failed} check(s) FAILED` : "\nall checks passed");

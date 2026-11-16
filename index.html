@@ -1051,10 +1051,10 @@ body.has-nav #hall .dock{position:sticky;bottom:calc(84px + env(safe-area-inset-
 <div id="updBar" class="upd" hidden><span>A new version of the app is ready.</span><button id="updGo" type="button">UPDATE ▸</button></div>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="assets.js?v=2026.11.13-1"></script><!-- keep ?v= equal to APP_VERSION -->
+<script src="assets.js?v=2026.11.14-1"></script><!-- keep ?v= equal to APP_VERSION -->
 <script type="module">
 // Bump APP_VERSION, version.json and the ?v= on assets.js together whenever new files are uploaded.
-const APP_VERSION = "2026.11.13-1";
+const APP_VERSION = "2026.11.14-1";
 // ======== Firebase web config ========
 const FIREBASE_CONFIG = {
   apiKey: "AIzaSyC4N6P_gt-SKvXhGk35--CxTsCQ4a9eHr8",
@@ -1106,7 +1106,15 @@ async function makeFirebaseStore() {
   const base = "https://www.gstatic.com/firebasejs/10.12.2/";
   const { initializeApp } = await import(base + "firebase-app.js");
   const F = await import(base + "firebase-database.js");
-  const db = F.getDatabase(initializeApp(FIREBASE_CONFIG));
+  const { getAuth, signInAnonymously } = await import(base + "firebase-auth.js");
+  const app = initializeApp(FIREBASE_CONFIG);
+  // the rules only let signed-in phones read or write: sign in (anonymously) before touching the database
+  const auth = getAuth(app);
+  for (;;) {
+    try { await signInAnonymously(auth); break; }
+    catch (e) { console.error(e); toast("Can't sign in — is your VPN on?"); await new Promise(r => setTimeout(r, 5000)); }
+  }
+  const db = F.getDatabase(app);
   F.onValue(F.ref(db, ".info/serverTimeOffset"), s => { offset = s.val() || 0; });
   const slow = setTimeout(() => toast("Still connecting… is your VPN on?"), 8000);
   F.onValue(F.ref(db, "squad"), s => {
